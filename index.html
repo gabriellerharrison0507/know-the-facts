@@ -168,6 +168,7 @@
     transform-box: fill-box; transform-origin: center;
     transition: filter 0.15s ease, opacity 0.12s ease, transform 0.18s cubic-bezier(.22,.9,.32,1.3);
     outline: none;
+    touch-action: manipulation; -webkit-tap-highlight-color: transparent;
   }
   .state-shape:hover, .state-shape:focus-visible { filter: brightness(1.08) drop-shadow(0 5px 10px rgba(0,0,0,0.35)); }
   .state-shape:focus-visible { stroke: var(--accent); stroke-width: 2.5; }
@@ -181,7 +182,7 @@
     text-anchor: middle; dominant-baseline: central;
   }
   .state-label.callout { text-anchor: start; fill: var(--ink); font-size: 12px; dominant-baseline: middle; }
-  .state-label-hit { pointer-events: auto; cursor: pointer; outline: none; }
+  .state-label-hit { pointer-events: auto; cursor: pointer; outline: none; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
   .state-label-hit:hover .state-label.callout, .state-label-hit:focus-visible .state-label.callout { fill: var(--accent); }
   .state-label-hit:focus-visible rect { stroke: var(--accent); stroke-width: 1.5; }
 
@@ -859,6 +860,12 @@ function attachHandlers() {
   document.querySelectorAll('.state-shape[data-abbr], .state-label-hit[data-abbr]').forEach(tile => {
     const abbr = tile.dataset.abbr;
     tile.addEventListener('click', () => navigate('state', abbr));
+    /* belt-and-suspenders for touch devices: some mobile browsers treat an
+       element with hover/mouseenter handlers as needing a first tap to
+       "hover" and a second to actually click. pointerup fires on the first
+       tap regardless, so bind navigation there too -- navigate() is
+       idempotent, so double-firing alongside click is harmless. */
+    tile.addEventListener('pointerup', e => { if (e.pointerType === 'touch' || e.pointerType === 'pen') navigate('state', abbr); });
     tile.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate('state', abbr); } });
     tile.addEventListener('mouseenter', e => {
       if (tile.parentElement && tile.parentElement.classList.contains('state-shapes')) {
