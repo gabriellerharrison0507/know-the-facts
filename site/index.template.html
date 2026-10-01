@@ -1,0 +1,684 @@
+<style>
+  @font-face {
+    font-family: 'Fraunces';
+    font-weight: 500 800;
+    font-style: normal;
+    src: url(data:font/woff2;base64,__FRAUNCES_B64__) format('woff2');
+  }
+  @font-face {
+    font-family: 'Public Sans';
+    font-weight: 300 700;
+    font-style: normal;
+    src: url(data:font/woff2;base64,__PUBLICSANS_B64__) format('woff2');
+  }
+
+  :root {
+    --bg: #fbf9f6;
+    --bg-alt: #f3efe8;
+    --surface: #ffffff;
+    --ink: #1b2422;
+    --ink-soft: #52605d;
+    --ink-faint: #8a948f;
+    --border: #e3dccb;
+    --accent: #1f5c58;
+    --accent-ink: #ffffff;
+    --accent-soft: #e1efec;
+    --draft-bg: #fcefcb;
+    --draft-ink: #6b4e12;
+    --draft-border: #e9d08f;
+    --amber-1: #fbe9cb;
+    --amber-2: #f6d29e;
+    --amber-3: #edb36c;
+    --amber-4: #dd9347;
+    --amber-5: #c2752e;
+    --amber-6: #9a5a1f;
+    --nodata-fill: #e7e3da;
+    --nodata-line: #c7c1b2;
+    --shadow: 0 1px 2px rgba(27,36,34,0.06), 0 4px 16px rgba(27,36,34,0.06);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #111816;
+      --bg-alt: #19211f;
+      --surface: #1c2422;
+      --ink: #ede8dd;
+      --ink-soft: #a9b3af;
+      --ink-faint: #707b77;
+      --border: #2c3734;
+      --accent: #5fbfb0;
+      --accent-ink: #0d1a18;
+      --accent-soft: #1e3a37;
+      --draft-bg: #3a3016;
+      --draft-ink: #e8c877;
+      --draft-border: #5a4a22;
+      --amber-1: #4a3b22;
+      --amber-2: #6b4f26;
+      --amber-3: #92692b;
+      --amber-4: #bc8a3b;
+      --amber-5: #dcae5c;
+      --amber-6: #f2d189;
+      --nodata-fill: #242a27;
+      --nodata-line: #3c433f;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 20px rgba(0,0,0,0.3);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #111816; --bg-alt: #19211f; --surface: #1c2422; --ink: #ede8dd; --ink-soft: #a9b3af; --ink-faint: #707b77;
+    --border: #2c3734; --accent: #5fbfb0; --accent-ink: #0d1a18; --accent-soft: #1e3a37;
+    --draft-bg: #3a3016; --draft-ink: #e8c877; --draft-border: #5a4a22;
+    --amber-1: #4a3b22; --amber-2: #6b4f26; --amber-3: #92692b; --amber-4: #bc8a3b; --amber-5: #dcae5c; --amber-6: #f2d189;
+    --nodata-fill: #242a27; --nodata-line: #3c433f;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 20px rgba(0,0,0,0.3);
+  }
+  :root[data-theme="light"] {
+    --bg: #fbf9f6; --bg-alt: #f3efe8; --surface: #ffffff; --ink: #1b2422; --ink-soft: #52605d; --ink-faint: #8a948f;
+    --border: #e3dccb; --accent: #1f5c58; --accent-ink: #ffffff; --accent-soft: #e1efec;
+    --draft-bg: #fcefcb; --draft-ink: #6b4e12; --draft-border: #e9d08f;
+    --amber-1: #fbe9cb; --amber-2: #f6d29e; --amber-3: #edb36c; --amber-4: #dd9347; --amber-5: #c2752e; --amber-6: #9a5a1f;
+    --nodata-fill: #e7e3da; --nodata-line: #c7c1b2;
+    --shadow: 0 1px 2px rgba(27,36,34,0.06), 0 4px 16px rgba(27,36,34,0.06);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; overflow-x: hidden; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Public Sans', -apple-system, sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 { font-family: 'Fraunces', Georgia, serif; font-weight: 650; text-wrap: balance; margin: 0; color: var(--ink); }
+  a { color: var(--accent); }
+  .num { font-variant-numeric: tabular-nums; }
+
+  /* ---------- shell ---------- */
+  header.site-head {
+    position: sticky; top: 0; z-index: 20;
+    background: var(--bg); border-bottom: 1px solid var(--border);
+  }
+  .site-head-inner {
+    max-width: 1180px; margin: 0 auto; padding: 14px 24px;
+    display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  }
+  .brand { display: flex; align-items: baseline; gap: 10px; }
+  .brand .mark { width: 11px; height: 11px; border-radius: 50%; background: var(--accent); flex: none; }
+  .brand h1 { font-size: 1.25rem; letter-spacing: -0.01em; }
+  nav.site-nav { display: flex; gap: 4px; }
+  nav.site-nav button {
+    font-family: 'Public Sans', sans-serif; font-size: 0.92rem; font-weight: 600;
+    background: none; border: none; color: var(--ink-soft); padding: 8px 14px; border-radius: 7px;
+    cursor: pointer; transition: background 0.15s, color 0.15s;
+  }
+  nav.site-nav button:hover { background: var(--bg-alt); color: var(--ink); }
+  nav.site-nav button.active { background: var(--accent-soft); color: var(--accent); }
+  nav.site-nav button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .disclaimer {
+    background: var(--draft-bg); border-bottom: 1px solid var(--draft-border); color: var(--draft-ink);
+    font-size: 0.86rem; padding: 9px 24px; text-align: center;
+  }
+  .disclaimer b { font-weight: 700; }
+
+  main { max-width: 1180px; margin: 0 auto; padding: 40px 24px 80px; }
+
+  footer.site-foot {
+    border-top: 1px solid var(--border); margin-top: 60px; padding: 28px 24px 40px;
+    color: var(--ink-faint); font-size: 0.82rem; text-align: center;
+  }
+
+  /* ---------- draft badge (reused everywhere) ---------- */
+  .draft-badge {
+    display: inline-flex; align-items: center; gap: 6px; font-size: 0.74rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.05em; color: var(--draft-ink);
+    background: var(--draft-bg); border: 1px solid var(--draft-border);
+    padding: 3px 9px; border-radius: 20px;
+  }
+  .draft-badge::before { content: "●"; font-size: 0.6rem; }
+
+  /* ---------- hero / map view ---------- */
+  .hero { margin-bottom: 36px; }
+  .eyebrow {
+    font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--accent); margin-bottom: 10px;
+  }
+  .hero h2 { font-size: 2.1rem; max-width: 30ch; margin-bottom: 12px; }
+  .hero p.lede { color: var(--ink-soft); max-width: 62ch; font-size: 1.05rem; }
+
+  .map-layout { display: grid; grid-template-columns: minmax(0,1fr) 260px; gap: 32px; align-items: start; }
+  @media (max-width: 900px) { .map-layout { grid-template-columns: 1fr; } }
+
+  .tile-grid {
+    display: grid; grid-template-columns: repeat(12, 1fr); gap: 5px; width: 100%;
+  }
+  .tile {
+    aspect-ratio: 1 / 1; border-radius: 6px; border: 1px solid rgba(0,0,0,0.06);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.78rem; font-weight: 700; cursor: pointer; position: relative;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+  }
+  .tile:hover, .tile:focus-visible { transform: translateY(-2px); box-shadow: var(--shadow); z-index: 2; outline: none; }
+  .tile:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .tile.nodata {
+    background-image: repeating-linear-gradient(45deg, var(--nodata-fill), var(--nodata-fill) 5px, var(--nodata-line) 5px, var(--nodata-line) 6px);
+    color: var(--ink-faint);
+  }
+  .tile.dc { font-size: 0.6rem; }
+
+  .map-side { display: flex; flex-direction: column; gap: 20px; position: sticky; top: 90px; }
+  .legend-card, .info-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px;
+  }
+  .legend-card h3, .info-card h3 { font-size: 0.95rem; margin-bottom: 10px; }
+  .legend-ramp { display: flex; height: 10px; border-radius: 5px; overflow: hidden; margin-bottom: 8px; }
+  .legend-ramp div { flex: 1; }
+  .legend-labels { display: flex; justify-content: space-between; font-size: 0.74rem; color: var(--ink-faint); }
+  .legend-nodata { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 0.82rem; color: var(--ink-soft); }
+  .legend-nodata .swatch {
+    width: 16px; height: 16px; border-radius: 4px; flex: none;
+    background-image: repeating-linear-gradient(45deg, var(--nodata-fill), var(--nodata-fill) 3px, var(--nodata-line) 3px, var(--nodata-line) 4px);
+  }
+  .info-card p { font-size: 0.86rem; color: var(--ink-soft); margin: 0 0 8px; }
+  .info-card p:last-child { margin-bottom: 0; }
+
+  .tooltip {
+    position: fixed; pointer-events: none; z-index: 50;
+    background: var(--ink); color: var(--bg); padding: 9px 12px; border-radius: 8px;
+    font-size: 0.82rem; line-height: 1.4; max-width: 220px; box-shadow: var(--shadow);
+    opacity: 0; transition: opacity 0.1s;
+  }
+  .tooltip.show { opacity: 1; }
+  .tooltip b { display: block; font-family: 'Fraunces', serif; font-size: 0.92rem; margin-bottom: 2px; }
+
+  /* ---------- state view ---------- */
+  .back-link {
+    background: none; border: none; color: var(--ink-soft); font-family: 'Public Sans', sans-serif;
+    font-size: 0.88rem; font-weight: 600; cursor: pointer; padding: 6px 0; margin-bottom: 18px;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .back-link:hover { color: var(--accent); }
+
+  .state-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; margin-bottom: 28px; flex-wrap: wrap; }
+  .state-head h2 { font-size: 2.2rem; }
+  .rate-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 18px 22px;
+    min-width: 220px; box-shadow: var(--shadow);
+  }
+  .rate-card .big-num { font-family: 'Fraunces', serif; font-size: 2.3rem; font-weight: 700; line-height: 1; }
+  .rate-card .rank-pill {
+    display: inline-block; margin-top: 8px; font-size: 0.78rem; font-weight: 700;
+    background: var(--accent-soft); color: var(--accent); padding: 3px 10px; border-radius: 20px;
+  }
+  .rate-card .cap { font-size: 0.78rem; color: var(--ink-faint); margin-top: 10px; line-height: 1.4; }
+
+  .legal-section { margin-bottom: 30px; }
+  .legal-section h3 {
+    font-size: 1.1rem; display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
+    padding-bottom: 8px; border-bottom: 1px solid var(--border);
+  }
+  .legal-section .body-text { color: var(--ink); font-size: 0.96rem; max-width: 72ch; }
+  .legal-section .body-text p { margin: 0 0 10px; }
+  .legal-section .cite {
+    font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 0.78rem;
+    color: var(--ink-faint); margin-top: 8px;
+  }
+  .legal-section .verify-note {
+    font-size: 0.82rem; color: var(--draft-ink); background: var(--draft-bg); border: 1px solid var(--draft-border);
+    border-radius: 8px; padding: 8px 12px; margin-top: 10px;
+  }
+
+  .coming-soon {
+    background: var(--bg-alt); border: 1px dashed var(--border); border-radius: 14px;
+    padding: 36px 28px; text-align: center; color: var(--ink-soft); margin-top: 20px;
+  }
+  .coming-soon h3 { color: var(--ink); margin-bottom: 8px; }
+
+  /* ---------- national view ---------- */
+  .stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 28px 0 40px; }
+  .stat-tile {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px;
+  }
+  .stat-tile .stat-num { font-family: 'Fraunces', serif; font-size: 2.1rem; font-weight: 700; color: var(--accent); line-height: 1; }
+  .stat-tile .stat-label { font-size: 0.86rem; color: var(--ink-soft); margin-top: 8px; }
+  .stat-tile .stat-source { font-size: 0.72rem; color: var(--ink-faint); margin-top: 10px; }
+
+  .section-block { margin: 44px 0; }
+  .section-block h3 { font-size: 1.3rem; margin-bottom: 6px; }
+  .section-block .section-sub { color: var(--ink-soft); font-size: 0.94rem; max-width: 68ch; margin-bottom: 20px; }
+
+  .category-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+  .category-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; }
+  .category-card h4 { font-size: 0.98rem; margin-bottom: 6px; }
+  .category-card p { font-size: 0.86rem; color: var(--ink-soft); margin: 0; }
+
+  .chart-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 24px;
+    overflow-x: auto;
+  }
+  .chart-card svg { display: block; }
+  .chart-card .chart-cap { font-size: 0.78rem; color: var(--ink-faint); margin-top: 14px; }
+
+  .methodology-note {
+    font-size: 0.86rem; color: var(--ink-soft); background: var(--bg-alt); border-radius: 10px;
+    padding: 14px 16px; margin-top: 14px; max-width: 72ch;
+  }
+
+  .source-list { font-size: 0.82rem; color: var(--ink-faint); margin-top: 16px; }
+  .source-list a { color: var(--ink-soft); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tile, .tooltip { transition: none; }
+  }
+</style>
+
+<div class="disclaimer">
+  <b>Not legal advice.</b> This resource is informational only and does not substitute for consulting a licensed attorney or local advocate. Laws change — check the "last verified" date on each page.
+</div>
+
+<header class="site-head">
+  <div class="site-head-inner">
+    <div class="brand">
+      <span class="mark" aria-hidden="true"></span>
+      <h1>Know The Facts</h1>
+    </div>
+    <nav class="site-nav" id="siteNav">
+      <button data-view="map" class="active">State Map</button>
+      <button data-view="national">National Stats</button>
+    </nav>
+  </div>
+</header>
+
+<main id="main"></main>
+
+<footer class="site-foot">
+  Built from FBI/BJS, CDC NISVS, and state statute sources, cited throughout. State law content is draft, pending verification against primary statutes. &middot; Not affiliated with any government agency.
+</footer>
+
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+const ABBR = {Alabama:'AL',Alaska:'AK',Arizona:'AZ',Arkansas:'AR',California:'CA',Colorado:'CO',Connecticut:'CT',Delaware:'DE',Florida:'FL',Georgia:'GA',Hawaii:'HI',Idaho:'ID',Illinois:'IL',Indiana:'IN',Iowa:'IA',Kansas:'KS',Kentucky:'KY',Louisiana:'LA',Maine:'ME',Maryland:'MD',Massachusetts:'MA',Michigan:'MI',Minnesota:'MN',Mississippi:'MS',Missouri:'MO',Montana:'MT',Nebraska:'NE',Nevada:'NV','New Hampshire':'NH','New Jersey':'NJ','New Mexico':'NM','New York':'NY','North Carolina':'NC','North Dakota':'ND',Ohio:'OH',Oklahoma:'OK',Oregon:'OR',Pennsylvania:'PA','Rhode Island':'RI','South Carolina':'SC','South Dakota':'SD',Tennessee:'TN',Texas:'TX',Utah:'UT',Vermont:'VT',Virginia:'VA',Washington:'WA','West Virginia':'WV',Wisconsin:'WI',Wyoming:'WY'};
+
+const GRID = {
+  ME:[0,10],
+  WA:[1,0],MT:[1,2],ND:[1,3],MN:[1,5],VT:[1,9],NH:[1,10],
+  OR:[2,0],ID:[2,1],WY:[2,2],SD:[2,3],IA:[2,4],WI:[2,5],MI:[2,6],NY:[2,9],MA:[2,10],RI:[2,11],
+  CA:[3,0],NV:[3,1],UT:[3,2],CO:[3,3],NE:[3,4],IL:[3,5],IN:[3,6],OH:[3,7],PA:[3,8],NJ:[3,9],CT:[3,10],
+  AZ:[4,2],NM:[4,3],KS:[4,4],MO:[4,5],KY:[4,6],WV:[4,7],VA:[4,8],MD:[4,9],DE:[4,10],DC:[4,11],
+  OK:[5,4],AR:[5,5],TN:[5,6],NC:[5,7],SC:[5,8],
+  TX:[6,4],LA:[6,5],MS:[6,6],AL:[6,7],GA:[6,8],
+  FL:[7,8],AK:[7,0],HI:[7,1]
+};
+
+const RANKS = [__RANKS_DATA__];
+const MAX_RANK = Math.max(...RANKS.filter(d=>d.v).map(d=>d.k));
+const RATE_DATA = {};
+RANKS.forEach(d => { RATE_DATA[ABBR[d.n]] = d; });
+
+const LEGAL = {
+  CO: {
+    name: 'Colorado',
+    verified: '2026-10-01',
+    consent: "Colorado law defines consent as cooperation in act or attitude pursuant to an exercise of free will and with knowledge of the nature of the act. A current or previous relationship between the parties is not, by itself, sufficient to constitute consent, and submission under the influence of fear does not constitute consent.",
+    incapacitation: "Consent is invalid if a person is incapacitated — unable to appraise the nature of their own conduct due to alcohol, drugs, sleep, illness, or disability — and the other person is aware of that incapacitation. Unconsciousness is explicitly covered under Colorado's “physically helpless” standard.",
+    ageOfConsent: "17, with close-in-age exemptions: 16- and 17-year-olds may consent to partners less than 10 years older; minors under 15 may consent to partners less than 4 years older.",
+    solCriminal: "20 years from the date of the assault (or from the victim's 18th birthday, for minors), extended further if DNA evidence identifies a suspect. No statute of limitations at all for child sexual abuse cases — criminal or civil.",
+    solCivil: "Eliminated entirely for assaults occurring on or after January 1, 2022. For assaults before that date, 6 years from the date of the assault.",
+    citation: "C.R.S. § 18-3-401 et seq. (draft citation — pending verification against the current codified statute text)"
+  },
+  NY: {
+    name: 'New York',
+    verified: '2026-10-01',
+    consent: "New York's Penal Law frames lack of consent around forcible compulsion or incapacity to consent; physical resistance is not required. Separately — and worth not conflating — an “affirmative consent” standard (a knowing, voluntary, mutual decision) is the documented policy standard for New York colleges under the state's “Enough is Enough” campus law. Whether and how that standard maps onto the general Penal Law standard outside the campus Title IX context needs its own verification pass.",
+    incapacitation: "A person cannot consent while incapacitated — including unconsciousness, sleep, or being involuntarily restrained. The degree of intoxication can render someone incapacitated; a person's own intoxication does not excuse a failure to obtain consent from a partner.",
+    ageOfConsent: "17. Consent cannot legally be given by anyone younger.",
+    solCriminal: "No limit for first-degree rape and other serious sex offenses. 20 years for second-degree rape. 5 years for other felony sex offenses. 2 years for misdemeanor sex offenses.",
+    solCivil: "Historically just 3 years. Extended to up to 20 years for certain sexual-abuse offenses (not retroactive). The 2022 Adult Survivors Act opened a one-year window (Nov 2022–Nov 2023) letting adult survivors sue regardless of when the assault occurred — that window has since closed.",
+    citation: "N.Y. Penal Law Art. 130 (draft citation — pending verification against the current codified statute text)"
+  },
+  AR: {
+    name: 'Arkansas',
+    verified: '2026-10-01',
+    consent: "Arkansas law frames this around lack of consent: a sexual act is unlawful if accomplished by forcible compulsion, or with a person incapable of consent because they are physically helpless, mentally defective, mentally incapacitated, or because of their age.",
+    incapacitation: "“Mentally incapacitated” is specifically defined as temporarily unable to appreciate or control one's conduct due to a substance administered without the person's consent, or that renders them unaware a sexual act is occurring. This phrasing reads narrower than Colorado's or New York's — it centers on a substance given without consent, which raises real open questions about how voluntary intoxication is treated under this specific statutory language. This needs a careful primary-source read, not an assumption either way.",
+    ageOfConsent: "16, generally. A person under 14 cannot consent to a partner more than 3 years older. The age of consent rises to 18 or 21 if the other person holds a position of trust or authority.",
+    solCriminal: "No limit for first-degree offenses, and no limit for the rape or sexual assault of a minor. 3 years for second- and third-degree offenses.",
+    solCivil: "3 years from the incident (or from discovery, for minors). The 2021 Childhood Sexual Abuse Victims Act (Act 1036) opened a revival window letting childhood sexual abuse survivors file at any age — secondary sources describe this window as running “until 2026,” which needs direct confirmation of the exact closing mechanics before being treated as current fact.",
+    citation: "Ark. Code Ann. § 5-14-101 et seq. (draft citation — pending verification against the current codified statute text)"
+  }
+};
+
+const STATE_ORDER = ['CO','NY','AR'];
+
+/* ---------------- routing ---------------- */
+let currentView = 'map';
+let currentState = null;
+
+function navigate(view, stateAbbr) {
+  currentView = view;
+  currentState = stateAbbr || null;
+  document.querySelectorAll('#siteNav button').forEach(b => b.classList.toggle('active', b.dataset.view === view));
+  render();
+  window.scrollTo({top:0, behavior:'instant'});
+}
+
+document.getElementById('siteNav').addEventListener('click', e => {
+  const btn = e.target.closest('button[data-view]');
+  if (btn) navigate(btn.dataset.view);
+});
+
+/* ---------------- color scale ---------------- */
+function rateColor(rank) {
+  if (rank == null) return null;
+  const pct = (rank - 1) / (MAX_RANK - 1); // 0 = highest rate (rank 1), 1 = lowest
+  const steps = ['--amber-6','--amber-5','--amber-4','--amber-3','--amber-2','--amber-1'];
+  const idx = Math.min(steps.length - 1, Math.floor(pct * steps.length));
+  return getComputedStyle(document.documentElement).getPropertyValue(steps[idx]).trim();
+}
+function textColorFor(rank) {
+  if (rank == null) return 'var(--ink-faint)';
+  const pct = (rank - 1) / (MAX_RANK - 1);
+  return pct < 0.55 ? '#fff' : 'var(--ink)';
+}
+
+/* ---------------- tooltip ---------------- */
+const tooltipEl = document.getElementById('tooltip');
+function showTooltip(e, html) {
+  tooltipEl.innerHTML = html;
+  tooltipEl.classList.add('show');
+  moveTooltip(e);
+}
+function moveTooltip(e) {
+  const x = e.clientX, y = e.clientY;
+  tooltipEl.style.left = Math.min(x + 14, window.innerWidth - 240) + 'px';
+  tooltipEl.style.top = Math.max(y - 50, 10) + 'px';
+}
+function hideTooltip() { tooltipEl.classList.remove('show'); }
+
+/* ---------------- map view ---------------- */
+function renderMap() {
+  let tiles = '';
+  Object.keys(GRID).forEach(abbr => {
+    const [row, col] = GRID[abbr];
+    const d = RATE_DATA[abbr];
+    const isDC = abbr === 'DC';
+    let style = `grid-row:${row+1};grid-column:${col+1};`;
+    let cls = 'tile';
+    if (isDC) {
+      cls += ' nodata dc';
+    } else if (!d || !d.v) {
+      cls += ' nodata';
+    } else {
+      style += `background:${rateColor(d.k)};color:${textColorFor(d.k)};`;
+    }
+    const label = isDC ? 'DC' : abbr;
+    tiles += `<div class="${cls}" style="${style}" tabindex="0" data-abbr="${abbr}" role="button" aria-label="${label}">${label}</div>`;
+  });
+
+  return `
+    <div class="hero">
+      <div class="eyebrow">50-State Resource &middot; v1: CO, NY, AR in full detail</div>
+      <h2>Sexual assault law and statistics, state by state</h2>
+      <p class="lede">Click any state for its legal definitions and reported data. Color reflects each state's 2023 FBI/BJS <em>reported</em> rape rate — not true prevalence. See the note below for why that distinction matters.</p>
+    </div>
+    <div class="map-layout">
+      <div class="tile-grid">${tiles}</div>
+      <div class="map-side">
+        <div class="legend-card">
+          <h3>2023 reported rate</h3>
+          <div class="legend-ramp">
+            <div style="background:var(--amber-6)"></div>
+            <div style="background:var(--amber-5)"></div>
+            <div style="background:var(--amber-4)"></div>
+            <div style="background:var(--amber-3)"></div>
+            <div style="background:var(--amber-2)"></div>
+            <div style="background:var(--amber-1)"></div>
+          </div>
+          <div class="legend-labels"><span>Higher</span><span>Lower</span></div>
+          <div class="legend-nodata"><span class="swatch"></span> No reliable 2023 estimate</div>
+        </div>
+        <div class="info-card">
+          <h3>Why 4 states are blank</h3>
+          <p>Alaska, Arizona, Hawaii, and Pennsylvania don't have a reliable 2023 rate in this report. This reflects gaps in law-enforcement agency participation in the FBI's newer incident-based reporting system (NIBRS) — not an indication of low or high crime.</p>
+        </div>
+        <div class="info-card">
+          <h3>Reported ≠ actual</h3>
+          <p>This map shows crimes <em>reported to police</em>, which is shaped by reporting culture and trust in law enforcement as much as true incidence. See <a href="#" data-nav="national">National Stats</a> for survey-based prevalence instead.</p>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/* ---------------- state view ---------------- */
+function renderState(abbr) {
+  const d = RATE_DATA[abbr];
+  const fullName = Object.keys(ABBR).find(k => ABBR[k] === abbr) || abbr;
+  const legal = LEGAL[abbr];
+
+  const rateBlock = d && d.v ? `
+    <div class="rate-card">
+      <div class="big-num num">${d.r.toFixed(1)}</div>
+      <div style="font-size:0.8rem;color:var(--ink-soft);">reported rapes per 100,000 people (2023)</div>
+      <div class="rank-pill">Reported Rate Rank: #${d.k} of 46 states with reliable data</div>
+      <div class="cap">Based on FBI/BJS data. Reflects crimes reported to police, not survey-based prevalence — see methodology note on the National Stats page.</div>
+    </div>
+  ` : `
+    <div class="rate-card">
+      <div class="big-num" style="font-size:1.3rem;">No reliable estimate</div>
+      <div class="cap">${fullName}'s 2023 rate did not meet BJS's statistical reliability criteria, likely reflecting gaps in NIBRS agency participation rather than low/high crime.</div>
+    </div>
+  `;
+
+  let body;
+  if (legal) {
+    body = `
+      <div class="legal-section">
+        <h3>How consent is defined <span class="draft-badge">Draft</span></h3>
+        <div class="body-text"><p>${legal.consent}</p></div>
+      </div>
+      <div class="legal-section">
+        <h3>Incapacitation &amp; intoxication <span class="draft-badge">Draft</span></h3>
+        <div class="body-text"><p>${legal.incapacitation}</p></div>
+      </div>
+      <div class="legal-section">
+        <h3>Age of consent <span class="draft-badge">Draft</span></h3>
+        <div class="body-text"><p>${legal.ageOfConsent}</p></div>
+      </div>
+      <div class="legal-section">
+        <h3>Statute of limitations — criminal <span class="draft-badge">Draft</span></h3>
+        <div class="body-text"><p>${legal.solCriminal}</p></div>
+      </div>
+      <div class="legal-section">
+        <h3>Statute of limitations — civil <span class="draft-badge">Draft</span></h3>
+        <div class="body-text"><p>${legal.solCivil}</p>
+          <div class="cite">${legal.citation}</div>
+          <div class="verify-note">This page's legal content is a research draft and has not yet been verified against ${fullName}'s current codified statute text. Last pulled: ${legal.verified}. Do not treat as a final legal reference — consult a licensed attorney for an actual legal question.</div>
+        </div>
+      </div>
+    `;
+  } else {
+    body = `
+      <div class="coming-soon">
+        <h3>Full legal breakdown coming soon</h3>
+        <p>${fullName} isn't one of the three states (Colorado, New York, Arkansas) built out in this first version. The reported-rate data above is already real and sourced — the detailed law section just isn't populated yet.</p>
+      </div>
+    `;
+  }
+
+  return `
+    <button class="back-link" data-nav="map">&larr; Back to map</button>
+    <div class="state-head">
+      <h2>${fullName}</h2>
+      ${rateBlock}
+    </div>
+    ${body}
+  `;
+}
+
+/* ---------------- national view ---------------- */
+function renderNational() {
+  return `
+    <div class="hero">
+      <div class="eyebrow">National Statistics</div>
+      <h2>What the research actually says</h2>
+      <p class="lede">Every number below is cited. Where sources disagree or a stat is contested, that's shown explicitly — not resolved into one clean-sounding figure.</p>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-tile">
+        <div class="stat-num">1 in 4</div>
+        <div class="stat-label">women in the U.S. have experienced rape in their lifetime</div>
+        <div class="stat-source">CDC NISVS, 2016/2017 survey cycle</div>
+      </div>
+      <div class="stat-tile">
+        <div class="stat-num">1 in 26</div>
+        <div class="stat-label">men in the U.S. have experienced rape in their lifetime</div>
+        <div class="stat-source">CDC NISVS, 2016/2017 survey cycle</div>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <h3>Sexual violence is bigger than rape</h3>
+      <p class="section-sub">If what happened to you doesn't match a narrow legal definition of "rape," that doesn't put it outside "sexual assault." Researchers and clinicians use several distinct categories under one umbrella:</p>
+      <div class="category-grid">
+        <div class="category-card"><h4>Rape</h4><p>Completed or attempted forced penetration, including when the person was unable to consent due to incapacitation.</p></div>
+        <div class="category-card"><h4>Sexual coercion</h4><p>Being pressured into a sexual act through non-physical pressure — verbal pressure, manipulation, or abuse of authority.</p></div>
+        <div class="category-card"><h4>Unwanted sexual contact</h4><p>Being made to touch or be touched sexually without consent — this is the category childhood molestation by a relative typically falls under.</p></div>
+        <div class="category-card"><h4>Non-contact experiences</h4><p>Unwanted exposure, harassment, or coercion that didn't involve physical contact, but is still tracked as sexual violence.</p></div>
+      </div>
+      <div class="methodology-note">These categories are not mutually exclusive, and a person's experience doesn't need to be the most severe category to be real and worth taking seriously. Source: CDC NISVS methodology.</div>
+    </div>
+
+    <div class="section-block">
+      <h3>Reported rape/sexual assault victimization rate, 2020–2024</h3>
+      <p class="section-sub">This is a self-report survey rate (NCVS) — people describing their own experiences to a government surveyor, independent of whether they ever reported to police.</p>
+      <div class="chart-card">${trendChart()}</div>
+      <div class="methodology-note">Source: Bureau of Justice Statistics, <i>Criminal Victimization, 2024</i> (NCJ 310547), Table 1. Rate per 1,000 persons age 12+.</div>
+    </div>
+
+    <div class="section-block">
+      <h3>Percent of rape/sexual assault victimizations reported to police</h3>
+      <p class="section-sub">This dropped sharply and statistically significantly from 2023 to 2024 — a real, documented year-over-year swing BJS flags with its own confidence testing, not noise we're smoothing over.</p>
+      <div class="chart-card">${reportingChart()}</div>
+      <div class="methodology-note">Source: BJS <i>Criminal Victimization, 2024</i> (NCJ 310547), Table 4. A single year's swing in survey data can reflect real behavior change, sampling variation, or both — worth watching in next year's report before drawing a firm conclusion about why.</div>
+    </div>
+
+    <div class="section-block">
+      <h3>What share of men have perpetrated rape or sexual assault?</h3>
+      <p class="section-sub">This is one of the most contested numbers in this field. Different studies, using different definitions and populations, land in very different places — shown here as a range, not one cherry-picked figure.</p>
+      <div class="chart-card">${perpetrationChart()}</div>
+      <div class="methodology-note">Sources: Koss et al. (1980s college samples, ~4.4% rape); Lisak &amp; Miller, 2002 (University of Massachusetts sample, 6.4% rape/attempted rape); broader literature reviews citing 7–15% for legally-defined rape and up to 25–57% when "sexual assault" is defined more broadly. Methodology differences — anonymous self-report vs. legal definitions vs. survey wording — explain most of the spread.</div>
+    </div>
+
+    <div class="source-list">
+      Primary sources used on this page: <a href="https://www.cdc.gov/nisvs/about/index.html" target="_blank" rel="noopener">CDC NISVS</a>, <a href="https://bjs.ojp.gov/document/cv24.pdf" target="_blank" rel="noopener">BJS Criminal Victimization 2024 (NCJ 310547)</a>.
+    </div>
+  `;
+}
+
+function trendChart() {
+  const years = [2020,2021,2022,2023,2024];
+  const vals = [1.2,1.2,1.9,1.7,2.0];
+  const w = 560, h = 220, pad = 36;
+  const maxV = 2.4;
+  const x = i => pad + i * (w - pad*2) / (years.length - 1);
+  const y = v => h - pad - (v / maxV) * (h - pad*2);
+  const pts = vals.map((v,i) => `${x(i)},${y(v)}`).join(' ');
+  let dots = '', labels = '';
+  vals.forEach((v,i) => {
+    dots += `<circle cx="${x(i)}" cy="${y(v)}" r="${i===vals.length-1?5:3.5}" fill="var(--accent)" />`;
+    labels += `<text x="${x(i)}" y="${h-10}" text-anchor="middle" font-size="12" fill="var(--ink-faint)">${years[i]}</text>`;
+  });
+  return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" role="img" aria-label="Rape and sexual assault victimization rate, 2020 to 2024, rising from 1.2 to 2.0 per 1,000">
+    <line x1="${pad}" y1="${h-pad}" x2="${w-pad}" y2="${h-pad}" stroke="var(--border)" stroke-width="1"/>
+    <polyline points="${pts}" fill="none" stroke="var(--accent)" stroke-width="2"/>
+    ${dots}
+    <text x="${x(4)+10}" y="${y(2.0)-8}" font-size="13" font-weight="700" fill="var(--ink)">2.0</text>
+    ${labels}
+  </svg>`;
+}
+
+function reportingChart() {
+  const data = [{y:'2023',v:46.0},{y:'2024',v:23.6}];
+  const w = 420, h = 180, barW = 90, gap = 60, pad = 40;
+  let bars = '';
+  data.forEach((d,i) => {
+    const bh = (d.v/60) * (h - pad*2);
+    const bx = pad + i * (barW + gap);
+    const by = h - pad - bh;
+    bars += `<rect x="${bx}" y="${by}" width="${barW}" height="${bh}" rx="4" fill="var(--amber-4)"/>
+      <text x="${bx+barW/2}" y="${by-10}" text-anchor="middle" font-size="15" font-weight="700" fill="var(--ink)">${d.v}%</text>
+      <text x="${bx+barW/2}" y="${h-14}" text-anchor="middle" font-size="12" fill="var(--ink-faint)">${d.y}</text>`;
+  });
+  return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" role="img" aria-label="Percent of rape and sexual assault victimizations reported to police: 46 percent in 2023, 24 percent in 2024">
+    <line x1="${pad-10}" y1="${h-pad}" x2="${w-pad+10}" y2="${h-pad}" stroke="var(--border)" stroke-width="1"/>
+    ${bars}
+  </svg>`;
+}
+
+function perpetrationChart() {
+  const data = [
+    {label:'Koss et al. (1980s)', lo:4.4, hi:4.4, note:'college men, legal rape'},
+    {label:'Lisak & Miller (2002)', lo:6.4, hi:6.4, note:'rape/attempted rape'},
+    {label:'Rape, broader lit.', lo:7, hi:15, note:'legally-defined rape'},
+    {label:'"Sexual assault", broad def.', lo:25, hi:57, note:'broader definition'}
+  ];
+  const w = 600, h = 230, pad = 170, rightPad = 50, rowH = 46;
+  const maxV = 60;
+  const xs = v => pad + (v/maxV) * (w - pad - rightPad);
+  let rows = '';
+  data.forEach((d,i) => {
+    const cy = 30 + i * rowH;
+    rows += `<text x="${pad-14}" y="${cy+4}" text-anchor="end" font-size="12.5" fill="var(--ink)">${d.label}</text>`;
+    if (d.lo === d.hi) {
+      rows += `<circle cx="${xs(d.lo)}" cy="${cy}" r="5" fill="var(--amber-5)"/>
+        <text x="${xs(d.lo)+10}" y="${cy+4}" font-size="12" fill="var(--ink-soft)">${d.lo}%</text>`;
+    } else {
+      rows += `<line x1="${xs(d.lo)}" y1="${cy}" x2="${xs(d.hi)}" y2="${cy}" stroke="var(--amber-5)" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="${xs(d.lo)}" cy="${cy}" r="4" fill="var(--amber-6)"/>
+        <circle cx="${xs(d.hi)}" cy="${cy}" r="4" fill="var(--amber-6)"/>
+        <text x="${xs(d.hi)+10}" y="${cy+4}" font-size="12" fill="var(--ink-soft)">${d.lo}–${d.hi}%</text>`;
+    }
+  });
+  return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" role="img" aria-label="Perpetration rate studies ranging from 4.4 percent to 57 percent depending on definition and methodology">${rows}</svg>`;
+}
+
+/* ---------------- main render ---------------- */
+function render() {
+  const main = document.getElementById('main');
+  if (currentView === 'map') main.innerHTML = renderMap();
+  else if (currentView === 'state') main.innerHTML = renderState(currentState);
+  else if (currentView === 'national') main.innerHTML = renderNational();
+  attachHandlers();
+}
+
+function attachHandlers() {
+  document.querySelectorAll('.tile[data-abbr]').forEach(tile => {
+    const abbr = tile.dataset.abbr;
+    tile.addEventListener('click', () => navigate('state', abbr));
+    tile.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate('state', abbr); } });
+    tile.addEventListener('mouseenter', e => {
+      const d = RATE_DATA[abbr];
+      const fullName = Object.keys(ABBR).find(k => ABBR[k] === abbr) || abbr;
+      let html;
+      if (abbr === 'DC') html = `<b>Washington, D.C.</b>Not included in this FBI/BJS state table.`;
+      else if (!d || !d.v) html = `<b>${fullName}</b>No reliable 2023 estimate (NIBRS participation gap).`;
+      else html = `<b>${fullName}</b>${d.r.toFixed(1)} per 100k &middot; Rank #${d.k} of 46`;
+      showTooltip(e, html);
+    });
+    tile.addEventListener('mousemove', moveTooltip);
+    tile.addEventListener('mouseleave', hideTooltip);
+  });
+  document.querySelectorAll('[data-nav]').forEach(el => {
+    el.addEventListener('click', e => { e.preventDefault(); navigate(el.dataset.nav); });
+  });
+  document.querySelectorAll('.back-link[data-nav]').forEach(el => {
+    el.addEventListener('click', () => navigate(el.dataset.nav));
+  });
+}
+
+render();
+</script>
