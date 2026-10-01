@@ -172,6 +172,9 @@
     text-anchor: middle; dominant-baseline: central;
   }
   .state-label.callout { text-anchor: start; fill: var(--ink); font-size: 12px; dominant-baseline: middle; }
+  .state-label-hit { pointer-events: auto; cursor: pointer; outline: none; }
+  .state-label-hit:hover .state-label.callout, .state-label-hit:focus-visible .state-label.callout { fill: var(--accent); }
+  .state-label-hit:focus-visible rect { stroke: var(--accent); stroke-width: 1.5; }
 
   .map-side { display: flex; flex-direction: column; gap: 20px; position: sticky; top: 90px; }
   .legend-card, .info-card {
@@ -320,7 +323,7 @@ const MAP_VIEWBOX = '174 100 1150 593';
    computed once from the actual path data -- not estimated. A few (MI, FL)
    are nudged slightly off raw bbox-center since their true shape is
    concave/multi-part and the bbox center lands in open water. */
-const LABEL_POS = {"DC":{"cx":975.3,"cy":351.8},"HI":{"cx":463.9,"cy":646.4},"AK":{"cx":284.7,"cy":611.2},"FL":{"cx":900,"cy":590},"SC":{"cx":926.1,"cy":480.4},"GA":{"cx":888.4,"cy":504.9},"AL":{"cx":828.1,"cy":515.1},"NC":{"cx":941,"cy":432.1},"TN":{"cx":831.8,"cy":441},"RI":{"cx":1051.9,"cy":271.8},"CT":{"cx":1032.7,"cy":279.9},"MA":{"cx":1048.1,"cy":259.3},"ME":{"cx":1069.9,"cy":187},"NH":{"cx":1042.9,"cy":222.1},"VT":{"cx":1020.1,"cy":226.7},"NY":{"cx":981.8,"cy":255.5},"NJ":{"cx":1008.5,"cy":317.1},"PA":{"cx":956.1,"cy":311.3},"DE":{"cx":1001.4,"cy":341.5},"MD":{"cx":971.4,"cy":350.2},"WV":{"cx":922.9,"cy":363.3},"KY":{"cx":831.9,"cy":400},"OH":{"cx":873.8,"cy":336.1},"MI":{"cx":815,"cy":270},"WY":{"cx":467.9,"cy":281},"MT":{"cx":447.4,"cy":186.8},"ID":{"cx":366.9,"cy":211.2},"WA":{"cx":290.4,"cy":148.9},"TX":{"cx":578.2,"cy":552.4},"CA":{"cx":257.6,"cy":367.5},"AZ":{"cx":367.8,"cy":465.1},"NV":{"cx":306.3,"cy":351.7},"UT":{"cx":390.1,"cy":348.6},"CO":{"cx":491,"cy":372.4},"NM":{"cx":471,"cy":473.7},"OR":{"cx":270.2,"cy":218.6},"ND":{"cx":588.5,"cy":192.3},"SD":{"cx":586.9,"cy":263.2},"NE":{"cx":593.4,"cy":323.3},"IA":{"cx":697,"cy":314.6},"MS":{"cx":768,"cy":519.1},"IN":{"cx":818.4,"cy":355.6},"IL":{"cx":764.3,"cy":360.2},"MN":{"cx":694,"cy":216.6},"WI":{"cx":749.1,"cy":251.9},"MO":{"cx":717.1,"cy":394.5},"AR":{"cx":722,"cy":473.6},"OK":{"cx":606.5,"cy":461},"KS":{"cx":613.8,"cy":391},"LA":{"cx":720,"cy":538},"VA":{"cx":942.5,"cy":382.3}};
+const LABEL_POS = {"DC":{"cx":975.3,"cy":351.8},"HI":{"cx":505.4,"cy":667.8},"AK":{"cx":287.6,"cy":603.2},"FL":{"cx":917.6,"cy":593.3},"SC":{"cx":928.8,"cy":473.2},"GA":{"cx":886.3,"cy":508.1},"AL":{"cx":823.4,"cy":510.7},"NC":{"cx":951.6,"cy":431.5},"TN":{"cx":825.6,"cy":442.3},"RI":{"cx":1051.9,"cy":271.8},"CT":{"cx":1032.7,"cy":279.9},"MA":{"cx":1048.1,"cy":259.3},"ME":{"cx":1064.9,"cy":182.6},"NH":{"cx":1042.9,"cy":222.1},"VT":{"cx":1020.1,"cy":226.7},"NY":{"cx":981.3,"cy":258.1},"NJ":{"cx":1008.5,"cy":317.1},"PA":{"cx":954.3,"cy":311.1},"DE":{"cx":1001.4,"cy":341.5},"MD":{"cx":971.4,"cy":350.2},"WV":{"cx":915.9,"cy":368.8},"KY":{"cx":840,"cy":403.5},"OH":{"cx":874,"cy":337.3},"MI":{"cx":821.9,"cy":253.7},"WY":{"cx":469.6,"cy":282},"MT":{"cx":448.7,"cy":189},"ID":{"cx":363.3,"cy":234.4},"WA":{"cx":290.3,"cy":149},"TX":{"cx":592.1,"cy":548.3},"CA":{"cx":249.2,"cy":371.6},"AZ":{"cx":372.3,"cy":463.2},"NV":{"cx":308.1,"cy":336.2},"UT":{"cx":390.3,"cy":352.8},"CO":{"cx":492.3,"cy":373.2},"NM":{"cx":471.9,"cy":473.3},"OR":{"cx":269.8,"cy":222.2},"ND":{"cx":587.5,"cy":193.3},"SD":{"cx":587.9,"cy":259},"NE":{"cx":592.1,"cy":323.6},"IA":{"cx":694.9,"cy":312.7},"MS":{"cx":770.9,"cy":516.7},"IN":{"cx":817.5,"cy":353.2},"IL":{"cx":768.5,"cy":354.4},"MN":{"cx":680.7,"cy":218.7},"WI":{"cx":749.2,"cy":254},"MO":{"cx":714.9,"cy":394.1},"AR":{"cx":717.8,"cy":471.1},"OK":{"cx":627.6,"cy":456.9},"KS":{"cx":613.5,"cy":391.6},"LA":{"cx":730.4,"cy":557.1},"VA":{"cx":952.7,"cy":387.4}};
 /* Northeast corridor + DC are too small to hold an inline label --
    callout to a rail with a leader line instead. */
 const CALLOUT_RAIL_X = 1155;
@@ -392,10 +395,21 @@ const LEGAL = {
     solCriminal: "No limit for first-degree offenses, and no limit for the rape or sexual assault of a minor. 3 years for second- and third-degree offenses.",
     solCivil: "3 years from the incident (or from discovery, for minors). The 2021 Childhood Sexual Abuse Victims Act (Act 1036) opened a revival window letting childhood sexual abuse survivors file at any age — secondary sources describe this window as running “until 2026,” which needs direct confirmation of the exact closing mechanics before being treated as current fact.",
     citation: "Ark. Code Ann. § 5-14-101 et seq. (draft citation — pending verification against the current codified statute text)"
+  },
+  AK: {
+    name: 'Alaska',
+    verified: '2026-10-01',
+    consent: "Alaska defines “without consent” as the absence of a freely given, reversible agreement specific to the act — and specifies that “freely given” requires the agreement to be positively expressed by word or action. Silence or the absence of a \"no\" is not, by itself, consent.",
+    incapacitation: "Alaska statute splits this into three distinct, separately defined categories rather than one general standard: “mentally incapable” (a mental disease or defect that prevents understanding the nature or consequences of the conduct — an enduring condition), “incapacitated” (explicitly defined as a temporary state, e.g. drugs, alcohol, or sleep medication), and “unaware that a sexual act is being committed” (e.g. asleep or unconscious). Which category applies to a given case matters a great deal — see the marital exception below, which only reaches one of the three.",
+    ageOfConsent: "16 as a general baseline, but Alaska structures this by age gap rather than one flat cutoff: sexual contact with a 13–15 year old is only illegal if the offender is 4 or more years older (penalties increase further at a 6+ year gap); a parent, stepparent, adoptive parent, or legal guardian is barred from any sexual contact with their own child or ward up to age 18, regardless of age gap; an authority figure (e.g. in the same household, or occupying a position of authority) is barred from sexual contact with anyone under 16, or sexual penetration with a 16–17 year old if 3+ years older.",
+    maritalException: "Spousal status is explicitly not a general defense to a sexual assault charge in Alaska (AS 11.41.432(b)). But there is a real, narrow exception: for charges based specifically on the victim being “mentally incapable” — not the “incapacitated” or “unaware” categories above — it is an affirmative defense if the offender and victim are legally married, neither has filed for separation or divorce, and the victim had, at some point while still capable of understanding the conduct's nature and consequences, consented to the act charged. In practice this means the statute does not shield a spouse who has sex with a partner who is temporarily incapacitated (e.g. by alcohol or medication) or unconscious — but it can shield a spouse in cases involving a partner's enduring mental incapacity, such as a severe brain injury or a degenerative condition, if prior consent while capable can be shown. A 2019 legislative effort to repeal this defense failed in the Alaska House, 20–17.",
+    solCriminal: "No limit, ever, for sexual assault in the first or second degree, or for felony sexual abuse of a minor. For other sexual offenses: 5 years generally, or no limit at all if the victim was under 18 at the time.",
+    solCivil: "No limit, ever, for a felony-level sexual assault or childhood sexual abuse claim. 3 years for misdemeanor-level sexual offenses.",
+    citation: "AS 11.41.410, 11.41.420, 11.41.425, 11.41.432, 11.41.434, 11.41.436, 11.41.438, 11.41.470, 12.10.010, 09.10.065 (draft citation — pending verification against the current codified statute text)"
   }
 };
 
-const STATE_ORDER = ['CO','NY','AR'];
+const STATE_ORDER = ['CO','NY','AR','AK'];
 
 /* ---------------- routing ---------------- */
 let currentView = 'map';
@@ -510,11 +524,18 @@ function renderMap() {
     const labelColor = hasData ? textColorFor(d.wk) : 'var(--ink-faint)';
     const pos = LABEL_POS[abbr];
     const callout = CALLOUT_POS[abbr];
+    const fullName = abbr === 'DC' ? 'Washington, D.C.' : (Object.keys(ABBR).find(k => ABBR[k] === abbr) || abbr);
     if (callout) {
       const anchorDot = abbr === 'DC' ? '' : `<circle cx="${pos.cx}" cy="${pos.cy}" r="2" fill="var(--ink-faint)" />`;
+      /* the real shape for these states is a few pixels wide -- the rail
+         label (with a generous invisible hit-rect behind it) is the real,
+         reliably clickable target */
       labels += `<line class="leader-line" x1="${pos.cx}" y1="${pos.cy}" x2="${callout.x - 6}" y2="${callout.y}" stroke="var(--ink-faint)" stroke-width="1" />
         ${anchorDot}
-        <text class="state-label callout" x="${callout.x}" y="${callout.y}">${abbr}</text>`;
+        <g class="state-label-hit" data-abbr="${abbr}" tabindex="0" role="button" aria-label="${fullName}">
+          <rect x="${callout.x - 6}" y="${callout.y - 13}" width="50" height="24" fill="transparent" />
+          <text class="state-label callout" x="${callout.x}" y="${callout.y}">${abbr}</text>
+        </g>`;
     } else {
       labels += `<text class="state-label" x="${pos.cx}" y="${pos.cy}" fill="${labelColor}">${abbr}</text>`;
     }
@@ -607,6 +628,11 @@ function renderState(abbr) {
         <h3>Age of consent <span class="draft-badge">Draft</span></h3>
         <div class="body-text"><p>${legal.ageOfConsent}</p></div>
       </div>
+      ${legal.maritalException ? `
+      <div class="legal-section">
+        <h3>Marital / spousal exception <span class="draft-badge">Draft</span></h3>
+        <div class="body-text"><p>${legal.maritalException}</p></div>
+      </div>` : ''}
       <div class="legal-section">
         <h3>Statute of limitations — criminal <span class="draft-badge">Draft</span></h3>
         <div class="body-text"><p>${legal.solCriminal}</p></div>
@@ -620,10 +646,14 @@ function renderState(abbr) {
       </div>
     `;
   } else {
+    const doneNames = STATE_ORDER.map(a => LEGAL[a].name);
+    const doneList = doneNames.length > 1
+      ? doneNames.slice(0, -1).join(', ') + ', and ' + doneNames[doneNames.length - 1]
+      : doneNames[0];
     legalBody = `
       <div class="coming-soon">
         <h3>Full legal breakdown coming soon</h3>
-        <p>${fullName} isn't one of the three states (Colorado, New York, Arkansas) built out in this first version. The survey data above is already real and sourced — the detailed law section just isn't populated yet.</p>
+        <p>${fullName} isn't one of the ${doneNames.length} jurisdictions (${doneList}) built out so far. The survey data above is already real and sourced — the detailed law section just isn't populated yet.</p>
       </div>
     `;
   }
@@ -817,7 +847,7 @@ function render() {
 }
 
 function attachHandlers() {
-  document.querySelectorAll('.state-shape[data-abbr]').forEach(tile => {
+  document.querySelectorAll('.state-shape[data-abbr], .state-label-hit[data-abbr]').forEach(tile => {
     const abbr = tile.dataset.abbr;
     tile.addEventListener('click', () => navigate('state', abbr));
     tile.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate('state', abbr); } });
