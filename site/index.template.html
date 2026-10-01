@@ -152,22 +152,24 @@
   .map-layout { display: grid; grid-template-columns: minmax(0,1fr) 260px; gap: 32px; align-items: start; }
   @media (max-width: 900px) { .map-layout { grid-template-columns: 1fr; } }
 
-  .tile-grid {
-    display: grid; grid-template-columns: repeat(12, 1fr); gap: 5px; width: 100%;
+  .us-map-wrap { width: 100%; }
+  .us-map-svg { width: 100%; height: auto; display: block; overflow: visible; }
+  .state-shape {
+    stroke: var(--bg); stroke-width: 1.5; cursor: pointer;
+    transition: filter 0.12s ease, opacity 0.12s ease; outline: none;
   }
-  .tile {
-    aspect-ratio: 1 / 1; border-radius: 6px; border: 1px solid rgba(0,0,0,0.06);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.78rem; font-weight: 700; cursor: pointer; position: relative;
-    transition: transform 0.12s ease, box-shadow 0.12s ease;
+  .state-shape:hover, .state-shape:focus-visible { filter: brightness(1.08); }
+  .state-shape:focus-visible { stroke: var(--accent); stroke-width: 2.5; }
+  .state-shape.nodata {
+    fill: var(--nodata-fill) !important;
   }
-  .tile:hover, .tile:focus-visible { transform: translateY(-2px); box-shadow: var(--shadow); z-index: 2; outline: none; }
-  .tile:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-  .tile.nodata {
-    background-image: repeating-linear-gradient(45deg, var(--nodata-fill), var(--nodata-fill) 5px, var(--nodata-line) 5px, var(--nodata-line) 6px);
-    color: var(--ink-faint);
+  .state-shape.nodata:hover { opacity: 0.85; }
+  .map-labels { pointer-events: none; }
+  .state-label {
+    font-family: 'Public Sans', sans-serif; font-weight: 700; font-size: 13px;
+    text-anchor: middle; dominant-baseline: central;
   }
-  .tile.dc { font-size: 0.6rem; }
+  .state-label.callout { text-anchor: start; fill: var(--ink); font-size: 12px; dominant-baseline: middle; }
 
   .map-side { display: flex; flex-direction: column; gap: 20px; position: sticky; top: 90px; }
   .legend-card, .info-card {
@@ -254,6 +256,7 @@
   .category-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; }
   .category-card h4 { font-size: 0.98rem; margin-bottom: 6px; }
   .category-card p { font-size: 0.86rem; color: var(--ink-soft); margin: 0; }
+  .category-card p.cap { font-size: 0.78rem; color: var(--ink-faint); margin-top: 8px; }
 
   .chart-card {
     background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 24px;
@@ -288,6 +291,7 @@
     <nav class="site-nav" id="siteNav">
       <button data-view="map" class="active">State Map</button>
       <button data-view="national">National Stats</button>
+      <button data-view="global">Global</button>
     </nav>
   </div>
 </header>
@@ -303,17 +307,54 @@
 <script>
 const ABBR = {Alabama:'AL',Alaska:'AK',Arizona:'AZ',Arkansas:'AR',California:'CA',Colorado:'CO',Connecticut:'CT',Delaware:'DE',Florida:'FL',Georgia:'GA',Hawaii:'HI',Idaho:'ID',Illinois:'IL',Indiana:'IN',Iowa:'IA',Kansas:'KS',Kentucky:'KY',Louisiana:'LA',Maine:'ME',Maryland:'MD',Massachusetts:'MA',Michigan:'MI',Minnesota:'MN',Mississippi:'MS',Missouri:'MO',Montana:'MT',Nebraska:'NE',Nevada:'NV','New Hampshire':'NH','New Jersey':'NJ','New Mexico':'NM','New York':'NY','North Carolina':'NC','North Dakota':'ND',Ohio:'OH',Oklahoma:'OK',Oregon:'OR',Pennsylvania:'PA','Rhode Island':'RI','South Carolina':'SC','South Dakota':'SD',Tennessee:'TN',Texas:'TX',Utah:'UT',Vermont:'VT',Virginia:'VA',Washington:'WA','West Virginia':'WV',Wisconsin:'WI',Wyoming:'WY'};
 
-const GRID = {
-  ME:[0,10],
-  WA:[1,0],MT:[1,2],ND:[1,3],MN:[1,5],VT:[1,9],NH:[1,10],
-  OR:[2,0],ID:[2,1],WY:[2,2],SD:[2,3],IA:[2,4],WI:[2,5],MI:[2,6],NY:[2,9],MA:[2,10],RI:[2,11],
-  CA:[3,0],NV:[3,1],UT:[3,2],CO:[3,3],NE:[3,4],IL:[3,5],IN:[3,6],OH:[3,7],PA:[3,8],NJ:[3,9],CT:[3,10],
-  AZ:[4,2],NM:[4,3],KS:[4,4],MO:[4,5],KY:[4,6],WV:[4,7],VA:[4,8],MD:[4,9],DE:[4,10],DC:[4,11],
-  OK:[5,4],AR:[5,5],TN:[5,6],NC:[5,7],SC:[5,8],
-  TX:[6,4],LA:[6,5],MS:[6,6],AL:[6,7],GA:[6,8],
-  FL:[7,8],AK:[7,0],HI:[7,1]
-};
+/* ---- Real US state border geometry (Albers-ish projection), extracted
+   (not hand-drawn) from a MIT-licensed source SVG -- see
+   assets/map/LICENSE-us-states-svg.txt for provenance. */
+const MAP_DATA = __STATE_PATHS__;
+/* Extend the source viewBox rightward to make room for a label rail --
+   doesn't move any state geometry, just adds blank margin. */
+const MAP_VIEWBOX = '174 100 1150 593';
+/* Real geometric centers (SVG getBBox) of each rendered state shape,
+   computed once from the actual path data -- not estimated. A few (MI, FL)
+   are nudged slightly off raw bbox-center since their true shape is
+   concave/multi-part and the bbox center lands in open water. */
+const LABEL_POS = {"DC":{"cx":975.3,"cy":351.8},"HI":{"cx":463.9,"cy":646.4},"AK":{"cx":284.7,"cy":611.2},"FL":{"cx":900,"cy":590},"SC":{"cx":926.1,"cy":480.4},"GA":{"cx":888.4,"cy":504.9},"AL":{"cx":828.1,"cy":515.1},"NC":{"cx":941,"cy":432.1},"TN":{"cx":831.8,"cy":441},"RI":{"cx":1051.9,"cy":271.8},"CT":{"cx":1032.7,"cy":279.9},"MA":{"cx":1048.1,"cy":259.3},"ME":{"cx":1069.9,"cy":187},"NH":{"cx":1042.9,"cy":222.1},"VT":{"cx":1020.1,"cy":226.7},"NY":{"cx":981.8,"cy":255.5},"NJ":{"cx":1008.5,"cy":317.1},"PA":{"cx":956.1,"cy":311.3},"DE":{"cx":1001.4,"cy":341.5},"MD":{"cx":971.4,"cy":350.2},"WV":{"cx":922.9,"cy":363.3},"KY":{"cx":831.9,"cy":400},"OH":{"cx":873.8,"cy":336.1},"MI":{"cx":815,"cy":270},"WY":{"cx":467.9,"cy":281},"MT":{"cx":447.4,"cy":186.8},"ID":{"cx":366.9,"cy":211.2},"WA":{"cx":290.4,"cy":148.9},"TX":{"cx":578.2,"cy":552.4},"CA":{"cx":257.6,"cy":367.5},"AZ":{"cx":367.8,"cy":465.1},"NV":{"cx":306.3,"cy":351.7},"UT":{"cx":390.1,"cy":348.6},"CO":{"cx":491,"cy":372.4},"NM":{"cx":471,"cy":473.7},"OR":{"cx":270.2,"cy":218.6},"ND":{"cx":588.5,"cy":192.3},"SD":{"cx":586.9,"cy":263.2},"NE":{"cx":593.4,"cy":323.3},"IA":{"cx":697,"cy":314.6},"MS":{"cx":768,"cy":519.1},"IN":{"cx":818.4,"cy":355.6},"IL":{"cx":764.3,"cy":360.2},"MN":{"cx":694,"cy":216.6},"WI":{"cx":749.1,"cy":251.9},"MO":{"cx":717.1,"cy":394.5},"AR":{"cx":722,"cy":473.6},"OK":{"cx":606.5,"cy":461},"KS":{"cx":613.8,"cy":391},"LA":{"cx":740.1,"cy":556.2},"VA":{"cx":942.5,"cy":382.3}};
+/* Northeast corridor + DC are too small to hold an inline label --
+   callout to a rail with a leader line instead. */
+const CALLOUT_RAIL_X = 1155;
+const CALLOUT_POS = {NH:{x:CALLOUT_RAIL_X,y:150},VT:{x:CALLOUT_RAIL_X,y:190},MA:{x:CALLOUT_RAIL_X,y:230},RI:{x:CALLOUT_RAIL_X,y:270},CT:{x:CALLOUT_RAIL_X,y:310},NJ:{x:CALLOUT_RAIL_X,y:350},DE:{x:CALLOUT_RAIL_X,y:390},DC:{x:CALLOUT_RAIL_X,y:430}};
 
+/* ---- PRIMARY data: CDC NISVS 2023/2024 survey-based lifetime prevalence
+   of "contact sexual violence" (rape + being made to penetrate + sexual
+   coercion + unwanted sexual contact combined) by state of residence.
+   Women: complete for all 51 jurisdictions. Men: only 24 states had a
+   statistically reliable estimate -- shown as null elsewhere, not 0. */
+const SA_RAW = [__SA_STATE_DATA__];
+function rankBy(key) {
+  const withVal = SA_RAW.filter(d => d[key] != null).sort((a,b) => b[key] - a[key]);
+  const ranks = {};
+  let prevVal = null, prevRank = 0;
+  withVal.forEach((d,i) => {
+    const r = (d[key] === prevVal) ? prevRank : i + 1;
+    ranks[d.n] = r;
+    prevVal = d[key]; prevRank = r;
+  });
+  return ranks;
+}
+const W_RANK = rankBy('w');
+const M_RANK = rankBy('m');
+const SA_DATA = {};
+SA_RAW.forEach(d => {
+  SA_DATA[ABBR[d.n] || 'DC'] = {
+    name: d.n, w: d.w, wk: W_RANK[d.n] ?? null,
+    m: d.m ?? null, mk: d.m != null ? M_RANK[d.n] : null
+  };
+});
+const W_MAX_RANK = Math.max(...Object.values(W_RANK));
+
+/* ---- SECONDARY data: FBI/BJS 2023 police-REPORTED rape rate.
+   Kept for each state's "Reported Crime Data" section, no longer drives
+   the map's primary color. */
 const RANKS = [__RANKS_DATA__];
 const MAX_RANK = Math.max(...RANKS.filter(d=>d.v).map(d=>d.k));
 const RATE_DATA = {};
@@ -362,6 +403,7 @@ function navigate(view, stateAbbr) {
   currentView = view;
   currentState = stateAbbr || null;
   document.querySelectorAll('#siteNav button').forEach(b => b.classList.toggle('active', b.dataset.view === view));
+  hideTooltip();
   render();
   window.scrollTo({top:0, behavior:'instant'});
 }
@@ -372,12 +414,12 @@ document.getElementById('siteNav').addEventListener('click', e => {
 });
 
 /* ---------------- color scale ----------------
-   Diverging 7-step scale: teal (low rate) -> neutral cream (mid) -> rust (high rate).
-   Not red/green -- see design note -- and the two pole colors are validated
-   for colorblind separation (CVD dE 9.9, normal-vision dE 21.3). */
-function rateColor(rank) {
+   Diverging 7-step scale: green (low) -> yellow (mid) -> red (high).
+   Primary use: W_RANK (NISVS women's lifetime SA prevalence by state, 1..51). */
+function rateColor(rank, maxRank) {
   if (rank == null) return null;
-  const pct = (rank - 1) / (MAX_RANK - 1); // 0 = highest rate (rank 1, most rust), 1 = lowest rate (most teal)
+  maxRank = maxRank || W_MAX_RANK;
+  const pct = (rank - 1) / (maxRank - 1); // 0 = highest rate (rank 1, most red), 1 = lowest rate (most green)
   const steps = ['--div-7','--div-6','--div-5','--div-4','--div-3','--div-2','--div-1'];
   const idx = Math.min(steps.length - 1, Math.floor(pct * steps.length));
   return getComputedStyle(document.documentElement).getPropertyValue(steps[idx]).trim();
@@ -391,9 +433,9 @@ function relLuminance(hex) {
   });
   return 0.2126*r + 0.7152*g + 0.0722*b;
 }
-function textColorFor(rank) {
+function textColorFor(rank, maxRank) {
   if (rank == null) return 'var(--ink-faint)';
-  const bg = rateColor(rank);
+  const bg = rateColor(rank, maxRank);
   if (!bg) return 'var(--ink)';
   const L = relLuminance(bg);
   const contrastWithWhite = 1.05 / (L + 0.05);
@@ -417,35 +459,59 @@ function hideTooltip() { tooltipEl.classList.remove('show'); }
 
 /* ---------------- map view ---------------- */
 function renderMap() {
-  let tiles = '';
-  Object.keys(GRID).forEach(abbr => {
-    const [row, col] = GRID[abbr];
-    const d = RATE_DATA[abbr];
-    const isDC = abbr === 'DC';
-    let style = `grid-row:${row+1};grid-column:${col+1};`;
-    let cls = 'tile';
-    if (isDC) {
-      cls += ' nodata dc';
-    } else if (!d || !d.v) {
-      cls += ' nodata';
+  const states = MAP_DATA.states;
+  let shapes = '';
+  Object.keys(states).forEach(abbr => {
+    const d = SA_DATA[abbr];
+    const fullName = abbr === 'DC' ? 'Washington, D.C.' : (Object.keys(ABBR).find(k => ABBR[k] === abbr) || abbr);
+    const hasData = d && d.wk != null;
+    const fill = hasData ? rateColor(d.wk) : 'var(--nodata-fill)';
+    const cls = 'state-shape' + (hasData ? '' : ' nodata');
+
+    if (abbr === 'DC') {
+      const g = states.DC;
+      shapes += `<g class="${cls}" data-abbr="DC" tabindex="0" role="button" aria-label="Washington, D.C.">
+        <path d="${g.tick}" fill="var(--ink-faint)" />
+        <circle cx="${g.cx}" cy="${g.cy}" r="${g.r}" fill="${fill}" stroke="var(--bg)" stroke-width="1.5" />
+      </g>`;
     } else {
-      style += `background:${rateColor(d.k)};color:${textColorFor(d.k)};`;
+      shapes += `<path class="${cls}" data-abbr="${abbr}" tabindex="0" role="button" aria-label="${fullName}" fill="${fill}" d="${states[abbr]}" />`;
     }
-    const label = isDC ? 'DC' : abbr;
-    tiles += `<div class="${cls}" style="${style}" tabindex="0" data-abbr="${abbr}" role="button" aria-label="${label}">${label}</div>`;
+  });
+
+  let labels = '';
+  Object.keys(states).forEach(abbr => {
+    const d = SA_DATA[abbr];
+    const hasData = d && d.wk != null;
+    const labelColor = hasData ? textColorFor(d.wk) : 'var(--ink-faint)';
+    const pos = LABEL_POS[abbr];
+    const callout = CALLOUT_POS[abbr];
+    if (callout) {
+      labels += `<line class="leader-line" x1="${pos.cx}" y1="${pos.cy}" x2="${callout.x - 6}" y2="${callout.y}" stroke="var(--ink-faint)" stroke-width="1" />
+        <circle cx="${pos.cx}" cy="${pos.cy}" r="2" fill="var(--ink-faint)" />
+        <text class="state-label callout" x="${callout.x}" y="${callout.y}">${abbr}</text>`;
+    } else {
+      labels += `<text class="state-label" x="${pos.cx}" y="${pos.cy}" fill="${labelColor}">${abbr}</text>`;
+    }
   });
 
   return `
     <div class="hero">
       <div class="eyebrow">50-State Resource &middot; v1: CO, NY, AR in full detail</div>
       <h2>Sexual assault law and statistics, state by state</h2>
-      <p class="lede">Click any state for its legal definitions and reported data. Color reflects each state's 2023 FBI/BJS <em>reported</em> rape rate — not true prevalence. See the note below for why that distinction matters.</p>
+      <p class="lede">Click any state for its legal definitions and survey-based prevalence data. Color reflects the share of <strong>women</strong> in each state who report having experienced some form of sexual assault in their lifetime, from a national survey — not police reports. Men's state-level data is shown too, where the sample was large enough — see each state's page.</p>
     </div>
     <div class="map-layout">
-      <div class="tile-grid">${tiles}</div>
+      <div class="us-map-wrap">
+        <svg class="us-map-svg" viewBox="${MAP_VIEWBOX}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Map of the United States, click a state for its data">
+          <path class="leader-lines" fill="none" stroke="var(--border)" stroke-width="2" d="${MAP_DATA.leader_lines}" />
+          ${shapes}
+          <g class="map-labels">${labels}</g>
+        </svg>
+      </div>
       <div class="map-side">
         <div class="legend-card">
-          <h3>2023 reported rate</h3>
+          <h3>Lifetime SA prevalence (women)</h3>
           <div class="legend-ramp">
             <div style="background:var(--div-7)"></div>
             <div style="background:var(--div-6)"></div>
@@ -456,15 +522,14 @@ function renderMap() {
             <div style="background:var(--div-1)"></div>
           </div>
           <div class="legend-labels"><span>Higher</span><span>Average</span><span>Lower</span></div>
-          <div class="legend-nodata"><span class="swatch"></span> No reliable 2023 estimate</div>
         </div>
         <div class="info-card">
-          <h3>Why 4 states are blank</h3>
-          <p>Alaska, Arizona, Hawaii, and Pennsylvania don't have a reliable 2023 rate in this report. This reflects gaps in law-enforcement agency participation in the FBI's newer incident-based reporting system (NIBRS) — not an indication of low or high crime.</p>
+          <h3>What "sexual assault" means here</h3>
+          <p>This map uses "contact sexual violence" — a combined measure covering rape, being made to penetrate someone else, sexual coercion, and unwanted sexual contact. It's broader than rape alone on purpose, so experiences like unwanted touching are represented, not just the narrowest legal definition.</p>
         </div>
         <div class="info-card">
-          <h3>Reported ≠ actual</h3>
-          <p>This map shows crimes <em>reported to police</em>, which is shaped by reporting culture and trust in law enforcement as much as true incidence. See <a href="#" data-nav="national">National Stats</a> for survey-based prevalence instead.</p>
+          <h3>Survey data, not police reports</h3>
+          <p>These numbers come from people describing their own experiences in a confidential national survey, independent of whether they ever told police. Each state page also shows the separate, much smaller FBI <em>reported-crime</em> rate — see why those two numbers differ so much on the <a href="#" data-nav="national">National Stats</a> page.</p>
         </div>
       </div>
     </div>
@@ -473,27 +538,37 @@ function renderMap() {
 
 /* ---------------- state view ---------------- */
 function renderState(abbr) {
-  const d = RATE_DATA[abbr];
-  const fullName = Object.keys(ABBR).find(k => ABBR[k] === abbr) || abbr;
+  const sa = SA_DATA[abbr];
+  const fbi = RATE_DATA[abbr];
+  const fullName = abbr === 'DC' ? 'Washington, D.C.' : (Object.keys(ABBR).find(k => ABBR[k] === abbr) || abbr);
   const legal = LEGAL[abbr];
 
-  const rateBlock = d && d.v ? `
+  const saBlock = sa && sa.wk != null ? `
     <div class="rate-card">
-      <div class="big-num num">${d.r.toFixed(1)}</div>
-      <div style="font-size:0.8rem;color:var(--ink-soft);">reported rapes per 100,000 people (2023)</div>
-      <div class="rank-pill">Reported Rate Rank: #${d.k} of 46 states with reliable data</div>
-      <div class="cap">Based on FBI/BJS data. Reflects crimes reported to police, not survey-based prevalence — see methodology note on the National Stats page.</div>
+      <div class="big-num num">${sa.w.toFixed(1)}%</div>
+      <div style="font-size:0.8rem;color:var(--ink-soft);">of women in ${fullName} report experiencing sexual assault in their lifetime</div>
+      <div class="rank-pill">Rank #${sa.wk} of ${W_MAX_RANK} jurisdictions</div>
+      ${sa.mk != null
+        ? `<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);">
+             <div class="big-num num" style="font-size:1.5rem;">${sa.m.toFixed(1)}%</div>
+             <div style="font-size:0.78rem;color:var(--ink-soft);">of men &middot; Rank #${sa.mk} of 24 states with a reliable estimate</div>
+           </div>`
+        : `<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:0.78rem;color:var(--ink-faint);">
+             Men's state-level estimate for ${fullName} wasn't statistically reliable in this survey (smaller sample). National figure: 16.9%.
+           </div>`
+      }
+      <div class="cap">Source: CDC NISVS 2023/2024 Sexual Violence Data Brief. "Sexual assault" here means contact sexual violence — rape, being made to penetrate, sexual coercion, or unwanted sexual contact, combined.</div>
     </div>
   ` : `
     <div class="rate-card">
       <div class="big-num" style="font-size:1.3rem;">No reliable estimate</div>
-      <div class="cap">${fullName}'s 2023 rate did not meet BJS's statistical reliability criteria, likely reflecting gaps in NIBRS agency participation rather than low/high crime.</div>
+      <div class="cap">${fullName} didn't have a statistically reliable survey estimate in this report.</div>
     </div>
   `;
 
-  let body;
+  let legalBody;
   if (legal) {
-    body = `
+    legalBody = `
       <div class="legal-section">
         <h3>How consent is defined <span class="draft-badge">Draft</span></h3>
         <div class="body-text"><p>${legal.consent}</p></div>
@@ -519,21 +594,40 @@ function renderState(abbr) {
       </div>
     `;
   } else {
-    body = `
+    legalBody = `
       <div class="coming-soon">
         <h3>Full legal breakdown coming soon</h3>
-        <p>${fullName} isn't one of the three states (Colorado, New York, Arkansas) built out in this first version. The reported-rate data above is already real and sourced — the detailed law section just isn't populated yet.</p>
+        <p>${fullName} isn't one of the three states (Colorado, New York, Arkansas) built out in this first version. The survey data above is already real and sourced — the detailed law section just isn't populated yet.</p>
       </div>
     `;
   }
+
+  const fbiBlock = fbi && fbi.v ? `
+    <div class="rate-card" style="max-width:420px;">
+      <div class="big-num num" style="font-size:1.7rem;">${fbi.r.toFixed(1)}</div>
+      <div style="font-size:0.8rem;color:var(--ink-soft);">rapes reported to police per 100,000 people (2023)</div>
+      <div class="rank-pill">Reported Rate Rank: #${fbi.k} of 46 states with reliable data</div>
+      <div class="cap">Source: FBI/BJS, via NIBRS. This is a much smaller number than the survey data above because most sexual assaults are never reported to police — see the National Stats page.</div>
+    </div>
+  ` : `
+    <div class="rate-card" style="max-width:420px;">
+      <div class="big-num" style="font-size:1.1rem;">No reliable FBI estimate</div>
+      <div class="cap">${fullName}'s 2023 reported-crime rate didn't meet BJS's statistical reliability criteria — a gap in police-agency reporting participation, not a crime-rate signal.</div>
+    </div>
+  `;
 
   return `
     <button class="back-link" data-nav="map">&larr; Back to map</button>
     <div class="state-head">
       <h2>${fullName}</h2>
-      ${rateBlock}
+      ${saBlock}
     </div>
-    ${body}
+    ${legalBody}
+    <div class="section-block">
+      <h3>Reported Crime Data <span class="draft-badge" style="background:var(--bg-alt);color:var(--ink-faint);border-color:var(--border);">Secondary</span></h3>
+      <p class="section-sub">The numbers above come from a confidential survey. These come from police reports (FBI/BJS) — a different, usually much smaller, measurement. Both are real; they're just answering different questions.</p>
+      ${fbiBlock}
+    </div>
   `;
 }
 
@@ -543,57 +637,78 @@ function renderNational() {
     <div class="hero">
       <div class="eyebrow">National Statistics</div>
       <h2>What the research actually says</h2>
-      <p class="lede">Every number below is cited. Where sources disagree or a stat is contested, that's shown explicitly — not resolved into one clean-sounding figure.</p>
+      <p class="lede">Every number below is cited. Where sources disagree or a stat is contested, that's shown explicitly — not resolved into one clean-sounding figure. The headline numbers here are survey-based (people describing their own experience); the FBI's much smaller police-reported numbers are further down, clearly separated.</p>
     </div>
 
     <div class="stat-row">
       <div class="stat-tile">
-        <div class="stat-num">1 in 4</div>
-        <div class="stat-label">women in the U.S. have experienced rape in their lifetime</div>
-        <div class="stat-source">CDC NISVS, 2016/2017 survey cycle</div>
+        <div class="stat-num">45.1%</div>
+        <div class="stat-label">of women in the U.S. have experienced contact sexual violence in their lifetime</div>
+        <div class="stat-source">CDC NISVS, 2023/2024 survey cycle</div>
       </div>
       <div class="stat-tile">
-        <div class="stat-num">1 in 26</div>
-        <div class="stat-label">men in the U.S. have experienced rape in their lifetime</div>
-        <div class="stat-source">CDC NISVS, 2016/2017 survey cycle</div>
+        <div class="stat-num">16.9%</div>
+        <div class="stat-label">of men in the U.S. have experienced contact sexual violence in their lifetime</div>
+        <div class="stat-source">CDC NISVS, 2023/2024 survey cycle</div>
       </div>
     </div>
+    <p class="methodology-note" style="margin:-8px 0 28px;">"Contact sexual violence" is NISVS's umbrella term: rape, being made to penetrate someone else, sexual coercion, and unwanted sexual contact, combined. It's deliberately broader than rape alone — if what happened to you doesn't match a narrow legal definition of "rape," that doesn't put it outside "sexual assault."</p>
 
     <div class="section-block">
-      <h3>Sexual violence is bigger than rape</h3>
-      <p class="section-sub">If what happened to you doesn't match a narrow legal definition of "rape," that doesn't put it outside "sexual assault." Researchers and clinicians use several distinct categories under one umbrella:</p>
+      <h3>Sexual violence, broken down by category</h3>
+      <p class="section-sub">Lifetime prevalence by category, women and men. These categories are not mutually exclusive — a person's experience doesn't need to be the most severe category to be real and worth taking seriously.</p>
       <div class="category-grid">
-        <div class="category-card"><h4>Rape</h4><p>Completed or attempted forced penetration, including when the person was unable to consent due to incapacitation.</p></div>
-        <div class="category-card"><h4>Sexual coercion</h4><p>Being pressured into a sexual act through non-physical pressure — verbal pressure, manipulation, or abuse of authority.</p></div>
-        <div class="category-card"><h4>Unwanted sexual contact</h4><p>Being made to touch or be touched sexually without consent — this is the category childhood molestation by a relative typically falls under.</p></div>
-        <div class="category-card"><h4>Non-contact experiences</h4><p>Unwanted exposure, harassment, or coercion that didn't involve physical contact, but is still tracked as sexual violence.</p></div>
+        <div class="category-card"><h4>Rape</h4><p>Completed or attempted forced penetration, including when the person was unable to consent due to incapacitation.</p><p class="cap"><b>21.0%</b> women &middot; <b>3.2%</b> men</p></div>
+        <div class="category-card"><h4>Made to penetrate</h4><p>Being physically forced or coerced into penetrating someone else — tracked separately because it's a distinct experience, overwhelmingly reported by men.</p><p class="cap"><b>3.8%</b> men &middot; not separately tracked for women</p></div>
+        <div class="category-card"><h4>Sexual coercion</h4><p>Being pressured into a sexual act through non-physical pressure — verbal pressure, manipulation, or abuse of authority.</p><p class="cap"><b>20.3%</b> women &middot; <b>6.0%</b> men</p></div>
+        <div class="category-card"><h4>Unwanted sexual contact</h4><p>Being made to touch or be touched sexually without consent — this is the category childhood molestation by a relative typically falls under.</p><p class="cap"><b>39.0%</b> women &middot; <b>13.8%</b> men</p></div>
+        <div class="category-card"><h4>Non-contact experiences</h4><p>Unwanted verbal harassment (in public or at work) and technology-facilitated sexual violence — no physical contact, but still tracked as sexual violence.</p><p class="cap"><b>28–30%</b> women &middot; <b>7–15%</b> men, by subtype</p></div>
       </div>
-      <div class="methodology-note">These categories are not mutually exclusive, and a person's experience doesn't need to be the most severe category to be real and worth taking seriously. Source: CDC NISVS methodology.</div>
+      <div class="methodology-note">Source: CDC NISVS 2023/2024 Sexual Violence Data Brief (Leemis et al.), Tables 1 &amp; 6.</div>
     </div>
 
-    <div class="section-block">
-      <h3>Reported rape/sexual assault victimization rate, 2020–2024</h3>
-      <p class="section-sub">This is a self-report survey rate (NCVS) — people describing their own experiences to a government surveyor, independent of whether they ever reported to police.</p>
-      <div class="chart-card">${trendChart()}</div>
-      <div class="methodology-note">Source: Bureau of Justice Statistics, <i>Criminal Victimization, 2024</i> (NCJ 310547), Table 1. Rate per 1,000 persons age 12+.</div>
-    </div>
+    <div class="section-block" style="border-top:2px solid var(--border);padding-top:28px;margin-top:40px;">
+      <h3>Reported Crime Data <span class="draft-badge" style="background:var(--bg-alt);color:var(--ink-faint);border-color:var(--border);">Secondary / deeper</span></h3>
+      <p class="section-sub">Everything above comes from confidential surveys. Everything below comes from crimes reported to police (NCVS self-report of reporting behavior, and FBI/NIBRS counts) — a much smaller, different measurement, because most sexual assault is never reported. Both are real; they're answering different questions.</p>
 
-    <div class="section-block">
-      <h3>Percent of rape/sexual assault victimizations reported to police</h3>
-      <p class="section-sub">This dropped sharply and statistically significantly from 2023 to 2024 — a real, documented year-over-year swing BJS flags with its own confidence testing, not noise we're smoothing over.</p>
-      <div class="chart-card">${reportingChart()}</div>
-      <div class="methodology-note">Source: BJS <i>Criminal Victimization, 2024</i> (NCJ 310547), Table 4. A single year's swing in survey data can reflect real behavior change, sampling variation, or both — worth watching in next year's report before drawing a firm conclusion about why.</div>
-    </div>
+      <div class="section-block" style="margin-top:20px;">
+        <h3 style="font-size:1.15rem;">Reported rape/sexual assault victimization rate, 2020–2024</h3>
+        <p class="section-sub">This is a self-report survey rate (NCVS) — people describing their own experiences to a government surveyor, independent of whether they ever reported to police.</p>
+        <div class="chart-card">${trendChart()}</div>
+        <div class="methodology-note">Source: Bureau of Justice Statistics, <i>Criminal Victimization, 2024</i> (NCJ 310547), Table 1. Rate per 1,000 persons age 12+.</div>
+      </div>
 
-    <div class="section-block">
-      <h3>What share of men have perpetrated rape or sexual assault?</h3>
-      <p class="section-sub">This is one of the most contested numbers in this field. Different studies, using different definitions and populations, land in very different places — shown here as a range, not one cherry-picked figure.</p>
-      <div class="chart-card">${perpetrationChart()}</div>
-      <div class="methodology-note">Sources: Koss et al. (1980s college samples, ~4.4% rape); Lisak &amp; Miller, 2002 (University of Massachusetts sample, 6.4% rape/attempted rape); broader literature reviews citing 7–15% for legally-defined rape and up to 25–57% when "sexual assault" is defined more broadly. Methodology differences — anonymous self-report vs. legal definitions vs. survey wording — explain most of the spread.</div>
+      <div class="section-block">
+        <h3 style="font-size:1.15rem;">Percent of rape/sexual assault victimizations reported to police</h3>
+        <p class="section-sub">This dropped sharply and statistically significantly from 2023 to 2024 — a real, documented year-over-year swing BJS flags with its own confidence testing, not noise we're smoothing over.</p>
+        <div class="chart-card">${reportingChart()}</div>
+        <div class="methodology-note">Source: BJS <i>Criminal Victimization, 2024</i> (NCJ 310547), Table 4. A single year's swing in survey data can reflect real behavior change, sampling variation, or both — worth watching in next year's report before drawing a firm conclusion about why.</div>
+      </div>
+
+      <div class="section-block">
+        <h3 style="font-size:1.15rem;">What share of men have perpetrated rape or sexual assault?</h3>
+        <p class="section-sub">This is one of the most contested numbers in this field. Different studies, using different definitions and populations, land in very different places — shown here as a range, not one cherry-picked figure.</p>
+        <div class="chart-card">${perpetrationChart()}</div>
+        <div class="methodology-note">Sources: Koss et al. (1980s college samples, ~4.4% rape); Lisak &amp; Miller, 2002 (University of Massachusetts sample, 6.4% rape/attempted rape); broader literature reviews citing 7–15% for legally-defined rape and up to 25–57% when "sexual assault" is defined more broadly. Methodology differences — anonymous self-report vs. legal definitions vs. survey wording — explain most of the spread.</div>
+      </div>
     </div>
 
     <div class="source-list">
-      Primary sources used on this page: <a href="https://www.cdc.gov/nisvs/about/index.html" target="_blank" rel="noopener">CDC NISVS</a>, <a href="https://bjs.ojp.gov/document/cv24.pdf" target="_blank" rel="noopener">BJS Criminal Victimization 2024 (NCJ 310547)</a>.
+      Primary sources used on this page: <a href="https://www.cdc.gov/nisvs/media/pdfs/sexualviolence-brief.pdf" target="_blank" rel="noopener">CDC NISVS 2023/2024 Sexual Violence Data Brief</a>, <a href="https://bjs.ojp.gov/document/cv24.pdf" target="_blank" rel="noopener">BJS Criminal Victimization 2024 (NCJ 310547)</a>.
+    </div>
+  `;
+}
+
+function renderGlobal() {
+  return `
+    <div class="hero">
+      <div class="eyebrow">Global Statistics</div>
+      <h2>Coming soon</h2>
+      <p class="lede">This resource starts with U.S. law and U.S. survey data, where we could verify primary sources directly. A global view — comparing definitions, survey methods, and prevalence across countries — is planned, but isn't built yet.</p>
+    </div>
+    <div class="coming-soon">
+      <h3>Why this isn't live yet</h3>
+      <p>Sexual assault law and data collection vary enormously country to country — definitions, survey methodology, and even what counts as a reportable crime differ in ways that don't translate cleanly into one comparison table. Getting this right means the same care this site puts into state-by-state detail, applied globally. That's a bigger research pass than we've done yet.</p>
     </div>
   `;
 }
@@ -671,21 +786,24 @@ function render() {
   if (currentView === 'map') main.innerHTML = renderMap();
   else if (currentView === 'state') main.innerHTML = renderState(currentState);
   else if (currentView === 'national') main.innerHTML = renderNational();
+  else if (currentView === 'global') main.innerHTML = renderGlobal();
   attachHandlers();
 }
 
 function attachHandlers() {
-  document.querySelectorAll('.tile[data-abbr]').forEach(tile => {
+  document.querySelectorAll('.state-shape[data-abbr]').forEach(tile => {
     const abbr = tile.dataset.abbr;
     tile.addEventListener('click', () => navigate('state', abbr));
     tile.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate('state', abbr); } });
     tile.addEventListener('mouseenter', e => {
-      const d = RATE_DATA[abbr];
-      const fullName = Object.keys(ABBR).find(k => ABBR[k] === abbr) || abbr;
+      const d = SA_DATA[abbr];
+      const fullName = abbr === 'DC' ? 'Washington, D.C.' : (Object.keys(ABBR).find(k => ABBR[k] === abbr) || abbr);
       let html;
-      if (abbr === 'DC') html = `<b>Washington, D.C.</b>Not included in this FBI/BJS state table.`;
-      else if (!d || !d.v) html = `<b>${fullName}</b>No reliable 2023 estimate (NIBRS participation gap).`;
-      else html = `<b>${fullName}</b>${d.r.toFixed(1)} per 100k &middot; Rank #${d.k} of 46`;
+      if (!d || d.wk == null) html = `<b>${fullName}</b>No reliable estimate in this survey.`;
+      else {
+        html = `<b>${fullName}</b>${d.w.toFixed(1)}% of women &middot; Rank #${d.wk} of ${W_MAX_RANK}`;
+        if (d.mk != null) html += `<br>${d.m.toFixed(1)}% of men &middot; Rank #${d.mk} of 24`;
+      }
       showTooltip(e, html);
     });
     tile.addEventListener('mousemove', moveTooltip);

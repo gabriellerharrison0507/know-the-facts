@@ -1,0 +1,16 @@
+sex,category,lifetime_pct,source_url,source_name,report_date
+women,contact_sexual_violence,45.1,https://www.cdc.gov/nisvs/media/pdfs/sexualviolence-brief.pdf,"NISVS 2023/2024 Sexual Violence Data Brief (Leemis et al., CDC, Table 1)",2025-12
+women,rape,21.0,https://www.cdc.gov/nisvs/media/pdfs/sexualviolence-brief.pdf,"NISVS 2023/2024 Sexual Violence Data Brief (Leemis et al., CDC, Table 1)",2025-12
+women,sexual_coercion,20.3,https://www.cdc.gov/nisvs/media/pdfs/sexualviolence-brief.pdf,"NISVS 2023/2024 Sexual Violence Data Brief (Leemis et al., CDC, Table 1)",2025-12
+women,unwanted_sexual_contact,39.0,https://www.cdc.gov/nisvs/media/pdfs/sexualviolence-brief.pdf,"NISVS 2023/2024 Sexual Violence Data Brief (Leemis et al., CDC, Table 1)",2025-12
+women,verbal_harassment_workplace,30.4,https://www.cdc.gov/nisvs/media/pdfs/sexualviolence-brief.pdf,"NISVS 2023/2024 Sexual Violence Data Brief (Leemis et al., CDC, Table 1)",2025-12
+women,verbal_harassment_public,29.5,https://www.cdc.gov/nisvs/media/pdfs/sexualviolence-brief.pdf,"NISVS 2023/2024 Sexual Violence Data Brief (Leemis et al., CDC, Table 1)",2025-12
+women,technology_facilitated,28.2,https://www.cdc.gov/nisvs/media/pdfs/sexualviolence-brief.pdf,"NISVS 2023/2024 Sexual Violence Data Brief (Leemis et al., CDC, Table 1)",2025-12
+men,contact_sexual_violence,16.9,https://www.cdc.gov/nisvs/media/pdfs/sexualviolence-brief.pdf,"NISVS 2023/2024 Sexual Violence Data Brief (Leemis et al., CDC, Table 6)",2025-12
+men,rape,3.2,https://www.cdc.gov/nisvs/media/pdfs/sexualviolence-brief.pdf,"NISVS 2023/2024 Sexual Violence Data Brief (Leemis et al., CDC, Table 6)",2025-12
+men,made_to_penetrate,3.8,https://www.cdc.gov/nisvs/media/pdfs/sexualviolence-brief.pdf,"NISVS 2023/2024 Sexual Violence Data Brief (Leemis et al., CDC, Table 6)",2025-12
+men,sexual_coercion,6.0,https://www.cdc.gov/nisvs/media/pdfs/sexualviolence-brief.pdf,"NISVS 2023/2024 Sexual Violence Data Brief (Leemis et al., CDC, Table 6)",2025-12
+men,unwanted_sexual_contact,13.8,https://www.cdc.gov/nisvs/media/pdfs/sexualviolence-brief.pdf,"NISVS 2023/2024 Sexual Violence Data Brief (Leemis et al., CDC, Table 6)",2025-12
+men,verbal_harassment_workplace,11.3,https://www.cdc.gov/nisvs/media/pdfs/sexualviolence-brief.pdf,"NISVS 2023/2024 Sexual Violence Data Brief (Leemis et al., CDC, Table 6)",2025-12
+men,verbal_harassment_public,7.1,https://www.cdc.gov/nisvs/media/pdfs/sexualviolence-brief.pdf,"NISVS 2023/2024 Sexual Violence Data Brief (Leemis et al., CDC, Table 6)",2025-12
+men,technology_facilitated,15.4,https://www.cdc.gov/nisvs/media/pdfs/sexualviolence-brief.pdf,"NISVS 2023/2024 Sexual Violence Data Brief (Leemis et al., CDC, Table 6)",2025-12
