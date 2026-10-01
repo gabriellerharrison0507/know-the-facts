@@ -26,12 +26,13 @@
     --draft-bg: #fcefcb;
     --draft-ink: #6b4e12;
     --draft-border: #e9d08f;
-    --amber-1: #fbe9cb;
-    --amber-2: #f6d29e;
-    --amber-3: #edb36c;
-    --amber-4: #dd9347;
-    --amber-5: #c2752e;
-    --amber-6: #9a5a1f;
+    --div-1: #163f3b;
+    --div-2: #2d6b63;
+    --div-3: #71a79d;
+    --div-4: #efe8da;
+    --div-5: #d9a06c;
+    --div-6: #bf6b2c;
+    --div-7: #8a3c1a;
     --nodata-fill: #e7e3da;
     --nodata-line: #c7c1b2;
     --shadow: 0 1px 2px rgba(27,36,34,0.06), 0 4px 16px rgba(27,36,34,0.06);
@@ -52,12 +53,13 @@
       --draft-bg: #3a3016;
       --draft-ink: #e8c877;
       --draft-border: #5a4a22;
-      --amber-1: #4a3b22;
-      --amber-2: #6b4f26;
-      --amber-3: #92692b;
-      --amber-4: #bc8a3b;
-      --amber-5: #dcae5c;
-      --amber-6: #f2d189;
+      --div-1: #3a7a70;
+      --div-2: #5a9c90;
+      --div-3: #8ebfb5;
+      --div-4: #6b6355;
+      --div-5: #c99264;
+      --div-6: #d87a3f;
+      --div-7: #e8713a;
       --nodata-fill: #242a27;
       --nodata-line: #3c433f;
       --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 20px rgba(0,0,0,0.3);
@@ -67,7 +69,7 @@
     --bg: #111816; --bg-alt: #19211f; --surface: #1c2422; --ink: #ede8dd; --ink-soft: #a9b3af; --ink-faint: #707b77;
     --border: #2c3734; --accent: #5fbfb0; --accent-ink: #0d1a18; --accent-soft: #1e3a37;
     --draft-bg: #3a3016; --draft-ink: #e8c877; --draft-border: #5a4a22;
-    --amber-1: #4a3b22; --amber-2: #6b4f26; --amber-3: #92692b; --amber-4: #bc8a3b; --amber-5: #dcae5c; --amber-6: #f2d189;
+    --div-1: #3a7a70; --div-2: #5a9c90; --div-3: #8ebfb5; --div-4: #6b6355; --div-5: #c99264; --div-6: #d87a3f; --div-7: #e8713a;
     --nodata-fill: #242a27; --nodata-line: #3c433f;
     --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 20px rgba(0,0,0,0.3);
   }
@@ -75,7 +77,7 @@
     --bg: #fbf9f6; --bg-alt: #f3efe8; --surface: #ffffff; --ink: #1b2422; --ink-soft: #52605d; --ink-faint: #8a948f;
     --border: #e3dccb; --accent: #1f5c58; --accent-ink: #ffffff; --accent-soft: #e1efec;
     --draft-bg: #fcefcb; --draft-ink: #6b4e12; --draft-border: #e9d08f;
-    --amber-1: #fbe9cb; --amber-2: #f6d29e; --amber-3: #edb36c; --amber-4: #dd9347; --amber-5: #c2752e; --amber-6: #9a5a1f;
+    --div-1: #163f3b; --div-2: #2d6b63; --div-3: #71a79d; --div-4: #efe8da; --div-5: #d9a06c; --div-6: #bf6b2c; --div-7: #8a3c1a;
     --nodata-fill: #e7e3da; --nodata-line: #c7c1b2;
     --shadow: 0 1px 2px rgba(27,36,34,0.06), 0 4px 16px rgba(27,36,34,0.06);
   }
@@ -369,18 +371,34 @@ document.getElementById('siteNav').addEventListener('click', e => {
   if (btn) navigate(btn.dataset.view);
 });
 
-/* ---------------- color scale ---------------- */
+/* ---------------- color scale ----------------
+   Diverging 7-step scale: teal (low rate) -> neutral cream (mid) -> rust (high rate).
+   Not red/green -- see design note -- and the two pole colors are validated
+   for colorblind separation (CVD dE 9.9, normal-vision dE 21.3). */
 function rateColor(rank) {
   if (rank == null) return null;
-  const pct = (rank - 1) / (MAX_RANK - 1); // 0 = highest rate (rank 1), 1 = lowest
-  const steps = ['--amber-6','--amber-5','--amber-4','--amber-3','--amber-2','--amber-1'];
+  const pct = (rank - 1) / (MAX_RANK - 1); // 0 = highest rate (rank 1, most rust), 1 = lowest rate (most teal)
+  const steps = ['--div-7','--div-6','--div-5','--div-4','--div-3','--div-2','--div-1'];
   const idx = Math.min(steps.length - 1, Math.floor(pct * steps.length));
   return getComputedStyle(document.documentElement).getPropertyValue(steps[idx]).trim();
 }
+function relLuminance(hex) {
+  const m = hex.trim().match(/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i);
+  if (!m) return 0.5;
+  const [r,g,b] = [m[1],m[2],m[3]].map(h => {
+    const c = parseInt(h,16) / 255;
+    return c <= 0.03928 ? c/12.92 : Math.pow((c+0.055)/1.055, 2.4);
+  });
+  return 0.2126*r + 0.7152*g + 0.0722*b;
+}
 function textColorFor(rank) {
   if (rank == null) return 'var(--ink-faint)';
-  const pct = (rank - 1) / (MAX_RANK - 1);
-  return pct < 0.55 ? '#fff' : 'var(--ink)';
+  const bg = rateColor(rank);
+  if (!bg) return 'var(--ink)';
+  const L = relLuminance(bg);
+  const contrastWithWhite = 1.05 / (L + 0.05);
+  const contrastWithInk = (L + 0.05) / 0.07; // ink is near-black, luminance ~0.02
+  return contrastWithWhite > contrastWithInk ? '#fff' : 'var(--ink)';
 }
 
 /* ---------------- tooltip ---------------- */
@@ -429,14 +447,15 @@ function renderMap() {
         <div class="legend-card">
           <h3>2023 reported rate</h3>
           <div class="legend-ramp">
-            <div style="background:var(--amber-6)"></div>
-            <div style="background:var(--amber-5)"></div>
-            <div style="background:var(--amber-4)"></div>
-            <div style="background:var(--amber-3)"></div>
-            <div style="background:var(--amber-2)"></div>
-            <div style="background:var(--amber-1)"></div>
+            <div style="background:var(--div-7)"></div>
+            <div style="background:var(--div-6)"></div>
+            <div style="background:var(--div-5)"></div>
+            <div style="background:var(--div-4)"></div>
+            <div style="background:var(--div-3)"></div>
+            <div style="background:var(--div-2)"></div>
+            <div style="background:var(--div-1)"></div>
           </div>
-          <div class="legend-labels"><span>Higher</span><span>Lower</span></div>
+          <div class="legend-labels"><span>Higher</span><span>Average</span><span>Lower</span></div>
           <div class="legend-nodata"><span class="swatch"></span> No reliable 2023 estimate</div>
         </div>
         <div class="info-card">
@@ -609,7 +628,7 @@ function reportingChart() {
     const bh = (d.v/60) * (h - pad*2);
     const bx = pad + i * (barW + gap);
     const by = h - pad - bh;
-    bars += `<rect x="${bx}" y="${by}" width="${barW}" height="${bh}" rx="4" fill="var(--amber-4)"/>
+    bars += `<rect x="${bx}" y="${by}" width="${barW}" height="${bh}" rx="4" fill="var(--div-6)"/>
       <text x="${bx+barW/2}" y="${by-10}" text-anchor="middle" font-size="15" font-weight="700" fill="var(--ink)">${d.v}%</text>
       <text x="${bx+barW/2}" y="${h-14}" text-anchor="middle" font-size="12" fill="var(--ink-faint)">${d.y}</text>`;
   });
@@ -634,12 +653,12 @@ function perpetrationChart() {
     const cy = 30 + i * rowH;
     rows += `<text x="${pad-14}" y="${cy+4}" text-anchor="end" font-size="12.5" fill="var(--ink)">${d.label}</text>`;
     if (d.lo === d.hi) {
-      rows += `<circle cx="${xs(d.lo)}" cy="${cy}" r="5" fill="var(--amber-5)"/>
+      rows += `<circle cx="${xs(d.lo)}" cy="${cy}" r="5" fill="var(--div-6)"/>
         <text x="${xs(d.lo)+10}" y="${cy+4}" font-size="12" fill="var(--ink-soft)">${d.lo}%</text>`;
     } else {
-      rows += `<line x1="${xs(d.lo)}" y1="${cy}" x2="${xs(d.hi)}" y2="${cy}" stroke="var(--amber-5)" stroke-width="4" stroke-linecap="round"/>
-        <circle cx="${xs(d.lo)}" cy="${cy}" r="4" fill="var(--amber-6)"/>
-        <circle cx="${xs(d.hi)}" cy="${cy}" r="4" fill="var(--amber-6)"/>
+      rows += `<line x1="${xs(d.lo)}" y1="${cy}" x2="${xs(d.hi)}" y2="${cy}" stroke="var(--div-6)" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="${xs(d.lo)}" cy="${cy}" r="4" fill="var(--div-7)"/>
+        <circle cx="${xs(d.hi)}" cy="${cy}" r="4" fill="var(--div-7)"/>
         <text x="${xs(d.hi)+10}" y="${cy+4}" font-size="12" fill="var(--ink-soft)">${d.lo}–${d.hi}%</text>`;
     }
   });
