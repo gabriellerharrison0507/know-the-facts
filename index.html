@@ -1322,10 +1322,67 @@ const LEGAL = {
       solCriminal: { short: "No limit for children; adult-victim rule unclear", badge: 'mixed', why: "Child-victim prosecutions face no deadline, and a legislative amendment reportedly removed the deadline for adult victims too, but this project found conflicting secondary accounts of a shorter window and couldn't resolve them against primary text." },
       solCivil: { short: "Generally until age 24 for minors", badge: 'concerning', why: "A 3-year window that only starts at age 21 is short relative to the multi-decade windows several other states provide for childhood sexual abuse claims." }
     }
+  },
+  ND: {
+    name: 'North Dakota',
+    verified: '2026-10-09',
+    consent: "North Dakota has no statutory definition of \"consent.\" Sexual assault is instead built around specific circumstances — force, a mental disease or defect the actor knew or should have known about, or intoxicants administered without the victim's knowledge — rather than a standalone affirmative-consent requirement.",
+    incapacitation: "Splits into two standards. A victim with a mental disease or defect the actor knew or should have known about is covered regardless of cause. But the intoxication-specific provision only applies where the actor \"substantially impaired\" the victim by administering intoxicants or a controlled substance \"without the victim's knowledge... for the purpose of preventing resistance\" — the same administered-without-knowledge gap this project has flagged in other states' statutes.",
+    ageOfConsent: "18, with a close-in-age exception letting a 15-to-17-year-old consent to a partner no more than 3 years older. A separate, more serious offense covers any victim under 15.",
+    maritalException: "None. Marriage provides no defense to North Dakota's sexual assault or statutory sexual offenses.",
+    solCriminal: "For a victim under 18: 21 years, which doesn't even start running until the victim turns 15, or 3 years from a DNA/fingerprint identification or from when the offense is reported — whichever gives more time. For an adult victim: just 3 years generally, extending to 7 years for offenses involving force or threats.",
+    solCivil: "For abuse suffered as a minor: 21 years, which doesn't start running until the survivor turns 15. For abuse suffered as an adult: just 9 years from the abuse.",
+    citation: "N.D.C.C. §§ 12.1-20-03, 12.1-20-07, 29-04-02, 29-04-03, 28-01-25.1, 28-01-25.2 (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "18 (close-in-age exception, 15–17 w/ partner ≤3 yrs older; separate provision for under-15)",
+    rating: {
+      consent: { short: "Circumstance-based, not affirmative", badge: 'mixed', why: "Built around force, mental incapacity, and administered-intoxicant circumstances rather than a standalone affirmative-consent requirement." },
+      incapacitation: { short: "Intoxication prong excludes voluntary intoxication", badge: 'concerning', why: "The mental-disease category is cause-agnostic, but the intoxication-specific provision requires the substance to have been administered without the victim's knowledge — the scenario most likely to come up day to day falls outside it." },
+      maritalException: { short: "None", badge: 'good', why: "Marriage provides no defense to North Dakota's sexual assault or statutory sexual offenses." },
+      solCriminal: { short: "Generous for minors; just 3–7 years for adults", badge: 'concerning', why: "A minor victim's case can wait until 21 years after they turn 15, but an adult victim's case must generally be prosecuted within 3 years, or 7 for force-based offenses — short windows by this project's standards." },
+      solCivil: { short: "Generous for minors; just 9 years for adults", badge: 'mixed', why: "A 21-year, age-15-triggered window for minor survivors contrasts with a comparatively short 9-year deadline for a survivor who was an adult at the time." }
+    }
+  },
+  TX: {
+    name: 'Texas',
+    verified: '2026-10-09',
+    consent: "Sexual assault is defined as intentionally or knowingly causing penetration without consent, with \"without consent\" established through a list of circumstances — the actor knows the other person is unconscious, physically unable to resist, or incapacitated by a substance — rather than a standalone affirmative-consent requirement.",
+    incapacitation: "Broad and cause-agnostic: covers a victim who is intoxicated or impaired by any substance to the extent they're incapable of consenting, as long as the actor knew or reasonably should have recognized that condition. The law is explicit that voluntary intoxication by itself doesn't remove the ability to consent — what matters is whether the person was actually incapacitated, not who caused it.",
+    ageOfConsent: "17, with a narrow \"Romeo and Juliet\" affirmative defense: available when the younger person is at least 14, the other person is no more than 3 years older, and that person isn't a registered sex offender or doesn't have a prior conviction under the same statute. It reduces liability rather than fully exempting the conduct.",
+    maritalException: "Sexual assault of a child is defined to exclude a victim who is the actor's spouse — a complete defense to that age-based charge regardless of the minor's age. This carve-out doesn't reach the general, non-age-based sexual assault statute.",
+    solCriminal: "No limit, ever, for sexual assault of a child, aggravated sexual assault of a child, serial or continuous sexual assault, indecency with a child, or any case where DNA evidence was collected — regardless of the victim's age. For adult-victim sexual assault without DNA evidence: 10 years.",
+    solCivil: "Effectively until the survivor turns 48, for a civil claim arising from sexual assault of a child (30 years from accrual, tolled until age 18). For an adult-victim claim: just 5 years.",
+    citation: "Tex. Penal Code § 22.011, Tex. Code Crim. Proc. art. 12.01, Tex. Civ. Prac. & Rem. Code § 16.0045 (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "17 (narrow Romeo & Juliet affirmative defense, 14+ w/ partner ≤3 yrs older & no prior registration)",
+    rating: {
+      consent: { short: "Circumstance-based, not affirmative", badge: 'mixed', why: "Built around a list of circumstances establishing lack of consent rather than a standalone affirmative-consent requirement." },
+      incapacitation: { short: "Broad, explicitly cause-agnostic", badge: 'good', why: "The law is explicit that it's the fact of incapacitation, not who caused it, that matters — voluntary intoxication is covered as long as the actor knew or should have recognized the condition." },
+      maritalException: { short: "Narrow, age-based carve-out only", badge: 'mixed', why: "The marriage defense is written into the age-based child sexual assault offense specifically and doesn't reach the general sexual assault statute." },
+      solCriminal: { short: "No limit for children or DNA-match cases; 10 years otherwise", badge: 'mixed', why: "Prosecution is unlimited in time for a child victim or whenever DNA evidence was collected, but an adult victim's case without DNA evidence still faces a 10-year cutoff." },
+      solCivil: { short: "Until age 48 for children; just 5 years for adults", badge: 'mixed', why: "A strong window for survivors who were children at the time contrasts sharply with a short 5-year deadline for a survivor who was an adult when the assault occurred." }
+    }
+  },
+  HI: {
+    name: 'Hawaii',
+    verified: '2026-10-09',
+    consent: "Hawaii has no statutory definition of \"consent.\" The law instead works through \"compulsion\" (absence of consent), which includes physical force as well as threats of public humiliation, property damage, or financial loss — a circumstance-based structure rather than a standalone affirmative-consent requirement.",
+    incapacitation: "\"Mentally incapacitated\" means temporarily unable to appraise or control one's conduct due to a substance \"administered to the person without the person's consent.\" A victim who became intoxicated voluntarily, with no one else drugging them or forcing anything on them, falls outside this specific definition — the same structural gap this project has flagged in other states' statutes.",
+    ageOfConsent: "16, with a close-in-age exception letting a 14- or 15-year-old consent to a partner less than 5 years older.",
+    maritalException: "Legal marriage to the minor is written as one of the required elements of the third-degree sexual assault offense covering 14- and 15-year-olds with a partner 5 or more years older — meaning that specific charge doesn't apply at all if the parties are married, despite some secondary sources describing Hawaii as having no marital exemption. This carve-out is scoped to that one age-based tier.",
+    solCriminal: "No limit, ever, for first- or second-degree sexual assault, or for continuous sexual assault of a minor under 14 — covering the most serious charges outright. For third-degree sexual assault: 3 years, which doesn't start running until a minor victim turns 18. Fourth-degree (misdemeanor): 2 years.",
+    solCivil: "For abuse before July 1, 2024: until 8 years past the survivor's 18th birthday (around age 26), or 3 years from discovering a resulting psychological injury, whichever is later. For abuse on or after July 1, 2024: a much longer 32 years past the 18th birthday (around age 50), or 5 years from discovery.",
+    citation: "HRS §§ 707-700, 707-730, 707-732, 701-108, 657-1.8 (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "16 (close-in-age exception, 14–15 w/ partner <5 yrs older)",
+    rating: {
+      consent: { short: "Circumstance-based, not affirmative", badge: 'mixed', why: "Built around \"compulsion\" — force or coercive threats — rather than a standalone affirmative-consent requirement." },
+      incapacitation: { short: "Excludes voluntary intoxication", badge: 'concerning', why: "The definition only covers a substance administered without the victim's consent — someone who became intoxicated on their own, with no one drugging or forcing anything on them, falls outside it." },
+      maritalException: { short: "Narrow, age-based carve-out only", badge: 'mixed', why: "Marriage is written as a required element of one specific age-based charge, negating it entirely for married partners — but the carve-out doesn't reach forcible or incapacity-based sexual assault." },
+      solCriminal: { short: "No limit for the most serious charges; short caps otherwise", badge: 'good', why: "First- and second-degree sexual assault and continuous assault of a young child carry no deadline at all, covering the charges most relevant to forcible and incapacity-based assault." },
+      solCivil: { short: "Until roughly age 50 for abuse from mid-2024 onward", badge: 'good', why: "A 2024 extension substantially lengthened the window going forward (to around age 50), though abuse before that date remains on the older, shorter age-26 standard." }
+    }
   }
 };
 
-const STATE_ORDER = ['CO','NY','AR','AK','DC','UT','OR','MD','VT','MN','WY','WA','NH','VA','AZ','NE','ME','NM','MO','OH','DE','TN','RI','MT','KS','ID','NC','LA','GA','IN','KY','SC','WV','NV','AL','MI','WI','IL','OK','CA','FL','SD','CT','PA','MA','NJ','IA','MS'];
+const STATE_ORDER = ['CO','NY','AR','AK','DC','UT','OR','MD','VT','MN','WY','WA','NH','VA','AZ','NE','ME','NM','MO','OH','DE','TN','RI','MT','KS','ID','NC','LA','GA','IN','KY','SC','WV','NV','AL','MI','WI','IL','OK','CA','FL','SD','CT','PA','MA','NJ','IA','MS','ND','TX','HI'];
 
 /* ---------------- routing ---------------- */
 let currentView = 'map';
