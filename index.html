@@ -1170,10 +1170,86 @@ const LEGAL = {
       solCriminal: { short: "No limit, ever, for current and most past cases", badge: 'good', why: "Rape committed from 2017 onward carries no deadline at all, and that rule was also applied retroactively to older cases that hadn't already expired." },
       solCivil: { short: "No limit for recent abuse; strong age-40-plus rule otherwise", badge: 'good', why: "Abuse from 2024 onward has no filing deadline at all, and abuse before that date can still be filed until the survivor turns 40 or 5 years after discovery, whichever is later." }
     }
+  },
+  FL: {
+    name: 'Florida',
+    verified: '2026-10-09',
+    consent: "\"Consent\" is defined as intelligent, knowing, and voluntary agreement, and the law is explicit that submission under duress or coercion doesn't count — but the definition still works mostly by stating what consent is *not*, within a structure built around proving duress, coercion, or incapacity.",
+    incapacitation: "Covers a victim who is mentally or physically incapacitated by a narcotic, anesthetic, or intoxicating substance, but only when the perpetrator administers it, or knows someone else administered it, \"without the prior knowledge or consent of the victim.\" A victim who became intoxicated voluntarily, with no one drugging them or forcing anything on them, falls outside this specific provision — the same structural gap this project has flagged in other states' statutes.",
+    ageOfConsent: "18 generally for the baseline statutory offense, with a close-in-age exception letting a 16- or 17-year-old consent to a partner under 24. A separate, more serious offense covers anyone under 16 regardless of the other person's age, and neither the victim's consent nor the perpetrator's belief about their age is a defense to that one.",
+    maritalException: "No marital exception was found in this research for either the age-based or incapacity-based sexual battery provisions.",
+    solCriminal: "No limit, ever, for a victim under 16. For a victim 16 or older: no limit at all if the assault is reported to police within 72 hours — but if it isn't reported that quickly, prosecutors generally have just 8 years. Unlike most states' DNA- or severity-based extensions, this unlimited window depends on how fast the victim reports, which is often exactly what trauma makes difficult.",
+    solCivil: "No limit, ever, for abuse where the victim was under 16. For a victim who was 16 or older, just 4 years — a sharp drop-off depending on the survivor's age at the time.",
+    citation: "Fla. Stat. §§ 794.011, 794.05, 800.04, 775.15, 95.11 (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "18 generally (close-in-age exception, 16–17 w/ partner <24; separate under-16 offense regardless of partner's age)",
+    rating: {
+      consent: { short: "Mostly defines what consent isn't", badge: 'mixed', why: "States that duress or coercion doesn't count as consent, but the operative structure still turns on proving duress, coercion, or incapacity rather than a standalone affirmative-consent test." },
+      incapacitation: { short: "Excludes voluntary intoxication", badge: 'concerning', why: "The provision only covers a substance administered without the victim's knowledge or consent — someone who became intoxicated on their own, with no one drugging or forcing anything on them, falls outside it." },
+      maritalException: { short: "None found", badge: 'good', why: "No marriage-based defense turned up in this research for either the age-based or incapacity-based sexual battery provisions." },
+      solCriminal: { short: "No limit for minors; for adults, tied to reporting within 72 hours", badge: 'concerning', why: "An adult victim only gets an unlimited window by reporting within 72 hours — otherwise the deadline drops to 8 years, leaning on exactly the kind of fast reporting trauma often makes difficult." },
+      solCivil: { short: "No limit for minors; just 4 years for adults", badge: 'mixed', why: "A strong, unlimited window for survivors who were minors at the time contrasts sharply with a short 4-year deadline for survivors who were adults when the abuse occurred." }
+    }
+  },
+  SD: {
+    name: 'South Dakota',
+    verified: '2026-10-09',
+    consent: "South Dakota updated its law in 2023 to define consent in genuinely affirmative terms: \"a person's positive cooperation in act or attitude pursuant to the person's exercise of free will.\" One of the more direct affirmative-consent definitions found in this research.",
+    incapacitation: "Covers incapacity to consent due to \"any intoxicating, narcotic, or anesthetic agent or hypnosis,\" without distinguishing voluntary from involuntary intoxication — broad, cause-agnostic language that doesn't require anyone else to have caused it.",
+    ageOfConsent: "16, but true exemptions from rape exist on both sides of it: a victim 13–15 isn't covered by the rape statute at all if the other person is less than 3 years older, and separately, a lesser sexual-contact-only charge (not full rape) drops from a felony to a misdemeanor if the victim is 13–15 and the actor is less than 5 years older.",
+    maritalException: "The lesser \"sexual contact with a child under 16\" offense is defined to exclude a victim who is the actor's spouse. This carve-out is scoped to that specific age-based contact offense and doesn't extend to the separate statute covering sexual contact with an incapacitated person, or to rape itself.",
+    solCriminal: "No limit, ever, for rape of a victim under 13, or rape accomplished through force, coercion, or threats — covering the most serious and most common categories. For other rape charges (including incapacity-based rape), by the victim's 25th birthday or within 7 years of the crime, whichever is longer.",
+    solCivil: "Just 3 years from the abuse, or 3 years from discovering the abuse caused the injury — a short window by this project's standards. A further restriction applies once the survivor turns 40: claims can still be brought directly against the perpetrator, but no longer against an institution or other party that may have enabled the abuse.",
+    citation: "SDCL §§ 22-22-1, 22-22-7, 22-22-7.2, 23A-42, 26-10 (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "16 (true exemption for 13–15 w/ partner <3 yrs older; lesser misdemeanor contact-only charge for 13–15 w/ actor <5 yrs older)",
+    rating: {
+      consent: { short: "Genuinely affirmative", badge: 'good', why: "A 2023 update defines consent as \"positive cooperation... pursuant to the exercise of free will\" — one of the more direct affirmative-consent standards found in this research." },
+      incapacitation: { short: "Broad, explicitly cause-agnostic", badge: 'good', why: "Covers incapacity from any intoxicating or narcotic agent without distinguishing voluntary from involuntary intoxication." },
+      maritalException: { short: "Narrow, age-based carve-out only", badge: 'mixed', why: "The marriage exclusion applies only to the lesser age-based sexual-contact offense, not to the incapacity-based contact statute or to rape itself." },
+      solCriminal: { short: "No limit for the most serious charges; capped otherwise", badge: 'mixed', why: "Rape by force, coercion, or threat and rape of a victim under 13 carry no deadline, but other rape charges — including incapacity-based rape — are capped at the victim's 25th birthday or 7 years, whichever is longer." },
+      solCivil: { short: "Just 3 years, with institutions shielded after age 40", badge: 'concerning', why: "A short 3-year baseline is compounded by a rule that survivors over 40 can no longer sue an institution or other enabling party, only the perpetrator directly." }
+    }
+  },
+  CT: {
+    name: 'Connecticut',
+    verified: '2026-10-09',
+    consent: "Built around compelling another person to engage in sexual intercourse by force or the threat of force, rather than a standalone affirmative-consent requirement. The law is explicit, though, that withdrawing consent mid-act and then being forced to continue is sexual assault.",
+    incapacitation: "\"Mentally incapacitated\" means temporarily unable to appraise or control one's conduct due to a drug or intoxicating substance \"administered to such person without such person's consent,\" or some other act committed on them without their consent. A victim who became intoxicated voluntarily, with no one else drugging them or forcing anything on them, falls outside this specific definition — the same structural gap this project has flagged in other states' statutes.",
+    ageOfConsent: "16, with a close-in-age exception letting a 13-to-15-year-old consent to a partner no more than 3 years older.",
+    maritalException: "Unusually broad: the marriage-based defense extends to unmarried couples who are simply living together, not just legally married spouses — a 19-year-old cohabiting with a 15-year-old, for example, would not be guilty of statutory rape despite the age gap. This carve-out is scoped to the age-based offenses.",
+    solCriminal: "No limit, ever, for any sexual abuse, exploitation, or assault offense if the victim was a minor at the time, and no limit either for the most serious (Class A felony) charges regardless of the victim's age. For a victim who was 18, 19, or 20: until their 51st birthday. For a victim 21 or older: 20 years — a substantial 2019 increase from the previous 5-year window.",
+    solCivil: "Until the survivor turns 51 (30 years past the age of 21) for abuse suffered before turning 21. No limit at all, for any victim, once the person at fault has been convicted of first- or aggravated first-degree sexual assault.",
+    citation: "Conn. Gen. Stat. §§ 53a-65, 53a-70, 53a-71, 53a-193a (repealed 2019, superseded by current limitation provisions), 52-577d (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "16 (close-in-age exception, 13–15 w/ partner ≤3 yrs older)",
+    rating: {
+      consent: { short: "Force/threat-based, not affirmative", badge: 'mixed', why: "Built around compulsion by force or threat of force rather than a standalone affirmative-consent requirement, though mid-act withdrawal followed by forced continuation is explicitly covered." },
+      incapacitation: { short: "Excludes voluntary intoxication", badge: 'concerning', why: "The definition only covers a substance administered without the victim's consent — someone who became intoxicated on their own, with no one drugging or forcing anything on them, falls outside it." },
+      maritalException: { short: "Extends beyond marriage to cohabitation", badge: 'concerning', why: "The defense reaches unmarried cohabiting couples as well as married ones, making it broader than the marriage-only carve-outs found in most other states." },
+      solCriminal: { short: "No limit for minors and top charges; strong caps otherwise", badge: 'good', why: "Minor victims and the most serious charges carry no deadline at all, 18-to-20-year-old victims get until their 51st birthday, and even victims 21 or older get a substantial 20-year window." },
+      solCivil: { short: "Until age 51 for abuse before 21; unlimited after a conviction", badge: 'good', why: "A generous age-51 cutoff for abuse suffered as a young person, with no deadline at all once there's been a conviction for first-degree sexual assault." }
+    }
+  },
+  PA: {
+    name: 'Pennsylvania',
+    verified: '2026-10-09',
+    consent: "Built around a list of circumstances — force, intimidation, threat, coercion, isolation, or confinement — none of which count as producing valid consent, rather than a standalone affirmative-consent requirement.",
+    incapacitation: "Pennsylvania splits incapacitation across two different offenses. The lesser \"sexual assault\" charge broadly and explicitly covers a victim who is unconscious or otherwise incapacitated \"due to alcohol, drugs or some other condition\" — cause-agnostic, regardless of who caused it. But the top \"rape\" charge's own intoxication-specific clause only applies where the defendant substantially impaired the victim \"by administering or employing, without the knowledge of the complainant, drugs, intoxicants or other means\" — meaning a voluntarily intoxicated victim can still support a sexual assault conviction, just not necessarily the single most serious rape charge.",
+    ageOfConsent: "16, with the close-in-age rule built directly into the statutory offense itself: a gap of less than 4 years isn't covered by the statute at all, while larger gaps (4–8 years, and separately 8–11 years) escalate the charge.",
+    maritalException: "Marriage is a complete defense written into both the standard and more aggravated tiers of the age-based statutory sexual assault offense — not just the base tier. This carve-out is scoped to that age-based statute and doesn't reach the separate force- or incapacity-based rape and sexual assault statutes.",
+    solCriminal: "12 years for rape of an adult victim. For a victim who was under 18 at the time of the abuse (and turned, or will turn, 18 on or after August 27, 2002): until that victim's 50th birthday.",
+    solCivil: "Until the survivor turns 55, for childhood sexual abuse. For abuse suffered between ages 18 and 24: until the survivor turns 30.",
+    citation: "18 Pa.C.S. §§ 3121, 3122.1, 3124.1, 42 Pa.C.S. §§ 5552, 5533 (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "16 (true exemption for <4 yr gap; escalating tiers for 4–8 and 8–11 yr gaps)",
+    rating: {
+      consent: { short: "Circumstance-based, not affirmative", badge: 'mixed', why: "Built around a list of coercive circumstances that negate consent rather than a standalone affirmative-consent requirement." },
+      incapacitation: { short: "Covered broadly, but not under the top charge", badge: 'mixed', why: "A voluntarily intoxicated victim can support a conviction under the lesser, cause-agnostic sexual assault statute, but the single most serious rape charge's own intoxication clause still requires the substance to have been administered without the victim's knowledge." },
+      maritalException: { short: "Reaches multiple tiers of the age-based offense", badge: 'mixed', why: "Marriage is written as a defense into both the standard and more aggravated statutory sexual assault tiers, though it's still confined to that age-based statute and doesn't reach forcible or incapacity-based rape." },
+      solCriminal: { short: "Just 12 years for adults; until age 50 for minors", badge: 'mixed', why: "A strong window for survivors who were minors at the time contrasts with a comparatively short 12-year deadline for an adult victim." },
+      solCivil: { short: "Until age 55 for child survivors", badge: 'good', why: "One of the more generous civil windows found in this research, with a separate age-30 cutoff for abuse suffered as a young adult between 18 and 24." }
+    }
   }
 };
 
-const STATE_ORDER = ['CO','NY','AR','AK','DC','UT','OR','MD','VT','MN','WY','WA','NH','VA','AZ','NE','ME','NM','MO','OH','DE','TN','RI','MT','KS','ID','NC','LA','GA','IN','KY','SC','WV','NV','AL','MI','WI','IL','OK','CA'];
+const STATE_ORDER = ['CO','NY','AR','AK','DC','UT','OR','MD','VT','MN','WY','WA','NH','VA','AZ','NE','ME','NM','MO','OH','DE','TN','RI','MT','KS','ID','NC','LA','GA','IN','KY','SC','WV','NV','AL','MI','WI','IL','OK','CA','FL','SD','CT','PA'];
 
 /* ---------------- routing ---------------- */
 let currentView = 'map';
