@@ -166,7 +166,7 @@
   .state-shape {
     stroke: var(--bg); stroke-width: 1.5; cursor: pointer;
     transform-box: fill-box; transform-origin: center;
-    transition: filter 0.15s ease, opacity 0.12s ease, transform 0.18s cubic-bezier(.22,.9,.32,1.3);
+    transition: filter 0.15s ease, opacity 0.12s ease, transform 0.15s ease-out;
     outline: none;
     touch-action: manipulation; -webkit-tap-highlight-color: transparent;
   }
@@ -509,22 +509,18 @@ function renderMap() {
   });
   shapes += dcShape;
 
-  /* ---- hover "pop": each state nudges a few units away from the map's
-     center, plus a slight scale and drop shadow. Tiny Northeast states
-     (on the callout rail) get a smaller nudge so they don't jump out of
-     alignment with their leader line. */
-  const [vbMinX, vbMinY, vbW, vbH] = MAP_DATA.viewBox.split(' ').map(Number);
-  const mapCenterX = vbMinX + vbW / 2, mapCenterY = vbMinY + vbH / 2;
+  /* ---- hover highlight: a small in-place scale (anchored on the shape's
+     own center via fill-box, no directional translate) plus a drop shadow.
+     An earlier version also translated each shape outward and reordered it
+     to the front of the paint order on hover; both were removed because a
+     directional translate can slide the shape out from under a stationary
+     cursor before a click registers, and reordering mid-hover can fight
+     with hover detection right on a shared border between two states. */
   let popCSS = '';
   Object.keys(states).forEach(abbr => {
-    const pos = LABEL_POS[abbr];
     const isSmall = !!CALLOUT_POS[abbr];
-    const dist = isSmall ? 3 : 14;
-    const scale = isSmall ? 1.15 : 1.04;
-    const vx = pos.cx - mapCenterX, vy = pos.cy - mapCenterY;
-    const len = Math.hypot(vx, vy) || 1;
-    const dx = (vx / len * dist).toFixed(1), dy = (vy / len * dist).toFixed(1);
-    popCSS += `.state-shape[data-abbr="${abbr}"]:hover,.state-shape[data-abbr="${abbr}"]:focus-visible{transform:translate(${dx}px,${dy}px) scale(${scale});}\n`;
+    const scale = isSmall ? 1.1 : 1.025;
+    popCSS += `.state-shape[data-abbr="${abbr}"]:hover,.state-shape[data-abbr="${abbr}"]:focus-visible{transform:scale(${scale});}\n`;
   });
 
   let labels = '';
@@ -868,9 +864,6 @@ function attachHandlers() {
     tile.addEventListener('pointerup', e => { if (e.pointerType === 'touch' || e.pointerType === 'pen') navigate('state', abbr); });
     tile.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate('state', abbr); } });
     tile.addEventListener('mouseenter', e => {
-      if (tile.parentElement && tile.parentElement.classList.contains('state-shapes')) {
-        tile.parentElement.appendChild(tile);
-      }
       const d = SA_DATA[abbr];
       const fullName = abbr === 'DC' ? 'Washington, D.C.' : (Object.keys(ABBR).find(k => ABBR[k] === abbr) || abbr);
       let html;
