@@ -1793,9 +1793,9 @@ const STATS_TOC = [
     { id: 'stat-csa', label: 'Child sexual abuse', done: true },
     { id: 'stat-race', label: 'By race & ethnicity', done: true },
     { id: 'stat-gender', label: 'By gender', done: true },
-    { id: 'stat-lgbtq', label: 'By sexual orientation & gender identity', done: false },
-    { id: 'stat-disability', label: 'By disability status', done: false },
-    { id: 'stat-affluence', label: 'By socioeconomic status', done: false },
+    { id: 'stat-lgbtq', label: 'By sexual orientation & gender identity', done: true },
+    { id: 'stat-disability', label: 'By disability status', done: true },
+    { id: 'stat-affluence', label: 'By socioeconomic status', done: true },
   ]},
   { group: 'Where & In What Context', items: [
     { id: 'stat-campus', label: 'College campuses', done: true },
@@ -1848,7 +1848,7 @@ function renderNational() {
     <div class="hero">
       <div class="eyebrow">National Statistics</div>
       <h2>What the research actually says</h2>
-      <p class="lede">Every number below is cited. Where sources disagree or a stat is contested, that's shown explicitly — not resolved into one clean-sounding figure. The headline numbers here are survey-based (people describing their own experience); the FBI's much smaller police-reported numbers are further down, clearly separated. Sections marked "coming" in the table of contents are planned but not yet researched — they're listed up front so you can see the full shape of what this page will cover.</p>
+      <p class="lede">Every number below is cited. Where sources disagree or a stat is contested, that's shown explicitly — not resolved into one clean-sounding figure. The headline numbers here are survey-based (people describing their own experience); the FBI's much smaller police-reported numbers are further down, clearly separated. Where we looked for a number and couldn't find a reliable one, that's stated directly as a gap rather than papered over with an approximate figure.</p>
     </div>
 
     ${statsToc()}
@@ -2020,9 +2020,53 @@ function renderNational() {
       <h4 style="font-size:1.05rem;margin-top:30px;">What we don't have yet</h4>
       <div class="methodology-note">Planned but not yet built: a reliable breakdown of female-perpetrator-on-female-victim frequency specifically, and age/race breakdowns within each gender. NISVS's published tables are sparser for these specific cross-tabs than for the categories above — we'd rather wait for a solid source than publish an approximate number.</div>
     </div>
-    ${statPending('stat-lgbtq', 'By sexual orientation & gender identity', 'Planned: prevalence by sexual orientation and gender identity, including trans-specific data. Target sources: NISVS sexual-orientation tables, U.S. Transgender Survey.')}
-    ${statPending('stat-disability', 'By disability status', 'Planned: victimization rate for people with disabilities compared to the general population. Target source: BJS, Crime Against Persons with Disabilities.')}
-    ${statPending('stat-affluence', 'By socioeconomic status', 'Planned: whether income/affluence correlates with reporting likelihood or case outcomes. Target sources: NCVS household-income tables, academic literature.')}
+    <div class="section-block" id="stat-lgbtq">
+      <h3>By sexual orientation &amp; gender identity</h3>
+
+      <h4 style="font-size:1.05rem;">By sexual orientation (NISVS)</h4>
+      <p class="section-sub">This is NISVS's combined "rape, physical violence, or stalking by an intimate partner" lifetime measure, not rape alone — the same combined measure used in the race/ethnicity section above, shown here because it's what CDC published broken out by sexual orientation.</p>
+      <div class="category-grid category-grid-3">
+        <div class="category-card"><h4>Bisexual women</h4><div class="cat-stat">61.1%</div></div>
+        <div class="category-card"><h4>Lesbian women</h4><div class="cat-stat">43.8%</div></div>
+        <div class="category-card"><h4>Heterosexual women</h4><div class="cat-stat">35%</div></div>
+        <div class="category-card"><h4>Bisexual men</h4><div class="cat-stat">37.3%</div></div>
+        <div class="category-card"><h4>Heterosexual men</h4><div class="cat-stat">29%</div></div>
+        <div class="category-card"><h4>Gay men</h4><div class="cat-stat">26%</div></div>
+      </div>
+      <div class="methodology-note">Source: CDC NISVS, 2010 cycle. For rape specifically (not the combined measure): more than 1 in 4 lesbian women, almost half of bisexual women, and over 1 in 4 heterosexual women were raped in their lifetime; about 1 in 4 gay men were raped in their lifetime. Nearly 1 in 3 bisexual women reported their first victimization occurred before age 10. Among women who experienced the combined measure, self-identified lesbians overwhelmingly reported only female perpetrators (67.4%), while bisexual and heterosexual women overwhelmingly reported only male perpetrators (89.5% and 98.7%).</div>
+
+      <h4 style="font-size:1.05rem;margin-top:30px;">Transgender &amp; nonbinary people</h4>
+      <p class="section-sub">NISVS's 2010–2012 sample had only 5 self-identified transgender respondents — too few for a reliable estimate. The best available data instead comes from a dedicated survey of trans and nonbinary people specifically.</p>
+      <div class="stat-row">
+        <div class="stat-tile"><div class="stat-num">47%</div><div class="stat-label">of respondents were sexually assaulted at some point in their lifetime</div><div class="stat-source">U.S. Transgender Survey</div></div>
+        <div class="stat-tile"><div class="stat-num">10%</div><div class="stat-label">were sexually assaulted in just the past year</div><div class="stat-source">U.S. Transgender Survey</div></div>
+      </div>
+      <div class="methodology-note">Source: 2015 U.S. Transgender Survey (Advocates for Trans Equality), the largest survey of trans people in the U.S. Rates were markedly higher within specific subgroups: 53% of Black respondents (lifetime), 72% of respondents who had done sex work, 65% of respondents who had experienced homelessness, and 61% of respondents with disabilities. Among incarcerated respondents specifically, trans respondents reported being sexually assaulted by facility staff over 5 times more often, and by other inmates over 9 times more often, than the general incarcerated population.</div>
+    </div>
+
+    <div class="section-block" id="stat-disability">
+      <h3>By disability status</h3>
+      <div class="stat-row">
+        <div class="stat-tile"><div class="stat-num">4.1</div><div class="stat-label">rapes/sexual assaults per 1,000 persons with a disability, age 12+</div><div class="stat-source">BJS, 2009–2019</div></div>
+        <div class="stat-tile"><div class="stat-num">0.9</div><div class="stat-label">per 1,000 persons without a disability — roughly a 4.6&times; gap</div><div class="stat-source">BJS, 2009–2019</div></div>
+      </div>
+      <div class="methodology-note">Source: BJS, <i>Crime Against Persons with Disabilities, 2009–2019</i>. The gap is even wider for violent victimization overall: 46.2 per 1,000 for persons with disabilities vs. 12.3 per 1,000 for persons without, roughly 4 times higher.</div>
+
+      <h4 style="font-size:1.05rem;margin-top:30px;">Reporting</h4>
+      <div class="methodology-note">Just 19% of rapes/sexual assaults against persons with disabilities were reported to police, compared to 36% for persons without disabilities — victims with disabilities report at roughly half the rate, even though their underlying victimization rate is more than four times higher. Source: BJS.</div>
+    </div>
+
+    <div class="section-block" id="stat-affluence">
+      <h3>By socioeconomic status</h3>
+      <div class="stat-row">
+        <div class="stat-tile"><div class="stat-num">2.2</div><div class="stat-label">rapes/sexual assaults per 1,000 persons in households at or below the federal poverty level</div><div class="stat-source">BJS, 2008–2012</div></div>
+        <div class="stat-tile"><div class="stat-num">0.6</div><div class="stat-label">per 1,000 persons in high-income households — roughly a 3.7&times; gap</div><div class="stat-source">BJS, 2008–2012</div></div>
+      </div>
+      <div class="methodology-note">Source: BJS, <i>Household Poverty and Nonfatal Violent Victimization, 2008–2012</i>. An older NCVS analysis found an even starker gap using raw income brackets rather than the federal poverty line: households earning under $7,500/year had a rape/sexual assault rate 12 times higher than households earning over $75,000. A more recent NCVS breakdown confirms the same direction — households earning $200,000+ had a lower rape/sexual assault rate (0.8 per 1,000) than each of the three lowest income categories, though we did not locate the exact lowest-bracket figure from that more recent dataset to pair with it.</div>
+
+      <h4 style="font-size:1.05rem;margin-top:30px;">Reporting</h4>
+      <div class="methodology-note">Counterintuitively, victims from poor households reported to police slightly <i>more</i> often than victims from high-income households (51% vs. 45%, for violent crime generally) — cutting against a simple assumption that affluence straightforwardly buys better access to the justice system. Source: BJS.</div>
+    </div>
 
     <h2 class="stats-part-heading">III. Where & In What Context</h2>
 
@@ -2252,7 +2296,7 @@ function renderNational() {
     </div>
 
     <div class="source-list">
-      Primary sources used on this page so far: <a href="https://www.cdc.gov/nisvs/media/pdfs/sexualviolence-brief.pdf" target="_blank" rel="noopener">CDC NISVS 2023/2024 Sexual Violence Data Brief</a>, <a href="https://icasa.org/uploads/documents/Stats-and-Facts/NISVS-2016-2017-State-Report-508.pdf" target="_blank" rel="noopener">CDC NISVS 2016/2017 Report</a>, CDC NISVS 2015 cycle, <a href="https://bjs.ojp.gov/document/cv24.pdf" target="_blank" rel="noopener">BJS Criminal Victimization 2024 (NCJ 310547)</a> and prior-year editions (2000, 2008, 2011, 2019), BJS <i>Violence Against Women: Estimates from the Redesigned Survey</i>, <a href="https://acf.gov/sites/default/files/documents/cb/cm2023.pdf" target="_blank" rel="noopener">HHS Child Maltreatment 2023</a>, BJS/NIBRS <i>Sexual Assault of Young Children as Reported to Law Enforcement</i> (NCJ 182990, 2000), Finkelhor &amp; Yllo (1985), Russell (1990), Recalde-Esnoz et al. (2024) DFSA systematic review, Rothbaum et al. (1992), Choudhary, Smith &amp; Bossarte (2012), Kilpatrick, Edmunds &amp; Seymour (1992) <i>Rape in America</i>, Peterson et al. (CDC, 2017) lifetime economic burden of rape, Rebecca Campbell et al. secondary-victimization research, Lisak, Gardinier, Nicksa &amp; Cote (2010), National Sexual Violence Resource Center, Know Your IX / Advocates for Youth, Association of American Universities Campus Climate Survey (2019, 2024), NPR / Center for Public Integrity campus-discipline investigation, <a href="https://bjs.ojp.gov/document/svpri2324.pdf" target="_blank" rel="noopener">BJS Sexual Victimization in Prisons 2023-24</a>, BJS Sexual Victimization in Local Jails 2023-24, DoD SAPRO FY2024 Annual Report, Sensity AI (2019), Thorn (2024), RAINN, CHILD USA. More sources will be added as each planned section above is researched.
+      Primary sources used on this page so far: <a href="https://www.cdc.gov/nisvs/media/pdfs/sexualviolence-brief.pdf" target="_blank" rel="noopener">CDC NISVS 2023/2024 Sexual Violence Data Brief</a>, <a href="https://icasa.org/uploads/documents/Stats-and-Facts/NISVS-2016-2017-State-Report-508.pdf" target="_blank" rel="noopener">CDC NISVS 2016/2017 Report</a>, CDC NISVS 2015 cycle, <a href="https://bjs.ojp.gov/document/cv24.pdf" target="_blank" rel="noopener">BJS Criminal Victimization 2024 (NCJ 310547)</a> and prior-year editions (2000, 2008, 2011, 2019), BJS <i>Violence Against Women: Estimates from the Redesigned Survey</i>, <a href="https://acf.gov/sites/default/files/documents/cb/cm2023.pdf" target="_blank" rel="noopener">HHS Child Maltreatment 2023</a>, BJS/NIBRS <i>Sexual Assault of Young Children as Reported to Law Enforcement</i> (NCJ 182990, 2000), Finkelhor &amp; Yllo (1985), Russell (1990), Recalde-Esnoz et al. (2024) DFSA systematic review, Rothbaum et al. (1992), Choudhary, Smith &amp; Bossarte (2012), Kilpatrick, Edmunds &amp; Seymour (1992) <i>Rape in America</i>, Peterson et al. (CDC, 2017) lifetime economic burden of rape, Rebecca Campbell et al. secondary-victimization research, Lisak, Gardinier, Nicksa &amp; Cote (2010), National Sexual Violence Resource Center, Know Your IX / Advocates for Youth, Association of American Universities Campus Climate Survey (2019, 2024), NPR / Center for Public Integrity campus-discipline investigation, <a href="https://bjs.ojp.gov/document/svpri2324.pdf" target="_blank" rel="noopener">BJS Sexual Victimization in Prisons 2023-24</a>, BJS Sexual Victimization in Local Jails 2023-24, DoD SAPRO FY2024 Annual Report, Sensity AI (2019), Thorn (2024), 2015 U.S. Transgender Survey (Advocates for Trans Equality), BJS <i>Crime Against Persons with Disabilities, 2009–2019</i>, BJS <i>Household Poverty and Nonfatal Violent Victimization, 2008–2012</i>, RAINN, CHILD USA.
     </div>
   `;
 }
