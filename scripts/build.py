@@ -41,12 +41,12 @@ def state_paths_literal():
     return json.dumps(data, separators=(",", ":"))
 
 
-def state_trend_literal():
+def _state_year_literal(csv_path, value_col):
     by_state = {}
-    with open(ROOT / "data/fbi_cde_state_rape_trend_2014_2023.csv", newline="") as f:
+    with open(ROOT / csv_path, newline="") as f:
         for row in csv.DictReader(f):
             by_state.setdefault(row["state_abbr"], []).append(
-                {"year": int(row["year"]), "v": float(row["rate_per_100k"])}
+                {"year": int(row["year"]), "v": float(row[value_col])}
             )
     parts = []
     for abbr, pts in by_state.items():
@@ -54,6 +54,14 @@ def state_trend_literal():
         pts_lit = ",".join(f"{{year:{p['year']},v:{p['v']}}}" for p in pts)
         parts.append(f"{abbr}:[{pts_lit}]")
     return "{" + ",".join(parts) + "}"
+
+
+def state_trend_literal():
+    return _state_year_literal("data/fbi_cde_state_rape_trend_2014_2023.csv", "rate_per_100k")
+
+
+def state_clearance_literal():
+    return _state_year_literal("data/fbi_cde_state_rape_clearance_2014_2023.csv", "clearance_rate_pct")
 
 
 def main():
@@ -66,8 +74,9 @@ def main():
         .replace("__SA_STATE_DATA__", sa_state_data_literal())
         .replace("__STATE_PATHS__", state_paths_literal())
         .replace("__STATE_TREND_DATA__", state_trend_literal())
+        .replace("__STATE_CLEARANCE_DATA__", state_clearance_literal())
     )
-    remaining = [tok for tok in ("__FRAUNCES_B64__", "__PUBLICSANS_B64__", "__RANKS_DATA__", "__SA_STATE_DATA__", "__STATE_PATHS__", "__STATE_TREND_DATA__") if tok in out]
+    remaining = [tok for tok in ("__FRAUNCES_B64__", "__PUBLICSANS_B64__", "__RANKS_DATA__", "__SA_STATE_DATA__", "__STATE_PATHS__", "__STATE_TREND_DATA__", "__STATE_CLEARANCE_DATA__") if tok in out]
     if remaining:
         raise SystemExit(f"Unsubstituted placeholders remain: {remaining}")
 
