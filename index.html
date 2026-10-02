@@ -1132,10 +1132,48 @@ const LEGAL = {
       solCriminal: { short: "No limit, ever", badge: 'good', why: "Criminal sexual assault and aggravated sexual abuse carry no statute of limitations at all." },
       solCivil: { short: "20 years from age 18, or later if discovery was delayed", badge: 'good', why: "One of the longer civil windows found in this research, with a discovery-based extension on top of an already generous baseline." }
     }
+  },
+  OK: {
+    name: 'Oklahoma',
+    verified: '2026-10-09',
+    consent: "Rape is defined around a list of circumstances — force, coercion, threats, age, intoxication, unconsciousness, or mental incapacity — rather than a standalone affirmative-consent requirement.",
+    incapacitation: "Oklahoma splits incapacity into two different standards. A victim incapable of consent due to mental illness or \"any other unsoundness of mind\" is covered regardless of cause. But the specific intoxication provision only covers a victim drugged by \"a narcotic or anesthetic agent, administered by or with the privity of the accused\" — the same administered-without-consent gap this project has flagged in other states' statutes, and the one most likely to come up in an ordinary voluntary-intoxication scenario.",
+    ageOfConsent: "16, though a conviction based on age alone is blocked if the other person is 16 or 17 and the offender isn't more than 4 years older. A separate close-in-age provision also shields consensual activity between two minors who are both at least 14 and within 4 years of each other.",
+    maritalException: "Oklahoma's rape statute has historically treated spousal rape separately and more narrowly — requiring actual force or violence, where the general definition also reaches incapacity and unconsciousness. Recent statutory language is reported to have folded spousal rape back into the general definition, but this project could not fully confirm the current scope of that change against primary text, so it's flagged here rather than assumed fixed.",
+    solCriminal: "No limit, ever, for rape or forcible sodomy where the victim was a minor, and no limit either whenever DNA evidence is collected and the crime was reported within 12 years. For an adult victim without that DNA path, 20 years from discovery of the crime. Other child sex crimes are capped at the victim's 45th birthday.",
+    solCivil: "Until the survivor turns 45 — one of the more generous child-victim windows found in this research. But if the abuser was employed by an institution that owed the victim a duty of care, a claim against that employer or institution specifically must be filed within just 2 years, a much narrower window that applies only to that institutional-liability claim.",
+    citation: "21 O.S. §§ 1111, 1112, 22 O.S. § 152, 12 O.S. § 95 (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "16 (defense if partner 16–17 & offender ≤4 yrs older; separate exception for two minors 14+ within 4 yrs)",
+    rating: {
+      consent: { short: "Circumstance-based, not affirmative", badge: 'mixed', why: "Built around force, coercion, age, intoxication, and mental incapacity circumstances rather than a standalone affirmative-consent requirement." },
+      incapacitation: { short: "Intoxication prong excludes voluntary intoxication", badge: 'concerning', why: "The mental-illness category is cause-agnostic, but the specific intoxication provision only covers a substance administered by or with the privity of the accused — the scenario most likely to come up day to day falls outside it." },
+      maritalException: { short: "Historically narrower for spousal rape; recent fix unconfirmed", badge: 'concerning', why: "Spousal rape was historically defined more narrowly than general rape, and this project couldn't confirm against primary text that a reported recent change fully closed that gap." },
+      solCriminal: { short: "No limit for minors or DNA-match cases; 20 years otherwise", badge: 'mixed', why: "Prosecution is unlimited in time for a minor victim or whenever DNA evidence is preserved and timely reported, but an adult victim without that DNA path still faces a 20-year cutoff." },
+      solCivil: { short: "Until age 45, but just 2 years for institutional liability", badge: 'mixed', why: "A generous window for suing the abuser directly is undercut by a much shorter 2-year deadline specifically for claims against an employer or institution that owed the victim a duty of care." }
+    }
+  },
+  CA: {
+    name: 'California',
+    verified: '2026-10-09',
+    consent: "Defined in genuinely affirmative terms — a voluntary, freely given agreement — and the law is explicit that a lack of resistance doesn't imply consent.",
+    incapacitation: "Broad and cause-agnostic: covers a victim who is unable to resist or comprehend the act because of alcohol, drugs, or any other intoxicating substance, as long as the accused knew or reasonably should have known about that condition. Nothing requires anyone else to have caused or administered the intoxicant.",
+    ageOfConsent: "18. California doesn't have a close-in-age exemption that removes the offense entirely, but a gap of less than 3 years between the parties reduces the charge to a misdemeanor rather than a felony.",
+    maritalException: "Statutory rape is defined as intercourse with someone under 18 \"who is not the spouse of the perpetrator\" — a complete defense if the parties are legally married, regardless of the minor's age. This carve-out is scoped to that one age-based statute and doesn't reach forcible or incapacity-based rape.",
+    solCriminal: "No limit, ever, for rape committed on or after January 1, 2017, and that same unlimited rule was applied retroactively to any older case that hadn't already timed out as of that date. Only cases that were already time-barred before 2017 remain closed.",
+    solCivil: "No limit, ever, for childhood sexual abuse occurring on or after January 1, 2024. For abuse before that date: until the survivor's 40th birthday, or 5 years from discovering the abuse caused their injury, whichever is later — itself a substantial expansion from a much narrower rule (age 26, 3-year discovery window) that applied before 2019 reform.",
+    citation: "Cal. Penal Code §§ 261, 261.5, 263.1, 799, Code Civ. Proc. § 340.1 (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "18 (misdemeanor, not full exception, for partners <3 yrs apart)",
+    rating: {
+      consent: { short: "Genuinely affirmative", badge: 'good', why: "Defines consent as a voluntary, freely given agreement, and is explicit that a lack of resistance doesn't substitute for it." },
+      incapacitation: { short: "Broad, explicitly cause-agnostic", badge: 'good', why: "Covers any intoxicant that leaves the victim unable to resist or comprehend the act, as long as the accused knew or should have known — it doesn't matter who caused it." },
+      maritalException: { short: "Complete defense, but scoped to one statute", badge: 'mixed', why: "Marriage is a full defense to the age-based statutory rape charge regardless of the minor's age, but the carve-out doesn't reach forcible or incapacity-based rape." },
+      solCriminal: { short: "No limit, ever, for current and most past cases", badge: 'good', why: "Rape committed from 2017 onward carries no deadline at all, and that rule was also applied retroactively to older cases that hadn't already expired." },
+      solCivil: { short: "No limit for recent abuse; strong age-40-plus rule otherwise", badge: 'good', why: "Abuse from 2024 onward has no filing deadline at all, and abuse before that date can still be filed until the survivor turns 40 or 5 years after discovery, whichever is later." }
+    }
   }
 };
 
-const STATE_ORDER = ['CO','NY','AR','AK','DC','UT','OR','MD','VT','MN','WY','WA','NH','VA','AZ','NE','ME','NM','MO','OH','DE','TN','RI','MT','KS','ID','NC','LA','GA','IN','KY','SC','WV','NV','AL','MI','WI','IL'];
+const STATE_ORDER = ['CO','NY','AR','AK','DC','UT','OR','MD','VT','MN','WY','WA','NH','VA','AZ','NE','ME','NM','MO','OH','DE','TN','RI','MT','KS','ID','NC','LA','GA','IN','KY','SC','WV','NV','AL','MI','WI','IL','OK','CA'];
 
 /* ---------------- routing ---------------- */
 let currentView = 'map';
