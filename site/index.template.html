@@ -413,7 +413,7 @@ const LEGAL = {
     citation: "C.R.S. § 18-3-401 et seq. (draft citation — pending verification against the current codified statute text)",
     ageOfConsentShort: "17 (close-in-age exceptions to 15)",
     rating: {
-      consent: { short: "Free-will cooperation + knowledge of the act", badge: 'mixed', why: "Requires voluntary cooperation and knowledge of the act, but — unlike Alaska's standard — doesn't explicitly require consent to be positively expressed. More protective than a pure force-based standard, less protective than an explicit affirmative-consent one." },
+      consent: { short: "Free-will cooperation + knowledge of the act", badge: 'mixed', why: "Requires voluntary cooperation and knowledge of the act, but doesn't explicitly require consent to be positively expressed. More protective than a pure force-based standard, less protective than an explicit affirmative-consent requirement." },
       incapacitation: { short: "Broad: alcohol, drugs, sleep, illness, disability", badge: 'good', why: "Broad: alcohol, drugs, sleep, illness, or disability all qualify, and unconsciousness is explicitly covered. Doesn't hinge on proving a substance was given without consent." },
       maritalException: { short: "Not yet researched", badge: null, why: "Not yet researched for Colorado — no finding either way." },
       solCriminal: { short: "No limit (minors / DNA cases); 20 yrs otherwise", badge: 'good', why: "No deadline at all for cases involving minors or DNA identification — among the strongest protections for delayed disclosure, which is the norm, not the exception, for sexual assault." },
@@ -442,7 +442,7 @@ const LEGAL = {
     name: 'Arkansas',
     verified: '2026-10-01',
     consent: "Arkansas law frames this around lack of consent: a sexual act is unlawful if accomplished by forcible compulsion, or with a person incapable of consent because they are physically helpless, mentally defective, mentally incapacitated, or because of their age.",
-    incapacitation: "“Mentally incapacitated” is specifically defined as temporarily unable to appreciate or control one's conduct due to a substance administered without the person's consent, or that renders them unaware a sexual act is occurring. This phrasing reads narrower than Colorado's or New York's — it centers on a substance given without consent, which raises real open questions about how voluntary intoxication is treated under this specific statutory language. This needs a careful primary-source read, not an assumption either way.",
+    incapacitation: "“Mentally incapacitated” is specifically defined as temporarily unable to appreciate or control one's conduct due to a substance administered without the person's consent, or that renders them unaware a sexual act is occurring. This phrasing centers on a substance given without consent, which raises real open questions about how voluntary intoxication — with no one else administering anything — is treated under this specific statutory language. This needs a careful primary-source read, not an assumption either way.",
     ageOfConsent: "16, generally. A person under 14 cannot consent to a partner more than 3 years older. The age of consent rises to 18 or 21 if the other person holds a position of trust or authority.",
     solCriminal: "No limit for first-degree offenses, and no limit for the rape or sexual assault of a minor. 3 years for second- and third-degree offenses.",
     solCivil: "3 years from the incident (or from discovery, for minors). The 2021 Childhood Sexual Abuse Victims Act (Act 1036) opened a revival window letting childhood sexual abuse survivors file at any age — secondary sources describe this window as running “until 2026,” which needs direct confirmation of the exact closing mechanics before being treated as current fact.",
@@ -450,7 +450,7 @@ const LEGAL = {
     ageOfConsentShort: "16 generally (narrower under-14 exception)",
     rating: {
       consent: { short: "Forcible compulsion or incapacity-based", badge: 'concerning', why: "Centers on forcible compulsion or incapacity rather than requiring an affirmative \"yes\" — places more of the burden on proving force or incapacity happened, rather than on the absence of consent itself." },
-      incapacitation: { short: "Substance given w/o consent (narrow wording)", badge: 'concerning', why: "The statute's phrasing centers on a substance \"administered without the person's consent\" — narrower wording than Colorado's or New York's, that on its face raises a real question about how voluntary intoxication is treated. Flagged, not confirmed: this specific reading needs a primary-source verification pass before being treated as settled." },
+      incapacitation: { short: "Substance given w/o consent (narrow wording)", badge: 'concerning', why: "The statute's phrasing centers on a substance \"administered without the person's consent\" — narrow wording that, on its face, raises a real question about how voluntary intoxication (no one else administering anything) is treated. Flagged, not confirmed: this specific reading needs a primary-source verification pass before being treated as settled." },
       maritalException: { short: "Not yet researched", badge: null, why: "Not yet researched for Arkansas — no finding either way." },
       solCriminal: { short: "No limit (1st-degree / minors); 3 yrs otherwise", badge: 'mixed', why: "No deadline for first-degree offenses or crimes against minors — strong. But second- and third-degree offenses, which are still serious sexual assault charges, face just a 3-year window." },
       solCivil: { short: "3 yrs; CSA revival window — confirm 2026 status", badge: 'mixed', why: "The general rule is a short 3 years. A 2021 revival law (Act 1036) lets childhood sexual abuse survivors file at any age — a real, meaningful protection — but secondary sources describe that window as running \"until 2026.\" Given where we are on the calendar right now, this needs an urgent confirmation of the exact closing date, not a later one." }
@@ -550,10 +550,86 @@ const LEGAL = {
       solCriminal: { short: "No limit (all felony-level offenses)", badge: 'good', why: "Covers first- and second-degree rape and first- through third-degree sexual offense — every felony tier. Only the lowest misdemeanor level carries any deadline." },
       solCivil: { short: "No limit + revival (child); 3 yrs (adult)", badge: 'mixed', why: "About as strong as it gets for a childhood survivor, including reviving already-expired claims — but an adult survivor gets only the general 3-year window, a real gap." }
     }
+  },
+  VT: {
+    name: 'Vermont',
+    verified: '2026-10-01',
+    consent: "Vermont defines consent as \"the affirmative, unambiguous, and voluntary agreement to engage in a sexual act,\" which can be revoked at any time — one of the clearest affirmative standards researched so far.",
+    incapacitation: "Covers a victim known to be mentally incapable of understanding the act, physically incapable of resisting or declining consent, unaware a sexual act is being committed, or mentally incapable of resisting due to a mental condition or psychiatric or developmental disability. A sleeping or unconscious person cannot consent. This list doesn't separately name voluntary alcohol or drug intoxication the way some states' statutes do explicitly — it's not clear from this text alone whether that falls under one of these categories or is addressed elsewhere.",
+    ageOfConsent: "16 generally, with a close-in-age exception for 15–18 year olds, and protection extended to 18 where the other person is 4 or more years older and in a position of power, authority, or supervision.",
+    maritalException: "Unclear and needs direct verification. Secondary sources describe a marriage-based defense specific to Vermont's statutory rape (age-of-consent) provisions — not the general sexual assault statute, whose \"without consent\" circumstances show no marital carve-out. This distinction matters and hasn't been confirmed against the primary statute text yet.",
+    solCriminal: "No limit, ever, for aggravated sexual assault, including against a child. For sexual assault (non-aggravated) against a victim under 18, the limit is 40 years. The limitations period for non-aggravated sexual assault against an adult victim specifically wasn't confirmed in this research pass.",
+    solCivil: "No limit, ever, for a childhood sexual abuse claim — Vermont was the first state in the country to eliminate this deadline, in 2019, and did so retroactively for past abuse. For an adult survivor, the general 3-year rule applies — a real gap.",
+    citation: "13 V.S.A. §§ 3251 et seq., 3252, 3253, 3254, 4501, 12 V.S.A. § 522 (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "16 (close-in-age exception, 15–18)",
+    rating: {
+      consent: { short: "Explicit affirmative, revocable at any time", badge: 'good', why: "Requires \"affirmative, unambiguous, and voluntary agreement\" and explicitly states it can be revoked at any time — one of the clearest standards researched so far." },
+      incapacitation: { short: "Broad list; voluntary intoxication not explicit", badge: 'good', why: "Covers inability to understand or resist, unawareness, and unconsciousness through several defined circumstances — broad, though voluntary intoxication isn't named as its own explicit category the way it is in some states' statutes." },
+      maritalException: { short: "Unclear — needs verification", badge: null, why: "A marriage-based defense may exist specifically for the age-of-consent (statutory rape) context, but the general sexual assault consent statute shows no marital carve-out. The exact scope hasn't been confirmed yet." },
+      solCriminal: { short: "No limit (aggravated); 40 yrs (minor victim)", badge: 'good', why: "No deadline at all for aggravated sexual assault. A 40-year window applies for sexual assault against a victim under 18; the rule for a non-aggravated offense against an adult wasn't confirmed in this pass." },
+      solCivil: { short: "No limit, retroactive (child); 3 yrs (adult)", badge: 'mixed', why: "Vermont was the first state in the country to eliminate the civil deadline for childhood sexual abuse, in 2019, and applied it retroactively — but an adult survivor still faces the general 3-year window." }
+    }
+  },
+  MN: {
+    name: 'Minnesota',
+    verified: '2026-10-01',
+    consent: "Minnesota defines consent as \"words or overt actions... indicating a freely given present agreement\" to a particular sexual act — an explicit affirmative standard. The statute specifically states that a prior or current relationship, or a failure to resist, does not establish consent.",
+    incapacitation: "\"Mentally incapacitated\" now covers both a substance administered without the person's agreement, and — separately — being under the influence of any substance to a degree that leaves someone incapable of consenting or of understanding and controlling their own conduct. That second, broader prong was added after a 2021 state supreme court ruling found the old definition didn't cover voluntary intoxication at all, overturning a rape conviction; the legislature closed the gap within months. \"Physically helpless\" separately covers being asleep, unconscious, or otherwise unable to communicate nonconsent.",
+    ageOfConsent: "16 generally. For 14- and 15-year-olds, the law protects against a partner who is roughly 2 to 3 years older or more, with the exact threshold depending on the specific offense charged.",
+    maritalException: "None, as of 2019. Until then, a \"voluntary relationship\" defense meant a legal spouse — or even a cohabiting, ongoing sexual partner who wasn't a spouse at all — couldn't be charged with criminal sexual conduct. It was repealed by unanimous vote in the state Senate after survivor Jenny Teeson's case became national news: she was drugged, raped, and recorded by her then-husband, and prosecutors said the case couldn't proceed because of this exact exception.",
+    solCriminal: "No limit, ever, for first- through fourth-degree criminal sexual conduct — every felony tier.",
+    solCivil: "No limit for a childhood sexual abuse claim, for abuse occurring after 2013. 6 years for an adult survivor.",
+    citation: "Minn. Stat. §§ 609.341, 609.342–.345, 609.349 (repealed 2019), 541.073 (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "16 (14–15: ~2–3 yr gap threshold, by offense)",
+    rating: {
+      consent: { short: "Explicit affirmative — \"freely given present agreement\"", badge: 'good', why: "Requires words or overt actions showing present, freely given agreement, and explicitly rejects relationship history or failure to resist as proof of consent." },
+      incapacitation: { short: "Broad after 2021 reform (closed a real gap)", badge: 'good', why: "Now clearly covers voluntary intoxication, not just substances given by someone else — a real gap that a state supreme court identified in 2021 (overturning a conviction) and the legislature closed within months. Worth knowing this is recent." },
+      maritalException: { short: "None (repealed 2019, after a national case)", badge: 'good', why: "Repealed unanimously after a case where a survivor's own account of being drugged and recorded by her husband still couldn't be prosecuted under the old \"voluntary relationship\" defense — which covered more than just marriage." },
+      solCriminal: { short: "No limit (all 4 felony degrees)", badge: 'good', why: "Covers first- through fourth-degree criminal sexual conduct — every felony tier, with no deadline at all." },
+      solCivil: { short: "No limit (child, post-2013); 6 yrs (adult)", badge: 'mixed', why: "Strong for a childhood survivor of abuse after 2013 — but an adult survivor faces a 6-year window, a real gap." }
+    }
+  },
+  WY: {
+    name: 'Wyoming',
+    verified: '2026-10-01',
+    consent: "Wyoming's sexual assault statutes are built around specific circumstances that make an act unlawful — physical force, threat, or (for first-degree) the victim's incapacity due to mental illness, deficiency, or developmental disability — rather than a standalone affirmative-consent requirement.",
+    incapacitation: "Second-degree sexual assault covers a victim who is physically helpless (unconscious, asleep, or otherwise unable to communicate unwillingness), and separately covers a substance administered to the victim without their prior knowledge or consent. That drugging-based circumstance centers on the substance being given without consent — it's not clear from this text how straightforward voluntary intoxication, with no one else administering anything, is treated.",
+    ageOfConsent: "17, with no close-in-age exception — two minors who are both under 17 can technically both be charged with the same offense.",
+    maritalException: "Largely closed. Wyoming law explicitly states that marriage between the actor and victim \"is not by itself a defense\" to the core force-based and incapacity-based circumstances of first- and most of second-degree sexual assault. The statute lists specific subsections rather than one blanket rule, so it's worth confirming it reaches every scenario, but the central protections are clearly covered.",
+    solCriminal: "No limit, ever, for any felony, which includes every degree of sexual assault.",
+    solCivil: "For a childhood sexual abuse claim: the later of 8 years after the survivor's 18th birthday, or 3 years from discovery. For an adult survivor: 4 years. Neither has an unlimited option.",
+    citation: "Wyo. Stat. §§ 6-2-301 et seq., 6-2-302, 6-2-303, 6-2-307, 1-3-105 (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "17, no close-in-age exception",
+    rating: {
+      consent: { short: "Circumstance-based (force/incapacity), not affirmative", badge: 'concerning', why: "Built around proving force, threat, or incapacity due to a mental condition — doesn't center the offense on the absence of an affirmative \"yes.\"" },
+      incapacitation: { short: "Physically helpless broad; drugging narrowly worded", badge: 'mixed', why: "Unconsciousness and inability to communicate unwillingness are clearly covered, but the drugging-based circumstance requires the substance be given \"without the victim's prior knowledge or consent\" — narrow wording that leaves voluntary intoxication's treatment unclear." },
+      maritalException: { short: "Largely closed (explicit non-defense, core charges)", badge: 'good', why: "Marriage is explicitly \"not by itself a defense\" to the core force- and incapacity-based first- and second-degree circumstances, though the statute names specific subsections rather than stating one blanket rule." },
+      solCriminal: { short: "No limit (any felony)", badge: 'good', why: "No deadline at all for felony prosecution, which covers every degree of sexual assault." },
+      solCivil: { short: "8 yrs past 18 or discovery+3 (child); 4 yrs (adult)", badge: 'mixed', why: "A real, meaningful discovery-based window for a childhood survivor, and a short but not-unusual 4 years for an adult — but neither offers an unlimited option the way several other states researched so far do." }
+    }
+  },
+  WA: {
+    name: 'Washington',
+    verified: '2026-10-01',
+    consent: "Washington defines consent as \"actual words or conduct indicating freely given agreement\" to the act — an explicit affirmative standard.",
+    incapacitation: "\"Mental incapacity\" is defined broadly as any condition preventing understanding of the act's nature or consequences — whether from illness, a defect, the influence of a substance, or any other cause — without requiring that a substance have been given by someone else. \"Physically helpless\" separately covers unconsciousness or inability to communicate unwillingness.",
+    ageOfConsent: "16, with no close-in-age exception — sexual contact with someone younger by anyone 16 or older is prohibited regardless of how close in age the two people are.",
+    maritalException: "None. Washington removed the marital exception for first- and second-degree rape in 1983, then closed the remaining gap for third-degree rape in 2013.",
+    solCriminal: "20 years for first- or second-degree rape (raised from 10 in 2019), 10 years for third-degree rape, and no limit at all for a sex crime against a minor.",
+    solCivil: "For an adult survivor: 20 years for first- or second-degree rape, 10 years for third-degree rape, or 3 years for other sexual abuse. For a childhood sexual abuse claim: no limit at all for abuse occurring on or after June 6, 2024; for abuse before that date, 3 years from the act or from discovery, tolled until the survivor turns 18.",
+    citation: "RCW §§ 9A.44.010, 9A.44.040–.060, 4.16.340, 2019 c 87 (SB 5649) (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "16, no close-in-age exception",
+    rating: {
+      consent: { short: "Explicit affirmative — \"freely given agreement\"", badge: 'good', why: "Requires actual words or conduct showing freely given agreement — an explicit affirmative standard." },
+      incapacitation: { short: "Broad — any cause, including voluntary intoxication", badge: 'good', why: "Defined around the effect (inability to understand the act) rather than the cause, explicitly listing illness, a defect, or the influence of a substance — clearly reaches voluntary intoxication, not just drugging by someone else." },
+      maritalException: { short: "None — fully closed by 2013", badge: 'good', why: "Removed for first- and second-degree rape in 1983, with the remaining gap for third-degree rape closed in 2013." },
+      solCriminal: { short: "20 yrs (1st/2nd); 10 yrs (3rd); no limit (minors)", badge: 'good', why: "A 2019 law raised the adult rape deadline from 10 to 20 years for the two most serious degrees and eliminated it entirely for crimes against minors." },
+      solCivil: { short: "Up to 20 yrs (adult rape); no limit (child, 2024+)", badge: 'good', why: "Unusually generous for an adult rape survivor specifically (20 or 10 years depending on degree), and as of June 2024, no deadline at all for a new childhood sexual abuse claim." }
+    }
   }
 };
 
-const STATE_ORDER = ['CO','NY','AR','AK','DC','UT','OR','MD'];
+const STATE_ORDER = ['CO','NY','AR','AK','DC','UT','OR','MD','VT','MN','WY','WA'];
 
 /* ---------------- routing ---------------- */
 let currentView = 'map';
@@ -791,28 +867,28 @@ function renderState(abbr) {
   if (legal) {
     legalBody = `
       <div class="legal-section">
-        <h3>How consent is defined <span class="draft-badge">Draft</span></h3>
+        <h3>How consent is defined</h3>
         <div class="body-text"><p>${legal.consent}</p></div>
       </div>
       <div class="legal-section">
-        <h3>Incapacitation &amp; intoxication <span class="draft-badge">Draft</span></h3>
+        <h3>Incapacitation &amp; intoxication</h3>
         <div class="body-text"><p>${legal.incapacitation}</p></div>
       </div>
       <div class="legal-section">
-        <h3>Age of consent <span class="draft-badge">Draft</span></h3>
+        <h3>Age of consent</h3>
         <div class="body-text"><p>${legal.ageOfConsent}</p></div>
       </div>
       ${legal.maritalException ? `
       <div class="legal-section">
-        <h3>Marital / spousal exception <span class="draft-badge">Draft</span></h3>
+        <h3>Marital / spousal exception</h3>
         <div class="body-text"><p>${legal.maritalException}</p></div>
       </div>` : ''}
       <div class="legal-section">
-        <h3>Statute of limitations — criminal <span class="draft-badge">Draft</span></h3>
+        <h3>Statute of limitations — criminal</h3>
         <div class="body-text"><p>${legal.solCriminal}</p></div>
       </div>
       <div class="legal-section">
-        <h3>Statute of limitations — civil <span class="draft-badge">Draft</span></h3>
+        <h3>Statute of limitations — civil</h3>
         <div class="body-text"><p>${legal.solCivil}</p>
           <div class="cite">${legal.citation}</div>
           <div class="verify-note">This page's legal content is a research draft and has not yet been verified against ${fullName}'s current codified statute text. Last pulled: ${legal.verified}. Do not treat as a final legal reference — consult a licensed attorney for an actual legal question.</div>
