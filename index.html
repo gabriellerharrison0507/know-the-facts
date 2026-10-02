@@ -1246,10 +1246,86 @@ const LEGAL = {
       solCriminal: { short: "Just 12 years for adults; until age 50 for minors", badge: 'mixed', why: "A strong window for survivors who were minors at the time contrasts with a comparatively short 12-year deadline for an adult victim." },
       solCivil: { short: "Until age 55 for child survivors", badge: 'good', why: "One of the more generous civil windows found in this research, with a separate age-30 cutoff for abuse suffered as a young adult between 18 and 24." }
     }
+  },
+  MA: {
+    name: 'Massachusetts',
+    verified: '2026-10-09',
+    consent: "Massachusetts has no statutory definition of \"consent.\" The rape statute instead turns on whether the defendant compelled the victim to submit by force and against their will, or by threat of bodily injury, or by incapacitation — a circumstance-based structure rather than a standalone affirmative-consent requirement.",
+    incapacitation: "Cause-agnostic: the prosecution must show that intoxication rendered the victim incapable of consent and that the defendant knew or should have known about that condition — nothing requires anyone else to have caused the intoxication, so a voluntarily intoxicated victim is covered.",
+    ageOfConsent: "16, with no close-in-age exception of any kind — the statute doesn't consider the defendant's age or how small the age gap is.",
+    maritalException: "None. The state's highest court eliminated the marital rape exemption in Commonwealth v. Chretien (1981), and the rape statute's own text contains no spousal exception — it applies the same way regardless of marital status.",
+    solCriminal: "15 years for rape of a victim 16 or older. No limit, ever, for rape of a victim under 16 — though after 27 years, the Commonwealth must also produce independent evidence corroborating the victim's account, a meaningful practical hurdle even though the deadline itself never closes.",
+    solCivil: "35 years from the abuse, or 7 years from when the survivor discovered (or reasonably should have discovered) that it caused their harm — whichever gives more time.",
+    citation: "M.G.L. c. 265 §§ 22, 23, c. 277 § 63, c. 260 § 4C (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "16, no close-in-age exception",
+    rating: {
+      consent: { short: "Circumstance-based, not affirmative", badge: 'mixed', why: "Built around force, threat, and incapacitation circumstances rather than a standalone affirmative-consent requirement, since the law has no statutory definition of consent itself." },
+      incapacitation: { short: "Explicitly cause-agnostic", badge: 'good', why: "Covers a voluntarily intoxicated victim as long as the defendant knew or should have known about the incapacity — nobody else needs to have caused it." },
+      maritalException: { short: "None — abolished by the state's highest court", badge: 'good', why: "Commonwealth v. Chretien eliminated the marital rape exemption outright, and the statute's text contains no spousal carve-out of any kind." },
+      solCriminal: { short: "No limit for child victims; 15 years for adults", badge: 'mixed', why: "Rape of a child carries no deadline at all, though a corroboration requirement kicks in after 27 years — but an adult victim's case still faces a 15-year cutoff." },
+      solCivil: { short: "35 years, or 7 years from discovery", badge: 'good', why: "A generous, discovery-aware window — among the longer fixed civil deadlines found in this research." }
+    }
+  },
+  NJ: {
+    name: 'New Jersey',
+    verified: '2026-10-09',
+    consent: "New Jersey's criminal code requires that consent be \"freely and affirmatively given\" — a genuinely affirmative standard, applied within a statute otherwise organized around force, coercion, and incapacity circumstances.",
+    incapacitation: "Broad and cause-agnostic: covers a victim the actor knew or should have known was physically helpless, intellectually or mentally incapacitated, or otherwise unable to understand the sexual nature of the conduct or exercise the right to refuse. State courts have specifically held that extreme voluntary intoxication can render a victim \"temporarily incapable of understanding the nature of her conduct\" under this standard — nothing requires anyone else to have caused it.",
+    ageOfConsent: "16, with a true exemption for 13-to-15-year-olds whose partner is less than 4 years older. Separately, the age of consent effectively rises to 18 when the other person is a guardian, teacher, or someone else in a position of authority over the minor.",
+    maritalException: "None. A dedicated statute provides that no one may claim a sexual assault is exempt from prosecution because the accused and victim were married — in effect since September 1, 1979 — and actors are presumed capable of committing the offense regardless of age, impotence, or marriage to the victim.",
+    solCriminal: "No limit, ever. New Jersey's criminal code allows prosecution for sexual assault to be commenced at any time.",
+    solCivil: "For abuse suffered as a minor: 37 years after the survivor reaches the age of majority, or 7 years from reasonably discovering the injury and its connection to the abuse, whichever is later — one of the longer windows found in this research. For a survivor who was 18 or older at the time: 7 years from that same discovery point.",
+    citation: "N.J.S.A. 2C:14-2, 2C:14-5, 2C:1-6, 2A:14-2a, 2A:61B-1 (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "16 (true exemption for 13–15 w/ partner <4 yrs older; effectively 18 for authority-figure relationships)",
+    rating: {
+      consent: { short: "Genuinely affirmative", badge: 'good', why: "The criminal code requires consent to be \"freely and affirmatively given,\" rather than relying only on the absence of force or resistance." },
+      incapacitation: { short: "Broad, explicitly cause-agnostic", badge: 'good', why: "Covers any incapacity the actor knew or should have known about, and state courts have confirmed that extreme voluntary intoxication qualifies — nobody else needs to have caused it." },
+      maritalException: { short: "None — explicitly ruled out by statute", badge: 'good', why: "A dedicated provision states plainly that marriage to the victim is never a defense to sexual assault, in effect since 1979." },
+      solCriminal: { short: "No limit, ever", badge: 'good', why: "New Jersey imposes no statute of limitations on sexual assault prosecutions." },
+      solCivil: { short: "Until roughly age 55 for minors; 7 years from discovery for adults", badge: 'good', why: "A 37-year post-majority window (extendable further by a discovery rule) is one of the most generous child-victim windows found in this research, and adult survivors still get a discovery-based 7 years rather than a bare few years from the incident." }
+    }
+  },
+  IA: {
+    name: 'Iowa',
+    verified: '2026-10-09',
+    consent: "Sexual abuse is defined around a sex act done by force or against the other person's will, or where the other person is suffering from a mental defect or incapacity that precludes consent — a circumstance-based structure rather than a standalone affirmative-consent requirement.",
+    incapacitation: "\"Mentally incapacitated\" means temporarily unable to appraise or control one's conduct due to the influence of a narcotic, anesthetic, or intoxicating substance — without the administered-without-consent limitation several other states' statutes include. On its face, this is cause-agnostic, covering a voluntarily intoxicated victim as well.",
+    ageOfConsent: "16, with a true exemption for a 14- or 15-year-old victim unless one of four specific conditions applies: living in the same household, a blood or family relationship, a position of authority used to coerce, or an age gap of 4 years or more. A victim who is 12 or 13 is covered without any close-in-age consideration.",
+    maritalException: "A person under 16 may legally consent to a spouse — a narrow carve-out scoped to the age-based offense, consistent with the pattern found in many other states.",
+    solCriminal: "No limit, ever, for sexual abuse against a victim under 18 — eliminated in 2021, when Iowa became the 14th state to do so (previously, victims had only until age 33). For an adult victim: 10 years from the offense, or 3 years from DNA identification of the suspect.",
+    solCivil: "Just 4 years from discovering both the injury and its connection to the abuse, for childhood sexual abuse not discovered until after reaching the age of majority — a short window relative to many other states' multi-decade or discovery-plus-decades combinations.",
+    citation: "Iowa Code §§ 709.1, 709.1A, 709.4, 802.2, 802.2A, 614.8A (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "16 (true exemption for 14–15 absent household/family/authority/4+ yr gap; no exemption for 12–13)",
+    rating: {
+      consent: { short: "Circumstance-based, not affirmative", badge: 'mixed', why: "Built around force, lack of will, and incapacity circumstances rather than a standalone affirmative-consent requirement." },
+      incapacitation: { short: "Cause-agnostic on its face", badge: 'good', why: "The definition covers incapacity from an intoxicating substance without requiring that someone else have administered it without consent." },
+      maritalException: { short: "Narrow, age-based carve-out only", badge: 'mixed', why: "A person under 16 can consent to a spouse, but this carve-out is scoped to the age-based offense specifically." },
+      solCriminal: { short: "No limit for minors; 10 years (or DNA-based) for adults", badge: 'mixed', why: "Minor-victim prosecutions were freed of any deadline in 2021, but an adult victim's case still faces a 10-year cutoff absent a DNA match." },
+      solCivil: { short: "Just 4 years from discovery", badge: 'concerning', why: "A notably short window compared to the multi-decade or decades-plus-discovery combinations several other states provide for childhood abuse discovered in adulthood." }
+    }
+  },
+  MS: {
+    name: 'Mississippi',
+    verified: '2026-10-09',
+    consent: "Sexual battery is defined as sexual penetration of another person without consent, or of a mentally defective, mentally incapacitated, or physically helpless person — a circumstance-based structure rather than a standalone affirmative-consent requirement.",
+    incapacitation: "\"Mentally incapacitated\" is defined narrowly: incapable of knowing or controlling one's conduct, or resisting, due to a drug, narcotic, anesthetic, or other substance \"administered to that person without his or her consent.\" A victim who became intoxicated voluntarily, with no one else drugging them or forcing anything on them, falls outside this specific definition — the same structural gap this project has flagged in other states' statutes.",
+    ageOfConsent: "16 generally (18 in a position-of-authority relationship), with a close-in-age exemption for a gap of less than 36 months, and a separate statutory rape provision reaching a victim under 14 with an offender 2 or more years older.",
+    maritalException: "A person cannot be charged with the statutory rape or sexual battery of their underage spouse, as long as the activity is consensual — a carve-out scoped to consensual activity with an underage spouse rather than reaching forcible or incapacity-based sexual battery generally.",
+    solCriminal: "No limit for sexual battery of a child. Mississippi has also amended its law to state that the passage of time doesn't bar prosecution for sexual battery regardless of the victim's age — though some secondary sources still describe a much shorter 2-year window for an adult victim, and this project could not fully reconcile that discrepancy against primary statute text, so it's flagged here rather than presented as settled.",
+    solCivil: "A general 3-year window, which for a victim who was a minor at the time doesn't start running until they turn 21 (Mississippi's age of majority) — meaning a childhood sexual abuse claim generally must be filed by the survivor's 24th birthday, a short window relative to many other states.",
+    citation: "Miss. Code §§ 97-3-65, 97-3-95, 97-3-97, 97-5-23, 99-1-5, 15-1-49 (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "16 generally, 18 in authority relationships (close-in-age exemption <36 mo. gap; separate under-14 provision, offender ≥2 yrs older)",
+    rating: {
+      consent: { short: "Circumstance-based, not affirmative", badge: 'mixed', why: "Built around lack of consent or a list of incapacity categories rather than a standalone affirmative-consent requirement." },
+      incapacitation: { short: "Excludes voluntary intoxication", badge: 'concerning', why: "The definition only covers a substance administered without the victim's consent — someone who became intoxicated on their own, with no one drugging or forcing anything on them, falls outside it." },
+      maritalException: { short: "Scoped to consensual activity with an underage spouse", badge: 'mixed', why: "The carve-out is limited to consensual conduct with an underage spouse and doesn't reach forcible or incapacity-based sexual battery generally." },
+      solCriminal: { short: "No limit for children; adult-victim rule unclear", badge: 'mixed', why: "Child-victim prosecutions face no deadline, and a legislative amendment reportedly removed the deadline for adult victims too, but this project found conflicting secondary accounts of a shorter window and couldn't resolve them against primary text." },
+      solCivil: { short: "Generally until age 24 for minors", badge: 'concerning', why: "A 3-year window that only starts at age 21 is short relative to the multi-decade windows several other states provide for childhood sexual abuse claims." }
+    }
   }
 };
 
-const STATE_ORDER = ['CO','NY','AR','AK','DC','UT','OR','MD','VT','MN','WY','WA','NH','VA','AZ','NE','ME','NM','MO','OH','DE','TN','RI','MT','KS','ID','NC','LA','GA','IN','KY','SC','WV','NV','AL','MI','WI','IL','OK','CA','FL','SD','CT','PA'];
+const STATE_ORDER = ['CO','NY','AR','AK','DC','UT','OR','MD','VT','MN','WY','WA','NH','VA','AZ','NE','ME','NM','MO','OH','DE','TN','RI','MT','KS','ID','NC','LA','GA','IN','KY','SC','WV','NV','AL','MI','WI','IL','OK','CA','FL','SD','CT','PA','MA','NJ','IA','MS'];
 
 /* ---------------- routing ---------------- */
 let currentView = 'map';
