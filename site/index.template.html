@@ -1085,10 +1085,48 @@ const LEGAL = {
       solCriminal: { short: "No limit for the top charge; victim-age-based caps otherwise", badge: 'mixed', why: "First-degree criminal sexual conduct has no deadline at all, but lesser degrees are capped at 10–15 years or a fixed birthday for the victim, depending on the victim's age." },
       solCivil: { short: "Until age 28, or later if discovery was delayed", badge: 'mixed', why: "A discovery-based extension helps survivors who didn't connect their injury to the abuse right away, but the baseline deadline is still a fixed age rather than open-ended." }
     }
+  },
+  WI: {
+    name: 'Wisconsin',
+    verified: '2026-10-08',
+    consent: "Sexual assault is built around a list of circumstances — force, lack of consent due to unconsciousness or mental impairment, or specific intoxication-based provisions — rather than a standalone affirmative-consent requirement.",
+    incapacitation: "Explicitly covers a victim incapable of consent due to intoxication, as long as the defendant actually knew the person was incapable and intended to have sexual contact or intercourse anyway. This is cause-agnostic — nothing requires anyone else to have caused the intoxication, so a voluntarily intoxicated victim is covered, as long as the defendant's knowledge and intent can be shown.",
+    ageOfConsent: "Effectively 18 for the base consensual-intercourse offense, though a child who has turned 16 but not 18 is covered by a separate, lesser misdemeanor provision rather than the most serious child sexual assault charge. A narrow related provision reduces the charge further when the other party is 15 and the offender hasn't yet turned 19.",
+    maritalException: "Written directly into the 16-to-17-year-old consensual-intercourse provision: that misdemeanor offense applies only if the child \"is not the defendant's spouse.\" This carve-out is scoped to that one age-based tier and doesn't reach the more serious child sexual assault or forcible/incapacity-based sexual assault statutes.",
+    solCriminal: "No limit, ever, for first-degree sexual assault, and no limit either for repeated acts of sexual assault against the same child. Most other sexual assault charges must generally be prosecuted before the victim turns 45 — an unusually high age cap compared to a fixed number of years.",
+    solCivil: "Until the survivor turns 35, for the felony-level child sexual assault offenses this project reviewed.",
+    citation: "Wis. Stat. §§ 940.225, 948.02, 948.09, 948.093, 939.74, 893.587 (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "18 generally (lesser misdemeanor tier for 16–17; narrow reduction for a 15-year-old partner if offender <19)",
+    rating: {
+      consent: { short: "Circumstance-based, not affirmative", badge: 'mixed', why: "Built around force, unconsciousness, and specific intoxication-based circumstances rather than a standalone affirmative-consent requirement." },
+      incapacitation: { short: "Covers voluntary intoxication, with a knowledge requirement", badge: 'good', why: "Cause-agnostic — a voluntarily intoxicated victim is covered as long as the defendant actually knew about the incapacity and intended to act anyway." },
+      maritalException: { short: "Narrow, age-based carve-out only", badge: 'mixed', why: "The marriage carve-out applies only to the lesser 16-to-17-year-old consensual-intercourse offense, not the more serious child sexual assault or forcible/incapacity-based statutes." },
+      solCriminal: { short: "No limit for the top charges; age-45 cap otherwise", badge: 'mixed', why: "First-degree sexual assault and repeated child sexual assault carry no deadline at all, but most other charges are capped at the victim's 45th birthday rather than being truly unlimited." },
+      solCivil: { short: "Until age 35", badge: 'mixed', why: "A generous window relative to many states, but still a hard cutoff rather than an unlimited one." }
+    }
+  },
+  IL: {
+    name: 'Illinois',
+    verified: '2026-10-08',
+    consent: "Illinois defines \"consent\" in explicitly affirmative terms — \"a freely given agreement\" — and backs it up with real supporting rules: lack of resistance doesn't count as consent, how the victim was dressed doesn't count as consent, and consent given to one act can be withdrawn mid-act, making everything after the withdrawal nonconsensual. One of the more complete affirmative-consent frameworks found in this research.",
+    incapacitation: "A person commits criminal sexual assault by penetrating someone they know is \"unable to understand the nature of the act or unable to give knowing consent\" — phrasing that doesn't require anyone else to have caused that inability, unlike the narrower \"administered without consent\" standard several other states use. A separate, more specific provision also covers a perpetrator who deliberately administers an intoxicant to cause unconsciousness.",
+    ageOfConsent: "17 generally. Sexual conduct with a 13-to-16-year-old by someone less than 5 years older is a lesser misdemeanor rather than the felony that otherwise applies — a partial, not full, close-in-age exception.",
+    maritalException: "No marital exception was found — Illinois law provides no marriage-based defense to its age-of-consent offenses, unlike the carve-out many other states give married minors.",
+    solCriminal: "No limit, ever, for criminal sexual assault, aggravated criminal sexual assault, or aggravated criminal sexual abuse — prosecution may begin at any time.",
+    solCivil: "20 years from the survivor's 18th birthday (so, until around age 38), or 20 years from discovering the abuse and the injury's connection to it, whichever is later — one of the longer civil windows this project has found.",
+    citation: "720 ILCS 5/11-1.20, 5/11-1.30, 5/11-1.50, 5/11-1.60, 5/11-1.70, 5/3-6, 735 ILCS 5/13-202.2 (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "17 (misdemeanor, not full exception, for 13–16 w/ partner <5 yrs older)",
+    rating: {
+      consent: { short: "Genuinely affirmative, with supporting rules", badge: 'good', why: "Defines consent as a freely given agreement and backs it with rules that lack of resistance, dress, or an initial yes don't substitute for ongoing agreement." },
+      incapacitation: { short: "Doesn't require someone else to have caused it", badge: 'good', why: "The core standard turns on the victim's inability to understand the act or give knowing consent, not on who or what caused that inability." },
+      maritalException: { short: "None found", badge: 'good', why: "Illinois law provides no marriage-based defense to its age-of-consent offenses, unlike the carve-out many other states give to married minors." },
+      solCriminal: { short: "No limit, ever", badge: 'good', why: "Criminal sexual assault and aggravated sexual abuse carry no statute of limitations at all." },
+      solCivil: { short: "20 years from age 18, or later if discovery was delayed", badge: 'good', why: "One of the longer civil windows found in this research, with a discovery-based extension on top of an already generous baseline." }
+    }
   }
 };
 
-const STATE_ORDER = ['CO','NY','AR','AK','DC','UT','OR','MD','VT','MN','WY','WA','NH','VA','AZ','NE','ME','NM','MO','OH','DE','TN','RI','MT','KS','ID','NC','LA','GA','IN','KY','SC','WV','NV','AL','MI'];
+const STATE_ORDER = ['CO','NY','AR','AK','DC','UT','OR','MD','VT','MN','WY','WA','NH','VA','AZ','NE','ME','NM','MO','OH','DE','TN','RI','MT','KS','ID','NC','LA','GA','IN','KY','SC','WV','NV','AL','MI','WI','IL'];
 
 /* ---------------- routing ---------------- */
 let currentView = 'map';
