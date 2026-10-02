@@ -41,6 +41,21 @@ def state_paths_literal():
     return json.dumps(data, separators=(",", ":"))
 
 
+def state_trend_literal():
+    by_state = {}
+    with open(ROOT / "data/fbi_cde_state_rape_trend_2014_2023.csv", newline="") as f:
+        for row in csv.DictReader(f):
+            by_state.setdefault(row["state_abbr"], []).append(
+                {"year": int(row["year"]), "v": float(row["rate_per_100k"])}
+            )
+    parts = []
+    for abbr, pts in by_state.items():
+        pts.sort(key=lambda p: p["year"])
+        pts_lit = ",".join(f"{{year:{p['year']},v:{p['v']}}}" for p in pts)
+        parts.append(f"{abbr}:[{pts_lit}]")
+    return "{" + ",".join(parts) + "}"
+
+
 def main():
     template = (ROOT / "site/index.template.html").read_text()
     out = (
@@ -50,8 +65,9 @@ def main():
         .replace("__RANKS_DATA__", ranks_data_literal())
         .replace("__SA_STATE_DATA__", sa_state_data_literal())
         .replace("__STATE_PATHS__", state_paths_literal())
+        .replace("__STATE_TREND_DATA__", state_trend_literal())
     )
-    remaining = [tok for tok in ("__FRAUNCES_B64__", "__PUBLICSANS_B64__", "__RANKS_DATA__", "__SA_STATE_DATA__", "__STATE_PATHS__") if tok in out]
+    remaining = [tok for tok in ("__FRAUNCES_B64__", "__PUBLICSANS_B64__", "__RANKS_DATA__", "__SA_STATE_DATA__", "__STATE_PATHS__", "__STATE_TREND_DATA__") if tok in out]
     if remaining:
         raise SystemExit(f"Unsubstituted placeholders remain: {remaining}")
 

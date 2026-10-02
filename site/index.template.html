@@ -458,6 +458,18 @@ const MAX_RANK = Math.max(...RANKS.filter(d=>d.v).map(d=>d.k));
 const RATE_DATA = {};
 RANKS.forEach(d => { RATE_DATA[ABBR[d.n]] = d; });
 
+/* Per-state reported-rape rate, 2014-2023, FBI Crime Data Explorer (NIBRS
+   offense 11A, Rape), state "summarized" endpoint -- monthly rate-per-100k
+   values summed to an annual rate. Pulled via scripts/fetch_cde_trend.py;
+   see data/fbi_cde_state_rape_trend_2014_2023.csv for the raw per-year rows
+   and full source URL. This is a different FBI data pull than the single
+   "2023" headline number above (sourced from BJS's own annual Crime Known
+   to Law Enforcement report) -- the two can differ by a few percent for the
+   same state/year since they aggregate NIBRS submissions slightly
+   differently. Shown here for its year-over-year shape, not as a drop-in
+   replacement for the headline BJS figure. */
+const STATE_TREND = __STATE_TREND_DATA__;
+
 const LEGAL = {
   CO: {
     name: 'Colorado',
@@ -1852,6 +1864,16 @@ function renderState(abbr) {
     </div>
   `;
 
+  const trendBlock = stateTrendChart(abbr, fullName);
+  const trendSection = trendBlock ? `
+    <div class="section-block" style="margin-top:20px;">
+      <h4 style="font-size:1.05rem;">Reported rate over time, 2014–2023</h4>
+      <p class="section-sub">Rapes reported to police per 100,000 people, by year. Hover any bar for its exact value. This is a separate FBI data pull from the single 2023 figure above — the two are usually close but not identical, since they aggregate police submissions slightly differently; read this chart for its year-over-year shape, not as a replacement for the headline number.</p>
+      <div class="chart-card">${trendBlock}</div>
+      <div class="methodology-note">Source: FBI Crime Data Explorer, Rape (NIBRS offense 11A), state-level data, 2014–2023. Some states had incomplete or transitioning NIBRS participation in parts of this span (the FBI's nationwide shift away from the older Summary Reporting System completed in 2021) — treat any sharp single-year jump as a possible reporting-coverage change in that state's agencies, not necessarily a real crime-rate swing.</div>
+    </div>
+  ` : '';
+
   return `
     <button class="back-link" data-nav="map">&larr; Back to map</button>
     <div class="state-head">
@@ -1866,6 +1888,7 @@ function renderState(abbr) {
       <h3>Reported Crime Data <span class="draft-badge" style="background:var(--bg-alt);color:var(--ink-faint);border-color:var(--border);">Secondary</span></h3>
       <p class="section-sub">The numbers above come from a confidential survey. These come from police reports (FBI/BJS) — a different, usually much smaller, measurement. Both are real; they're just answering different questions.</p>
       ${fbiBlock}
+      ${trendSection}
     </div>
   `;
 }
@@ -2469,6 +2492,16 @@ function yearBarChart(pts, opts) {
     ${bars}
     ${labels}
   </svg>`;
+}
+
+function stateTrendChart(abbr, fullName) {
+  const pts = STATE_TREND[abbr];
+  if (!pts || pts.length < 2) return '';
+  const maxV = Math.max(...pts.map(p => p.v)) * 1.15;
+  return yearBarChart(pts, {
+    color: 'var(--accent)', maxV, unitLabel: 'per 100,000',
+    ariaLabel: `Rapes reported to police per 100,000 people in ${fullName}, 2014 to 2023, from FBI Crime Data Explorer. Hover any bar for its year and value.`
+  });
 }
 
 function trendChart() {
