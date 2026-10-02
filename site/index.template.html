@@ -359,7 +359,7 @@ const MAP_VIEWBOX = '174 100 1150 593';
    computed once from the actual path data -- not estimated. A few (MI, FL)
    are nudged slightly off raw bbox-center since their true shape is
    concave/multi-part and the bbox center lands in open water. */
-const LABEL_POS = {"DC":{"cx":975.3,"cy":351.8},"HI":{"cx":505.4,"cy":667.8},"AK":{"cx":287.6,"cy":603.2},"FL":{"cx":917.6,"cy":593.3},"SC":{"cx":928.8,"cy":473.2},"GA":{"cx":886.3,"cy":508.1},"AL":{"cx":823.4,"cy":510.7},"NC":{"cx":951.6,"cy":431.5},"TN":{"cx":825.6,"cy":442.3},"RI":{"cx":1051.9,"cy":271.8},"CT":{"cx":1032.7,"cy":279.9},"MA":{"cx":1048.1,"cy":259.3},"ME":{"cx":1064.9,"cy":182.6},"NH":{"cx":1042.9,"cy":222.1},"VT":{"cx":1020.1,"cy":226.7},"NY":{"cx":981.3,"cy":258.1},"NJ":{"cx":1008.5,"cy":317.1},"PA":{"cx":954.3,"cy":311.1},"DE":{"cx":1001.4,"cy":341.5},"MD":{"cx":971.4,"cy":350.2},"WV":{"cx":915.9,"cy":368.8},"KY":{"cx":840,"cy":403.5},"OH":{"cx":874,"cy":337.3},"MI":{"cx":821.9,"cy":253.7},"WY":{"cx":469.6,"cy":282},"MT":{"cx":448.7,"cy":189},"ID":{"cx":363.3,"cy":234.4},"WA":{"cx":290.3,"cy":149},"TX":{"cx":592.1,"cy":548.3},"CA":{"cx":249.2,"cy":371.6},"AZ":{"cx":372.3,"cy":463.2},"NV":{"cx":308.1,"cy":336.2},"UT":{"cx":390.3,"cy":352.8},"CO":{"cx":492.3,"cy":373.2},"NM":{"cx":471.9,"cy":473.3},"OR":{"cx":269.8,"cy":222.2},"ND":{"cx":587.5,"cy":193.3},"SD":{"cx":587.9,"cy":259},"NE":{"cx":592.1,"cy":323.6},"IA":{"cx":694.9,"cy":312.7},"MS":{"cx":770.9,"cy":516.7},"IN":{"cx":817.5,"cy":353.2},"IL":{"cx":768.5,"cy":354.4},"MN":{"cx":680.7,"cy":218.7},"WI":{"cx":749.2,"cy":254},"MO":{"cx":714.9,"cy":394.1},"AR":{"cx":717.8,"cy":471.1},"OK":{"cx":627.6,"cy":456.9},"KS":{"cx":613.5,"cy":391.6},"LA":{"cx":730.4,"cy":557.1},"VA":{"cx":952.7,"cy":387.4}};
+const LABEL_POS = {"DC":{"cx":975.3,"cy":351.8},"HI":{"cx":505.4,"cy":667.8},"AK":{"cx":287.6,"cy":603.2},"FL":{"cx":924.2,"cy":618.6},"SC":{"cx":928.8,"cy":473.2},"GA":{"cx":886.3,"cy":508.1},"AL":{"cx":823.4,"cy":510.7},"NC":{"cx":951.6,"cy":431.5},"TN":{"cx":825.6,"cy":442.3},"RI":{"cx":1051.9,"cy":271.8},"CT":{"cx":1032.7,"cy":279.9},"MA":{"cx":1048.1,"cy":259.3},"ME":{"cx":1064.9,"cy":182.6},"NH":{"cx":1042.9,"cy":222.1},"VT":{"cx":1020.1,"cy":226.7},"NY":{"cx":981.3,"cy":258.1},"NJ":{"cx":1008.5,"cy":317.1},"PA":{"cx":954.3,"cy":311.1},"DE":{"cx":1001.4,"cy":341.5},"MD":{"cx":971.4,"cy":350.2},"WV":{"cx":915.9,"cy":368.8},"KY":{"cx":840,"cy":403.5},"OH":{"cx":874,"cy":337.3},"MI":{"cx":821.9,"cy":253.7},"WY":{"cx":469.6,"cy":282},"MT":{"cx":448.7,"cy":189},"ID":{"cx":363.3,"cy":234.4},"WA":{"cx":290.3,"cy":149},"TX":{"cx":592.1,"cy":548.3},"CA":{"cx":249.2,"cy":371.6},"AZ":{"cx":372.3,"cy":463.2},"NV":{"cx":308.1,"cy":336.2},"UT":{"cx":390.3,"cy":352.8},"CO":{"cx":492.3,"cy":373.2},"NM":{"cx":471.9,"cy":473.3},"OR":{"cx":269.8,"cy":222.2},"ND":{"cx":587.5,"cy":193.3},"SD":{"cx":587.9,"cy":259},"NE":{"cx":592.1,"cy":323.6},"IA":{"cx":694.9,"cy":312.7},"MS":{"cx":770.9,"cy":516.7},"IN":{"cx":817.5,"cy":353.2},"IL":{"cx":768.5,"cy":354.4},"MN":{"cx":680.7,"cy":218.7},"WI":{"cx":749.2,"cy":254},"MO":{"cx":714.9,"cy":394.1},"AR":{"cx":717.8,"cy":471.1},"OK":{"cx":627.6,"cy":456.9},"KS":{"cx":613.5,"cy":391.6},"LA":{"cx":730.4,"cy":557.1},"VA":{"cx":952.7,"cy":387.4}};
 /* Northeast corridor + DC are too small to hold an inline label --
    callout to a rail with a leader line instead. */
 const CALLOUT_RAIL_X = 1155;
@@ -705,10 +705,86 @@ const LEGAL = {
       solCriminal: { short: "No limit (1st/2nd-degree, any age); 18 mo (3rd, adult)", badge: 'good', why: "No deadline for the two most serious degrees against a victim of any age, or for any degree against a child. The one narrow gap is an 18-month window for third-degree assault of a victim 16 or older." },
       solCivil: { short: "To ~age 33 (child); 4 yrs (adult)", badge: 'mixed', why: "A solid, if not unlimited, window for a childhood survivor — but an adult survivor gets just 4 years." }
     }
+  },
+  ME: {
+    name: 'Maine',
+    verified: '2026-10-01',
+    consent: "Maine added an explicit definition of consent in 2023: \"a word or action by a person that indicates a freely given agreement.\" One of the more recently modernized, clearly affirmative standards researched.",
+    incapacitation: "Consent is invalid when given by someone who, due to intoxication, physical illness, mental illness, mental defect (including dementia and other cognitive impairments), or youth, is manifestly unable — or known by the defendant to be unable — to make a reasonable judgment about the nature or harmfulness of the act. This doesn't distinguish voluntary from involuntary intoxication; the focus is on whether the person was manifestly unable to judge, not on how they got that way.",
+    ageOfConsent: "16 generally, with a close-in-age exception allowing 14- and 15-year-olds to consent to a partner less than 5 years older.",
+    maritalException: "A real, current gap, though its full scope wasn't individually confirmed across every offense. Maine law provides a defense when the defendant and victim are married — confirmed in the text of gross sexual assault's under-12 provision, and described by secondary sources as reaching several other age-based offenses (sexual abuse of a minor, unlawful sexual conduct, sexual touching) as well. A legally separated spouse doesn't count as \"married\" for this defense. Whether this reaches the force- or incapacity-based provisions of the same statutes, rather than only the age-based ones, wasn't individually confirmed.",
+    solCriminal: "No limit, ever, if the victim was under 18 at the time of the offense. 20 years if the victim was 18 or older.",
+    solCivil: "A 2021 law removed the civil deadline entirely for childhood sexual abuse claims, including retroactively for old claims. In January 2025, Maine's highest court ruled that retroactive revival of already-expired claims unconstitutional — so a claim that was already time-barred before 2021 is still barred, but anyone abused after 2000 (or whose claim hadn't yet expired as of 2021) still faces no deadline at all.",
+    citation: "17-A M.R.S. §§ 109, 251, 253, 255-A, 14 M.R.S. § 752-C (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "16 (close-in-age exception, 14–15, <5 yr gap)",
+    rating: {
+      consent: { short: "Explicit affirmative, added 2023", badge: 'good', why: "A modern, explicit \"freely given agreement\" standard, added to the statute as recently as 2023." },
+      incapacitation: { short: "Covers intoxication regardless of cause", badge: 'good', why: "The standard turns on whether the person was manifestly unable to make a reasonable judgment — it doesn't matter whether the intoxication was voluntary or involuntary." },
+      maritalException: { short: "Real gap, confirmed for at least one provision", badge: 'concerning', why: "Confirmed as a defense to at least the under-12 provision of gross sexual assault, and described by secondary sources as reaching several other age-based offenses too. A real, current gap however broad its exact edges turn out to be." },
+      solCriminal: { short: "No limit (minor victim); 20 yrs (adult victim)", badge: 'good', why: "No deadline at all when the victim was a minor; a generous 20-year window when they were an adult." },
+      solCivil: { short: "No limit going forward; revival struck down 2025", badge: 'mixed', why: "Strong for anyone whose claim wasn't already time-barred before 2021 — but Maine's highest court ruled in 2025 that the law can't revive claims that had already expired, leaving some older survivors without recourse despite the 2021 reform." }
+    }
+  },
+  NM: {
+    name: 'New Mexico',
+    verified: '2026-10-01',
+    consent: "New Mexico doesn't define \"consent\" directly; instead it defines \"force or coercion,\" covering physical force or violence, threats, and perpetrating the act when the actor knows or has reason to know the victim is physically helpless or suffers a mental condition preventing understanding. A force/circumstance-based structure rather than a standalone affirmative-consent requirement. Resistance, physical or verbal, is explicitly not required.",
+    incapacitation: "\"Mentally incapacitated\" is defined broadly and without regard to cause: temporarily incapable of appraising or controlling one's conduct, \"whether this condition is produced by illness, defect, the influence of a substance or from some other cause.\" \"Physically helpless\" separately covers unconsciousness, sleep, or inability to communicate unwillingness.",
+    ageOfConsent: "16 generally, with a close-in-age exception for a partner no more than 4 years older when the younger person is at least 13.",
+    maritalException: "A narrow, age-specific gap. New Mexico allows consensual sex between a married minor (age 13–16) and their spouse, despite the age that would otherwise make it statutory rape — the same \"married minor\" pattern seen in several other states, rather than a broad shield for assaulting an adult or incapacitated spouse.",
+    solCriminal: "No limit for a first-degree offense. 6 years for second-degree, 5 years for third- or fourth-degree. For a minor victim, the clock doesn't start until they turn 18 or the offense is reported to police, whichever comes first.",
+    solCivil: "Until the survivor's 24th birthday, or 3 years after first disclosing the abuse to a licensed medical or mental health provider, for a childhood survivor. 3 years from the incident for an adult survivor. Legislation to extend the childhood deadline to age 58, with a revival window, was pending as of this research pass but not yet law.",
+    citation: "N.M. Stat. Ann. §§ 30-9-10, 30-9-11, 30-1-8, 37-1-30 (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "16 (close-in-age exception, <4 yr gap)",
+    rating: {
+      consent: { short: "Force/coercion-based, not affirmative", badge: 'concerning', why: "Built around proving force or coercion rather than requiring an affirmative \"yes\" — though it explicitly doesn't require the victim to have physically or verbally resisted." },
+      incapacitation: { short: "Broad, explicitly cause-agnostic", badge: 'good', why: "The definition explicitly covers incapacity \"from illness, defect, the influence of a substance or from some other cause\" — it doesn't matter how the incapacity came about." },
+      maritalException: { short: "Narrow — married-minor age-of-consent carve-out", badge: 'mixed', why: "A real but narrow gap: a married minor (13-16) can legally consent to their spouse under the age-of-consent provisions specifically." },
+      solCriminal: { short: "No limit (1st-degree); 5–6 yrs (lesser degrees)", badge: 'good', why: "No deadline for the top charge, with a minor victim's clock not starting until 18 or a police report — though lesser-degree offenses carry real, shorter 5-6 year windows." },
+      solCivil: { short: "Age 24 or disclosure+3 (child); 3 yrs (adult)", badge: 'mixed', why: "On the shorter end compared to other states researched — no unlimited option for either a child or adult survivor currently, though legislation to extend this was pending." }
+    }
+  },
+  MO: {
+    name: 'Missouri',
+    verified: '2026-10-01',
+    consent: "Missouri treats consent as something that can be expressed or implied, but invalid if given by someone who lacks the mental capacity to authorize the act, or who — due to youth, mental disease or defect, or intoxication — is manifestly unable or known to be unable to make a reasonable judgment. A capacity/circumstance-based framework rather than a standalone affirmative-consent requirement.",
+    incapacitation: "\"Incapacitated\" covers being unconscious, unable to appraise the nature of one's conduct, or unable to communicate unwillingness — and the broader consent-invalidity standard explicitly names intoxication alongside youth and mental disease or defect, without requiring that someone else caused it.",
+    ageOfConsent: "17 generally, with secondary sources describing a close-in-age allowance for a 14–17 year old and a partner no more than 4 years older; this wasn't independently confirmed against the primary statute text.",
+    maritalException: "A narrow, age-specific gap, described by secondary sources as a \"remnant\" of Missouri's broader former marital exemption: a married minor can legally consent to statutory rape, statutory sodomy, or child molestation charges involving their adult spouse, despite the age gap. Missouri is otherwise described as having full legal parity between marital and non-marital rape.",
+    solCriminal: "No limit, ever, for forcible rape or serious offenses against a minor.",
+    solCivil: "5 years for an adult survivor. For a childhood survivor: until age 31 (10 years past 21), or 3 years from discovering the abuse-related injury, whichever is later.",
+    citation: "Mo. Rev. Stat. §§ 566.010, 566.020, 566.030 (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "17 (close-in-age allowance reported, unconfirmed)",
+    rating: {
+      consent: { short: "Capacity/circumstance-based, not affirmative", badge: 'concerning', why: "Consent can be expressed or implied and is invalidated by specific incapacity circumstances, rather than being built around one standalone affirmative requirement." },
+      incapacitation: { short: "Broad — intoxication named without cause requirement", badge: 'good', why: "Intoxication is named directly alongside youth and mental disease or defect as grounds for invalid consent, without requiring that someone else caused the intoxication." },
+      maritalException: { short: "Narrow — married-minor carve-out (a \"remnant\")", badge: 'mixed', why: "Described by secondary sources as a leftover piece of Missouri's former broader marital exemption, now narrowed to a married-minor statutory rape carve-out specifically." },
+      solCriminal: { short: "No limit (forcible rape, minor victims)", badge: 'good', why: "No deadline for forcible rape or serious offenses against a minor." },
+      solCivil: { short: "5 yrs (adult); to age 31 or discovery+3 (child)", badge: 'mixed', why: "A reasonable, if not unlimited, window for both — no \"no limit\" option found for either a child or adult survivor." }
+    }
+  },
+  OH: {
+    name: 'Ohio',
+    verified: '2026-10-01',
+    consent: "Ohio's rape statute centers on the offender purposely compelling the other person to submit \"by force or threat of force\" — a force-based standard rather than a standalone affirmative-consent requirement. A victim is not required to prove physical resistance.",
+    incapacitation: "Covers a drug or intoxicant administered to the victim surreptitiously, by force, or by deception; a victim under 13; and a victim whose ability to resist or consent is \"substantially impaired\" by a mental or physical condition or advanced age, known or reasonably knowable to the offender. Ohio courts have held this last category can reach voluntary intoxication too — but only where the impairment is substantial, not just \"drunk,\" and the offender knew or should have known about it. Not every person who has sex with a voluntarily intoxicated partner is guilty of rape under this standard; it depends on the degree of impairment and what the offender knew.",
+    ageOfConsent: "16 generally. An adult 18 or older is barred from sexual conduct with someone 13 to 15; the size of the age gap affects how the offense is charged rather than providing a flat close-in-age exemption.",
+    maritalException: "A real, notable gap by omission. Ohio's statute explicitly states that marriage or cohabitation is not a defense to the forcible-compulsion rape charge specifically. It says nothing one way or the other about marriage as a defense to the incapacitation-based or under-13 provisions of the same statute — an ambiguity that stands out against states that closed this gap across every provision, not just the force-based one.",
+    solCriminal: "25 years, extendable by 5 years from a later DNA match if the original window has closed.",
+    solCivil: "Just 1 year for an adult survivor to sue a known abuser — among the shortest windows researched so far — tolled only if the abuser's identity isn't known. For a childhood survivor: until age 30 (12 years past 18), with an extension if the abuse was fraudulently concealed.",
+    citation: "Ohio Rev. Code §§ 2907.01, 2907.02, 2305.111 (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "16 (age-gap affects charge, not a flat exception)",
+    rating: {
+      consent: { short: "Force-based standard", badge: 'concerning', why: "Centers the top charge on the offender compelling submission by force or threat of force, rather than an affirmative-consent requirement." },
+      incapacitation: { short: "Covers voluntary intoxication, if substantial enough", badge: 'mixed', why: "Case law confirms this reaches voluntary intoxication, but only when impairment is substantial and the offender knew or should have known — not every instance of a voluntarily intoxicated partner is covered." },
+      maritalException: { short: "Explicitly closed for force; silent on incapacity/age", badge: 'concerning', why: "The statute only says marriage isn't a defense to the force-based provision. It doesn't say the same for the incapacitation-based or under-13 provisions — a real gap by omission, not an explicit grant, but notable next to states that closed this for every provision." },
+      solCriminal: { short: "25 yrs, +5 from a later DNA match", badge: 'good', why: "A long, generous window, with a further extension if DNA identifies a suspect after the original period closes — not unlimited, but comparable to other states' top-tier protections." },
+      solCivil: { short: "Just 1 yr (adult); to age 30 (child)", badge: 'concerning', why: "One year for an adult survivor is among the shortest adult civil windows researched so far." }
+    }
   }
 };
 
-const STATE_ORDER = ['CO','NY','AR','AK','DC','UT','OR','MD','VT','MN','WY','WA','NH','VA','AZ','NE'];
+const STATE_ORDER = ['CO','NY','AR','AK','DC','UT','OR','MD','VT','MN','WY','WA','NH','VA','AZ','NE','ME','NM','MO','OH'];
 
 /* ---------------- routing ---------------- */
 let currentView = 'map';
@@ -838,7 +914,7 @@ function renderMap() {
 
   return `
     <div class="hero">
-      <div class="eyebrow">50-State Resource &middot; v1: CO, NY, AR in full detail</div>
+      <div class="eyebrow">50-State Resource</div>
       <h2>Sexual assault law and statistics, state by state</h2>
       <p class="lede">Click any state for its legal definitions and survey-based prevalence data. Color reflects the share of <strong>women</strong> in each state who report having experienced some form of sexual assault in their lifetime, from a national survey — not police reports. Men's state-level data is shown too, where the sample was large enough — see each state's page.</p>
     </div>
