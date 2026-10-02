@@ -26,6 +26,9 @@
     --draft-bg: #fcefcb;
     --draft-ink: #6b4e12;
     --draft-border: #e9d08f;
+    --good-bg: #e3f3e6; --good-ink: #1e6b2f; --good-border: #bfe3c5;
+    --concern-bg: #fbe4e1; --concern-ink: #a32e1f; --concern-border: #f0c4bd;
+    --mixed-bg: #fde8d2; --mixed-ink: #935c12; --mixed-border: #f3cd9d;
     --div-1: #1e7a34;
     --div-2: #4a9e4f;
     --div-3: #8fc47a;
@@ -53,6 +56,9 @@
       --draft-bg: #3a3016;
       --draft-ink: #e8c877;
       --draft-border: #5a4a22;
+      --good-bg: #163a22; --good-ink: #7fd99a; --good-border: #2a5c3b;
+      --concern-bg: #3d1f1a; --concern-ink: #f2a08f; --concern-border: #5c2e26;
+      --mixed-bg: #3a2a14; --mixed-ink: #e8b574; --mixed-border: #5c431f;
       --div-1: #3a9452;
       --div-2: #5fb563;
       --div-3: #9dd48c;
@@ -69,6 +75,9 @@
     --bg: #111816; --bg-alt: #19211f; --surface: #1c2422; --ink: #ede8dd; --ink-soft: #a9b3af; --ink-faint: #707b77;
     --border: #2c3734; --accent: #5fbfb0; --accent-ink: #0d1a18; --accent-soft: #1e3a37;
     --draft-bg: #3a3016; --draft-ink: #e8c877; --draft-border: #5a4a22;
+    --good-bg: #163a22; --good-ink: #7fd99a; --good-border: #2a5c3b;
+    --concern-bg: #3d1f1a; --concern-ink: #f2a08f; --concern-border: #5c2e26;
+    --mixed-bg: #3a2a14; --mixed-ink: #e8b574; --mixed-border: #5c431f;
     --div-1: #3a9452; --div-2: #5fb563; --div-3: #9dd48c; --div-4: #f0ca45; --div-5: #f2a35c; --div-6: #e06a3f; --div-7: #e8492f;
     --nodata-fill: #242a27; --nodata-line: #3c433f;
     --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 20px rgba(0,0,0,0.3);
@@ -77,6 +86,9 @@
     --bg: #fbf9f6; --bg-alt: #f3efe8; --surface: #ffffff; --ink: #1b2422; --ink-soft: #52605d; --ink-faint: #8a948f;
     --border: #e3dccb; --accent: #1f5c58; --accent-ink: #ffffff; --accent-soft: #e1efec;
     --draft-bg: #fcefcb; --draft-ink: #6b4e12; --draft-border: #e9d08f;
+    --good-bg: #e3f3e6; --good-ink: #1e6b2f; --good-border: #bfe3c5;
+    --concern-bg: #fbe4e1; --concern-ink: #a32e1f; --concern-border: #f0c4bd;
+    --mixed-bg: #fde8d2; --mixed-ink: #935c12; --mixed-border: #f3cd9d;
     --div-1: #1e7a34; --div-2: #4a9e4f; --div-3: #8fc47a; --div-4: #f0ca45; --div-5: #f0954a; --div-6: #d9522f; --div-7: #b8291c;
     --nodata-fill: #e7e3da; --nodata-line: #c7c1b2;
     --shadow: 0 1px 2px rgba(27,36,34,0.06), 0 4px 16px rgba(27,36,34,0.06);
@@ -245,6 +257,29 @@
   }
   .coming-soon h3 { color: var(--ink); margin-bottom: 8px; }
 
+  .quick-ref { margin-bottom: 40px; }
+  .quick-ref h3 { font-size: 1.2rem; margin-bottom: 6px; }
+  .table-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: 14px; }
+  .rating-table { width: 100%; border-collapse: collapse; background: var(--surface); font-size: 0.9rem; }
+  .rating-table th, .rating-table td { padding: 14px 16px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--border); }
+  .rating-table thead th {
+    font-family: 'Public Sans', sans-serif; font-size: 0.74rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.05em; color: var(--ink-faint); background: var(--bg-alt); white-space: nowrap;
+  }
+  .rating-table tbody th { font-weight: 700; color: var(--ink); white-space: nowrap; }
+  .rating-table tbody tr:last-child td, .rating-table tbody tr:last-child th { border-bottom: none; }
+  .rating-table td:nth-child(2) { max-width: 38ch; color: var(--ink-soft); }
+  .rating-table td:nth-child(3) { min-width: 22ch; }
+  .rating-pill {
+    display: inline-block; font-size: 0.74rem; font-weight: 700; padding: 3px 10px; border-radius: 20px;
+    border: 1px solid; white-space: nowrap;
+  }
+  .rating-good { background: var(--good-bg); color: var(--good-ink); border-color: var(--good-border); }
+  .rating-mixed { background: var(--mixed-bg); color: var(--mixed-ink); border-color: var(--mixed-border); }
+  .rating-concerning { background: var(--concern-bg); color: var(--concern-ink); border-color: var(--concern-border); }
+  .rating-unknown { background: var(--bg-alt); color: var(--ink-faint); border-color: var(--border); }
+  .rating-why { font-size: 0.8rem; color: var(--ink-soft); margin-top: 6px; line-height: 1.4; }
+
   /* ---------- national view ---------- */
   .stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 28px 0 40px; }
   .stat-tile {
@@ -375,7 +410,15 @@ const LEGAL = {
     ageOfConsent: "17, with close-in-age exemptions: 16- and 17-year-olds may consent to partners less than 10 years older; minors under 15 may consent to partners less than 4 years older.",
     solCriminal: "20 years from the date of the assault (or from the victim's 18th birthday, for minors), extended further if DNA evidence identifies a suspect. No statute of limitations at all for child sexual abuse cases — criminal or civil.",
     solCivil: "Eliminated entirely for assaults occurring on or after January 1, 2022. For assaults before that date, 6 years from the date of the assault.",
-    citation: "C.R.S. § 18-3-401 et seq. (draft citation — pending verification against the current codified statute text)"
+    citation: "C.R.S. § 18-3-401 et seq. (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "17 (close-in-age exceptions to 15)",
+    rating: {
+      consent: { short: "Free-will cooperation + knowledge of the act", badge: 'mixed', why: "Requires voluntary cooperation and knowledge of the act, but — unlike Alaska's standard — doesn't explicitly require consent to be positively expressed. More protective than a pure force-based standard, less protective than an explicit affirmative-consent one." },
+      incapacitation: { short: "Broad: alcohol, drugs, sleep, illness, disability", badge: 'good', why: "Broad: alcohol, drugs, sleep, illness, or disability all qualify, and unconsciousness is explicitly covered. Doesn't hinge on proving a substance was given without consent." },
+      maritalException: { short: "Not yet researched", badge: null, why: "Not yet researched for Colorado — no finding either way." },
+      solCriminal: { short: "No limit (minors / DNA cases); 20 yrs otherwise", badge: 'good', why: "No deadline at all for cases involving minors or DNA identification — among the strongest protections for delayed disclosure, which is the norm, not the exception, for sexual assault." },
+      solCivil: { short: "No limit (2022+); 6 yrs for earlier assaults", badge: 'mixed', why: "Fully eliminated going forward (2022+), but assaults before that date are still bound by a 6-year window — a real gap for anyone assaulted earlier who needs more time." }
+    }
   },
   NY: {
     name: 'New York',
@@ -385,7 +428,15 @@ const LEGAL = {
     ageOfConsent: "17. Consent cannot legally be given by anyone younger.",
     solCriminal: "No limit for first-degree rape and other serious sex offenses. 20 years for second-degree rape. 5 years for other felony sex offenses. 2 years for misdemeanor sex offenses.",
     solCivil: "Historically just 3 years. Extended to up to 20 years for certain sexual-abuse offenses (not retroactive). The 2022 Adult Survivors Act opened a one-year window (Nov 2022–Nov 2023) letting adult survivors sue regardless of when the assault occurred — that window has since closed.",
-    citation: "N.Y. Penal Law Art. 130 (draft citation — pending verification against the current codified statute text)"
+    citation: "N.Y. Penal Law Art. 130 (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "17, flat cutoff",
+    rating: {
+      consent: { short: "Forcible compulsion or incapacity-based", badge: 'concerning', why: "The general criminal-law standard centers on forcible compulsion or incapacity, not an affirmative \"yes.\" New York does have a real affirmative-consent standard — but it's a campus Title IX policy, not the general Penal Law. Easy to mistake one for the other." },
+      incapacitation: { short: "Unconsciousness, sleep, restraint, intoxication", badge: 'good', why: "Explicitly covers unconsciousness, sleep, and restraint, scales with degree of intoxication, and explicitly states the perpetrator's own intoxication is no excuse." },
+      maritalException: { short: "Not yet researched", badge: null, why: "Not yet researched for New York — no finding either way." },
+      solCriminal: { short: "No limit (1st-degree); 20 / 5 / 2 yrs by degree", badge: 'good', why: "No deadline for first-degree rape, the most serious charge — though the tiered structure means lesser (but still serious) offenses face real 5- and 2-year limits." },
+      solCivil: { short: "3 yrs generally; revival window closed Nov 2023", badge: 'concerning', why: "The general rule is just 3 years. The 2022 Adult Survivors Act opened a one-year revival window for any survivor regardless of when the assault happened — but that window closed in November 2023. As of now, most survivors outside the small list of extended-SOL offenses are back to the 3-year rule." }
+    }
   },
   AR: {
     name: 'Arkansas',
@@ -395,7 +446,15 @@ const LEGAL = {
     ageOfConsent: "16, generally. A person under 14 cannot consent to a partner more than 3 years older. The age of consent rises to 18 or 21 if the other person holds a position of trust or authority.",
     solCriminal: "No limit for first-degree offenses, and no limit for the rape or sexual assault of a minor. 3 years for second- and third-degree offenses.",
     solCivil: "3 years from the incident (or from discovery, for minors). The 2021 Childhood Sexual Abuse Victims Act (Act 1036) opened a revival window letting childhood sexual abuse survivors file at any age — secondary sources describe this window as running “until 2026,” which needs direct confirmation of the exact closing mechanics before being treated as current fact.",
-    citation: "Ark. Code Ann. § 5-14-101 et seq. (draft citation — pending verification against the current codified statute text)"
+    citation: "Ark. Code Ann. § 5-14-101 et seq. (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "16 generally (narrower under-14 exception)",
+    rating: {
+      consent: { short: "Forcible compulsion or incapacity-based", badge: 'concerning', why: "Centers on forcible compulsion or incapacity rather than requiring an affirmative \"yes\" — places more of the burden on proving force or incapacity happened, rather than on the absence of consent itself." },
+      incapacitation: { short: "Substance given w/o consent (narrow wording)", badge: 'concerning', why: "The statute's phrasing centers on a substance \"administered without the person's consent\" — narrower wording than Colorado's or New York's, that on its face raises a real question about how voluntary intoxication is treated. Flagged, not confirmed: this specific reading needs a primary-source verification pass before being treated as settled." },
+      maritalException: { short: "Not yet researched", badge: null, why: "Not yet researched for Arkansas — no finding either way." },
+      solCriminal: { short: "No limit (1st-degree / minors); 3 yrs otherwise", badge: 'mixed', why: "No deadline for first-degree offenses or crimes against minors — strong. But second- and third-degree offenses, which are still serious sexual assault charges, face just a 3-year window." },
+      solCivil: { short: "3 yrs; CSA revival window — confirm 2026 status", badge: 'mixed', why: "The general rule is a short 3 years. A 2021 revival law (Act 1036) lets childhood sexual abuse survivors file at any age — a real, meaningful protection — but secondary sources describe that window as running \"until 2026.\" Given where we are on the calendar right now, this needs an urgent confirmation of the exact closing date, not a later one." }
+    }
   },
   AK: {
     name: 'Alaska',
@@ -406,7 +465,15 @@ const LEGAL = {
     maritalException: "Spousal status is explicitly not a general defense to a sexual assault charge in Alaska (AS 11.41.432(b)). But there is a real, narrow exception: for charges based specifically on the victim being “mentally incapable” — not the “incapacitated” or “unaware” categories above — it is an affirmative defense if the offender and victim are legally married, neither has filed for separation or divorce, and the victim had, at some point while still capable of understanding the conduct's nature and consequences, consented to the act charged. In practice this means the statute does not shield a spouse who has sex with a partner who is temporarily incapacitated (e.g. by alcohol or medication) or unconscious — but it can shield a spouse in cases involving a partner's enduring mental incapacity, such as a severe brain injury or a degenerative condition, if prior consent while capable can be shown. A 2019 legislative effort to repeal this defense failed in the Alaska House, 20–17.",
     solCriminal: "No limit, ever, for sexual assault in the first or second degree, or for felony sexual abuse of a minor. For other sexual offenses: 5 years generally, or no limit at all if the victim was under 18 at the time.",
     solCivil: "No limit, ever, for a felony-level sexual assault or childhood sexual abuse claim. 3 years for misdemeanor-level sexual offenses.",
-    citation: "AS 11.41.410, 11.41.420, 11.41.425, 11.41.432, 11.41.434, 11.41.436, 11.41.438, 11.41.470, 12.10.010, 09.10.065 (draft citation — pending verification against the current codified statute text)"
+    citation: "AS 11.41.410, 11.41.420, 11.41.425, 11.41.432, 11.41.434, 11.41.436, 11.41.438, 11.41.470, 12.10.010, 09.10.065 (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "16 baseline, structured by age-gap",
+    rating: {
+      consent: { short: "Explicit affirmative — positively expressed", badge: 'good', why: "The clearest standard of the four states built out so far: consent must be \"freely given\" and \"positively expressed by word or action.\" Silence alone is explicitly not enough." },
+      incapacitation: { short: "3 defined categories (broad coverage)", badge: 'good', why: "Three clearly, separately defined categories (mentally incapable, incapacitated, unaware) give broad coverage — though see the marital exception, which carves a gap back into one of the three." },
+      maritalException: { short: "Narrow defense — \"mentally incapable\" prong only", badge: 'concerning', why: "This is the one you flagged. A real, narrow defense exists for the \"mentally incapable\" category specifically — it doesn't reach a temporarily incapacitated or unaware spouse, but it can shield a spouse accused of assaulting a partner with an enduring mental incapacity, like a severe brain injury. Alaska legislators tried to repeal this in 2019 and failed, 20–17." },
+      solCriminal: { short: "No limit (1st/2nd-degree + felony CSA)", badge: 'good', why: "No deadline, ever, for first- or second-degree sexual assault or felony sexual abuse of a minor — the broadest criminal protection of the four states, not limited to only the single most serious charge." },
+      solCivil: { short: "No limit (felony-level claims)", badge: 'good', why: "No deadline, ever, for a felony-level sexual assault or childhood sexual abuse civil claim — the strongest civil protection of the four." }
+    }
   }
 };
 
@@ -610,6 +677,40 @@ function renderState(abbr) {
     </div>
   `;
 
+  const BADGE_LABEL = { good: 'Protective', mixed: 'Mixed', concerning: 'Gap' };
+  function ratingRow(label, rating) {
+    const badge = rating && rating.badge
+      ? `<span class="rating-pill rating-${rating.badge}">${BADGE_LABEL[rating.badge]}</span>`
+      : `<span class="rating-pill rating-unknown">Not yet researched</span>`;
+    const why = rating && rating.why ? `<div class="rating-why">${rating.why}</div>` : '';
+    return `
+      <tr>
+        <th scope="row">${label}</th>
+        <td>${rating.short}</td>
+        <td>${badge}${why}</td>
+      </tr>
+    `;
+  }
+  const quickRefTable = legal && legal.rating ? `
+    <div class="quick-ref">
+      <h3>At a glance</h3>
+      <p class="section-sub">Short-form summary of each provision, and whether it's protective or a gap for survivors — our read, reasoned out one line at a time, not an official rating. Full detail and citations are below.</p>
+      <div class="table-scroll">
+        <table class="rating-table">
+          <thead><tr><th scope="col">Provision</th><th scope="col">Short summary</th><th scope="col">For survivors</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Age of consent</th><td>${legal.ageOfConsentShort}</td><td><span class="rating-pill rating-unknown">Not rated</span><div class="rating-why">A different question from sexual-assault protection, so we're not scoring it good/bad — shown for reference only.</div></td></tr>
+            ${ratingRow('How consent is defined', legal.rating.consent)}
+            ${ratingRow('Incapacitation standard', legal.rating.incapacitation)}
+            ${ratingRow('Marital / spousal exception', legal.rating.maritalException)}
+            ${ratingRow('Statute of limitations — criminal', legal.rating.solCriminal)}
+            ${ratingRow('Statute of limitations — civil', legal.rating.solCivil)}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  ` : '';
+
   let legalBody;
   if (legal) {
     legalBody = `
@@ -675,6 +776,7 @@ function renderState(abbr) {
       <h2>${fullName}</h2>
       ${saBlock}
     </div>
+    ${quickRefTable}
     ${legalBody}
     <div class="section-block">
       <h3>Reported Crime Data <span class="draft-badge" style="background:var(--bg-alt);color:var(--ink-faint);border-color:var(--border);">Secondary</span></h3>
