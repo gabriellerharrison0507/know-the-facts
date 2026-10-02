@@ -1923,6 +1923,16 @@ function renderState(abbr) {
     </div>
   ` : '';
 
+  const clearanceBlock = stateClearanceChart(abbr, fullName);
+  const clearanceSection = clearanceBlock ? `
+    <div class="section-block" style="margin-top:20px;">
+      <h4 style="font-size:1.05rem;">Cleared by arrest, 2014–2023</h4>
+      <p class="section-sub">Percent of reported rapes that resulted in an arrest or an FBI-defined "exceptional clearance" (cleared without an arrest for a specific reason, like the offender's death) that year. This is <em>not</em> a conviction rate — FBI/NIBRS data tracks the police-clearance step only, not what happened afterward in court.</p>
+      <div class="chart-card">${clearanceBlock}</div>
+      <div class="methodology-note">Source: FBI Crime Data Explorer, Rape (NIBRS offense 11A), state-level clearances ÷ offenses, 2014–2023. Same NIBRS-transition caveat as the chart above applies — a state with partial agency participation in a given year can show an unusually high or low clearance rate that reflects reporting coverage, not actual case outcomes.</div>
+    </div>
+  ` : '';
+
   return `
     <button class="back-link" data-nav="map">&larr; Back to map</button>
     <div class="state-head">
@@ -1938,6 +1948,7 @@ function renderState(abbr) {
       <p class="section-sub">The numbers above come from a confidential survey. These come from police reports (FBI/BJS) — a different, usually much smaller, measurement. Both are real; they're just answering different questions.</p>
       ${fbiBlock}
       ${trendSection}
+      ${clearanceSection}
     </div>
   `;
 }
