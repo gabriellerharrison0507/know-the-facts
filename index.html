@@ -1796,12 +1796,12 @@ const STATS_TOC = [
     { id: 'stat-military', label: 'Military & veterans', done: false },
   ]},
   { group: 'The Nature of the Assault', items: [
-    { id: 'stat-type', label: 'Type of assault', done: false },
-    { id: 'stat-drug-facilitated', label: 'Drug-facilitated sexual assault', done: false },
+    { id: 'stat-type', label: 'Type of assault', done: true },
+    { id: 'stat-drug-facilitated', label: 'Drug-facilitated sexual assault', done: true },
     { id: 'stat-tech-facilitated', label: 'Technology-facilitated abuse', done: false },
   ]},
   { group: 'Who Commits It', items: [
-    { id: 'stat-perpetrators', label: 'Perpetrators & victim relationship', done: false },
+    { id: 'stat-perpetrators', label: 'Perpetrators & victim relationship', done: true },
     { id: 'stat-repeat-offenders', label: 'Scale of perpetration & repeat offenders', done: true },
   ]},
   { group: 'Aftermath', items: [
@@ -2023,12 +2023,75 @@ function renderNational() {
     ${statPending('stat-military', 'Military & veterans', 'Planned: military sexual trauma prevalence and reporting. Target source: DoD SAPRO annual report.')}
 
     <h2 class="stats-part-heading">IV. The Nature of the Assault</h2>
-    ${statPending('stat-type', 'Type of assault', 'Planned: violence level, whether the victim was drugged/coerced/incapacitated, number of perpetrators (single vs. multiple), and act type. Target sources: NCVS, NISVS.')}
-    ${statPending('stat-drug-facilitated', 'Drug-facilitated sexual assault', 'Planned: how common toxicology-confirmed drug-facilitated assault is, and which substances are most commonly involved — connects directly to the "voluntary intoxication loophole" theme running through the state legal pages. Target sources: academic toxicology studies, NIJ-funded research.')}
-    ${statPending('stat-tech-facilitated', 'Technology-facilitated abuse', 'Planned: image-based sexual abuse, sextortion, and deepfakes — broader than the campus-specific "sharing nudes" scenario. Target sources: Cyber Civil Rights Initiative, FBI/NCMEC sextortion data.')}
+
+    <div class="section-block" id="stat-type">
+      <h3>Type of assault</h3>
+      <p class="section-sub">NISVS itself splits "rape" into three components, which is a useful frame for this whole question: completed forced penetration, attempted forced penetration, and completed penetration facilitated by alcohol or drugs. All three count as rape — none is treated as a lesser category.</p>
+
+      <h4 style="font-size:1.05rem;">How many perpetrators?</h4>
+      <div class="stat-row">
+        <div class="stat-tile"><div class="stat-num">~90%</div><div class="stat-label">of rape/sexual assault victimizations against women involved a single offender</div><div class="stat-source">BJS</div></div>
+        <div class="stat-tile"><div class="stat-num">~10%</div><div class="stat-label">involved multiple offenders — the lowest multiple-offender share of any violent crime category BJS tracks</div><div class="stat-source">BJS</div></div>
+      </div>
+      <div class="methodology-note">Source: BJS, <i>Violence Against Women: Estimates from the Redesigned Survey</i> (based on the 1992–1993 NCVS redesign). This is an older report — we could not locate a more recent national breakdown specifically isolating single- vs. multiple-offender rape/sexual assault incidents, so this is flagged as dated rather than presented as current.</div>
+
+      <h4 style="font-size:1.05rem;margin-top:30px;">Stranger vs. non-stranger, by offender count</h4>
+      <p class="section-sub">From the same report: among single-offender incidents, 73.5% involved someone the victim knew and 17.6% involved a stranger. Among multiple-offender incidents, strangers were actually more common (6.8% of all rape/sexual assault incidents) than non-strangers (2.1%) — the one scenario where "stranger" outpaces "known offender."</p>
+
+      <h4 style="font-size:1.05rem;margin-top:30px;">Act type</h4>
+      <div class="methodology-note">NISVS defines rape for women as vaginal, oral, or anal penetration by a penis, or vaginal/anal penetration by a finger or object; for men, as oral or anal penetration by a penis. We have not located a published national breakdown of what share of rapes fall into each specific act-type category (vaginal vs. anal vs. oral vs. digital/object) — flagged as a gap rather than estimated.</div>
+    </div>
+
+    <div class="section-block" id="stat-drug-facilitated">
+      <h3>Drug-facilitated sexual assault</h3>
+      <p class="section-sub">This connects directly to a theme running through the state legal pages on this site: many states' incapacitation standards only cover a substance <i>administered without the victim's consent</i>, excluding voluntary intoxication. The research below is relevant to exactly that distinction — and the real-world pattern cuts against the "stranger with a syringe" stereotype that framing implies.</p>
+
+      <div class="stat-row">
+        <div class="stat-tile"><div class="stat-num">11%</div><div class="stat-label">of U.S. women have experienced alcohol- or drug-facilitated completed penetration in their lifetime</div><div class="stat-source">NISVS, 2015 cycle</div></div>
+        <div class="stat-tile"><div class="stat-num">5.5%</div><div class="stat-label">of U.S. men were made to penetrate someone else via alcohol or drug facilitation</div><div class="stat-source">NISVS, 2015 cycle</div></div>
+      </div>
+      <div class="methodology-note">Source: CDC NISVS. These are lifetime prevalence figures for the alcohol/drug-facilitated component specifically, one of the three categories NISVS tracks under "rape" (alongside completed and attempted forced penetration).</div>
+
+      <h4 style="font-size:1.05rem;margin-top:30px;">What toxicology-confirmed cases show: alcohol, not a "date rape drug," is overwhelmingly the most common substance</h4>
+      <div class="category-grid">
+        <div class="category-card"><h4>Systematic review, ~1,000 cases</h4><p>Alcohol detected in 30.9% of cases, more than any other substance.</p></div>
+        <div class="category-card"><h4>Danish study, 268 cases</h4><p>Alcohol 45%, drugs of abuse 38%, antidepressants 14%, antihistamines 12%, benzodiazepines 11%.</p></div>
+      </div>
+      <div class="methodology-note">Sources: Recalde-Esnoz et al., <i>Drug-Facilitated Sexual Assault: A Systematic Review</i>, 2024; Danish sexual assault center observational study (toxicology findings, Eastern Denmark). A lack of a positive toxicology finding doesn't necessarily mean no substance was involved — delayed reporting and specimen collection can miss substances that clear the body quickly, which these studies note as a limitation of all DFSA toxicology research, not just these two. Across the broader literature, offenders use alcohol to facilitate assault far more often than any drug popularly associated with "date rape."</div>
+    </div>
+
+    <div class="section-block" id="stat-tech-facilitated">
+      <h3>Technology-facilitated abuse</h3>
+      <div class="coming-soon">
+        <h3>Research pending</h3>
+        <p>Planned: image-based sexual abuse, sextortion, and deepfakes — broader than the campus-specific "sharing nudes" scenario. Target sources: Cyber Civil Rights Initiative, FBI/NCMEC sextortion data.</p>
+      </div>
+    </div>
 
     <h2 class="stats-part-heading">V. Who Commits It</h2>
-    ${statPending('stat-perpetrators', 'Perpetrators & victim relationship', 'Planned: relationship breakdown (family, friend, partner, stranger), and how frequently marital/spousal rape occurs. Target sources: NCVS victim-offender relationship tables.')}
+
+    <div class="section-block" id="stat-perpetrators">
+      <h3>Perpetrators &amp; victim relationship</h3>
+      <p class="section-sub">The "stranger in a dark alley" is, by every national data source, the least common pattern.</p>
+
+      <h4 style="font-size:1.05rem;">Lifetime rape, by relationship to perpetrator — women</h4>
+      <div class="category-grid">
+        <div class="category-card"><h4>Intimate partner</h4><p class="cap"><b>51.1%</b></p></div>
+        <div class="category-card"><h4>Acquaintance</h4><p class="cap"><b>40.8%</b></p></div>
+        <div class="category-card"><h4>Stranger</h4><p class="cap"><b>13.8%</b></p></div>
+        <div class="category-card"><h4>Family member</h4><p class="cap"><b>12.5%</b></p></div>
+        <div class="category-card"><h4>Authority figure</h4><p class="cap"><b>2.5%</b></p></div>
+      </div>
+      <div class="methodology-note">Source: CDC NISVS. Figures sum to well over 100% because this is a lifetime measure — a victim with more than one assault across their life can report more than one relationship category. For men who were made to penetrate someone else, the pattern is similar: intimate partner (44.8%) and acquaintance (44.7%) are the two most frequent categories.</div>
+
+      <h4 style="font-size:1.05rem;margin-top:30px;">How common is marital/spousal rape?</h4>
+      <p class="section-sub">The two landmark studies on this exact question are both decades old — we could not locate a more recent, comparably rigorous, nationally-representative replication, and say so rather than presenting a dated figure as current.</p>
+      <div class="category-grid">
+        <div class="category-card"><h4>Finkelhor &amp; Yllo, 1985</h4><p>10% of a random sample of married/cohabiting Boston mothers reported force or threat of force from a spouse or partner.</p></div>
+        <div class="category-card"><h4>Russell, 1990</h4><p>14% of ever-married women in a San Francisco-area representative survey reported rape or attempted rape by a husband or ex-husband.</p></div>
+      </div>
+      <div class="methodology-note">These are the original sources behind the "10–14%" figure cited throughout the later literature — <i>License to Rape</i> (Finkelhor &amp; Yllo, 1985) and <i>Rape in Marriage</i> (Russell, 1990). Both researchers and later commentators note marital rape is especially underreported, so the true figure may be higher than either study found.</div>
+    </div>
 
     <div class="section-block" id="stat-repeat-offenders">
       <h3>Scale of perpetration & repeat offenders</h3>
@@ -2046,7 +2109,7 @@ function renderNational() {
     ${statPending('stat-false-reporting', 'False reporting — what the research shows', 'Planned: one of the most searched-for and most politicized numbers in this field. Will be handled carefully, with explicit methodology and named sources rather than a single headline figure. Target sources: Lisak et al. 2010, National Sexual Violence Resource Center overview of false-reporting research.')}
 
     <div class="source-list">
-      Primary sources used on this page so far: <a href="https://www.cdc.gov/nisvs/media/pdfs/sexualviolence-brief.pdf" target="_blank" rel="noopener">CDC NISVS 2023/2024 Sexual Violence Data Brief</a>, <a href="https://icasa.org/uploads/documents/Stats-and-Facts/NISVS-2016-2017-State-Report-508.pdf" target="_blank" rel="noopener">CDC NISVS 2016/2017 Report</a>, <a href="https://bjs.ojp.gov/document/cv24.pdf" target="_blank" rel="noopener">BJS Criminal Victimization 2024 (NCJ 310547)</a> and prior-year editions (2000, 2008, 2011, 2019), <a href="https://acf.gov/sites/default/files/documents/cb/cm2023.pdf" target="_blank" rel="noopener">HHS Child Maltreatment 2023</a>, BJS/NIBRS <i>Sexual Assault of Young Children as Reported to Law Enforcement</i> (NCJ 182990, 2000), RAINN, CHILD USA. More sources will be added as each planned section above is researched.
+      Primary sources used on this page so far: <a href="https://www.cdc.gov/nisvs/media/pdfs/sexualviolence-brief.pdf" target="_blank" rel="noopener">CDC NISVS 2023/2024 Sexual Violence Data Brief</a>, <a href="https://icasa.org/uploads/documents/Stats-and-Facts/NISVS-2016-2017-State-Report-508.pdf" target="_blank" rel="noopener">CDC NISVS 2016/2017 Report</a>, CDC NISVS 2015 cycle, <a href="https://bjs.ojp.gov/document/cv24.pdf" target="_blank" rel="noopener">BJS Criminal Victimization 2024 (NCJ 310547)</a> and prior-year editions (2000, 2008, 2011, 2019), BJS <i>Violence Against Women: Estimates from the Redesigned Survey</i>, <a href="https://acf.gov/sites/default/files/documents/cb/cm2023.pdf" target="_blank" rel="noopener">HHS Child Maltreatment 2023</a>, BJS/NIBRS <i>Sexual Assault of Young Children as Reported to Law Enforcement</i> (NCJ 182990, 2000), Finkelhor &amp; Yllo (1985), Russell (1990), Recalde-Esnoz et al. (2024) DFSA systematic review, RAINN, CHILD USA. More sources will be added as each planned section above is researched.
     </div>
   `;
 }
