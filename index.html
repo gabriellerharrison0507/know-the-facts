@@ -368,7 +368,7 @@ const MAP_VIEWBOX = '174 100 1150 593';
    computed once from the actual path data -- not estimated. A few (MI, FL)
    are nudged slightly off raw bbox-center since their true shape is
    concave/multi-part and the bbox center lands in open water. */
-const LABEL_POS = {"DC":{"cx":975.3,"cy":351.8},"HI":{"cx":505.4,"cy":667.8},"AK":{"cx":287.6,"cy":603.2},"FL":{"cx":924.2,"cy":618.6},"SC":{"cx":928.8,"cy":473.2},"GA":{"cx":886.3,"cy":508.1},"AL":{"cx":823.4,"cy":510.7},"NC":{"cx":951.6,"cy":431.5},"TN":{"cx":825.6,"cy":442.3},"RI":{"cx":1051.9,"cy":271.8},"CT":{"cx":1032.7,"cy":279.9},"MA":{"cx":1048.1,"cy":259.3},"ME":{"cx":1064.9,"cy":182.6},"NH":{"cx":1042.9,"cy":222.1},"VT":{"cx":1020.1,"cy":226.7},"NY":{"cx":981.3,"cy":258.1},"NJ":{"cx":1008.5,"cy":317.1},"PA":{"cx":954.3,"cy":311.1},"DE":{"cx":1001.4,"cy":341.5},"MD":{"cx":971.4,"cy":350.2},"WV":{"cx":915.9,"cy":368.8},"KY":{"cx":840,"cy":403.5},"OH":{"cx":874,"cy":337.3},"MI":{"cx":821.9,"cy":253.7},"WY":{"cx":469.6,"cy":282},"MT":{"cx":448.7,"cy":189},"ID":{"cx":363.3,"cy":234.4},"WA":{"cx":290.3,"cy":149},"TX":{"cx":592.1,"cy":548.3},"CA":{"cx":249.2,"cy":371.6},"AZ":{"cx":372.3,"cy":463.2},"NV":{"cx":308.1,"cy":336.2},"UT":{"cx":390.3,"cy":352.8},"CO":{"cx":492.3,"cy":373.2},"NM":{"cx":471.9,"cy":473.3},"OR":{"cx":269.8,"cy":222.2},"ND":{"cx":587.5,"cy":193.3},"SD":{"cx":587.9,"cy":259},"NE":{"cx":592.1,"cy":323.6},"IA":{"cx":694.9,"cy":312.7},"MS":{"cx":770.9,"cy":516.7},"IN":{"cx":817.5,"cy":353.2},"IL":{"cx":768.5,"cy":354.4},"MN":{"cx":680.7,"cy":218.7},"WI":{"cx":749.2,"cy":254},"MO":{"cx":714.9,"cy":394.1},"AR":{"cx":717.8,"cy":471.1},"OK":{"cx":627.6,"cy":456.9},"KS":{"cx":613.5,"cy":391.6},"LA":{"cx":730.4,"cy":557.1},"VA":{"cx":952.7,"cy":387.4}};
+const LABEL_POS = {"DC":{"cx":975.3,"cy":351.8},"HI":{"cx":505.4,"cy":667.8},"AK":{"cx":287.6,"cy":603.2},"FL":{"cx":933.8,"cy":598.4},"SC":{"cx":928.8,"cy":473.2},"GA":{"cx":886.3,"cy":508.1},"AL":{"cx":823.4,"cy":510.7},"NC":{"cx":951.6,"cy":431.5},"TN":{"cx":825.6,"cy":442.3},"RI":{"cx":1051.9,"cy":271.8},"CT":{"cx":1032.7,"cy":279.9},"MA":{"cx":1048.1,"cy":259.3},"ME":{"cx":1064.9,"cy":182.6},"NH":{"cx":1042.9,"cy":222.1},"VT":{"cx":1020.1,"cy":226.7},"NY":{"cx":981.3,"cy":258.1},"NJ":{"cx":1008.5,"cy":317.1},"PA":{"cx":954.3,"cy":311.1},"DE":{"cx":1001.4,"cy":341.5},"MD":{"cx":971.4,"cy":350.2},"WV":{"cx":915.9,"cy":368.8},"KY":{"cx":840,"cy":403.5},"OH":{"cx":874,"cy":337.3},"MI":{"cx":821.9,"cy":253.7},"WY":{"cx":469.6,"cy":282},"MT":{"cx":448.7,"cy":189},"ID":{"cx":363.3,"cy":234.4},"WA":{"cx":290.3,"cy":149},"TX":{"cx":592.1,"cy":548.3},"CA":{"cx":249.2,"cy":371.6},"AZ":{"cx":372.3,"cy":463.2},"NV":{"cx":308.1,"cy":336.2},"UT":{"cx":390.3,"cy":352.8},"CO":{"cx":492.3,"cy":373.2},"NM":{"cx":471.9,"cy":473.3},"OR":{"cx":269.8,"cy":222.2},"ND":{"cx":587.5,"cy":193.3},"SD":{"cx":587.9,"cy":259},"NE":{"cx":592.1,"cy":323.6},"IA":{"cx":694.9,"cy":312.7},"MS":{"cx":770.9,"cy":516.7},"IN":{"cx":817.5,"cy":353.2},"IL":{"cx":768.5,"cy":354.4},"MN":{"cx":680.7,"cy":218.7},"WI":{"cx":749.2,"cy":254},"MO":{"cx":714.9,"cy":394.1},"AR":{"cx":717.8,"cy":471.1},"OK":{"cx":627.6,"cy":456.9},"KS":{"cx":613.5,"cy":391.6},"LA":{"cx":730.4,"cy":557.1},"VA":{"cx":952.7,"cy":387.4}};
 /* Northeast corridor + DC are too small to hold an inline label --
    callout to a rail with a leader line instead. */
 const CALLOUT_RAIL_X = 1155;
@@ -790,10 +790,86 @@ const LEGAL = {
       solCriminal: { short: "25 yrs, +5 from a later DNA match", badge: 'good', why: "A long, generous window, with a further extension if DNA identifies a suspect after the original period closes — not unlimited, but comparable to other states' top-tier protections." },
       solCivil: { short: "Just 1 yr (adult); to age 30 (child)", badge: 'concerning', why: "One year for an adult survivor is among the shortest adult civil windows researched so far." }
     }
+  },
+  DE: {
+    name: 'Delaware',
+    verified: '2026-10-01',
+    consent: "Delaware frames this around the defendant compelling the victim to submit through coercion, force, gesture, or threats — or any other means that would compel a reasonable person to submit. A force/coercion-based structure rather than a standalone affirmative-consent requirement.",
+    incapacitation: "Covers a victim the defendant knew was unconscious, asleep, or unaware a sexual act was occurring, and a victim with a cognitive disability, mental illness, or mental defect the defendant knew about. Separately, the drug/intoxicant circumstance requires the defendant to have administered the substance \"without the other person's knowledge or against the other person's will\" — this specific wording doesn't reach plain voluntary intoxication with no one drugging the victim.",
+    ageOfConsent: "16 generally; a child under 16 can't consent to a partner 4 or more years older, and a child under 12 can never consent regardless of age gap.",
+    maritalException: "A narrow, specific gap. Delaware's rape-in-the-fourth-degree provision — sex with a minor under 18 by someone 30 or older — carries an explicit exception if the victim and offender are married. This doesn't reach the force- or incapacity-based provisions; it's scoped to this one age-and-marriage-specific circumstance.",
+    solCriminal: "No limit, ever, for first-degree rape, a Class A felony.",
+    solCivil: "No limit, ever, for a childhood sexual abuse claim, following a law that also opened a since-closed revival window for previously expired claims. For an adult survivor: just 2 years.",
+    citation: "11 Del. C. §§ 761, 762, 770, 205 (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "16 (close-in-age exception, <4 yr gap)",
+    rating: {
+      consent: { short: "Force/coercion-based, not affirmative", badge: 'concerning', why: "Built around compelling submission through force, coercion, or threats rather than requiring an affirmative \"yes.\"" },
+      incapacitation: { short: "Excludes voluntary intoxication", badge: 'concerning', why: "The drug/intoxicant circumstance requires the defendant administered the substance without the victim's knowledge or against their will — plain voluntary intoxication, with no one drugging the victim, falls outside it." },
+      maritalException: { short: "Narrow — one age-specific provision", badge: 'mixed', why: "Scoped specifically to the 30-and-older-with-a-minor provision; doesn't reach force- or incapacity-based charges." },
+      solCriminal: { short: "No limit (1st-degree rape)", badge: 'good', why: "No deadline at all for first-degree rape, a Class A felony." },
+      solCivil: { short: "No limit (child); just 2 yrs (adult)", badge: 'mixed', why: "Strong for a childhood survivor, but one of the shorter adult windows researched so far." }
+    }
+  },
+  TN: {
+    name: 'Tennessee',
+    verified: '2026-10-01',
+    consent: "Tennessee's sexual battery offense covers force or coercion, lack of consent the defendant knew or had reason to know about, incapacity, or fraud — a mix of force-based and general \"without consent\" circumstances rather than one standalone affirmative-consent requirement.",
+    incapacitation: "\"Mentally incapacitated\" requires a substance \"administered to that person without the person's consent, or... any other act committed upon that person without the person's consent\" — narrow wording that doesn't clearly reach plain voluntary intoxication, with no one drugging or forcing anything on the victim. A separate, broader \"without consent\" circumstance (the defendant knows or has reason to know the victim did not consent) may offer a partial path around this gap, but the specific incapacity definition itself is narrow.",
+    ageOfConsent: "18 generally; under 13 can never consent. A close-in-age exception applies for 13–17 year olds with a partner less than 4 years older.",
+    maritalException: "None. Tennessee repealed its separate spousal sexual battery provision in 2005 — rape, sexual battery, and other sex offenses no longer distinguish between married and unmarried parties.",
+    solCriminal: "8 years for rape (a Class B felony) generally. For a sex crime against a minor, no limit — but only if the victim reports to law enforcement or a prosecutor within 3 years of the offense; otherwise the ordinary window applies.",
+    solCivil: "As of July 2025, up to age 48 for a childhood survivor (30 years past 18) — a recent, significant extension; survivors of abuse before July 2019 face much shorter, tiered deadlines depending on exactly when the abuse occurred. For an adult survivor: just 1 year, with a separate 3-year discovery-based path.",
+    citation: "Tenn. Code Ann. §§ 39-13-501, 39-13-505, 40-2-101, 28-3-104, 28-3-116 (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "18 (close-in-age exception, 13–17, <4 yr gap)",
+    rating: {
+      consent: { short: "Force/circumstance-based, partial \"without consent\" path", badge: 'concerning', why: "Primarily force- and circumstance-based; a general \"without consent\" provision exists alongside the narrower incapacity definition, but doesn't amount to a standalone affirmative-consent requirement." },
+      incapacitation: { short: "Excludes voluntary intoxication by its own wording", badge: 'concerning', why: "The core incapacity definition requires the substance or act be imposed \"without the person's consent\" — plain voluntary intoxication falls outside this specific definition." },
+      maritalException: { short: "None — repealed 2005", badge: 'good', why: "The separate spousal sexual battery exemption was repealed in 2005; Tennessee law no longer distinguishes married from unmarried parties for these offenses." },
+      solCriminal: { short: "8 yrs (adult); no limit (minor, if reported within 3 yrs)", badge: 'concerning', why: "Unlike most states researched so far, there's no unconditional \"no limit\" option even for rape against an adult — 8 years is a real, finite cap." },
+      solCivil: { short: "To age 48 (child, 2025+); 1 yr (adult)", badge: 'mixed', why: "A major, very recent extension for childhood survivors going forward, undercut by a bare 1-year window for an adult survivor." }
+    }
+  },
+  RI: {
+    name: 'Rhode Island',
+    verified: '2026-10-01',
+    consent: "Rhode Island's first-degree sexual assault offense applies when the accused knows or has reason to know the victim is mentally incapacitated, mentally disabled, or physically helpless — an incapacity/circumstance-based structure for that charge rather than a standalone affirmative-consent requirement across the board.",
+    incapacitation: "\"Mentally incapacitated\" requires a substance \"administered to that person without his or her consent\" — narrow wording that doesn't clearly reach plain voluntary intoxication. \"Mentally disabled\" (a mental impairment preventing appraisal of the act) and \"physically helpless\" (unconscious, asleep, or unable to communicate unwillingness) are both broader and cause-agnostic.",
+    ageOfConsent: "16 generally, with a close-in-age exception for 14–18 year olds within 3 years of age, and a separate allowance for 16–20 year olds within 30 months.",
+    maritalException: "None, as of 2021. Rhode Island closed its remaining marital exemptions that year — spouses are no longer exempt from sexual assault charges.",
+    solCriminal: "No limit, ever, for first-degree sexual assault or first- or second-degree child molestation sexual assault. 3 years for other sexual offenses, including second-degree sexual assault.",
+    solCivil: "35 years past the survivor's 18th birthday (to about age 53), or 7 years from discovery, whichever is longer, for a childhood sexual abuse claim — plus an active revival window for previously expired institutional-abuse claims, open through June 30, 2028. For an adult survivor, sources point to either 3 or 7 years depending on the specific provision; not fully resolved in this research pass, but not among the shortest windows found either way.",
+    citation: "R.I. Gen. Laws §§ 11-37-1, 11-37-2, 11-37-4, 12-12-17, 9-1-51 (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "16 (close-in-age exceptions, 14–20)",
+    rating: {
+      consent: { short: "Incapacity/circumstance-based for top charge", badge: 'concerning', why: "The first-degree charge is built around specific incapacity circumstances rather than one standalone affirmative-consent requirement running through the law generally." },
+      incapacitation: { short: "Mixed — \"mentally incapacitated\" excludes voluntary intox.", badge: 'concerning', why: "The substance-based category requires administration without consent, but the broader \"mentally disabled\" and \"physically helpless\" categories don't have that limitation — the narrowest-named category is still the one covering intoxication specifically." },
+      maritalException: { short: "None — closed 2021", badge: 'good', why: "Rhode Island closed its remaining marital exemptions in 2021; spouses now face the same exposure as anyone else." },
+      solCriminal: { short: "No limit (1st-degree, child molestation)", badge: 'good', why: "No deadline for the most serious charges; lesser offenses carry a real but comparatively short 3-year window." },
+      solCivil: { short: "To ~age 53 + active revival window (child)", badge: 'good', why: "One of the longer, more generous childhood windows researched so far, with a currently open revival window for previously expired institutional claims — directly actionable right now, not just a past reform." }
+    }
+  },
+  MT: {
+    name: 'Montana',
+    verified: '2026-10-01',
+    consent: "Montana defines consent as \"words or overt actions indicating a freely given agreement\" — an explicit affirmative standard — and specifies that a prior or current relationship, or how someone was dressed, doesn't establish consent.",
+    incapacitation: "\"Mentally incapacitated\" means temporarily unable to appreciate or control one's conduct \"as a result of the influence of an intoxicating substance\" — this doesn't require the substance to have been administered by someone else, so it reaches plain voluntary intoxication. Separately covers being physically helpless, overcome by deception or surprise, or several other circumstances.",
+    ageOfConsent: "16 generally, with consent ineffective below 14 if the other person is 3 or more years older.",
+    maritalException: "Mostly closed, with a narrow remnant. Montana eliminated its marital rape exemption in 1985 as part of broader domestic-abuse legislation — a person can't be convicted under the main \"sexual intercourse without consent\" statute based on their spouse's age. A narrower defense remains specific to statutory rape: a married minor can legally consent to their spouse, described as a holdover from the broader former exemption.",
+    solCriminal: "10 years for a felony generally, if the victim was an adult. No limit at all if the victim was under 18 at the time of the offense.",
+    solCivil: "Until the survivor's 27th birthday, or 3 years from discovery, for a childhood survivor — a 2019 law also opened a one-year window (since closed) reviving previously expired claims. For an adult survivor: 3 years from the incident.",
+    citation: "Mont. Code Ann. §§ 45-5-501, 45-5-503, 45-1-205, 27-2-216 (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "16 (under-14 exception, <3 yr gap)",
+    rating: {
+      consent: { short: "Explicit affirmative — \"freely given agreement\"", badge: 'good', why: "Requires words or overt actions showing freely given agreement — an explicit affirmative standard." },
+      incapacitation: { short: "Covers voluntary intoxication explicitly", badge: 'good', why: "The definition turns on being under the influence of an intoxicating substance, without requiring that someone else administered it." },
+      maritalException: { short: "Mostly closed — narrow married-minor remnant", badge: 'mixed', why: "The core 1985 repeal closed the exemption for the main nonconsensual-intercourse offense; a narrower married-minor carve-out remains specific to statutory rape." },
+      solCriminal: { short: "10 yrs (adult victim); no limit (minor victim)", badge: 'mixed', why: "No deadline when the victim was a minor, but a real, finite 10-year cap when the victim was an adult — a gap compared to states with no limit regardless of victim age." },
+      solCivil: { short: "To age 27 or discovery+3 (child); 3 yrs (adult)", badge: 'mixed', why: "A past revival window has already closed, and the ongoing rule for a childhood survivor isn't unlimited — reasonable but not top-tier protection for either a child or adult survivor." }
+    }
   }
 };
 
-const STATE_ORDER = ['CO','NY','AR','AK','DC','UT','OR','MD','VT','MN','WY','WA','NH','VA','AZ','NE','ME','NM','MO','OH'];
+const STATE_ORDER = ['CO','NY','AR','AK','DC','UT','OR','MD','VT','MN','WY','WA','NH','VA','AZ','NE','ME','NM','MO','OH','DE','TN','RI','MT'];
 
 /* ---------------- routing ---------------- */
 let currentView = 'map';
