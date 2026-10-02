@@ -301,6 +301,24 @@
   .rating-why { font-size: 0.8rem; color: var(--ink-soft); margin-top: 6px; line-height: 1.4; }
 
   /* ---------- national view ---------- */
+  .stats-toc {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 22px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    padding: 24px 26px; margin: 28px 0 44px;
+  }
+  .toc-group-title { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent); font-weight: 700; margin-bottom: 10px; }
+  .toc-group a { display: block; font-size: 0.86rem; color: var(--ink-soft); padding: 3px 0; text-decoration: none; line-height: 1.4; }
+  .toc-group a:hover { color: var(--accent); text-decoration: underline; }
+  .toc-group a.toc-pending { color: var(--ink-faint); }
+  .toc-group a.toc-pending::after { content: " (coming)"; font-size: 0.76rem; font-style: italic; }
+
+  .stats-part-heading {
+    font-family: 'Fraunces', serif; font-size: 1.15rem; font-weight: 600; color: var(--ink-faint);
+    text-transform: uppercase; letter-spacing: 0.04em; margin: 56px 0 4px; padding-top: 24px;
+    border-top: 2px solid var(--border);
+  }
+  .stats-part-heading:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
+
   .stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 28px 0 40px; }
   .stat-tile {
     background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px;
@@ -1758,30 +1776,95 @@ function renderState(abbr) {
 }
 
 /* ---------------- national view ---------------- */
+const STATS_TOC = [
+  { group: 'The Big Picture', items: [
+    { id: 'stat-prevalence', label: 'National prevalence', done: true },
+    { id: 'stat-trends', label: 'Trends over time', done: true },
+  ]},
+  { group: 'Who Is Affected', items: [
+    { id: 'stat-age', label: 'By age', done: false },
+    { id: 'stat-csa', label: 'Child sexual abuse', done: false },
+    { id: 'stat-race', label: 'By race & ethnicity', done: false },
+    { id: 'stat-gender', label: 'By gender', done: false },
+    { id: 'stat-lgbtq', label: 'By sexual orientation & gender identity', done: false },
+    { id: 'stat-disability', label: 'By disability status', done: false },
+    { id: 'stat-affluence', label: 'By socioeconomic status', done: false },
+  ]},
+  { group: 'Where & In What Context', items: [
+    { id: 'stat-campus', label: 'College campuses', done: false },
+    { id: 'stat-incarcerated', label: 'Incarcerated populations', done: false },
+    { id: 'stat-military', label: 'Military & veterans', done: false },
+  ]},
+  { group: 'The Nature of the Assault', items: [
+    { id: 'stat-type', label: 'Type of assault', done: false },
+    { id: 'stat-drug-facilitated', label: 'Drug-facilitated sexual assault', done: false },
+    { id: 'stat-tech-facilitated', label: 'Technology-facilitated abuse', done: false },
+  ]},
+  { group: 'Who Commits It', items: [
+    { id: 'stat-perpetrators', label: 'Perpetrators & victim relationship', done: false },
+    { id: 'stat-repeat-offenders', label: 'Scale of perpetration & repeat offenders', done: true },
+  ]},
+  { group: 'Aftermath', items: [
+    { id: 'stat-outcomes', label: 'Victim outcomes', done: false },
+    { id: 'stat-economic-cost', label: 'Economic cost', done: false },
+  ]},
+  { group: "The System's Response", items: [
+    { id: 'stat-reporting-experience', label: 'Reporting experience', done: false },
+    { id: 'stat-false-reporting', label: 'False reporting — what the research shows', done: false },
+  ]},
+];
+
+function statsToc() {
+  const groups = STATS_TOC.map(g => `
+    <div class="toc-group">
+      <div class="toc-group-title">${g.group}</div>
+      ${g.items.map(it => `<a href="#${it.id}" class="${it.done ? '' : 'toc-pending'}">${it.label}</a>`).join('')}
+    </div>
+  `).join('');
+  return `<nav class="stats-toc" aria-label="Table of contents">${groups}</nav>`;
+}
+
+function statPending(id, title, note) {
+  return `
+    <div class="section-block" id="${id}">
+      <h3>${title}</h3>
+      <div class="coming-soon">
+        <h3>Research pending</h3>
+        <p>${note}</p>
+      </div>
+    </div>
+  `;
+}
+
 function renderNational() {
   return `
     <div class="hero">
       <div class="eyebrow">National Statistics</div>
       <h2>What the research actually says</h2>
-      <p class="lede">Every number below is cited. Where sources disagree or a stat is contested, that's shown explicitly — not resolved into one clean-sounding figure. The headline numbers here are survey-based (people describing their own experience); the FBI's much smaller police-reported numbers are further down, clearly separated.</p>
+      <p class="lede">Every number below is cited. Where sources disagree or a stat is contested, that's shown explicitly — not resolved into one clean-sounding figure. The headline numbers here are survey-based (people describing their own experience); the FBI's much smaller police-reported numbers are further down, clearly separated. Sections marked "coming" in the table of contents are planned but not yet researched — they're listed up front so you can see the full shape of what this page will cover.</p>
     </div>
 
-    <div class="stat-row">
-      <div class="stat-tile">
-        <div class="stat-num">45.1%</div>
-        <div class="stat-label">of women in the U.S. have experienced contact sexual violence in their lifetime</div>
-        <div class="stat-source">CDC NISVS, 2023/2024 survey cycle</div>
-      </div>
-      <div class="stat-tile">
-        <div class="stat-num">16.9%</div>
-        <div class="stat-label">of men in the U.S. have experienced contact sexual violence in their lifetime</div>
-        <div class="stat-source">CDC NISVS, 2023/2024 survey cycle</div>
-      </div>
-    </div>
-    <p class="methodology-note" style="margin:-8px 0 28px;">"Contact sexual violence" is NISVS's umbrella term: rape, being made to penetrate someone else, sexual coercion, and unwanted sexual contact, combined. It's deliberately broader than rape alone — if what happened to you doesn't match a narrow legal definition of "rape," that doesn't put it outside "sexual assault."</p>
+    ${statsToc()}
 
-    <div class="section-block">
-      <h3>Sexual violence, broken down by category</h3>
+    <h2 class="stats-part-heading">I. The Big Picture</h2>
+
+    <div class="section-block" id="stat-prevalence">
+      <h3>National prevalence</h3>
+      <div class="stat-row">
+        <div class="stat-tile">
+          <div class="stat-num">45.1%</div>
+          <div class="stat-label">of women in the U.S. have experienced contact sexual violence in their lifetime</div>
+          <div class="stat-source">CDC NISVS, 2023/2024 survey cycle</div>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-num">16.9%</div>
+          <div class="stat-label">of men in the U.S. have experienced contact sexual violence in their lifetime</div>
+          <div class="stat-source">CDC NISVS, 2023/2024 survey cycle</div>
+        </div>
+      </div>
+      <p class="methodology-note" style="margin:-8px 0 28px;">"Contact sexual violence" is NISVS's umbrella term: rape, being made to penetrate someone else, sexual coercion, and unwanted sexual contact, combined. It's deliberately broader than rape alone — if what happened to you doesn't match a narrow legal definition of "rape," that doesn't put it outside "sexual assault."</p>
+
+      <h4 style="font-size:1.05rem;margin-bottom:6px;">Sexual violence, broken down by category</h4>
       <p class="section-sub">Lifetime prevalence by category, women and men. These categories are not mutually exclusive — a person's experience doesn't need to be the most severe category to be real and worth taking seriously.</p>
       <div class="category-grid">
         <div class="category-card"><h4>Rape</h4><p>Completed or attempted forced penetration, including when the person was unable to consent due to incapacitation.</p><p class="cap"><b>21.0%</b> women &middot; <b>3.2%</b> men</p></div>
@@ -1793,34 +1876,64 @@ function renderNational() {
       <div class="methodology-note">Source: CDC NISVS 2023/2024 Sexual Violence Data Brief (Leemis et al.), Tables 1 &amp; 6.</div>
     </div>
 
-    <div class="section-block" style="border-top:2px solid var(--border);padding-top:28px;margin-top:40px;">
-      <h3>Reported Crime Data <span class="draft-badge" style="background:var(--bg-alt);color:var(--ink-faint);border-color:var(--border);">Secondary / deeper</span></h3>
-      <p class="section-sub">Everything above comes from confidential surveys. Everything below comes from crimes reported to police (NCVS self-report of reporting behavior, and FBI/NIBRS counts) — a much smaller, different measurement, because most sexual assault is never reported. Both are real; they're answering different questions.</p>
+    <div class="section-block" id="stat-trends" style="border-top:2px solid var(--border);padding-top:28px;">
+      <h3>Trends over time <span class="draft-badge" style="background:var(--bg-alt);color:var(--ink-faint);border-color:var(--border);">Reported / secondary</span></h3>
+      <p class="section-sub">Everything above comes from confidential surveys at a single point in time. These come from crimes reported to police and from NCVS's own multi-year tracking — a different, usually smaller, measurement, because most sexual assault is never reported. Both are real; they're answering different questions.</p>
 
       <div class="section-block" style="margin-top:20px;">
-        <h3 style="font-size:1.15rem;">Reported rape/sexual assault victimization rate, 2020–2024</h3>
+        <h4 style="font-size:1.05rem;">Reported rape/sexual assault victimization rate, 2020–2024</h4>
         <p class="section-sub">This is a self-report survey rate (NCVS) — people describing their own experiences to a government surveyor, independent of whether they ever reported to police.</p>
         <div class="chart-card">${trendChart()}</div>
         <div class="methodology-note">Source: Bureau of Justice Statistics, <i>Criminal Victimization, 2024</i> (NCJ 310547), Table 1. Rate per 1,000 persons age 12+.</div>
       </div>
 
       <div class="section-block">
-        <h3 style="font-size:1.15rem;">Percent of rape/sexual assault victimizations reported to police</h3>
+        <h4 style="font-size:1.05rem;">Percent of rape/sexual assault victimizations reported to police</h4>
         <p class="section-sub">This dropped sharply and statistically significantly from 2023 to 2024 — a real, documented year-over-year swing BJS flags with its own confidence testing, not noise we're smoothing over.</p>
         <div class="chart-card">${reportingChart()}</div>
         <div class="methodology-note">Source: BJS <i>Criminal Victimization, 2024</i> (NCJ 310547), Table 4. A single year's swing in survey data can reflect real behavior change, sampling variation, or both — worth watching in next year's report before drawing a firm conclusion about why.</div>
       </div>
-
-      <div class="section-block">
-        <h3 style="font-size:1.15rem;">What share of men have perpetrated rape or sexual assault?</h3>
-        <p class="section-sub">This is one of the most contested numbers in this field. Different studies, using different definitions and populations, land in very different places — shown here as a range, not one cherry-picked figure.</p>
-        <div class="chart-card">${perpetrationChart()}</div>
-        <div class="methodology-note">Sources: Koss et al. (1980s college samples, ~4.4% rape); Lisak &amp; Miller, 2002 (University of Massachusetts sample, 6.4% rape/attempted rape); broader literature reviews citing 7–15% for legally-defined rape and up to 25–57% when "sexual assault" is defined more broadly. Methodology differences — anonymous self-report vs. legal definitions vs. survey wording — explain most of the spread.</div>
-      </div>
     </div>
 
+    <h2 class="stats-part-heading">II. Who Is Affected</h2>
+    ${statPending('stat-age', 'By age', 'Planned: average/median age at first and most recent victimization, volume breakdown by age bracket, and how age correlates with reporting rates and case outcomes. Target sources: NCVS age tables, NISVS.')}
+    ${statPending('stat-csa', 'Child sexual abuse', 'Planned: a dedicated deep-dive distinct from the general age breakdown above — prevalence, disclosure timelines, grooming patterns, and outcomes specific to child victims. Target sources: HHS Child Maltreatment annual report, Children\'s Advocacy Center data, NCANDS.')}
+    ${statPending('stat-race', 'By race & ethnicity', 'Planned: volume breakdown by race/ethnicity, and how race/ethnicity correlates with reporting rates and case outcomes. Target sources: NCVS, NISVS race/ethnicity tables.')}
+    ${statPending('stat-gender', 'By gender', 'Planned: volume breakdown by victim gender, how gender correlates with reporting and outcomes, the gender of perpetrators by victim gender, and age/race breakdowns within each gender. Target sources: NCVS, NISVS.')}
+    ${statPending('stat-lgbtq', 'By sexual orientation & gender identity', 'Planned: prevalence by sexual orientation and gender identity, including trans-specific data. Target sources: NISVS sexual-orientation tables, U.S. Transgender Survey.')}
+    ${statPending('stat-disability', 'By disability status', 'Planned: victimization rate for people with disabilities compared to the general population. Target source: BJS, Crime Against Persons with Disabilities.')}
+    ${statPending('stat-affluence', 'By socioeconomic status', 'Planned: whether income/affluence correlates with reporting likelihood or case outcomes. Target sources: NCVS household-income tables, academic literature.')}
+
+    <h2 class="stats-part-heading">III. Where & In What Context</h2>
+    ${statPending('stat-campus', 'College campuses', 'Planned: reported and self-survey rates on campus, what happened to accused students (expulsion, legal consequences), what happened to victims, and where/by whom assaults occurred. Target sources: AAU Campus Climate Survey, Clery Act data, DOE Title IX/OCR data.')}
+    ${statPending('stat-incarcerated', 'Incarcerated populations', 'Planned: sexual victimization rates in prisons and jails, a population with its own dedicated federal data collection. Target source: BJS National Inmate Survey / PREA reporting.')}
+    ${statPending('stat-military', 'Military & veterans', 'Planned: military sexual trauma prevalence and reporting. Target source: DoD SAPRO annual report.')}
+
+    <h2 class="stats-part-heading">IV. The Nature of the Assault</h2>
+    ${statPending('stat-type', 'Type of assault', 'Planned: violence level, whether the victim was drugged/coerced/incapacitated, number of perpetrators (single vs. multiple), and act type. Target sources: NCVS, NISVS.')}
+    ${statPending('stat-drug-facilitated', 'Drug-facilitated sexual assault', 'Planned: how common toxicology-confirmed drug-facilitated assault is, and which substances are most commonly involved — connects directly to the "voluntary intoxication loophole" theme running through the state legal pages. Target sources: academic toxicology studies, NIJ-funded research.')}
+    ${statPending('stat-tech-facilitated', 'Technology-facilitated abuse', 'Planned: image-based sexual abuse, sextortion, and deepfakes — broader than the campus-specific "sharing nudes" scenario. Target sources: Cyber Civil Rights Initiative, FBI/NCMEC sextortion data.')}
+
+    <h2 class="stats-part-heading">V. Who Commits It</h2>
+    ${statPending('stat-perpetrators', 'Perpetrators & victim relationship', 'Planned: relationship breakdown (family, friend, partner, stranger), and how frequently marital/spousal rape occurs. Target sources: NCVS victim-offender relationship tables.')}
+
+    <div class="section-block" id="stat-repeat-offenders">
+      <h3>Scale of perpetration & repeat offenders</h3>
+      <p class="section-sub">This is one of the most contested numbers in this field. Different studies, using different definitions and populations, land in very different places — shown here as a range, not one cherry-picked figure. A fuller treatment of repeat/serial-offender research (e.g. Lisak &amp; Miller's concentration findings) and men-in-power allegation tallies is still planned.</p>
+      <div class="chart-card">${perpetrationChart()}</div>
+      <div class="methodology-note">Sources: Koss et al. (1980s college samples, ~4.4% rape); Lisak &amp; Miller, 2002 (University of Massachusetts sample, 6.4% rape/attempted rape); broader literature reviews citing 7–15% for legally-defined rape and up to 25–57% when "sexual assault" is defined more broadly. Methodology differences — anonymous self-report vs. legal definitions vs. survey wording — explain most of the spread.</div>
+    </div>
+
+    <h2 class="stats-part-heading">VI. Aftermath</h2>
+    ${statPending('stat-outcomes', 'Victim outcomes', 'Planned: suicide and self-harm rates, mental health diagnoses (depression, anxiety, PTSD), rates of leaving school or quitting jobs, and substance use/addiction among survivors. Target sources: NISVS health-consequence tables, CDC WISQARS.')}
+    ${statPending('stat-economic-cost', 'Economic cost', 'Planned: lifetime cost per victim and total societal economic burden. Target source: CDC lifetime-cost-of-rape estimate (Peterson et al.).')}
+
+    <h2 class="stats-part-heading">VII. The System's Response</h2>
+    ${statPending('stat-reporting-experience', 'Reporting experience', 'Planned: how victims describe their experience being interviewed by police, rates of perceived victim-blaming, rape kit completion and how victims describe that experience, and how often victims are talked out of pursuing charges. Target sources: NCVS, RAINN, academic surveys of victim experience.')}
+    ${statPending('stat-false-reporting', 'False reporting — what the research shows', 'Planned: one of the most searched-for and most politicized numbers in this field. Will be handled carefully, with explicit methodology and named sources rather than a single headline figure. Target sources: Lisak et al. 2010, National Sexual Violence Resource Center overview of false-reporting research.')}
+
     <div class="source-list">
-      Primary sources used on this page: <a href="https://www.cdc.gov/nisvs/media/pdfs/sexualviolence-brief.pdf" target="_blank" rel="noopener">CDC NISVS 2023/2024 Sexual Violence Data Brief</a>, <a href="https://bjs.ojp.gov/document/cv24.pdf" target="_blank" rel="noopener">BJS Criminal Victimization 2024 (NCJ 310547)</a>.
+      Primary sources used on this page so far: <a href="https://www.cdc.gov/nisvs/media/pdfs/sexualviolence-brief.pdf" target="_blank" rel="noopener">CDC NISVS 2023/2024 Sexual Violence Data Brief</a>, <a href="https://bjs.ojp.gov/document/cv24.pdf" target="_blank" rel="noopener">BJS Criminal Victimization 2024 (NCJ 310547)</a>. More sources will be added as each planned section above is researched.
     </div>
   `;
 }
