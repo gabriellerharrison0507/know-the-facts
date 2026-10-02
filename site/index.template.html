@@ -1773,10 +1773,10 @@ const STATS_TOC = [
     { id: 'stat-trends', label: 'Trends over time', done: true },
   ]},
   { group: 'Who Is Affected', items: [
-    { id: 'stat-age', label: 'By age', done: false },
-    { id: 'stat-csa', label: 'Child sexual abuse', done: false },
-    { id: 'stat-race', label: 'By race & ethnicity', done: false },
-    { id: 'stat-gender', label: 'By gender', done: false },
+    { id: 'stat-age', label: 'By age', done: true },
+    { id: 'stat-csa', label: 'Child sexual abuse', done: true },
+    { id: 'stat-race', label: 'By race & ethnicity', done: true },
+    { id: 'stat-gender', label: 'By gender', done: true },
     { id: 'stat-lgbtq', label: 'By sexual orientation & gender identity', done: false },
     { id: 'stat-disability', label: 'By disability status', done: false },
     { id: 'stat-affluence', label: 'By socioeconomic status', done: false },
@@ -1872,10 +1872,10 @@ function renderNational() {
       <p class="section-sub">Everything above comes from confidential surveys at a single point in time. These come from crimes reported to police and from NCVS's own multi-year tracking — a different, usually smaller, measurement, because most sexual assault is never reported. Both are real; they're answering different questions.</p>
 
       <div class="section-block" style="margin-top:20px;">
-        <h4 style="font-size:1.05rem;">Reported rape/sexual assault victimization rate, 2020–2024</h4>
-        <p class="section-sub">This is a self-report survey rate (NCVS) — people describing their own experiences to a government surveyor, independent of whether they ever reported to police.</p>
+        <h4 style="font-size:1.05rem;">Rape/sexual assault victimization rate, 1993–2024</h4>
+        <p class="section-sub">This is a self-report survey rate (NCVS) — people describing their own experiences to a government surveyor, independent of whether they ever reported to police. Each point is pulled from that specific year's own BJS report rather than smoothed between years we don't have a figure for — gaps in the line reflect gaps in what we located, not missing data being hidden.</p>
         <div class="chart-card">${trendChart()}</div>
-        <div class="methodology-note">Source: Bureau of Justice Statistics, <i>Criminal Victimization, 2024</i> (NCJ 310547), Table 1. Rate per 1,000 persons age 12+.</div>
+        <div class="methodology-note">Source: Bureau of Justice Statistics, National Crime Victimization Survey, compiled from the <i>Criminal Victimization</i> annual report for each plotted year (editions: 2000 [NCJ 187007], 2008 [NCJ 227777], 2011 [NCJ 239437], 2019 [NCJ 255113], 2024 [NCJ 310547]). Rate per 1,000 persons age 12+. BJS flags two breaks in long-run comparability within this span — the 1993 survey redesign (this chart's starting point) and a 2006 methodology change (that year is omitted here per BJS's own guidance).</div>
       </div>
 
       <div class="section-block">
@@ -1887,10 +1887,123 @@ function renderNational() {
     </div>
 
     <h2 class="stats-part-heading">II. Who Is Affected</h2>
-    ${statPending('stat-age', 'By age', 'Planned: average/median age at first and most recent victimization, volume breakdown by age bracket, and how age correlates with reporting rates and case outcomes. Target sources: NCVS age tables, NISVS.')}
-    ${statPending('stat-csa', 'Child sexual abuse', 'Planned: a dedicated deep-dive distinct from the general age breakdown above — prevalence, disclosure timelines, grooming patterns, and outcomes specific to child victims. Target sources: HHS Child Maltreatment annual report, Children\'s Advocacy Center data, NCANDS.')}
-    ${statPending('stat-race', 'By race & ethnicity', 'Planned: volume breakdown by race/ethnicity, and how race/ethnicity correlates with reporting rates and case outcomes. Target sources: NCVS, NISVS race/ethnicity tables.')}
-    ${statPending('stat-gender', 'By gender', 'Planned: volume breakdown by victim gender, how gender correlates with reporting and outcomes, the gender of perpetrators by victim gender, and age/race breakdowns within each gender. Target sources: NCVS, NISVS.')}
+
+    <div class="section-block" id="stat-age">
+      <h3>By age</h3>
+      <p class="section-sub">Two different questions: how old victims are when an assault happens in a given year, and how old they were the first time it ever happened to them. The data below answers both separately.</p>
+
+      <h4 style="font-size:1.05rem;">Victimization rate by age, 2023 vs. 2024</h4>
+      <p class="section-sub">Rate per 1,000 persons in each age bracket. 18-to-24-year-olds consistently have the highest rate of any age group.</p>
+      <div class="chart-card">${groupedBarChart({
+        categories: ['12–17','18–24','25–34','35–49','50–64','65+'],
+        series: [
+          { label: '2023', values: [8.4,18.7,13.4,10.6,8.0,4.1] },
+          { label: '2024', values: [5.4,24.1,12.6,7.1,6.2,3.5] }
+        ],
+        maxV: 26,
+        ariaLabel: 'Rape and sexual assault victimization rate by age group, 2023 and 2024. Highest in the 18 to 24 bracket both years.'
+      })}</div>
+      <div class="methodology-note">Source: Bureau of Justice Statistics, <i>Criminal Victimization</i>, 2023 and 2024 editions (NCJ series), age-bracket tables. Rate per 1,000 persons in each age bracket.</div>
+
+      <h4 style="font-size:1.05rem;margin-top:30px;">Reporting to police, by victim age</h4>
+      <p class="section-sub">A clear gradient: older victims report to police at close to double the rate of the youngest victims.</p>
+      <div class="category-grid">
+        <div class="category-card"><h4>12–17</h4><p class="cap"><b>25.5%</b> reported to police</p></div>
+        <div class="category-card"><h4>18–24</h4><p class="cap"><b>32.5%</b> reported to police</p></div>
+        <div class="category-card"><h4>25–34</h4><p class="cap"><b>43.6%</b> reported to police</p></div>
+        <div class="category-card"><h4>35–49</h4><p class="cap"><b>47.7%</b> reported to police</p></div>
+        <div class="category-card"><h4>50–64</h4><p class="cap"><b>56.6%</b> reported to police</p></div>
+        <div class="category-card"><h4>65+</h4><p class="cap"><b>55.3%</b> reported to police</p></div>
+      </div>
+      <div class="methodology-note">Source: BJS National Crime Victimization Survey, 2022 data. The youngest victims — exactly the group least equipped to navigate the justice system alone — report at roughly half the rate of victims over 50.</div>
+
+      <h4 style="font-size:1.05rem;margin-top:30px;">Age at first victimization (lifetime)</h4>
+      <p class="section-sub">Distinct from the above: not what age a person was assaulted <i>this year</i>, but how old they were the <i>first time</i> it ever happened.</p>
+      <div class="stat-row">
+        <div class="stat-tile"><div class="stat-num">43.2%</div><div class="stat-label">of female rape victims experienced their first rape before turning 18</div><div class="stat-source">NISVS</div></div>
+        <div class="stat-tile"><div class="stat-num">51.3%</div><div class="stat-label">of male rape victims experienced their first rape before turning 18</div><div class="stat-source">NISVS</div></div>
+        <div class="stat-tile"><div class="stat-num">27.8%</div><div class="stat-label">of male rape victims were age 10 or younger at their first rape</div><div class="stat-source">NISVS</div></div>
+      </div>
+      <div class="methodology-note">Source: CDC National Intimate Partner and Sexual Violence Survey. For both sexes, a majority of lifetime rape victims first experienced it before age 25 (81.3% of female victims, 70.8% of male victims) — rape is disproportionately something that first happens early in life, not primarily an adult experience.</div>
+
+      <h4 style="font-size:1.05rem;margin-top:30px;">How age affects case outcomes</h4>
+      <p class="section-sub">We could not find a current, national-level study tracking conviction rates specifically by victim age. What we did find, specific to child victims, is arrest-rate data from a NIBRS-based study — included here with its real limitation stated plainly rather than silently extrapolated to all victims.</p>
+      <div class="methodology-note">A 2000 BJS/NIBRS statistical report on law-enforcement-reported sexual assaults of young children found an arrest in only about 19% of cases involving the youngest victims (under 6), versus roughly 22% for child sexual assault cases overall. This data is from 1991–1996 NIBRS reporting agencies — dated, not nationally representative of today's system, and specific to child victims only. We have not found a comparable, current, national breakdown of conviction (not just arrest) rates by victim age for either child or adult victims — flagged here as a real gap in available public data, not a number we're choosing not to show.</div>
+    </div>
+
+    <div class="section-block" id="stat-csa">
+      <h3>Child sexual abuse</h3>
+      <p class="section-sub">A dedicated look at child victims specifically — separate from the general age breakdown above because the research tradition, data sources, and dynamics (disclosure, grooming, mandated reporting) are genuinely distinct from adult sexual assault.</p>
+
+      <h4 style="font-size:1.05rem;">Prevalence</h4>
+      <p class="section-sub">Two widely-cited figures that don't fully agree — shown both, not resolved into one number.</p>
+      <div class="category-grid">
+        <div class="category-card"><h4>RAINN's figure</h4><p>1 in 9 girls and 1 in 20 boys experience sexual abuse or assault before age 18.</p></div>
+        <div class="category-card"><h4>CDC's figure</h4><p>At least 1 in 4 girls and 1 in 20 boys experience child sexual abuse.</p></div>
+      </div>
+      <div class="methodology-note">The boys' figure (1 in 20) is consistent across both sources; the girls' figure is not, likely reflecting different underlying studies and definitions of "sexual abuse." We're showing both rather than picking the more dramatic or more conservative one. Sources: RAINN, citing Finkelhor et al.; CDC, <i>About Child Sexual Abuse</i>.</div>
+
+      <h4 style="font-size:1.05rem;margin-top:30px;">Disclosure takes a long time — often decades</h4>
+      <div class="stat-row">
+        <div class="stat-tile"><div class="stat-num">23.9 yrs</div><div class="stat-label">average time to disclosure across survivors in a 2024 CHILD USA analysis</div><div class="stat-source">CHILD USA</div></div>
+        <div class="stat-tile"><div class="stat-num">70%+</div><div class="stat-label">of victims do not disclose within 5 years of the abuse</div><div class="stat-source">CHILD USA</div></div>
+      </div>
+      <div class="methodology-note">The same analysis found men take longer to disclose than women on average (25.7 years vs. 20.6 years). Other, smaller clinical-sample studies report shorter median delays (around 1–2 years) — disclosure-timeline research varies substantially by sample and methodology, and we're showing the larger, more frequently-cited figure rather than implying false consensus.</div>
+
+      <h4 style="font-size:1.05rem;margin-top:30px;">Who are the perpetrators of child sexual abuse specifically?</h4>
+      <p class="section-sub">This is distinct from general child-maltreatment perpetrator data (which is dominated by parents, because most substantiated maltreatment is neglect). For sexual assault specifically, the pattern is different.</p>
+      <div class="methodology-note">A BJS/NIBRS statistical report (based on 1991–1996 law-enforcement data — the most specific primary source we could locate for this exact question, though dated) found that acquaintances, not strangers, were the typical offender: 60% of offenders of juvenile victims were classified as acquaintances, and just 14% were strangers to the victim overall. For victims under age 6 specifically, nearly half (49%) of offenders were family members. Stranger-perpetrated assault was rarer the younger the victim: just 3% of offenders of victims under 6 were strangers, rising to 5% for ages 6–12 and 10% for ages 12–17 — the opposite of "stranger danger" intuition, and consistent with what the broader literature on grooming and access describes. Source: <i>Sexual Assault of Young Children as Reported to Law Enforcement</i>, BJS/NIBRS, 2000 (NCJ 182990).</div>
+
+      <h4 style="font-size:1.05rem;margin-top:30px;">Child Protective Services context</h4>
+      <p class="section-sub">Sexual abuse is a minority of what CPS substantiates overall — most substantiated maltreatment is neglect, which is worth knowing so the CPS data isn't misread as "most child maltreatment is sexual."</p>
+      <div class="methodology-note">In FFY 2023, among children with a single substantiated maltreatment type, 7.5% were substantiated for sexual abuse specifically (64.1% were substantiated for neglect, by far the largest category). Source: U.S. Department of Health &amp; Human Services, <i>Child Maltreatment 2023</i> (Administration for Children &amp; Families).</div>
+    </div>
+
+    <div class="section-block" id="stat-race">
+      <h3>By race &amp; ethnicity</h3>
+      <p class="section-sub">The most recent CDC report with a full race/ethnicity breakdown is the NISVS 2016/2017 cycle — the newer 2023/2024 data brief used elsewhere on this page doesn't yet include this level of demographic detail, so this section is a few years older than the rest of the page. We'll update it if CDC publishes a newer breakdown.</p>
+
+      <h4 style="font-size:1.05rem;">Lifetime prevalence, women, by race &amp; ethnicity</h4>
+      <p class="section-sub">This measure is broader than sexual violence alone — it's NISVS's combined "contact sexual violence, physical violence by an intimate partner, or stalking" lifetime measure, shown here because it's the figure CDC published with a full race breakdown. It should not be read as "sexual violence only."</p>
+      <div class="category-grid">
+        <div class="category-card"><h4>Multiracial</h4><p class="cap"><b>63.8%</b></p></div>
+        <div class="category-card"><h4>American Indian / Alaska Native</h4><p class="cap"><b>57.7%</b></p></div>
+        <div class="category-card"><h4>Non-Hispanic Black</h4><p class="cap"><b>53.6%</b></p></div>
+        <div class="category-card"><h4>Non-Hispanic White</h4><p class="cap"><b>48.4%</b></p></div>
+        <div class="category-card"><h4>Hispanic</h4><p class="cap"><b>42.1%</b></p></div>
+        <div class="category-card"><h4>Asian / Pacific Islander</h4><p class="cap"><b>27.2%</b></p></div>
+      </div>
+      <div class="methodology-note">Source: CDC NISVS 2016/2017 Report. Combined lifetime measure: contact sexual violence, intimate partner physical violence, or stalking.</div>
+
+      <h4 style="font-size:1.05rem;margin-top:30px;">Lifetime rape prevalence, men, by race &amp; ethnicity</h4>
+      <p class="section-sub">This one is specific to rape alone, not the combined measure above.</p>
+      <div class="category-grid">
+        <div class="category-card"><h4>Multiracial</h4><p class="cap"><b>6.3%</b></p></div>
+        <div class="category-card"><h4>Non-Hispanic White</h4><p class="cap"><b>3.9%</b></p></div>
+        <div class="category-card"><h4>Hispanic</h4><p class="cap"><b>3.2%</b></p></div>
+        <div class="category-card"><h4>Non-Hispanic Black</h4><p class="cap"><b>2.9%</b></p></div>
+      </div>
+      <div class="methodology-note">Source: CDC NISVS 2016/2017 Report. We could not locate a directly comparable rape-specific (not combined-measure) breakdown by race for women from this same report cycle — noted here rather than substituting the broader combined figure without saying so.</div>
+
+      <h4 style="font-size:1.05rem;margin-top:30px;">How race affects reporting and case outcomes</h4>
+      <div class="methodology-note">We have not yet located a reliable, current, national-level breakdown of police-reporting rates or case outcomes (arrest, prosecution, conviction) by victim race specifically for sexual assault. This is flagged as a research gap, not resolved with an approximate or dated figure.</div>
+    </div>
+
+    <div class="section-block" id="stat-gender">
+      <h3>By gender</h3>
+      <p class="section-sub">The overall lifetime prevalence split by gender is already shown at the top of this page (45.1% of women, 16.9% of men). This section goes one level deeper: the gender of perpetrators, and how it varies by the specific type of sexual violence involved.</p>
+
+      <h4 style="font-size:1.05rem;">The gender of perpetrators depends heavily on which category of sexual violence you're asking about</h4>
+      <p class="section-sub">This is a genuinely important nuance, not a footnote: the common assumption that perpetrators are "almost always men" holds strongly for rape, but not for every category NISVS tracks.</p>
+      <div class="category-grid">
+        <div class="category-card"><h4>Male rape victims</h4><p>87% report only male perpetrators.</p></div>
+        <div class="category-card"><h4>Male "made to penetrate" victims</h4><p>79% report only female perpetrators — the opposite pattern.</p></div>
+      </div>
+      <div class="methodology-note">Source: CDC NISVS. "Made to penetrate" — being physically forced or coerced into penetrating someone else — is tracked as its own category specifically because it's a distinct experience from rape, overwhelmingly reported by men, and disproportionately involves female perpetrators. Conflating it with "rape" (which is overwhelmingly male-perpetrated even against male victims) produces a misleading picture in either direction — this is why NISVS tracks them separately, and why this page does too.</div>
+
+      <h4 style="font-size:1.05rem;margin-top:30px;">What we don't have yet</h4>
+      <div class="methodology-note">Planned but not yet built: a reliable breakdown of female-perpetrator-on-female-victim frequency specifically, and age/race breakdowns within each gender. NISVS's published tables are sparser for these specific cross-tabs than for the categories above — we'd rather wait for a solid source than publish an approximate number.</div>
+    </div>
     ${statPending('stat-lgbtq', 'By sexual orientation & gender identity', 'Planned: prevalence by sexual orientation and gender identity, including trans-specific data. Target sources: NISVS sexual-orientation tables, U.S. Transgender Survey.')}
     ${statPending('stat-disability', 'By disability status', 'Planned: victimization rate for people with disabilities compared to the general population. Target source: BJS, Crime Against Persons with Disabilities.')}
     ${statPending('stat-affluence', 'By socioeconomic status', 'Planned: whether income/affluence correlates with reporting likelihood or case outcomes. Target sources: NCVS household-income tables, academic literature.')}
@@ -1924,7 +2037,7 @@ function renderNational() {
     ${statPending('stat-false-reporting', 'False reporting — what the research shows', 'Planned: one of the most searched-for and most politicized numbers in this field. Will be handled carefully, with explicit methodology and named sources rather than a single headline figure. Target sources: Lisak et al. 2010, National Sexual Violence Resource Center overview of false-reporting research.')}
 
     <div class="source-list">
-      Primary sources used on this page so far: <a href="https://www.cdc.gov/nisvs/media/pdfs/sexualviolence-brief.pdf" target="_blank" rel="noopener">CDC NISVS 2023/2024 Sexual Violence Data Brief</a>, <a href="https://bjs.ojp.gov/document/cv24.pdf" target="_blank" rel="noopener">BJS Criminal Victimization 2024 (NCJ 310547)</a>. More sources will be added as each planned section above is researched.
+      Primary sources used on this page so far: <a href="https://www.cdc.gov/nisvs/media/pdfs/sexualviolence-brief.pdf" target="_blank" rel="noopener">CDC NISVS 2023/2024 Sexual Violence Data Brief</a>, <a href="https://icasa.org/uploads/documents/Stats-and-Facts/NISVS-2016-2017-State-Report-508.pdf" target="_blank" rel="noopener">CDC NISVS 2016/2017 Report</a>, <a href="https://bjs.ojp.gov/document/cv24.pdf" target="_blank" rel="noopener">BJS Criminal Victimization 2024 (NCJ 310547)</a> and prior-year editions (2000, 2008, 2011, 2019), <a href="https://acf.gov/sites/default/files/documents/cb/cm2023.pdf" target="_blank" rel="noopener">HHS Child Maltreatment 2023</a>, BJS/NIBRS <i>Sexual Assault of Young Children as Reported to Law Enforcement</i> (NCJ 182990, 2000), RAINN, CHILD USA. More sources will be added as each planned section above is researched.
     </div>
   `;
 }
@@ -1943,24 +2056,80 @@ function renderGlobal() {
   `;
 }
 
+/* Rape/sexual assault victimization rate, per 1,000 persons age 12+, both sexes.
+   Each point individually sourced from its own BJS Criminal Victimization annual
+   report (document noted per point below) — not interpolated for years without
+   a located figure. NCVS flags two breaks in comparability within this span:
+   the 1993 survey redesign (the series start) and a 2006 methodology change
+   (that year is excluded here per BJS's own guidance not to compare it). */
+const TREND_POINTS = [
+  { year: 1993, v: 2.5, src: 'cv00' }, { year: 1994, v: 2.1, src: 'cv00' },
+  { year: 1998, v: 1.5, src: 'cv00' }, { year: 1999, v: 1.7, src: 'cv00' },
+  { year: 2000, v: 1.2, src: 'cv00' }, { year: 2002, v: 1.5, src: 'cv11' },
+  { year: 2007, v: 1.0, src: 'cv08' }, { year: 2008, v: 0.8, src: 'cv08' },
+  { year: 2010, v: 1.0, src: 'cv11' }, { year: 2011, v: 0.9, src: 'cv11' },
+  { year: 2015, v: 1.6, src: 'cv19' }, { year: 2016, v: 1.1, src: 'cv19' },
+  { year: 2017, v: 1.4, src: 'cv19' }, { year: 2018, v: 2.7, src: 'cv19' },
+  { year: 2019, v: 1.7, src: 'cv19' }, { year: 2020, v: 1.2, src: 'cv24' },
+  { year: 2021, v: 1.2, src: 'cv24' }, { year: 2022, v: 1.9, src: 'cv24' },
+  { year: 2023, v: 1.7, src: 'cv24' }, { year: 2024, v: 2.0, src: 'cv24' },
+];
 function trendChart() {
-  const years = [2020,2021,2022,2023,2024];
-  const vals = [1.2,1.2,1.9,1.7,2.0];
-  const w = 560, h = 220, pad = 36;
-  const maxV = 2.4;
-  const x = i => pad + i * (w - pad*2) / (years.length - 1);
-  const y = v => h - pad - (v / maxV) * (h - pad*2);
-  const pts = vals.map((v,i) => `${x(i)},${y(v)}`).join(' ');
+  const pts = TREND_POINTS;
+  const w = 720, h = 260, pad = 40, rightPad = 20;
+  const minYear = pts[0].year, maxYear = pts[pts.length-1].year;
+  const maxV = 3.0;
+  const x = year => pad + (year - minYear) / (maxYear - minYear) * (w - pad - rightPad);
+  const y = v => h - pad - (v / maxV) * (h - pad - 24);
+  const line = pts.map(p => `${x(p.year)},${y(p.v)}`).join(' ');
   let dots = '', labels = '';
-  vals.forEach((v,i) => {
-    dots += `<circle cx="${x(i)}" cy="${y(v)}" r="${i===vals.length-1?5:3.5}" fill="var(--accent)" />`;
-    labels += `<text x="${x(i)}" y="${h-10}" text-anchor="middle" font-size="12" fill="var(--ink-faint)">${years[i]}</text>`;
+  pts.forEach((p, i) => {
+    const isLast = i === pts.length - 1;
+    dots += `<circle cx="${x(p.year)}" cy="${y(p.v)}" r="${isLast ? 5 : 3}" fill="var(--accent)" />`;
+    if (isLast || p.year % 5 === 0 || i === 0) {
+      labels += `<text x="${x(p.year)}" y="${h-10}" text-anchor="middle" font-size="11" fill="var(--ink-faint)">${p.year}</text>`;
+    }
   });
-  return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" role="img" aria-label="Rape and sexual assault victimization rate, 2020 to 2024, rising from 1.2 to 2.0 per 1,000">
-    <line x1="${pad}" y1="${h-pad}" x2="${w-pad}" y2="${h-pad}" stroke="var(--border)" stroke-width="1"/>
-    <polyline points="${pts}" fill="none" stroke="var(--accent)" stroke-width="2"/>
+  const last = pts[pts.length-1];
+  return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" role="img" aria-label="Rape and sexual assault victimization rate, 1993 to 2024, per 1,000 persons age 12 and older, from a high of 2.5 in 1993 to 2.0 in 2024 with a long decline in between">
+    <line x1="${pad}" y1="${h-pad}" x2="${w-rightPad}" y2="${h-pad}" stroke="var(--border)" stroke-width="1"/>
+    <polyline points="${line}" fill="none" stroke="var(--accent)" stroke-width="2"/>
     ${dots}
-    <text x="${x(4)+10}" y="${y(2.0)-8}" font-size="13" font-weight="700" fill="var(--ink)">2.0</text>
+    <text x="${x(last.year)+10}" y="${y(last.v)-8}" font-size="13" font-weight="700" fill="var(--ink)">${last.v}</text>
+    ${labels}
+  </svg>`;
+}
+
+function groupedBarChart(opts) {
+  const { categories, series, unit, maxV, ariaLabel } = opts;
+  const w = 680, h = 280, pad = 44, bottomPad = 46, topPad = 40;
+  const groupW = (w - pad - 20) / categories.length;
+  const barW = Math.min(26, (groupW - 14) / series.length);
+  const colors = ['var(--accent)', 'var(--ink-faint)'];
+  let bars = '', labels = '';
+  categories.forEach((cat, ci) => {
+    const groupX = pad + ci * groupW + (groupW - series.length * barW - (series.length-1)*4) / 2;
+    series.forEach((s, si) => {
+      const val = s.values[ci];
+      const bh = (val / maxV) * (h - topPad - bottomPad);
+      const bx = groupX + si * (barW + 4);
+      const by = h - bottomPad - bh;
+      bars += `<rect x="${bx}" y="${by}" width="${barW}" height="${bh}" rx="3" fill="${colors[si % colors.length]}"/>`;
+      bars += `<text x="${bx + barW/2}" y="${by-6}" text-anchor="middle" font-size="10" font-weight="700" fill="var(--ink)">${val}</text>`;
+    });
+    labels += `<text x="${pad + ci * groupW + groupW/2}" y="${h-bottomPad+18}" text-anchor="middle" font-size="11" fill="var(--ink-faint)">${cat}</text>`;
+  });
+  let legend = '';
+  if (series.length > 1) {
+    series.forEach((s, si) => {
+      legend += `<rect x="${pad + si*120}" y="8" width="10" height="10" rx="2" fill="${colors[si % colors.length]}"/>
+        <text x="${pad + si*120 + 16}" y="17" font-size="11" fill="var(--ink-soft)">${s.label}</text>`;
+    });
+  }
+  return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" role="img" aria-label="${ariaLabel}">
+    ${legend}
+    <line x1="${pad-10}" y1="${h-bottomPad}" x2="${w-10}" y2="${h-bottomPad}" stroke="var(--border)" stroke-width="1"/>
+    ${bars}
     ${labels}
   </svg>`;
 }
