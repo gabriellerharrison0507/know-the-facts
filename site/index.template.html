@@ -1798,14 +1798,14 @@ const STATS_TOC = [
     { id: 'stat-affluence', label: 'By socioeconomic status', done: false },
   ]},
   { group: 'Where & In What Context', items: [
-    { id: 'stat-campus', label: 'College campuses', done: false },
-    { id: 'stat-incarcerated', label: 'Incarcerated populations', done: false },
-    { id: 'stat-military', label: 'Military & veterans', done: false },
+    { id: 'stat-campus', label: 'College campuses', done: true },
+    { id: 'stat-incarcerated', label: 'Incarcerated populations', done: true },
+    { id: 'stat-military', label: 'Military & veterans', done: true },
   ]},
   { group: 'The Nature of the Assault', items: [
     { id: 'stat-type', label: 'Type of assault', done: true },
     { id: 'stat-drug-facilitated', label: 'Drug-facilitated sexual assault', done: true },
-    { id: 'stat-tech-facilitated', label: 'Technology-facilitated abuse', done: false },
+    { id: 'stat-tech-facilitated', label: 'Technology-facilitated abuse', done: true },
   ]},
   { group: 'Who Commits It', items: [
     { id: 'stat-perpetrators', label: 'Perpetrators & victim relationship', done: true },
@@ -2025,9 +2025,56 @@ function renderNational() {
     ${statPending('stat-affluence', 'By socioeconomic status', 'Planned: whether income/affluence correlates with reporting likelihood or case outcomes. Target sources: NCVS household-income tables, academic literature.')}
 
     <h2 class="stats-part-heading">III. Where & In What Context</h2>
-    ${statPending('stat-campus', 'College campuses', 'Planned: reported and self-survey rates on campus, what happened to accused students (expulsion, legal consequences), what happened to victims, and where/by whom assaults occurred. Target sources: AAU Campus Climate Survey, Clery Act data, DOE Title IX/OCR data.')}
-    ${statPending('stat-incarcerated', 'Incarcerated populations', 'Planned: sexual victimization rates in prisons and jails, a population with its own dedicated federal data collection. Target source: BJS National Inmate Survey / PREA reporting.')}
-    ${statPending('stat-military', 'Military & veterans', 'Planned: military sexual trauma prevalence and reporting. Target source: DoD SAPRO annual report.')}
+
+    <div class="section-block" id="stat-campus">
+      <h3>College campuses</h3>
+
+      <h4 style="font-size:1.05rem;">Prevalence</h4>
+      <div class="stat-row">
+        <div class="stat-tile"><div class="stat-num">23.1%</div><div class="stat-label">of female undergraduates reported nonconsensual sexual contact by force, threat, or incapacitation since enrolling</div><div class="stat-source">AAU, 27 schools, 2019 cycle</div></div>
+        <div class="stat-tile"><div class="stat-num">5.4%</div><div class="stat-label">of male undergraduates reported the same</div><div class="stat-source">AAU, 27 schools, 2019 cycle</div></div>
+      </div>
+      <div class="methodology-note">Source: Association of American Universities, Campus Climate Survey on Sexual Assault and Misconduct, 2019 cycle (27 participating universities). A newer, smaller 2024 survey (10 schools, the Higher Education Sexual Misconduct and Awareness Survey) found 9.4% of students reported nonconsensual penetration, attempted penetration, or forced sexual touching since enrollment — a different survey instrument and school sample, so not presented here as a directly comparable trend line with the 2019 figure.</div>
+
+      <h4 style="font-size:1.05rem;margin-top:30px;">Reporting</h4>
+      <div class="methodology-note">Reporting rates to campus officials or police ranged from just 5% to 28% depending on the specific type of behavior, per the AAU survey — even though 63.3% of students said they believed a report would be taken seriously. Believing the system would respond well and actually reporting are evidently two different things.</div>
+
+      <h4 style="font-size:1.05rem;margin-top:30px;">What happens to the accused</h4>
+      <div class="stat-row">
+        <div class="stat-tile"><div class="stat-num">10–25%</div><div class="stat-label">of men found responsible for campus sexual assault were expelled, across 130 colleges and universities investigated</div><div class="stat-source">NPR / Center for Public Integrity</div></div>
+        <div class="stat-tile"><div class="stat-num">&lt;1%</div><div class="stat-label">of all 1,200+ sexual violence reports to Cornell (2018–2024) resulted in expulsion or dismissal</div><div class="stat-source">Cornell Title IX data</div></div>
+      </div>
+      <div class="methodology-note">Cornell specifically: of 1,200+ reports (sexual assault, dating violence, domestic violence, and stalking combined) from 2018–2024, the university filed disciplinary charges in about 13% of cases, found someone responsible in 51 cases, and expelled or dismissed the accused in 7 of those 51 — 14% of cases with a responsibility finding, and well under 1% of all reports. For comparison, Cornell suspended or expelled the person found responsible 41% of the time, versus 59% across 26 other New York colleges analyzed in the same investigation. Most students found responsible received lesser sanctions — probation or training — rather than removal from campus. This is the same institution, and the same underlying pattern of lenient outcomes, at the center of the 2024 case that motivated this project in the first place.</div>
+
+      <h4 style="font-size:1.05rem;margin-top:30px;">What happens to victims</h4>
+      <div class="methodology-note">See the "Leaving school" finding under Victim Outcomes above: among students who formally reported to their school, 39% experienced a substantial educational disruption (leave of absence, transfer, or dropping out entirely).</div>
+
+      <h4 style="font-size:1.05rem;margin-top:30px;">Where assaults occur and who the perpetrators are</h4>
+      <div class="methodology-note">We did not locate a current, dedicated national breakdown of campus-specific assault locations or perpetrator relationships distinct from the general population data in Part V above. The general finding that most perpetrators are known to the victim, not strangers, is consistent with qualitative campus research, but we're not presenting a campus-specific number we don't have.</div>
+    </div>
+
+    <div class="section-block" id="stat-incarcerated">
+      <h3>Incarcerated populations</h3>
+      <p class="section-sub">Prisons and jails have their own dedicated federal data collection, separate from NCVS and NISVS — the BJS National Inmate Survey, part of the National Prison Rape Statistics Program mandated by the Prison Rape Elimination Act (PREA).</p>
+      <div class="category-grid category-grid-3">
+        <div class="category-card"><h4>Prison, overall</h4><div class="cat-stat">4.1%</div></div>
+        <div class="category-card"><h4>Prison, by another inmate</h4><div class="cat-stat">2.3%</div></div>
+        <div class="category-card"><h4>Prison, by staff</h4><div class="cat-stat">2.2%</div></div>
+        <div class="category-card"><h4>Jail, overall</h4><div class="cat-stat">4.0%</div></div>
+        <div class="category-card"><h4>Jail, by another inmate</h4><div class="cat-stat">2.2%</div></div>
+        <div class="category-card"><h4>Jail, by staff</h4><div class="cat-stat">2.3%</div></div>
+      </div>
+      <div class="methodology-note">Source: BJS, <i>Sexual Victimization in Prisons Reported by Inmates, 2023–24</i> and <i>Sexual Victimization in Local Jails Reported by Inmates, 2023–24</i>. The jail rate rose from 3.2% in 2011–12 to 4.0% in 2023–24. Worth noting directly: staff-perpetrated victimization is nearly as common as inmate-perpetrated victimization in both settings — this cuts against the assumption that the risk in custody is primarily from other inmates.</div>
+    </div>
+
+    <div class="section-block" id="stat-military">
+      <h3>Military &amp; veterans</h3>
+      <div class="stat-row">
+        <div class="stat-tile"><div class="stat-num">8,195</div><div class="stat-label">sexual assault reports involving service members as victims and/or subjects, FY2024 — down 4% from FY2023's 8,515</div><div class="stat-source">DoD SAPRO</div></div>
+        <div class="stat-tile"><div class="stat-num">~33%</div><div class="stat-label">estimated share of service members experiencing unwanted sexual contact who actually reported it, up from ~25% in FY2023</div><div class="stat-source">DoD SAPRO</div></div>
+      </div>
+      <div class="methodology-note">Source: Department of Defense Sexual Assault Prevention and Response Office (SAPRO), FY2024 Annual Report. The 8,195 figure is an administrative count of formal reports (6,843 of them from active-duty members specifically); the ~33% estimated reporting rate is a separate, survey-based figure comparing self-reported "unwanted sexual contact" prevalence against how many of those incidents were ever formally reported — these are two different kinds of measurement, not the same number expressed two ways.</div>
+    </div>
 
     <h2 class="stats-part-heading">IV. The Nature of the Assault</h2>
 
@@ -2069,10 +2116,29 @@ function renderNational() {
 
     <div class="section-block" id="stat-tech-facilitated">
       <h3>Technology-facilitated abuse</h3>
-      <div class="coming-soon">
-        <h3>Research pending</h3>
-        <p>Planned: image-based sexual abuse, sextortion, and deepfakes — broader than the campus-specific "sharing nudes" scenario. Target sources: Cyber Civil Rights Initiative, FBI/NCMEC sextortion data.</p>
+      <p class="section-sub">Broader than the campus-specific "sharing nudes" scenario mentioned elsewhere on this site — this covers nonconsensual pornography, sextortion, and deepfakes as their own category of sexual abuse.</p>
+
+      <h4 style="font-size:1.05rem;">Prevalence among U.S. adults</h4>
+      <div class="category-grid category-grid-3">
+        <div class="category-card"><h4>Nonconsensual pornography</h4><div class="cat-stat">4.33%</div></div>
+        <div class="category-card"><h4>Sextortion</h4><div class="cat-stat">4.74%</div></div>
+        <div class="category-card"><h4>Deepfake pornography</h4><div class="cat-stat">1.13%</div></div>
       </div>
+      <div class="methodology-note">Source: national online sample of U.S. adults, published in Archives of Sexual Behavior (2026). A separate multinational study found a broader 22.6% of respondents reported some experience of image-based sexual abuse in any form.</div>
+
+      <h4 style="font-size:1.05rem;margin-top:30px;">Who deepfakes target</h4>
+      <div class="stat-row">
+        <div class="stat-tile"><div class="stat-num">96%</div><div class="stat-label">of deepfakes online are nonconsensual sexual deepfakes</div><div class="stat-source">Sensity AI, 2019</div></div>
+        <div class="stat-tile"><div class="stat-num">99%</div><div class="stat-label">of those nonconsensual sexual deepfakes target women</div><div class="stat-source">Sensity AI, 2019</div></div>
+      </div>
+      <div class="methodology-note">Source: Sensity AI, <i>The State of Deepfakes: Landscape, Threats, and Impact</i>, 2019 — this is the original, still most-cited source for this exact figure, but it is now several years old in a technology space that has changed enormously since (consumer-grade AI image/video generation didn't yet exist in its current form in 2019). Treat the proportional pattern — deepfakes are overwhelmingly nonconsensual, sexual, and aimed at women — as more durable than the precise percentages.</div>
+
+      <h4 style="font-size:1.05rem;margin-top:30px;">Sextortion, especially of minors, is an active and growing crisis</h4>
+      <div class="stat-row">
+        <div class="stat-tile"><div class="stat-num">1 in 5</div><div class="stat-label">teens report personally experiencing sextortion</div><div class="stat-source">Thorn, 2024</div></div>
+      </div>
+      <div class="methodology-note">Source: Thorn, <i>Trends in Financial Sextortion</i>, June 2024. In February 2023, the FBI issued a joint public-safety warning with agencies from Canada, the UK, Australia, and New Zealand describing a "global financial sextortion crisis" that had already been linked to more than a dozen reported suicides.</div>
+    </div>
     </div>
 
     <h2 class="stats-part-heading">V. Who Commits It</h2>
@@ -2186,7 +2252,7 @@ function renderNational() {
     </div>
 
     <div class="source-list">
-      Primary sources used on this page so far: <a href="https://www.cdc.gov/nisvs/media/pdfs/sexualviolence-brief.pdf" target="_blank" rel="noopener">CDC NISVS 2023/2024 Sexual Violence Data Brief</a>, <a href="https://icasa.org/uploads/documents/Stats-and-Facts/NISVS-2016-2017-State-Report-508.pdf" target="_blank" rel="noopener">CDC NISVS 2016/2017 Report</a>, CDC NISVS 2015 cycle, <a href="https://bjs.ojp.gov/document/cv24.pdf" target="_blank" rel="noopener">BJS Criminal Victimization 2024 (NCJ 310547)</a> and prior-year editions (2000, 2008, 2011, 2019), BJS <i>Violence Against Women: Estimates from the Redesigned Survey</i>, <a href="https://acf.gov/sites/default/files/documents/cb/cm2023.pdf" target="_blank" rel="noopener">HHS Child Maltreatment 2023</a>, BJS/NIBRS <i>Sexual Assault of Young Children as Reported to Law Enforcement</i> (NCJ 182990, 2000), Finkelhor &amp; Yllo (1985), Russell (1990), Recalde-Esnoz et al. (2024) DFSA systematic review, Rothbaum et al. (1992), Choudhary, Smith &amp; Bossarte (2012), Kilpatrick, Edmunds &amp; Seymour (1992) <i>Rape in America</i>, Peterson et al. (CDC, 2017) lifetime economic burden of rape, Rebecca Campbell et al. secondary-victimization research, Lisak, Gardinier, Nicksa &amp; Cote (2010), National Sexual Violence Resource Center, Know Your IX / Advocates for Youth, RAINN, CHILD USA. More sources will be added as each planned section above is researched.
+      Primary sources used on this page so far: <a href="https://www.cdc.gov/nisvs/media/pdfs/sexualviolence-brief.pdf" target="_blank" rel="noopener">CDC NISVS 2023/2024 Sexual Violence Data Brief</a>, <a href="https://icasa.org/uploads/documents/Stats-and-Facts/NISVS-2016-2017-State-Report-508.pdf" target="_blank" rel="noopener">CDC NISVS 2016/2017 Report</a>, CDC NISVS 2015 cycle, <a href="https://bjs.ojp.gov/document/cv24.pdf" target="_blank" rel="noopener">BJS Criminal Victimization 2024 (NCJ 310547)</a> and prior-year editions (2000, 2008, 2011, 2019), BJS <i>Violence Against Women: Estimates from the Redesigned Survey</i>, <a href="https://acf.gov/sites/default/files/documents/cb/cm2023.pdf" target="_blank" rel="noopener">HHS Child Maltreatment 2023</a>, BJS/NIBRS <i>Sexual Assault of Young Children as Reported to Law Enforcement</i> (NCJ 182990, 2000), Finkelhor &amp; Yllo (1985), Russell (1990), Recalde-Esnoz et al. (2024) DFSA systematic review, Rothbaum et al. (1992), Choudhary, Smith &amp; Bossarte (2012), Kilpatrick, Edmunds &amp; Seymour (1992) <i>Rape in America</i>, Peterson et al. (CDC, 2017) lifetime economic burden of rape, Rebecca Campbell et al. secondary-victimization research, Lisak, Gardinier, Nicksa &amp; Cote (2010), National Sexual Violence Resource Center, Know Your IX / Advocates for Youth, Association of American Universities Campus Climate Survey (2019, 2024), NPR / Center for Public Integrity campus-discipline investigation, <a href="https://bjs.ojp.gov/document/svpri2324.pdf" target="_blank" rel="noopener">BJS Sexual Victimization in Prisons 2023-24</a>, BJS Sexual Victimization in Local Jails 2023-24, DoD SAPRO FY2024 Annual Report, Sensity AI (2019), Thorn (2024), RAINN, CHILD USA. More sources will be added as each planned section above is researched.
     </div>
   `;
 }
