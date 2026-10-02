@@ -248,6 +248,18 @@
   .rank-chip-sub { font-size: 0.78rem; color: var(--ink-soft); margin-top: 6px; }
   .rank-chip-dir { font-size: 0.72rem; color: var(--ink-faint); margin-top: 4px; font-style: italic; }
 
+  .notable-stat {
+    background: var(--accent-soft); border: 1px solid var(--accent); border-radius: 14px;
+    padding: 18px 22px; margin-bottom: 30px;
+  }
+  .notable-stat .eyebrow-sm {
+    font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 700;
+    color: var(--accent); margin-bottom: 8px;
+  }
+  .notable-stat p { margin: 0; color: var(--ink); font-size: 0.95rem; line-height: 1.5; }
+  .notable-stat .cite { font-size: 0.78rem; color: var(--ink-soft); margin-top: 8px; }
+  .notable-stat .cite a { color: var(--ink-soft); }
+
   .legal-section { margin-bottom: 30px; }
   .legal-section h3 {
     font-size: 1.1rem; display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
@@ -1420,6 +1432,33 @@ const LEGAL = {
 
 const STATE_ORDER = ['CO','NY','AR','AK','DC','UT','OR','MD','VT','MN','WY','WA','NH','VA','AZ','NE','ME','NM','MO','OH','DE','TN','RI','MT','KS','ID','NC','LA','GA','IN','KY','SC','WV','NV','AL','MI','WI','IL','OK','CA','FL','SD','CT','PA','MA','NJ','IA','MS','ND','TX','HI'];
 
+/* A genuinely state-specific standout finding — a state DOJ dashboard number,
+   a notable lawsuit or scandal, a state-specific study, etc. Deliberately
+   NOT populated for every state: left absent where nothing specific and
+   well-sourced turned up, rather than filled with a generic or weak finding
+   just for visual consistency. { text, source, url? } */
+const NOTABLE = {
+  CO: {
+    text: "A 2023 scandal at the Colorado Bureau of Investigation — a forensic scientist later found to have manipulated DNA test results across hundreds of cases — left the state with a sexual assault kit backlog that peaked at over 1,400 untested kits in early 2025.",
+    source: "NPR, May 2025",
+    url: "https://www.npr.org/2025/05/26/nx-s1-5381401/colorados-rape-kit-backlog-is-a-barrier-to-investigations-and-arrests",
+  },
+  NY: {
+    text: "A year-long NYC Department of Investigation probe found the NYPD's Special Victims Division had been understaffed and under-resourced for at least nine years, with internal NYPD documents acknowledging that many sexual assault cases were not properly investigated as a result.",
+    source: "NYC Department of Investigation",
+  },
+  AR: {
+    text: "Arkansas reported the highest rate of child sexual abuse in the nation in 2022 — 267 substantiated cases per 100,000 children, more than three times the national rate.",
+    source: "HHS, Child Maltreatment 2022 (NCANDS)",
+    url: "https://acf.gov/sites/default/files/documents/cb/cm2022.pdf",
+  },
+  AK: {
+    text: "Alaska has the nation's highest reported rape rate, roughly four times the national average. In 2018, nearly 44% of reported sex-offense victims statewide were Alaska Native women — a group facing particular barriers given the state's remote, isolated communities and thin law enforcement presence.",
+    source: "Alaska Public Media / Alaska Dept. of Public Safety, 2019",
+    url: "https://alaskapublic.org/2019/11/12/alaskas-rate-of-sexual-assault-is-four-times-national-average-according-to-latest-fbi-numbers/",
+  },
+};
+
 /* ---------------- law-protectiveness rank ----------------
    Derived entirely from the five rated axes already in LEGAL[abbr].rating:
    consent, incapacitation, maritalException, solCriminal, solCivil.
@@ -1626,6 +1665,14 @@ function renderState(abbr) {
   const fullName = abbr === 'DC' ? 'Washington, D.C.' : (Object.keys(ABBR).find(k => ABBR[k] === abbr) || abbr);
   const legal = LEGAL[abbr];
   const lawRank = LAW_RANK[abbr];
+  const notable = NOTABLE[abbr];
+  const notableStat = notable ? `
+    <div class="notable-stat">
+      <div class="eyebrow-sm">Worth knowing about ${fullName}</div>
+      <p>${notable.text}</p>
+      <div class="cite">${notable.url ? `<a href="${notable.url}" target="_blank" rel="noopener">${notable.source}</a>` : notable.source}</div>
+    </div>
+  ` : '';
 
   const rankChip = (label, valueHtml, sub, dir) => `
     <div class="rank-chip">
@@ -1772,6 +1819,7 @@ function renderState(abbr) {
       ${saBlock}
     </div>
     ${ranksStrip}
+    ${notableStat}
     ${quickRefTable}
     ${legalBody}
     <div class="section-block">
