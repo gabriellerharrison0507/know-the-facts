@@ -1018,10 +1018,86 @@ const LEGAL = {
       solCriminal: { short: "No limit, ever", badge: 'good', why: "South Carolina imposes no statute of limitations on criminal sexual conduct prosecutions." },
       solCivil: { short: "Roughly until age 27, or later if discovery was delayed", badge: 'mixed', why: "A discovery-based extension helps survivors who didn't connect their injury to the abuse right away, but the baseline deadline is still a fixed number of years past a specific age rather than open-ended." }
     }
+  },
+  WV: {
+    name: 'West Virginia',
+    verified: '2026-10-08',
+    consent: "\"Consent\" is defined in genuinely affirmative terms — \"words or overt actions by a person who is competent to give informed consent indicating a freely given agreement.\" In practice, most charges are built around a list of \"incapable of consent\" categories (age, mental defect, mental incapacitation, physical helplessness, custodial status) plus forcible compulsion for certain degrees, rather than that definition alone doing the work.",
+    incapacitation: "\"Mentally incapacitated\" means temporarily unable to appraise or control one's conduct as a result of a substance \"administered to that person without his or her consent,\" or some other act committed on them without their consent. A victim who became intoxicated voluntarily, with no one else drugging them or forcing anything on them, falls outside this specific definition — the same structural gap this project has flagged in other states' statutes.",
+    ageOfConsent: "16, with no close-in-age exemption as such, but it is a defense to the age-based offense that the defendant was less than 4 years older than the victim.",
+    maritalException: "Statutory rape requires that the offender not be married to the victim — marriage is a complete defense to that specific age-based charge. This carve-out is scoped to the age-of-consent offense and doesn't reach the forcible or incapacity-based sexual assault statutes.",
+    solCriminal: "No limit, ever, for felony sexual assault — West Virginia doesn't impose a deadline on felony prosecutions. Only misdemeanor-level offenses carry a time limit, at 1 year.",
+    solCivil: "For a child victim: up to 18 years after turning 18 (so, until around age 36), or 4 years from discovering the abuse, whichever is longer — one of the longer child-victim windows this project has found. For an adult victim, though, just 2 years — a notably short deadline.",
+    citation: "W. Va. Code §§ 61-8B-2, 61-8B-3, 61-8B-4, 61-8B-9, 61-11-9, 55-2-15 (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "16 (defense if offender <4 yrs older)",
+    rating: {
+      consent: { short: "Affirmative definition exists, but categories drive charges", badge: 'mixed', why: "The statute defines consent in genuinely affirmative terms, but most charges still turn on a list of incapable-of-consent categories or forcible compulsion rather than that definition alone." },
+      incapacitation: { short: "Excludes voluntary intoxication", badge: 'concerning', why: "The definition only covers a substance administered without the victim's consent — someone who became intoxicated on their own, with no one drugging or forcing anything on them, falls outside it." },
+      maritalException: { short: "Narrow, age-based carve-out only", badge: 'mixed', why: "Marriage is a defense specifically to the age-based statutory rape charge and doesn't extend to the forcible or incapacity-based assault statutes." },
+      solCriminal: { short: "No limit, ever, for felony sexual assault", badge: 'good', why: "West Virginia doesn't impose any statute of limitations on felony sexual assault prosecutions." },
+      solCivil: { short: "Strong for children, just 2 years for adults", badge: 'mixed', why: "A child victim can generally sue until around age 36 or later, but an adult victim gets only 2 years — a sharp drop-off depending on the survivor's age at the time." }
+    }
+  },
+  NV: {
+    name: 'Nevada',
+    verified: '2026-10-08',
+    consent: "Sexual assault is defined around lack of will or the perpetrator's knowledge (or reason to know) that the victim is incapable of resisting, consenting, or understanding the conduct — a knowledge-based, circumstance-driven standard rather than a standalone affirmative-consent requirement.",
+    incapacitation: "Broad and cause-agnostic: the law covers any condition the perpetrator knows or reasonably should know leaves the victim incapable of resisting, consenting, or understanding what's happening — explicitly including being drunk, high, or overdosed, regardless of who supplied the substance or whether the victim took it voluntarily.",
+    ageOfConsent: "16, with a close-in-age exception: a 14- or 15-year-old's partner who is less than 4 years older isn't guilty of statutory sexual seduction.",
+    maritalException: "No marital exception was found in either direction. A dedicated statute states plainly that marriage to the victim is not a defense to sexual assault committed by force or threat of force, and no comparable marital carve-out for the age-based statutory sexual seduction offense turned up in this research.",
+    solCriminal: "20 years for standard sexual assault, but no limit at all for aggravated offenses involving force, penetration, or substantial bodily harm, and no limit whenever DNA evidence identifies the suspect.",
+    solCivil: "No limit, ever, for a civil claim where the abuse occurred before the plaintiff turned 18 — one of the strongest civil protections for child survivors this project has found.",
+    citation: "NRS §§ 200.366, 200.364, 200.368, 200.373, 171.085, 11.215 (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "16 (close-in-age exception, 14–15 w/ partner <4 yrs older)",
+    rating: {
+      consent: { short: "Knowledge-based, not affirmative", badge: 'mixed', why: "Turns on the victim's lack of will or the perpetrator's knowledge of incapacity rather than a standalone affirmative-consent requirement." },
+      incapacitation: { short: "Broad, explicitly cause-agnostic", badge: 'good', why: "Covers any drunk, high, or overdosed condition the perpetrator knew or should have known about — it doesn't matter who caused it or whether the victim chose it." },
+      maritalException: { short: "None found", badge: 'good', why: "A dedicated statute confirms marriage is not a defense to forcible sexual assault, and no marital carve-out for the age-based offense was found in this research." },
+      solCriminal: { short: "20 years generally; no limit for aggravated or DNA-match cases", badge: 'mixed', why: "A standard sexual assault must be charged within 20 years, though the deadline disappears entirely for aggravated offenses or once DNA evidence identifies a suspect." },
+      solCivil: { short: "No limit, ever, for abuse before age 18", badge: 'good', why: "A childhood sexual abuse survivor can bring a civil claim at any time, with no filing deadline at all." }
+    }
+  },
+  AL: {
+    name: 'Alabama',
+    verified: '2026-10-08',
+    consent: "Rape in the first degree is defined around forcible compulsion, incapacity to consent, or a victim under 12 with an adult offender — a circumstance-based structure rather than a standalone affirmative-consent requirement. The law is explicit that consent isn't a defense once the incapacitation provision applies.",
+    incapacitation: "Explicitly cause-agnostic: \"incapacitated\" covers someone temporarily unable to appraise or control their conduct due to a narcotic, anesthetic, or intoxicating substance, as long as that condition was known or reasonably should have been known to the offender. Nothing requires the substance to have been given to the victim by someone else or without their consent — a voluntarily intoxicated victim is covered.",
+    ageOfConsent: "16, with a close-in-age rule built directly into the second-degree rape offense: an actor at least 2 years older than a partner who is 12 to 15.",
+    maritalException: "A married minor can legally consent to their adult spouse — this carve-out is scoped to the age-based rape tiers and doesn't reach the forcible-compulsion or incapacitation-based provisions.",
+    solCriminal: "No limit, ever, for rape — treated under state law the same as the most serious capital-eligible offenses for limitations purposes. No limit either for any sex offense against a victim under 16, regardless of force. Lesser sexual abuse charges against an adult victim carry a 3-year limit.",
+    solCivil: "For a victim who was a minor at the time: generally until the survivor turns 35. For a victim who was an adult at the time: a much shorter 3-year window from the incident.",
+    citation: "Ala. Code §§ 13A-6-60, 13A-6-61, 13A-6-62, 13A-6-66, 15-3-1, 15-3-5, 6-2-8 (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "16 (close-in-age rule for 12–15, offender ≥2 yrs older)",
+    rating: {
+      consent: { short: "Circumstance-based, not affirmative", badge: 'mixed', why: "Built around forcible compulsion, incapacity, and a young-victim age threshold, rather than a standalone affirmative-consent requirement." },
+      incapacitation: { short: "Explicitly cause-agnostic", badge: 'good', why: "Covers a victim incapacitated by any narcotic, anesthetic, or intoxicating substance the offender knew or should have known about — nobody else needs to have caused it or administered it without consent." },
+      maritalException: { short: "Narrow, age-based carve-out only", badge: 'mixed', why: "A married minor can consent to their adult spouse, but this reaches only the age-based rape tiers, not the forcible-compulsion or incapacitation-based provisions." },
+      solCriminal: { short: "No limit, ever, for rape", badge: 'good', why: "Rape carries no statute of limitations at all, and neither does any sex offense against a victim under 16." },
+      solCivil: { short: "Until age 35 for minors; just 3 years for adults", badge: 'mixed', why: "A strong window for survivors who were minors at the time contrasts sharply with a short 3-year deadline for survivors who were adults when the abuse occurred." }
+    }
+  },
+  MI: {
+    name: 'Michigan',
+    verified: '2026-10-08',
+    consent: "Michigan's criminal sexual conduct offenses are built around force/coercion or a list of \"mentally incapable,\" \"mentally incapacitated,\" and \"physically helpless\" categories — a victim who falls into one of these categories is presumed legally incapable of consent, and a consent defense doesn't apply. A circumstance-based structure rather than a standalone affirmative-consent requirement.",
+    incapacitation: "\"Mentally incapacitated\" means temporarily unable to appraise or control one's conduct due to a substance \"administered to her without her consent,\" or some other act committed on her without her consent. Michigan's own courts have been explicit that a victim who voluntarily got drunk is not \"mentally incapacitated\" under this definition — the same structural gap this project has flagged in other states' statutes. A separate \"physically helpless\" category (unconscious, asleep, unable to communicate) can still apply to a severely intoxicated victim, but only if they're actually unable to communicate, not merely visibly impaired.",
+    ageOfConsent: "16. A limited close-in-age provision exists only for non-penetrative sexual contact (not intercourse) between people at least 13 years old with less than a 5-year gap — it provides no protection for penetrative acts.",
+    maritalException: "Michigan abolished general marital immunity for criminal sexual conduct — a spouse can be charged and convicted the same as anyone else. The one exception: a person can't be charged or convicted solely because their legal spouse is younger than 16, \"mentally incapable,\" or \"mentally incapacitated\" — meaning marriage still functions as a defense specifically tied to those categories, including two incapacity-to-consent grounds rather than age alone.",
+    solCriminal: "No limit, ever, for first-degree criminal sexual conduct, the most serious charge. For second- and third-degree charges: 10 years after the offense or the victim's 21st birthday (whichever is later) for an adult victim, extending to 15 years or the victim's 28th birthday for a victim who was under 18. DNA evidence identifying an unknown suspect tolls the clock until identification.",
+    solCivil: "Until the survivor turns 28, or 3 years after discovering the injury and its connection to the abuse, whichever is later.",
+    citation: "MCL §§ 750.520a, 750.520b, 750.520e, 750.520l, 767.24, 600.5851b (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "16 (limited close-in-age rule for non-penetrative contact only, 13+ w/ <5 yr gap)",
+    rating: {
+      consent: { short: "Circumstance-based, not affirmative", badge: 'mixed', why: "Built around force/coercion and a list of incapacity categories rather than a standalone affirmative-consent requirement, though consent is explicitly unavailable as a defense once those categories apply." },
+      incapacitation: { short: "Excludes voluntary intoxication", badge: 'concerning', why: "Michigan's own courts have held that a victim who became intoxicated voluntarily is not \"mentally incapacitated\" under the statute, and the separate physically-helpless category requires actual inability to communicate, not just visible impairment." },
+      maritalException: { short: "Reaches incapacity categories, not just age", badge: 'concerning', why: "Marriage still functions as a defense specifically where the victim is under 16, mentally incapable, or mentally incapacitated — reaching real incapacity-to-consent grounds, not only an age-based charge." },
+      solCriminal: { short: "No limit for the top charge; victim-age-based caps otherwise", badge: 'mixed', why: "First-degree criminal sexual conduct has no deadline at all, but lesser degrees are capped at 10–15 years or a fixed birthday for the victim, depending on the victim's age." },
+      solCivil: { short: "Until age 28, or later if discovery was delayed", badge: 'mixed', why: "A discovery-based extension helps survivors who didn't connect their injury to the abuse right away, but the baseline deadline is still a fixed age rather than open-ended." }
+    }
   }
 };
 
-const STATE_ORDER = ['CO','NY','AR','AK','DC','UT','OR','MD','VT','MN','WY','WA','NH','VA','AZ','NE','ME','NM','MO','OH','DE','TN','RI','MT','KS','ID','NC','LA','GA','IN','KY','SC'];
+const STATE_ORDER = ['CO','NY','AR','AK','DC','UT','OR','MD','VT','MN','WY','WA','NH','VA','AZ','NE','ME','NM','MO','OH','DE','TN','RI','MT','KS','ID','NC','LA','GA','IN','KY','SC','WV','NV','AL','MI'];
 
 /* ---------------- routing ---------------- */
 let currentView = 'map';
