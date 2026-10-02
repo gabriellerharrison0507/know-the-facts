@@ -483,10 +483,86 @@ const LEGAL = {
       solCriminal: { short: "No limit (1st/2nd-degree + felony CSA)", badge: 'good', why: "No deadline, ever, for first- or second-degree sexual assault or felony sexual abuse of a minor — the broadest criminal protection of the four states, not limited to only the single most serious charge." },
       solCivil: { short: "No limit (felony-level claims)", badge: 'good', why: "No deadline, ever, for a felony-level sexual assault or childhood sexual abuse civil claim — the strongest civil protection of the four." }
     }
+  },
+  DC: {
+    name: 'Washington, D.C.',
+    verified: '2026-10-01',
+    consent: "D.C. law defines consent as \"words or overt actions indicating a freely given agreement\" to the act — an explicit affirmative standard. Lack of verbal or physical resistance resulting from force, threats, or coercion is explicitly not consent.",
+    incapacitation: "First-degree sexual abuse covers rendering a person unconscious, or administering a drug or intoxicant — by force, threat, or without the person's knowledge or permission — that substantially impairs their ability to appraise or control their conduct. This clearly covers drugging and unconsciousness; it's less clear how straightforward voluntary intoxication, with no drugging involved, is treated under this specific language.",
+    ageOfConsent: "16 generally. Under 16, sexual contact is illegal if the other person is 4 or more years older. A separate \"significant relationship\" provision extends protection to 18 for parents, guardians, teachers, coaches, clergy, and other authority figures.",
+    maritalException: "None. D.C.'s defense-to-prosecution statute makes no distinction based on the relationship between the parties, and D.C. is specifically named among the small number of U.S. jurisdictions with no marital exception to sexual abuse law at all.",
+    solCriminal: "No limit, ever, for first- through fourth-degree sexual abuse, child sexual abuse, or incest — one of the broadest criminal protections researched so far, since it isn't limited to only the single most serious charge.",
+    solCivil: "For abuse before age 35: until the survivor turns 40, or 5 years from discovery, whichever is later. For abuse at 35 or older: 5 years from discovery. A 2018 law also opened a 2-year window reviving claims that had already expired under the old rules.",
+    citation: "D.C. Code §§ 22-3001 et seq., 22-3007, D.C. Law 22-311 (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "16 (gap-based; extended to 18 for authority figures)",
+    rating: {
+      consent: { short: "Explicit affirmative — \"freely given agreement\"", badge: 'good', why: "Requires \"words or overt actions\" showing freely given agreement — an explicit affirmative standard, among the clearest researched so far." },
+      incapacitation: { short: "Force/drugging/unconsciousness; voluntary intox. unclear", badge: 'mixed', why: "Clearly covers drugging and unconsciousness, but the statute's language centers on force or lack of knowledge/permission — it's not obvious how a case of simple voluntary intoxication (no drugging by the other person) is treated. Flagged, not confirmed." },
+      maritalException: { short: "None — explicitly abolished", badge: 'good', why: "D.C.'s general defense statute draws no distinction based on relationship to the victim, and D.C. is specifically documented as one of the jurisdictions with no marital exception on the books." },
+      solCriminal: { short: "No limit (all 4 degrees + child abuse)", badge: 'good', why: "Covers first through fourth-degree sexual abuse plus child sexual abuse and incest — broader than states that only eliminate the limit for the single most serious charge." },
+      solCivil: { short: "Age 40 or 5 yrs discovery, plus a revival window", badge: 'good', why: "A generous discovery-based rule for both younger and older survivors, plus a 2018 law that revived claims already expired under the prior rules — genuinely protective, even if not a flat \"no limit.\"" }
+    }
+  },
+  UT: {
+    name: 'Utah',
+    verified: '2026-10-01',
+    consent: "Utah law lists specific circumstances that make a sexual act \"without consent\" — including the victim expressing lack of consent through words or conduct, force, concealment or surprise, threats, and several incapacity-based circumstances — rather than a single affirmative-consent requirement.",
+    incapacitation: "Covers unconsciousness or physical inability to resist, a diagnosed \"incapacitated individual\" (intellectual, physical, neurological, or cognitive disease or defect, age 14+), and intentionally impairing someone's judgment by administering a substance without their knowledge. Broad coverage across several distinct circumstances.",
+    ageOfConsent: "18 generally. 16- and 17-year-olds may consent to a partner less than 10 years older. Under 14 is an absolute bar regardless of age gap.",
+    maritalException: "None. Utah's rape statute explicitly states it \"applies whether or not the actor is married to the victim\" — language added when Utah repealed its marital exemption in 1991, by a 59–13 House vote.",
+    solCriminal: "No limit, ever, for rape, rape of a child, object rape, or aggravated sexual assault. Forcible sexual abuse and incest carry an 8-year limit, but only if the offense was reported within the first 4 years — otherwise that window is lost.",
+    solCivil: "No limit, ever, for a childhood sexual abuse claim against the person who committed it (claims against a third party, like an institution, must generally be filed by age 22). For an adult survivor, the general 4-year personal-injury rule applies instead — a real gap compared to the no-limit rule for child victims.",
+    citation: "Utah Code §§ 76-5-401 et seq., 76-5-406, 76-1-301, 78B-2-307, 78B-2-308 (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "18 (16–17 close-in-age exception, <10 yr gap)",
+    rating: {
+      consent: { short: "Circumstance-based list, not one affirmative standard", badge: 'mixed', why: "Twelve specific circumstances count as \"without consent\" — broad and victim-protective in coverage, but structured around enumerated situations rather than requiring an affirmative \"yes\" the way Alaska's or D.C.'s standard does." },
+      incapacitation: { short: "Broad — unconsciousness, diagnosed incapacity, drugging", badge: 'good', why: "Covers unconsciousness, physical inability to resist, a clinically diagnosed incapacitated individual, and administering a substance without knowledge — several distinct, broad categories." },
+      maritalException: { short: "None — repealed 1991", badge: 'good', why: "Explicitly written into the rape statute itself: it \"applies whether or not the actor is married to the victim.\"" },
+      solCriminal: { short: "No limit (rape); 8 yrs (forcible abuse/incest, conditional)", badge: 'good', why: "No deadline at all for rape, child rape, object rape, or aggravated sexual assault — the main gap is a narrower, report-deadline-conditioned 8-year window for forcible sexual abuse and incest specifically." },
+      solCivil: { short: "No limit (child, vs. perpetrator); 4 yrs (adult)", badge: 'mixed', why: "As strong as it gets for a childhood survivor suing their abuser directly — but an adult survivor gets only the general 4-year personal-injury window, a real and fairly short gap." }
+    }
+  },
+  OR: {
+    name: 'Oregon',
+    verified: '2026-10-01',
+    consent: "Oregon's core rape statute centers on \"forcible compulsion\" — physical force, or a threat of death, injury, or kidnapping — rather than requiring an affirmative \"yes.\" Separate provisions address a person's incapacity to consent.",
+    incapacitation: "A person can't consent if under 18, incapable of appraising their own conduct, \"mentally incapacitated\" (incapable of appraising or controlling their conduct at the time — not limited to drugging by someone else), or \"physically helpless\" (unconscious or otherwise unable to communicate unwillingness).",
+    ageOfConsent: "18 generally. A close-in-age defense applies to several offenses when the parties are within 3 years of age, with some versions of the defense requiring the younger person to be at least 15.",
+    maritalException: "None. Oregon removed marriage as a legal defense to rape in 1977 — among the first states in the country to do so, and the site of the first-ever marital rape prosecution to reach trial in the U.S. (State v. Rideout, 1978).",
+    solCriminal: "20 years for first-degree rape, sodomy, unlawful sexual penetration, or sexual abuse — or until the victim turns 30, if they were a minor at the time, whichever is later — and if a prosecutor later obtains corroborating evidence after that period has expired, prosecution can proceed at any time. Second- and third-degree offenses carry a shorter 6-year limit.",
+    solCivil: "No limit, ever, for a sexual assault claim — child or adult — arising on or after June 26, 2025. This is very recent and not retroactive: assaults before that date are still governed by the older discovery-based rules (roughly 5 years from discovery for an adult, or up to age 40 for a child).",
+    citation: "ORS §§ 163.305, 163.315, 163.345, 163.375, 131.125, 12.117 (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "18 (close-in-age defense, <3 yr gap)",
+    rating: {
+      consent: { short: "Forcible-compulsion (force-based) standard", badge: 'concerning', why: "The core rape statute requires proving force or a threat of serious harm — it doesn't frame the offense around the absence of an affirmative \"yes\" the way Alaska's or D.C.'s standard does." },
+      incapacitation: { short: "Broad — appraisal, mental incapacity, physical helplessness", badge: 'good', why: "Covers inability to appraise one's conduct, mental incapacitation generally (not limited to being drugged by someone else), and physical helplessness including unconsciousness." },
+      maritalException: { short: "None — abolished 1977 (first in the U.S.)", badge: 'good', why: "Oregon was among the very first states to remove marriage as a defense to rape, and was the site of the first marital rape case to go to trial in the country." },
+      solCriminal: { short: "20 yrs (1st-degree); 6 yrs (2nd/3rd-degree)", badge: 'mixed', why: "A strong 20-year baseline for the most serious offenses, extendable further with corroborating evidence or DNA — but second- and third-degree offenses, still serious sexual assault charges, get only 6 years." },
+      solCivil: { short: "No limit (2025 onward, not retroactive)", badge: 'good', why: "As of June 2025, Oregon eliminated the civil deadline entirely for both child and adult survivors going forward — one of the most recent and strongest reforms researched so far. Doesn't reach assaults before that date." }
+    }
+  },
+  MD: {
+    name: 'Maryland',
+    verified: '2026-10-01',
+    consent: "Maryland defines consent as \"the clear and voluntary agreement\" to the act — an explicit, affirmative standard.",
+    incapacitation: "\"Mentally incapacitated\" explicitly covers being substantially incapable of appraising or resisting because of a drug, narcotic, or intoxicating substance — without requiring that it was administered without the victim's consent, unlike some states' narrower wording. \"Physically helpless\" separately covers unconsciousness or physical inability to resist or communicate unwillingness.",
+    ageOfConsent: "16 generally. For 14- and 15-year-olds, sexual activity is only illegal if the other person is 4 or more years older.",
+    maritalException: "None — as of very recently. Until October 2023, Maryland barred prosecution for rape and most sexual offense charges against a legal spouse entirely, with only narrow exceptions for legal separation or the use of force — one of the last, and broadest, marital exemptions in the country. It was fully repealed by unanimous vote in both legislative chambers, effective October 1, 2023.",
+    solCriminal: "No limit, ever, for first- or second-degree rape, or first- through third-degree sexual offense — all felonies. Only the lowest misdemeanor tier, fourth-degree sexual offense, carries any limit (1 to 3 years).",
+    solCivil: "No limit, ever, for a childhood sexual abuse claim — including reviving claims that had already expired under the old rules, one of the strongest revival provisions researched so far, upheld by Maryland's Supreme Court in 2025. For an adult survivor, the general 3-year rule applies instead — a real gap compared to the child-victim rule.",
+    citation: "Md. Code, Criminal Law §§ 3-301 et seq., Md. Code, Cts. & Jud. Proc. § 5-101, 2023 Md. Laws (SB 129/HB 4), Maryland Child Victims Act of 2023 (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "16 (14–15 only if offender is 4+ yrs older)",
+    rating: {
+      consent: { short: "Explicit affirmative — \"clear, voluntary agreement\"", badge: 'good', why: "Consent is defined directly as clear, voluntary agreement to the act — an explicit affirmative standard." },
+      incapacitation: { short: "Broad — covers voluntary intoxication explicitly", badge: 'good', why: "Unlike some states, the \"mentally incapacitated\" definition doesn't require a substance to have been administered without consent — simple intoxication-based incapacity is clearly covered, in addition to unconsciousness and physical helplessness." },
+      maritalException: { short: "None (repealed just Oct. 2023)", badge: 'good', why: "Until October 2023, Maryland had one of the broadest marital exemptions left in the country — a near-total bar on prosecuting a spouse for rape or sexual offense. Repealed unanimously in both chambers; the current rule is current law only as of a few years ago." },
+      solCriminal: { short: "No limit (all felony-level offenses)", badge: 'good', why: "Covers first- and second-degree rape and first- through third-degree sexual offense — every felony tier. Only the lowest misdemeanor level carries any deadline." },
+      solCivil: { short: "No limit + revival (child); 3 yrs (adult)", badge: 'mixed', why: "About as strong as it gets for a childhood survivor, including reviving already-expired claims — but an adult survivor gets only the general 3-year window, a real gap." }
+    }
   }
 };
 
-const STATE_ORDER = ['CO','NY','AR','AK'];
+const STATE_ORDER = ['CO','NY','AR','AK','DC','UT','OR','MD'];
 
 /* ---------------- routing ---------------- */
 let currentView = 'map';
