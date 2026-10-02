@@ -1812,12 +1812,12 @@ const STATS_TOC = [
     { id: 'stat-repeat-offenders', label: 'Scale of perpetration & repeat offenders', done: true },
   ]},
   { group: 'Aftermath', items: [
-    { id: 'stat-outcomes', label: 'Victim outcomes', done: false },
-    { id: 'stat-economic-cost', label: 'Economic cost', done: false },
+    { id: 'stat-outcomes', label: 'Victim outcomes', done: true },
+    { id: 'stat-economic-cost', label: 'Economic cost', done: true },
   ]},
   { group: "The System's Response", items: [
-    { id: 'stat-reporting-experience', label: 'Reporting experience', done: false },
-    { id: 'stat-false-reporting', label: 'False reporting — what the research shows', done: false },
+    { id: 'stat-reporting-experience', label: 'Reporting experience', done: true },
+    { id: 'stat-false-reporting', label: 'False reporting — what the research shows', done: true },
   ]},
 ];
 
@@ -2108,15 +2108,85 @@ function renderNational() {
     </div>
 
     <h2 class="stats-part-heading">VI. Aftermath</h2>
-    ${statPending('stat-outcomes', 'Victim outcomes', 'Planned: suicide and self-harm rates, mental health diagnoses (depression, anxiety, PTSD), rates of leaving school or quitting jobs, and substance use/addiction among survivors. Target sources: NISVS health-consequence tables, CDC WISQARS.')}
-    ${statPending('stat-economic-cost', 'Economic cost', 'Planned: lifetime cost per victim and total societal economic burden. Target source: CDC lifetime-cost-of-rape estimate (Peterson et al.).')}
+
+    <div class="section-block" id="stat-outcomes">
+      <h3>Victim outcomes</h3>
+      <p class="section-sub">Sexual assault's consequences extend well past the incident itself. The research below is split into mental health, suicide/self-harm, substance use, and life disruption — each with its own source rather than one blended "trauma" statistic.</p>
+
+      <h4 style="font-size:1.05rem;">Mental health</h4>
+      <div class="stat-row">
+        <div class="stat-tile"><div class="stat-num">94%</div><div class="stat-label">of rape victims met symptom criteria for PTSD 2 weeks after the assault</div><div class="stat-source">Rothbaum et al., 1992</div></div>
+        <div class="stat-tile"><div class="stat-num">50%</div><div class="stat-label">still met PTSD symptom criteria 3 months later</div><div class="stat-source">Rothbaum et al., 1992</div></div>
+      </div>
+      <div class="methodology-note">Source: Rothbaum, Foa, Riggs et al., <i>A Prospective Examination of Post-Traumatic Stress Disorder in Rape Victims</i>, Journal of Traumatic Stress, 1992 — 95 female rape victims assessed weekly for 12 weeks starting shortly after the assault. A separate study (Choudhary, Smith &amp; Bossarte, 2012) found that among sexual violence victims generally, 18.8% reported a depression diagnosis, 8.4% an anxiety diagnosis, and 28.3% reported both.</div>
+
+      <h4 style="font-size:1.05rem;margin-top:30px;">What victims report experiencing, in their own words (NISVS)</h4>
+      <div class="category-grid category-grid-3">
+        <div class="category-card"><h4>Fear</h4><div class="cat-stat">65.2%</div></div>
+        <div class="category-card"><h4>Concern for safety</h4><div class="cat-stat">58.9%</div></div>
+        <div class="category-card"><h4>PTSD symptoms</h4><div class="cat-stat">56.6%</div></div>
+        <div class="category-card"><h4>Physical injury</h4><div class="cat-stat">35.7%</div></div>
+        <div class="category-card"><h4>Missed work or school</h4><div class="cat-stat">25.9%</div></div>
+        <div class="category-card"><h4>Needed medical care</h4><div class="cat-stat">25.4%</div></div>
+      </div>
+      <div class="methodology-note">Source: CDC NISVS, female victims of contact sexual violence.</div>
+
+      <h4 style="font-size:1.05rem;margin-top:30px;">Suicide risk</h4>
+      <div class="stat-row">
+        <div class="stat-tile"><div class="stat-num">33%</div><div class="stat-label">of rape victims seriously considered suicide</div><div class="stat-source">Kilpatrick et al., 1992</div></div>
+        <div class="stat-tile"><div class="stat-num">13&times;</div><div class="stat-label">more likely to have actually attempted suicide than non-crime victims (13% vs. 1%)</div><div class="stat-source">Kilpatrick et al., 1992</div></div>
+      </div>
+      <div class="methodology-note">Source: Kilpatrick, Edmunds &amp; Seymour, <i>Rape in America: A Report to the Nation</i>, 1992 — the National Women's Study, a national probability household sample of 4,008 adult women. This is a foundational, still widely-cited study, but it is now over three decades old; we did not locate a comparably rigorous, nationally-representative replication.</div>
+
+      <h4 style="font-size:1.05rem;margin-top:30px;">Substance use</h4>
+      <p class="section-sub">From the same National Women's Study, rape victims were found to be substantially more likely than non-victims to use several substances — consistent with substance use functioning as a coping response to trauma rather than a cause of it.</p>
+      <div class="category-grid category-grid-3">
+        <div class="category-card"><h4>Marijuana</h4><div class="cat-stat">3.4&times;</div></div>
+        <div class="category-card"><h4>Prescription drugs, non-medical use</h4><div class="cat-stat">5.3&times;</div></div>
+        <div class="category-card"><h4>Cocaine</h4><div class="cat-stat">6.4&times;</div></div>
+        <div class="category-card"><h4>Other hard drugs</h4><div class="cat-stat">10&times;</div></div>
+      </div>
+      <div class="methodology-note">Source: Kilpatrick, Edmunds &amp; Seymour, 1992 (see above) — likelihood of use compared to non-victims. Separately, a review of multiple studies found 25–50% of women with a PTSD diagnosis also have a substance use disorder (National Comorbidity Study).</div>
+
+      <h4 style="font-size:1.05rem;margin-top:30px;">Leaving school</h4>
+      <p class="section-sub">This figure is from a survey specifically of students who <i>formally reported</i> to their school, not survivors generally — a narrower, smaller sample than the other figures on this page, noted here rather than generalized.</p>
+      <div class="methodology-note">Among just over 100 student survivors who formally reported sexual violence to their school, 39% experienced a substantial disruption to their education: 27% took a leave of absence, 20% transferred schools, and nearly 10% dropped out entirely. Source: Know Your IX (Advocates for Youth), <i>The Cost of Reporting: Perpetrator Retaliation, Institutional Betrayal, and Student Survivor Pushout</i>.</div>
+    </div>
+
+    <div class="section-block" id="stat-economic-cost">
+      <h3>Economic cost</h3>
+      <div class="stat-row">
+        <div class="stat-tile"><div class="stat-num">$122,461</div><div class="stat-label">estimated lifetime cost of rape, per victim</div><div class="stat-source">Peterson et al., CDC, 2017</div></div>
+        <div class="stat-tile"><div class="stat-num">$3.1T</div><div class="stat-label">total population economic burden, over victims' lifetimes</div><div class="stat-source">Peterson et al., CDC, 2017</div></div>
+      </div>
+      <div class="methodology-note">Source: Peterson, DeGue, Florence &amp; Lokey, <i>Lifetime Economic Burden of Rape Among U.S. Adults</i>, American Journal of Preventive Medicine, June 2017 — among the first CDC studies to estimate the full long-term economic cost of rape, not just criminal-justice spending. The $3.1 trillion figure breaks down into $1.2 trillion in medical costs, $1.6 trillion in lost productivity (victims and perpetrators), and $234 billion in criminal justice costs, based on an estimated 25+ million U.S. adults who have been raped.</div>
+    </div>
 
     <h2 class="stats-part-heading">VII. The System's Response</h2>
-    ${statPending('stat-reporting-experience', 'Reporting experience', 'Planned: how victims describe their experience being interviewed by police, rates of perceived victim-blaming, rape kit completion and how victims describe that experience, and how often victims are talked out of pursuing charges. Target sources: NCVS, RAINN, academic surveys of victim experience.')}
-    ${statPending('stat-false-reporting', 'False reporting — what the research shows', 'Planned: one of the most searched-for and most politicized numbers in this field. Will be handled carefully, with explicit methodology and named sources rather than a single headline figure. Target sources: Lisak et al. 2010, National Sexual Violence Resource Center overview of false-reporting research.')}
+
+    <div class="section-block" id="stat-reporting-experience">
+      <h3>Reporting experience</h3>
+      <p class="section-sub">Research on this specific question is dominated by one research program — Rebecca Campbell's multi-community studies of the legal and medical systems' treatment of sexual assault victims — so the figures below largely trace back to that body of work rather than being independently cross-validated across many separate studies. Worth knowing before treating any single number here as a settled national constant.</p>
+      <div class="stat-row">
+        <div class="stat-tile"><div class="stat-num">90%</div><div class="stat-label">of sexual assault victims experienced some form of secondary victimization from the systems meant to help them</div><div class="stat-source">Campbell research</div></div>
+        <div class="stat-tile"><div class="stat-num">70%</div><div class="stat-label">of cases, victims report, involved police asking what they were wearing</div><div class="stat-source">Campbell research</div></div>
+        <div class="stat-tile"><div class="stat-num">86%</div><div class="stat-label">of cases tracked across six communities over 12 years did not proceed to prosecution</div><div class="stat-source">Campbell research</div></div>
+      </div>
+      <div class="methodology-note">Sources: Rebecca Campbell et al. (Michigan State University), multi-community longitudinal studies of sexual assault case processing, and Campbell, Wasco, Ahrens, Sefl &amp; Barnes, <i>Preventing the "Second Rape"</i>, 2001. The 90% secondary-victimization figure and 70% wardrobe-question figure are frequently cited together but come from survey and case-tracking work across several of Campbell's studies rather than one single number; we were not able to isolate each to one specific publication with full confidence, so treat them as representative of this research program's findings rather than a single definitive survey.</div>
+    </div>
+
+    <div class="section-block" id="stat-false-reporting">
+      <h3>False reporting — what the research shows</h3>
+      <p class="section-sub">One of the most searched-for and most politicized numbers in this field. The honest answer is a range, not one number, and the methodology behind each study matters enormously — "false" has been defined inconsistently across the research base, and some older, much-higher estimates have been discredited for conflating "unfounded" police classifications (which can simply mean an under-investigated case) with an actually-proven false report.</p>
+      <div class="stat-row">
+        <div class="stat-tile"><div class="stat-num">2–10%</div><div class="stat-label">is the range the National Sexual Violence Resource Center identifies as supported by rigorous, methodologically sound research</div><div class="stat-source">NSVRC</div></div>
+        <div class="stat-tile"><div class="stat-num">5.9%</div><div class="stat-label">of 136 sexual assault reports at one major Northeastern university, over 10 years, were classified false after full investigation</div><div class="stat-source">Lisak et al., 2010</div></div>
+      </div>
+      <div class="methodology-note">Sources: National Sexual Violence Resource Center, overview of false-reporting research; Lisak, Gardinier, Nicksa &amp; Cote, <i>False Allegations of Sexual Assault: An Analysis of Ten Years of Reported Cases</i>, Violence Against Women, 2010 — a false claim was counted only where a full investigation found the reported assault had likely not occurred, deliberately excluding cases merely closed as "unfounded" without full investigation, since under-investigation (not a false report) is a well-documented separate problem in how police classify sexual assault cases. This 2–10% range is comparable to false-reporting rates found for other felony crimes, not uniquely high or low for sexual assault.</div>
+    </div>
 
     <div class="source-list">
-      Primary sources used on this page so far: <a href="https://www.cdc.gov/nisvs/media/pdfs/sexualviolence-brief.pdf" target="_blank" rel="noopener">CDC NISVS 2023/2024 Sexual Violence Data Brief</a>, <a href="https://icasa.org/uploads/documents/Stats-and-Facts/NISVS-2016-2017-State-Report-508.pdf" target="_blank" rel="noopener">CDC NISVS 2016/2017 Report</a>, CDC NISVS 2015 cycle, <a href="https://bjs.ojp.gov/document/cv24.pdf" target="_blank" rel="noopener">BJS Criminal Victimization 2024 (NCJ 310547)</a> and prior-year editions (2000, 2008, 2011, 2019), BJS <i>Violence Against Women: Estimates from the Redesigned Survey</i>, <a href="https://acf.gov/sites/default/files/documents/cb/cm2023.pdf" target="_blank" rel="noopener">HHS Child Maltreatment 2023</a>, BJS/NIBRS <i>Sexual Assault of Young Children as Reported to Law Enforcement</i> (NCJ 182990, 2000), Finkelhor &amp; Yllo (1985), Russell (1990), Recalde-Esnoz et al. (2024) DFSA systematic review, RAINN, CHILD USA. More sources will be added as each planned section above is researched.
+      Primary sources used on this page so far: <a href="https://www.cdc.gov/nisvs/media/pdfs/sexualviolence-brief.pdf" target="_blank" rel="noopener">CDC NISVS 2023/2024 Sexual Violence Data Brief</a>, <a href="https://icasa.org/uploads/documents/Stats-and-Facts/NISVS-2016-2017-State-Report-508.pdf" target="_blank" rel="noopener">CDC NISVS 2016/2017 Report</a>, CDC NISVS 2015 cycle, <a href="https://bjs.ojp.gov/document/cv24.pdf" target="_blank" rel="noopener">BJS Criminal Victimization 2024 (NCJ 310547)</a> and prior-year editions (2000, 2008, 2011, 2019), BJS <i>Violence Against Women: Estimates from the Redesigned Survey</i>, <a href="https://acf.gov/sites/default/files/documents/cb/cm2023.pdf" target="_blank" rel="noopener">HHS Child Maltreatment 2023</a>, BJS/NIBRS <i>Sexual Assault of Young Children as Reported to Law Enforcement</i> (NCJ 182990, 2000), Finkelhor &amp; Yllo (1985), Russell (1990), Recalde-Esnoz et al. (2024) DFSA systematic review, Rothbaum et al. (1992), Choudhary, Smith &amp; Bossarte (2012), Kilpatrick, Edmunds &amp; Seymour (1992) <i>Rape in America</i>, Peterson et al. (CDC, 2017) lifetime economic burden of rape, Rebecca Campbell et al. secondary-victimization research, Lisak, Gardinier, Nicksa &amp; Cote (2010), National Sexual Violence Resource Center, Know Your IX / Advocates for Youth, RAINN, CHILD USA. More sources will be added as each planned section above is researched.
     </div>
   `;
 }
