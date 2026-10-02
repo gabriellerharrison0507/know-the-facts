@@ -857,10 +857,86 @@ const LEGAL = {
       solCriminal: { short: "10 yrs (adult victim); no limit (minor victim)", badge: 'mixed', why: "No deadline when the victim was a minor, but a real, finite 10-year cap when the victim was an adult — a gap compared to states with no limit regardless of victim age." },
       solCivil: { short: "To age 27 or discovery+3 (child); 3 yrs (adult)", badge: 'mixed', why: "A past revival window has already closed, and the ongoing rule for a childhood survivor isn't unlimited — reasonable but not top-tier protection for either a child or adult survivor." }
     }
+  },
+  KS: {
+    name: 'Kansas',
+    verified: '2026-10-01',
+    consent: "Kansas defines rape as knowing sexual intercourse without consent under specific circumstances — force or fear, unconsciousness, or incapacity — a circumstance-based structure rather than a standalone affirmative-consent requirement. Notably, it's not a defense that the offender didn't know the victim hadn't consented, was overcome by force or fear, or was unconscious.",
+    incapacitation: "Covers incapacity from mental deficiency or disease, and — explicitly, without requiring anyone else to have caused it — incapacity \"because of the effect of any alcoholic liquor, narcotic, drug or other substance,\" as long as the offender knew or it was reasonably apparent.",
+    ageOfConsent: "16 generally. A close-in-age situation (14–15 year old, partner under 19 and less than 4 years older) reduces the charge to a lesser offense rather than eliminating it entirely.",
+    maritalException: "A narrow exception exists on paper for rape of a child under 14 if the child was married to the offender — but Kansas no longer permits marriage below age 15, which structurally closes off how this defense could actually apply today, even though the statutory language hasn't been repealed.",
+    solCriminal: "No limit, ever, for rape or for childhood sexual abuse.",
+    solCivil: "Until the survivor's 31st birthday (13 years past 18), or 3 years after a related criminal conviction, whichever is later, for a childhood survivor. For an adult survivor: just 2 years.",
+    citation: "K.S.A. §§ 21-5503, 21-5506, 21-5507, 21-5107 (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "16 (14–15: reduced charge, not full exception)",
+    rating: {
+      consent: { short: "Circumstance-based, not affirmative", badge: 'concerning', why: "Built around specific circumstances — force, fear, unconsciousness, incapacity — rather than a standalone affirmative-consent requirement." },
+      incapacitation: { short: "Broad — covers voluntary intoxication explicitly", badge: 'good', why: "Explicitly covers incapacity from alcohol, narcotics, or other substances without requiring that someone else caused it." },
+      maritalException: { short: "On paper, but structurally closed by marriage-age law", badge: 'mixed', why: "A defense for under-14 rape still exists in the text, but Kansas's own minimum marriage age (15) means the scenario the defense describes can no longer legally occur." },
+      solCriminal: { short: "No limit (rape, childhood abuse)", badge: 'good', why: "No deadline at all for rape or for sexual abuse of a child." },
+      solCivil: { short: "To age 31 or conviction+3 (child); 2 yrs (adult)", badge: 'mixed', why: "Reasonable for a childhood survivor, but a short 2-year window for an adult survivor." }
+    }
+  },
+  ID: {
+    name: 'Idaho',
+    verified: '2026-10-01',
+    consent: "Idaho's core rape statute historically used gendered language (\"accomplished with a female\") and is organized around force, incapacity, or inability to resist, with a separate \"male rape\" statute (§ 18-6108) covering male victims — a parallel-statute structure rather than one unified, gender-neutral provision. Recent legislative efforts have moved toward gender-neutral language, though this wasn't independently confirmed as fully enacted.",
+    incapacitation: "Covers incapacity from unsoundness of mind (mental illness, disability, developmental disability) and inability to resist \"due to any intoxicating, narcotic, or anaesthetic substance\" — this doesn't require the substance to have been administered by someone else, so it reaches plain voluntary intoxication.",
+    ageOfConsent: "18 generally — one of the higher baselines researched. Rape under 18 specifically requires a 3+ year age gap for 16-17 year olds; otherwise charges depend on the specific circumstances rather than a single flat cutoff.",
+    maritalException: "A real, confirmed gap: Idaho's rape statute explicitly states no crime is committed for an underage partner if the parties are legally married — the familiar married-minor carve-out pattern.",
+    solCriminal: "No limit, ever, for rape as defined outside the statutory-rape provisions.",
+    solCivil: "Until the survivor's 23rd birthday (5 years past 18), or 5 years from discovery, whichever is later, for a childhood survivor. For an adult survivor: just 2 years, with no discovery-based extension.",
+    citation: "Idaho Code §§ 18-6101, 18-6108, 18-6109, 19-401, 5-219, 5-230 (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "18 (16–17: requires 3+ yr gap)",
+    rating: {
+      consent: { short: "Force/incapacity-based; parallel-statute structure", badge: 'concerning', why: "Built around force and incapacity circumstances rather than an affirmative-consent requirement, with the added quirk of historically gendered language split across two separate statutes rather than one unified provision." },
+      incapacitation: { short: "Broad — covers voluntary intoxication explicitly", badge: 'good', why: "Explicitly covers inability to resist due to an intoxicating, narcotic, or anaesthetic substance, without requiring that someone else administered it." },
+      maritalException: { short: "Confirmed — married-minor carve-out", badge: 'mixed', why: "The statute explicitly states no crime occurs for an underage partner if the couple is legally married." },
+      solCriminal: { short: "No limit (rape)", badge: 'good', why: "No deadline at all for rape outside the statutory-rape-specific provisions." },
+      solCivil: { short: "To age 23 or discovery+5 (child); 2 yrs (adult)", badge: 'mixed', why: "A reasonable discovery-based window for a childhood survivor, but a short, strict 2-year window with no discovery extension for an adult survivor." }
+    }
+  },
+  NC: {
+    name: 'North Carolina',
+    verified: '2026-10-01',
+    consent: "For 40 years, North Carolina was the only U.S. state where, under a 1979 state supreme court ruling (State v. Way), a person legally could not revoke consent once intercourse had begun — continuing after someone said to stop was not legally rape under state law. The legislature finally closed this specific gap in December 2019 (Senate Bill 199, the SAFE Child Act), which added that \"against a person's will\" includes consent that was given and then revoked in a way a reasonable person would understand. Outside of that fix, the law is still organized around force and incapacity circumstances rather than a standalone affirmative-consent requirement.",
+    incapacitation: "\"Mentally incapacitated\" is defined broadly and without regard to cause — a victim \"due to any act\" rendered substantially incapable of appraising the conduct or resisting. \"Physically helpless\" separately covers unconsciousness or physical inability to resist.",
+    ageOfConsent: "16 generally, with a close-in-age exception when the younger person is at least 13 and the age gap is less than 4 years.",
+    maritalException: "A narrow, confirmed gap specific to statutory rape: a married minor's age gap with their adult spouse doesn't matter for that specific charge. This explicitly does not extend to first- or second-degree rape — marriage is not a defense to forcible rape.",
+    solCriminal: "No limit, ever, for any felony, which includes rape and other serious sexual offenses.",
+    solCivil: "Until the survivor's 28th birthday (10 years past 18) for a childhood survivor, under the same 2019 SAFE Child Act — which also opened a 2-year revival window for previously expired claims (closed December 2021, upheld as constitutional by the state supreme court, including against institutions). For an adult survivor: 3 years.",
+    citation: "N.C. Gen. Stat. §§ 14-27.20 et seq., 14-27.21, 14-27.22, 15-1, 1-17, SB 199 (2019) (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "16 (close-in-age exception, 13+, <4 yr gap)",
+    rating: {
+      consent: { short: "Fixed a 40-year gap in 2019; still force-based overall", badge: 'mixed', why: "North Carolina was the only state where consent couldn't be revoked mid-act until a 2019 fix — a significant, recent correction to a genuinely severe gap, though the law overall still centers on force and incapacity rather than a standalone affirmative requirement." },
+      incapacitation: { short: "Broad, cause-agnostic", badge: 'good', why: "Covers incapacity \"due to any act,\" regardless of cause — including voluntary intoxication." },
+      maritalException: { short: "Narrow — doesn't reach 1st/2nd-degree rape", badge: 'mixed', why: "Confirmed limited to the statutory-rape-style married-minor scenario; explicitly does not shield forcible rape." },
+      solCriminal: { short: "No limit (any felony)", badge: 'good', why: "No deadline for any felony, covering rape and other serious sexual offenses." },
+      solCivil: { short: "To age 28 + past revival window (child); 3 yrs (adult)", badge: 'mixed', why: "A meaningful, court-upheld extension and a now-closed revival window for childhood survivors, with a standard 3-year rule for adult survivors." }
+    }
+  },
+  LA: {
+    name: 'Louisiana',
+    verified: '2026-10-01',
+    consent: "Louisiana defines rape as intercourse \"without the person's lawful consent,\" with specific circumstances establishing lack of consent — force, threat, or incapacity. A circumstance-based structure rather than a standalone affirmative-consent requirement.",
+    incapacitation: "Covers a victim \"incapable of resisting or of understanding the nature of the act by reason of intoxication or abnormal condition of the mind produced by a narcotic or anesthetic agent or other means\" — broad, cause-agnostic language that doesn't require anyone else to have caused the intoxication.",
+    ageOfConsent: "17 generally, with a close-in-age exception for partners within 2 years of age (or up to 3, depending on the specific offense).",
+    maritalException: "No exemption for nonconsensual sex — Louisiana law is explicit that marriage doesn't excuse rape. A separate, narrower marriage exception applies specifically to the state's age-of-consent (statutory) provisions, consistent with the pattern seen in several other states, and doesn't reach actual nonconsensual conduct.",
+    solCriminal: "No limit, ever, for first- or second-degree rape — notably broader than states that only eliminate the deadline for the single most serious charge.",
+    solCivil: "No limit, ever, for a childhood sexual abuse claim occurring on or after January 1, 2021. A revival window for previously expired claims is open right now, extended through June 14, 2027, and upheld as constitutional by the state supreme court in June 2024. For an adult survivor: 3 years, with a 3-year revival window also available for older claims.",
+    citation: "La. R.S. §§ 14:41, 14:42, 14:42.1, 14:43, 15:85, Civ. Code art. 3496.2 (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "17 (close-in-age exception, <2–3 yr gap)",
+    rating: {
+      consent: { short: "Circumstance-based, not affirmative", badge: 'concerning', why: "Built around force, threat, and incapacity circumstances rather than a standalone affirmative-consent requirement." },
+      incapacitation: { short: "Broad, explicitly cause-agnostic", badge: 'good', why: "Covers intoxication or an abnormal mental condition \"produced by... any other means\" — it doesn't matter who or what caused it." },
+      maritalException: { short: "No exemption for assault; narrow age-based carve-out", badge: 'mixed', why: "Nonconsensual sex with a spouse is rape, same as anyone else — the marriage exception is scoped to the age-of-consent provisions specifically." },
+      solCriminal: { short: "No limit (1st and 2nd-degree rape)", badge: 'good', why: "No deadline for either of the two most serious rape charges, not just the single top one." },
+      solCivil: { short: "No limit + open revival window (child, 2021+)", badge: 'good', why: "One of the strongest and most current civil protections researched — a currently open revival window (through June 2027), recently upheld by the state's highest court." }
+    }
   }
 };
 
-const STATE_ORDER = ['CO','NY','AR','AK','DC','UT','OR','MD','VT','MN','WY','WA','NH','VA','AZ','NE','ME','NM','MO','OH','DE','TN','RI','MT'];
+const STATE_ORDER = ['CO','NY','AR','AK','DC','UT','OR','MD','VT','MN','WY','WA','NH','VA','AZ','NE','ME','NM','MO','OH','DE','TN','RI','MT','KS','ID','NC','LA'];
 
 /* ---------------- routing ---------------- */
 let currentView = 'map';
