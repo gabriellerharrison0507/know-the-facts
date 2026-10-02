@@ -1518,6 +1518,26 @@ const NOTABLE = {
     source: "Washington State Auditor's Office, Dec. 2024",
     url: "https://sao.wa.gov/the-audit-connection-blog/states-backlog-sexual-assault-kits-effectively-eliminated-audit-finds",
   },
+  NH: {
+    text: "New Hampshire's Youth Development Center abuse scandal — more than 1,300 plaintiffs alleging physical and sexual abuse at the state-run youth facility across six decades — is one of the largest state-run institutional abuse cases in U.S. history. The legislature created a $100 million victim settlement fund, but claims filed against it already total well over that amount, with individual sexual-abuse settlements capped at $1.5 million each.",
+    source: "Boston Globe; N.H. YDC Claims Settlement Fund reporting",
+    url: "https://www.bostonglobe.com/2023/05/10/metro/nh-youth-development-center-abuse-claim-settled-15m-maximum",
+  },
+  VA: {
+    text: "Virginia eliminated its entire pre-2014 backlog of roughly 2,900 untested rape kits through a five-year, $3.4 million statewide testing project — DNA hits from the old kits went on to identify suspects in new criminal cases, including charges against a man for the sexual assault of a minor.",
+    source: "Virginia Attorney General's Office, via 13News Now / WUSA9",
+    url: "https://www.13newsnow.com/article/news/investigations/testing-of-rape-kit-backlog-leads-to-criminal-case-in-virginia/65-d70e9e2b-52ce-4661-96f9-4e542821b580",
+  },
+  AZ: {
+    text: "In 2011, Maricopa County Sheriff Joe Arpaio's office acknowledged it had failed to properly investigate — or in some cases investigate at all — more than 400 sex-crime cases over a three-year span ending in 2007. In El Mirage alone, at least 32 reported child molestation cases, some victims as young as 2, went unpursued despite known suspects in all but six.",
+    source: "NPR / Associated Press, Dec. 2011",
+    url: "https://www.npr.org/sections/thetwo-way/2011/12/08/143355817/arizona-sheriff-joe-arpaio-under-fire-for-mishandled-sex-crime-cases",
+  },
+  NE: {
+    text: "Nebraska had never conducted a statewide inventory of untested sexual assault kits until Omaha police turned up roughly 1,500 sitting untested, some dating back to 1998. A $1.9 million federal grant funded testing starting in 2019; within two years, usable DNA from the backlog had identified 46 offenders.",
+    source: "Associated Press, via Washington Times, Dec. 2018",
+    url: "https://www.washingtontimes.com/news/2018/dec/6/omaha-police-get-19m-grant-to-test-sex-assault-kit/",
+  },
 };
 
 /* ---------------- law-protectiveness rank ----------------
@@ -2491,9 +2511,7 @@ function yearBarChart(pts, opts) {
     if (isLast) {
       bars += `<text x="${xc(i)}" y="${by - 7}" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink)">${p.v}${suffix}</text>`;
     }
-    if (isLast || p.year % 5 === 0 || i === 0) {
-      labels += `<text x="${xc(i)}" y="${h-bottomPad+17}" text-anchor="middle" font-size="10.5" fill="var(--ink-faint)">${p.year}</text>`;
-    }
+    labels += `<text x="${xc(i)}" y="${h-bottomPad+17}" text-anchor="middle" font-size="${n > 15 ? 9 : 10.5}" fill="var(--ink-faint)">${p.year}</text>`;
   });
   return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" role="img" aria-label="${ariaLabel}">
     ${grid}
