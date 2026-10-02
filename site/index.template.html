@@ -235,6 +235,17 @@
   }
   .rate-card .cap { font-size: 0.78rem; color: var(--ink-faint); margin-top: 10px; line-height: 1.4; }
 
+  .ranks-strip { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 30px; }
+  .rank-chip {
+    flex: 1 1 200px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 14px 16px;
+  }
+  .rank-chip-label { font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--ink-faint); margin-bottom: 6px; }
+  .rank-chip-value { font-family: 'Fraunces', serif; font-size: 1.6rem; font-weight: 700; color: var(--accent); line-height: 1; }
+  .rank-chip-value .of { font-family: 'Public Sans', sans-serif; font-size: 1rem; font-weight: 500; color: var(--ink-faint); }
+  .rank-chip-sub { font-size: 0.78rem; color: var(--ink-soft); margin-top: 6px; }
+  .rank-chip-dir { font-size: 0.72rem; color: var(--ink-faint); margin-top: 4px; font-style: italic; }
+
   .legal-section { margin-bottom: 30px; }
   .legal-section h3 {
     font-size: 1.1rem; display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
@@ -1375,6 +1386,37 @@ const LEGAL = {
 
 const STATE_ORDER = ['CO','NY','AR','AK','DC','UT','OR','MD','VT','MN','WY','WA','NH','VA','AZ','NE','ME','NM','MO','OH','DE','TN','RI','MT','KS','ID','NC','LA','GA','IN','KY','SC','WV','NV','AL','MI','WI','IL','OK','CA','FL','SD','CT','PA','MA','NJ','IA','MS','ND','TX','HI'];
 
+/* ---------------- law-protectiveness rank ----------------
+   Derived entirely from the five rated axes already in LEGAL[abbr].rating:
+   consent, incapacitation, maritalException, solCriminal, solCivil.
+   Each badge scores good=2, mixed=1, concerning=0, summed to a 0-10 total.
+   Rank 1 = most protective (highest score). Ties share the same rank
+   (standard "competition ranking"), and we track how many states share
+   a score so the UI can say "tied with N others" instead of implying
+   false precision between states with an identical total. */
+function computeLawRanks() {
+  const BADGE_SCORE = { good: 2, mixed: 1, concerning: 0 };
+  const AXES = ['consent', 'incapacitation', 'maritalException', 'solCriminal', 'solCivil'];
+  const abbrs = Object.keys(LEGAL);
+  const scored = abbrs.map(abbr => {
+    const rating = LEGAL[abbr].rating || {};
+    const score = AXES.reduce((sum, axis) => {
+      const badge = rating[axis] && rating[axis].badge;
+      return sum + (BADGE_SCORE[badge] != null ? BADGE_SCORE[badge] : 0);
+    }, 0);
+    return { abbr, score };
+  });
+  const countByScore = {};
+  scored.forEach(s => { countByScore[s.score] = (countByScore[s.score] || 0) + 1; });
+  const result = {};
+  scored.forEach(s => {
+    const rank = 1 + scored.filter(o => o.score > s.score).length;
+    result[s.abbr] = { score: s.score, maxScore: 10, rank, total: abbrs.length, tieCount: countByScore[s.score] };
+  });
+  return result;
+}
+const LAW_RANK = computeLawRanks();
+
 /* ---------------- routing ---------------- */
 let currentView = 'map';
 let currentState = null;
@@ -1549,6 +1591,29 @@ function renderState(abbr) {
   const fbi = RATE_DATA[abbr];
   const fullName = abbr === 'DC' ? 'Washington, D.C.' : (Object.keys(ABBR).find(k => ABBR[k] === abbr) || abbr);
   const legal = LEGAL[abbr];
+  const lawRank = LAW_RANK[abbr];
+
+  const rankChip = (label, valueHtml, sub, dir) => `
+    <div class="rank-chip">
+      <div class="rank-chip-label">${label}</div>
+      <div class="rank-chip-value">${valueHtml}</div>
+      <div class="rank-chip-sub">${sub}</div>
+      ${dir ? `<div class="rank-chip-dir">${dir}</div>` : ''}
+    </div>
+  `;
+  const ranksStrip = `
+    <div class="ranks-strip">
+      ${sa && sa.wk != null
+        ? rankChip('Self-reported prevalence', `#${sa.wk}<span class="of">/${W_MAX_RANK}</span>`, 'of women, lifetime, survey-based', '#1 = highest reported rate')
+        : rankChip('Self-reported prevalence', 'N/A', 'no reliable estimate for this jurisdiction', '')}
+      ${fbi && fbi.v
+        ? rankChip('Police-reported rate', `#${fbi.k}<span class="of">/46</span>`, 'FBI/NIBRS, 2023', '#1 = highest reported rate')
+        : rankChip('Police-reported rate', 'N/A', 'no reliable FBI estimate for this jurisdiction', '')}
+      ${lawRank
+        ? rankChip('Law protectiveness', `#${lawRank.rank}<span class="of">/${lawRank.total}</span>`, `${lawRank.score}/${lawRank.maxScore} points${lawRank.tieCount > 1 ? ` &middot; tied with ${lawRank.tieCount - 1} other${lawRank.tieCount - 1 === 1 ? '' : 's'}` : ''}`, '#1 = most protective')
+        : rankChip('Law protectiveness', 'N/A', 'not yet rated', '')}
+    </div>
+  `;
 
   const saBlock = sa && sa.wk != null ? `
     <div class="rate-card">
@@ -1672,6 +1737,7 @@ function renderState(abbr) {
       <h2>${fullName}</h2>
       ${saBlock}
     </div>
+    ${ranksStrip}
     ${quickRefTable}
     ${legalBody}
     <div class="section-block">
