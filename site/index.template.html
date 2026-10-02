@@ -933,10 +933,86 @@ const LEGAL = {
       solCriminal: { short: "No limit (1st and 2nd-degree rape)", badge: 'good', why: "No deadline for either of the two most serious rape charges, not just the single top one." },
       solCivil: { short: "No limit + open revival window (child, 2021+)", badge: 'good', why: "One of the strongest and most current civil protections researched — a currently open revival window (through June 2027), recently upheld by the state's highest court." }
     }
+  },
+  GA: {
+    name: 'Georgia',
+    verified: '2026-10-01',
+    consent: "Georgia has no single, unified definition of sexual assault. The only statute actually titled \"rape\" defines it narrowly as \"carnal knowledge of a female forcibly and against her will\" — carnal knowledge means penile-vaginal penetration specifically, and the statute's own terms are limited to female victims. Every other act (oral, anal) and every other victim is covered instead by separate statutes (aggravated sodomy, sexual battery, aggravated sexual battery), each with its own force-based elements, rather than one standalone affirmative-consent standard.",
+    incapacitation: "The statute titled \"rape\" contains no explicit incapacitation or intoxication language at all — its only standard is \"forcibly and against her will.\" Some secondary legal commentary asserts that Georgia courts treat sex with a victim who cannot consent due to intoxication or unconsciousness as a form of \"force,\" but this project could not confirm that interpretation against primary Georgia case law, so it is not treated as settled here. A separate statute, aggravated sodomy, does explicitly and cause-agnostically cover a victim who is \"mentally incapacitated or physically helpless\" — but only for oral or anal acts, not the conduct the rape statute covers.",
+    ageOfConsent: "16, with a close-in-age (\"Romeo and Juliet\") exception: if the victim is 14 or 15 and the other person is 18 or younger and no more than 4 years older, the offense is reduced to a misdemeanor.",
+    maritalException: "Marriage is written directly into the age-of-consent offense as an element of the crime itself: statutory rape is defined as sex with a person under 16 \"and not his or her spouse\" — meaning a legally married spouse under 16 is entirely outside the statute's reach, not just facing a reduced charge. This carve-out is scoped specifically to the age-based statutory rape offense and does not extend to the forcible-rape or aggravated-sodomy statutes, which contain no marital exemption.",
+    solCriminal: "No limit, ever, when the victim was under 16 at the time of the offense (for conduct on or after July 1, 2012), and no limit, ever, in any case once DNA evidence identifies the accused, regardless of the victim's age. Short of those two, a rape of a victim who was 16 or older, with no DNA evidence in play, must be prosecuted within 15 years.",
+    solCivil: "No limit, ever, for a civil sexual-battery claim where the victim was under 16 at the time, for conduct on or after July 1, 2012. Outside that specific claim, a childhood sexual abuse survivor generally must file by their 23rd birthday. A two-year retroactive window that let some previously time-barred survivors sue regardless of age closed June 30, 2017, and is not currently open.",
+    citation: "O.C.G.A. §§ 16-6-1, 16-6-2, 16-6-3, 16-6-22.1, 17-3-1, 17-3-2.1, 9-3-33.1 (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "16 (misdemeanor Romeo & Juliet exception, 14–15 w/ partner ≤4 yrs older)",
+    rating: {
+      consent: { short: "Gendered and act-specific — no unified standard", badge: 'concerning', why: "The only statute titled \"rape\" is limited by its own terms to penile-vaginal penetration of a female victim; every other act and victim is routed to separate statutes instead of one standalone affirmative-consent or force-based definition." },
+      incapacitation: { short: "No incapacitation language in the rape statute itself", badge: 'concerning', why: "The statute titled \"rape\" requires only force and lack of will, with no explicit incapacitation provision; the one statute that does explicitly and cause-agnostically cover an incapacitated victim applies only to a different set of acts, leaving a real gap in the text of the core charge." },
+      maritalException: { short: "Written into the age-of-consent offense as an element", badge: 'mixed', why: "A spouse under 16 is entirely excluded from the statutory rape offense by the statute's own wording — but that carve-out is confined to the age-based charge and does not reach the forcible-rape or incapacitation-based statutes." },
+      solCriminal: { short: "No limit for child victims or DNA-match cases; 15 years otherwise", badge: 'mixed', why: "Prosecution is unlimited in time whenever the victim was under 16 or whenever DNA evidence identifies the accused — but a rape of an adult victim without DNA evidence still faces a 15-year cutoff." },
+      solCivil: { short: "No limit for one claim type; age-23 cutoff otherwise", badge: 'mixed', why: "A civil sexual-battery claim for a victim who was under 16 has no filing deadline at all for conduct from mid-2012 onward, but most other childhood sexual abuse claims must still be filed by the survivor's 23rd birthday, and the prior window reviving older time-barred claims has already closed." }
+    }
+  },
+  IN: {
+    name: 'Indiana',
+    verified: '2026-10-01',
+    consent: "Indiana law doesn't define a standalone \"consent\" standard. A sex crime occurs when the other person is compelled by force or imminent threat of force, is unaware the act is occurring, is so mentally disabled or deficient that they cannot consent, or when the person disregards the other person's attempt to physically, verbally, or otherwise visibly refuse. A multi-pronged, circumstance-based test rather than an affirmative-consent requirement.",
+    incapacitation: "Explicitly cause-agnostic: a victim's own voluntary level of intoxication is enough, by itself, to count as being \"mentally disabled or deficient\" for purposes of the rape statute — no one needs to have caused or facilitated it. The offense is punished more severely if the perpetrator furnished the intoxicant without the victim's knowledge, but that isn't required for the base charge to apply.",
+    ageOfConsent: "16, with a close-in-age exception for 14- and 15-year-olds with a partner less than 4 years older, where the relationship is otherwise non-coercive.",
+    maritalException: "A defense that \"the child is or has ever been married\" applies to the sexual-misconduct-with-a-minor offense (ages 16–17 with an adult), but by its own terms does not apply to that offense's more aggravated tiers. The state's separate child-molesting statute (victims under 14) carries no marital defense — only a reasonable-mistake-of-age defense.",
+    solCriminal: "Just 5 years for standard rape of an adult victim — on the short end of what this project has found nationally. Aggravated rape involving deadly force or serious bodily injury has no deadline at all, and neither does a child-victim sex crime (molesting, sexual misconduct with a minor, incest, and related offenses), which can be charged any time before the victim turns 31.",
+    solCivil: "A civil claim for childhood sexual abuse must be filed by the later of 7 years after the abuse, or 4 years after the victim stops being a dependent of their abuser. For a child abused by someone other than a parent or guardian, the 7-year clock starts at the time of the abuse itself — meaning the deadline can expire while the survivor is still a minor or shortly after, well before many survivors are in a position to come forward.",
+    citation: "Ind. Code §§ 35-42-4-1, 35-42-4-3, 35-42-4-7, 35-42-4-9, 35-46-1-3, 35-41-4-2, 34-11-2-4 (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "16 (close-in-age exception, 14–15 w/ partner <4 yrs older)",
+    rating: {
+      consent: { short: "Circumstance-based, not affirmative", badge: 'mixed', why: "Built around force, unawareness, incapacity, and disregarded refusal rather than a standalone affirmative-consent requirement, though the disregarded-refusal prong reaches some scenarios a pure force test would miss." },
+      incapacitation: { short: "Explicitly cause-agnostic", badge: 'good', why: "A victim's own voluntary intoxication alone is sufficient to establish incapacity under the statute — nobody else needs to have caused it." },
+      maritalException: { short: "Narrow, scoped to one offense tier", badge: 'mixed', why: "The marriage defense applies to the base sexual-misconduct-with-a-minor charge but is expressly written to exclude that offense's more aggravated forms, and doesn't touch the separate child-molesting statute." },
+      solCriminal: { short: "Just 5 years for standard adult-victim rape", badge: 'concerning', why: "Outside the no-limit carve-outs for aggravated rape and child victims, an ordinary adult-victim rape must be charged within 5 years — a notably short window." },
+      solCivil: { short: "Clock can run out before or shortly after adulthood", badge: 'concerning', why: "For abuse by someone outside the household, the 7-year filing clock starts at the time of the abuse itself, which can expire while the survivor is still a minor or soon after turning 18." }
+    }
+  },
+  KY: {
+    name: 'Kentucky',
+    verified: '2026-10-01',
+    consent: "\"Lack of consent\" results from forcible compulsion, incapacity to consent, or — for sexual abuse specifically — any other circumstance where the victim doesn't expressly or impliedly acquiesce. A circumstance-based structure rather than a standalone affirmative-consent requirement.",
+    incapacitation: "\"Mentally incapacitated\" is defined narrowly: temporarily unable to appraise or control one's conduct because of an intoxicating substance administered without the victim's consent, or because of some other act committed on the victim without consent. A victim who became intoxicated voluntarily, with no one else drugging them or forcing anything on them, falls outside this specific definition — the same structural gap this project has flagged in other states' statutes.",
+    ageOfConsent: "16, with no close-in-age exception of any kind. A 16- or 17-year-old is also separately deemed incapable of consent if the other person is at least 10 years older.",
+    maritalException: "A dedicated statute exempts a married person from prosecution under the entire sexual-offenses chapter, regardless of either person's age, \"solely because the other person is less than sixteen (16) years old or an individual with an intellectual disability.\" This reaches beyond a pure age-of-consent carve-out into one of the incapacity-to-consent categories as well — intellectual disability — making it broader than the narrow statutory-rape-only exceptions found in many other states.",
+    solCriminal: "No limit, ever, for felony rape in any degree — Kentucky doesn't impose a statute of limitations on any felony. Only misdemeanor sex offenses against minors carry a deadline, running 5 to 10 years after the victim turns 18 depending on the offense.",
+    solCivil: "10 years after the survivor's 18th birthday — meaning a childhood sexual abuse claim generally may be filed until the survivor turns 28.",
+    citation: "KRS §§ 510.020, 510.035, 510.040, 510.050, 510.060, 500.050, 413.249 (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "16, no close-in-age exception",
+    rating: {
+      consent: { short: "Circumstance-based, not affirmative", badge: 'mixed', why: "Built around forcible compulsion and incapacity-to-consent circumstances, with a broader catch-all for sexual abuse specifically, rather than one standalone affirmative-consent requirement." },
+      incapacitation: { short: "Excludes voluntary intoxication", badge: 'concerning', why: "The definition only covers an intoxicating substance administered without the victim's consent — someone who became intoxicated on their own, with no one drugging or forcing anything on them, falls outside it." },
+      maritalException: { short: "Reaches an incapacity category, not just age", badge: 'concerning', why: "The marriage exemption is written to cover both the age-of-consent ground and the intellectual-disability incapacity-to-consent ground, making it broader than an age-only carve-out." },
+      solCriminal: { short: "No limit, ever, for felony rape", badge: 'good', why: "Kentucky doesn't impose any statute of limitations on felony offenses, which covers rape in every degree." },
+      solCivil: { short: "Until the survivor turns 28", badge: 'mixed', why: "A 10-year post-18 window is a meaningful extension beyond a bare few years, but it's still a hard deadline rather than an unlimited one." }
+    }
+  },
+  SC: {
+    name: 'South Carolina',
+    verified: '2026-10-01',
+    consent: "South Carolina's statute actually defines \"consent\" as \"a freely given, knowledgeable, and informed agreement\" — a genuine affirmative-consent definition, which is rare. In practice, though, the degree-based criminal sexual conduct offenses are still built around proving force, coercion, or incapacity (with aggravated vs. non-aggravated tiers), rather than simply the absence of that affirmative agreement — so the definition exists on the books without being the operative test for most charges.",
+    incapacitation: "\"Mentally incapacitated\" explicitly covers a person rendered temporarily unable to appraise or control their conduct \"whether this condition is produced by illness, defect, the influence of a substance, or from some other cause\" — broad, cause-agnostic language that doesn't require anyone else to have caused the intoxication.",
+    ageOfConsent: "16, with a close-in-age exception written into the second- and third-degree tiers: based on the offender's age rather than a numeric gap, a person cannot be convicted under those specific provisions if they are 18 or younger and the other person is at least 14.",
+    maritalException: "One of the broadest marital exceptions found in this research: a spouse cannot be prosecuted for criminal sexual conduct or assault with intent to commit it at all, unless the spouses are living apart AND the act would qualify as first- or second-degree CSC — meaning even forcible, non-aggravated (third-degree) conduct by a cohabiting spouse falls outside the law entirely. A separate rule also requires a married victim to report spousal sexual battery within 30 days or the spouse cannot be charged.",
+    solCriminal: "No limit, ever, for criminal sexual conduct — South Carolina imposes no deadline on prosecuting sexual assault.",
+    solCivil: "The later of 6 years after the survivor turns 21, or 3 years from discovering both the injury and its connection to the abuse — meaning a childhood sexual abuse claim generally may be filed until around age 27, or later if the connection wasn't discovered sooner.",
+    citation: "S.C. Code §§ 16-3-615, 16-3-651, 16-3-652, 16-3-653, 16-3-654, 16-3-655, 15-3-555 (draft citation — pending verification against the current codified statute text)",
+    ageOfConsentShort: "16 (close-in-age exception for 2nd/3rd-degree tiers, offender ≤18 & other person ≥14)",
+    rating: {
+      consent: { short: "Affirmative definition on the books, not the operative test", badge: 'mixed', why: "The statute defines consent in genuinely affirmative terms, but the actual degree-based offenses still turn on proving force, coercion, or incapacity rather than the mere absence of that agreement." },
+      incapacitation: { short: "Broad, explicitly cause-agnostic", badge: 'good', why: "Covers incapacity \"produced by illness, defect, the influence of a substance, or from some other cause\" — it doesn't matter who or what caused it." },
+      maritalException: { short: "Bars prosecution of cohabiting spouses entirely", badge: 'concerning', why: "A spouse who still lives with the victim cannot be prosecuted for criminal sexual conduct of any degree, including forcible conduct — the exception reaches real non-consensual assault, not just an age-based charge." },
+      solCriminal: { short: "No limit, ever", badge: 'good', why: "South Carolina imposes no statute of limitations on criminal sexual conduct prosecutions." },
+      solCivil: { short: "Roughly until age 27, or later if discovery was delayed", badge: 'mixed', why: "A discovery-based extension helps survivors who didn't connect their injury to the abuse right away, but the baseline deadline is still a fixed number of years past a specific age rather than open-ended." }
+    }
   }
 };
 
-const STATE_ORDER = ['CO','NY','AR','AK','DC','UT','OR','MD','VT','MN','WY','WA','NH','VA','AZ','NE','ME','NM','MO','OH','DE','TN','RI','MT','KS','ID','NC','LA'];
+const STATE_ORDER = ['CO','NY','AR','AK','DC','UT','OR','MD','VT','MN','WY','WA','NH','VA','AZ','NE','ME','NM','MO','OH','DE','TN','RI','MT','KS','ID','NC','LA','GA','IN','KY','SC'];
 
 /* ---------------- routing ---------------- */
 let currentView = 'map';
