@@ -1889,7 +1889,7 @@ function renderNational() {
 
       <div class="section-block" style="margin-top:20px;">
         <h4 style="font-size:1.05rem;">Rape/sexual assault victimization rate, 1993–2024</h4>
-        <p class="section-sub">This is a self-report survey rate (NCVS) — people describing their own experiences to a government surveyor, independent of whether they ever reported to police. Each point is pulled from that specific year's own BJS report rather than smoothed between years we don't have a figure for — gaps in the line reflect gaps in what we located, not missing data being hidden.</p>
+        <p class="section-sub">This is a self-report survey rate (NCVS) — people describing their own experiences to a government surveyor, independent of whether they ever reported to police. Each bar is pulled from that specific year's own BJS report. Shown as standalone bars rather than a connected line on purpose — the years between bars aren't years with a value of zero, they're years we don't have a figure for, and a connecting line would visually imply a smooth trend through gaps we can't actually account for.</p>
         <div class="chart-card">${trendChart()}</div>
         <div class="methodology-note">Source: Bureau of Justice Statistics, National Crime Victimization Survey, compiled from the <i>Criminal Victimization</i> annual report for each plotted year (editions: 2000 [NCJ 187007], 2008 [NCJ 227777], 2011 [NCJ 239437], 2019 [NCJ 255113], 2024 [NCJ 310547]). Rate per 1,000 persons age 12+. BJS flags two breaks in long-run comparability within this span — the 1993 survey redesign (this chart's starting point) and a 2006 methodology change (that year is omitted here per BJS's own guidance).</div>
       </div>
@@ -2158,12 +2158,21 @@ const TREND_POINTS = [
    system (showTooltip/moveTooltip/hideTooltip), wired up in attachHandlers()
    via the .chart-dot-hit class and a data-tip attribute — not native SVG
    <title>, which is too unreliable/inconsistent across browsers to count on. */
-function yearLineChart(pts, opts) {
+/* Evenly-spaced (categorical, not true-to-year-gap) bar chart for a sparse,
+   irregularly-spaced year series. Deliberately NOT a connected line: these
+   points have real gaps between them (we don't have every year), and a line
+   visually implies a smooth trend through years we have no data for. Each
+   bar stands alone on purpose. Hover uses the site's real tooltip system
+   (showTooltip/moveTooltip/hideTooltip), wired up in attachHandlers() via
+   .chart-dot-hit + data-tip. */
+function yearBarChart(pts, opts) {
   const { color = 'var(--accent)', maxV, suffix = '', ariaLabel, unitLabel = '', yTicks } = opts;
-  const w = 720, h = 260, pad = 52, rightPad = 20, topPad = 16;
-  const minYear = pts[0].year, maxYear = pts[pts.length-1].year;
-  const x = year => pad + (year - minYear) / (maxYear - minYear) * (w - pad - rightPad);
-  const y = v => h - pad - (v / maxV) * (h - pad - topPad);
+  const w = 720, h = 260, pad = 52, rightPad = 16, bottomPad = 34, topPad = 26;
+  const n = pts.length;
+  const slotW = (w - pad - rightPad) / n;
+  const barW = Math.min(22, slotW * 0.62);
+  const xc = i => pad + slotW * (i + 0.5);
+  const y = v => h - bottomPad - (v / maxV) * (h - bottomPad - topPad);
   const ticks = yTicks || [0, maxV/4, maxV/2, maxV*3/4, maxV];
   let grid = '';
   ticks.forEach(t => {
@@ -2171,32 +2180,31 @@ function yearLineChart(pts, opts) {
     grid += `<line x1="${pad}" y1="${ty}" x2="${w-rightPad}" y2="${ty}" stroke="var(--border)" stroke-width="1"/>
       <text x="${pad-10}" y="${ty+4}" text-anchor="end" font-size="10.5" fill="var(--ink-faint)">${Number.isInteger(t) ? t : t.toFixed(1)}${suffix}</text>`;
   });
-  const line = pts.map(p => `${x(p.year)},${y(p.v)}`).join(' ');
-  let dots = '', labels = '';
+  let bars = '', labels = '';
   pts.forEach((p, i) => {
     const isLast = i === pts.length - 1;
+    const bh = (p.v / maxV) * (h - bottomPad - topPad);
+    const by = h - bottomPad - bh;
     const tip = `<b>${p.year}</b>${p.v}${suffix}${unitLabel ? ' ' + unitLabel : ''}`;
-    dots += `<g>
-      <circle cx="${x(p.year)}" cy="${y(p.v)}" r="${isLast ? 5 : 3}" fill="${color}" style="pointer-events:none"/>
-      <circle class="chart-dot-hit" data-tip="${tip.replace(/"/g, '&quot;')}" cx="${x(p.year)}" cy="${y(p.v)}" r="9" fill="transparent" style="cursor:pointer"/>
-    </g>`;
+    bars += `<rect x="${xc(i) - barW/2}" y="${by}" width="${barW}" height="${bh}" rx="2.5" fill="${color}" opacity="${isLast ? 1 : 0.78}"/>
+      <rect class="chart-dot-hit" data-tip="${tip.replace(/"/g, '&quot;')}" x="${xc(i) - slotW/2}" y="${topPad - 10}" width="${slotW}" height="${h - bottomPad - topPad + 10}" fill="transparent" style="cursor:pointer"/>`;
+    if (isLast) {
+      bars += `<text x="${xc(i)}" y="${by - 7}" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink)">${p.v}${suffix}</text>`;
+    }
     if (isLast || p.year % 5 === 0 || i === 0) {
-      labels += `<text x="${x(p.year)}" y="${h-pad+18}" text-anchor="middle" font-size="11" fill="var(--ink-faint)">${p.year}</text>`;
+      labels += `<text x="${xc(i)}" y="${h-bottomPad+17}" text-anchor="middle" font-size="10.5" fill="var(--ink-faint)">${p.year}</text>`;
     }
   });
-  const last = pts[pts.length-1];
   return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" role="img" aria-label="${ariaLabel}">
     ${grid}
-    <line x1="${pad}" y1="${h-pad}" x2="${w-rightPad}" y2="${h-pad}" stroke="var(--border)" stroke-width="1.5"/>
-    <polyline points="${line}" fill="none" stroke="${color}" stroke-width="2"/>
-    ${dots}
-    <text x="${x(last.year)+10}" y="${y(last.v)-8}" font-size="13" font-weight="700" fill="var(--ink)">${last.v}${suffix}</text>
+    <line x1="${pad}" y1="${h-bottomPad}" x2="${w-rightPad}" y2="${h-bottomPad}" stroke="var(--border)" stroke-width="1.5"/>
+    ${bars}
     ${labels}
   </svg>`;
 }
 
 function trendChart() {
-  return yearLineChart(TREND_POINTS, {
+  return yearBarChart(TREND_POINTS, {
     color: 'var(--accent)', maxV: 3.0, yTicks: [0,1,2,3], unitLabel: 'per 1,000',
     ariaLabel: 'Rape and sexual assault victimization rate, 1993 to 2024, per 1,000 persons age 12 and older, from a high of 2.5 in 1993 to 2.0 in 2024 with a long decline in between. Hover any point for its year and value.'
   });
@@ -2257,7 +2265,7 @@ const REPORTING_POINTS = [
   { year: 2023, v: 46.0 }, { year: 2024, v: 23.6 },
 ];
 function reportingChart() {
-  return yearLineChart(REPORTING_POINTS, {
+  return yearBarChart(REPORTING_POINTS, {
     color: 'var(--accent2)', maxV: 60, yTicks: [0,20,40,60], suffix: '%',
     ariaLabel: 'Percent of rape and sexual assault victimizations reported to police, 1993 to 2024 — a volatile series ranging from about 24 percent to 55 percent, ending at 23.6 percent in 2024. Hover any point for its year and value.'
   });
