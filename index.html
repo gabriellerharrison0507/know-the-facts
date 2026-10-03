@@ -2777,7 +2777,31 @@ function renderNational() {
       <h4 style="font-size:1.05rem;margin-top:30px;">What happens to victims</h4>
       <p class="aside">See the "Leaving school" finding under Victim Outcomes above: among students who formally reported to their school, 39% experienced a substantial educational disruption (leave of absence, transfer, or dropping out entirely).</p>
 
-      ${researchGap('gap-campus-context')}
+      <h4 style="font-size:1.05rem;margin-top:30px;">Where assaults happen and who commits them${dataAge('1995–2013')}</h4>
+      <p class="section-sub">For women ages 18–24, college students vs. those not in school. Most assaults of students were by acquaintances, and two-thirds happened in their own home or the home of someone they knew.</p>
+      <div class="chart-card">${valueBarChart({
+        series: [{ label: 'Students', color: 'var(--cat1)' }, { label: 'Not in school', color: 'var(--cat2)' }],
+        rows: [
+          { label: 'Friend or acquaintance', values: [50, 37] },
+          { label: 'Intimate partner', values: [24, 34] },
+          { label: 'Stranger', values: [22, 20] }
+        ],
+        max: 100,
+        ariaLabel: 'Offender relationship for rape and sexual assault of women ages 18 to 24: students 50% acquaintance, 24% intimate partner, 22% stranger; non-students 37%, 34%, 20%.'
+      })}</div>
+      <div class="chart-card" style="margin-top:14px;">${valueBarChart({
+        series: [{ label: 'Students', color: 'var(--cat1)' }, { label: 'Not in school', color: 'var(--cat2)' }],
+        rows: [
+          { label: "Victim's own home", values: [38, 50] },
+          { label: "Home of a friend, relative, or acquaintance", values: [29, 17] },
+          { label: 'Commercial place, parking lot or garage', values: [16, 15] },
+          { label: 'Open areas, public transportation, other', values: [13, 16] },
+          { label: 'At school', values: [4, 2], note: 'Based on 10 or fewer sample cases; interpret with caution.' }
+        ],
+        max: 100,
+        ariaLabel: 'Location of rape and sexual assault of women ages 18 to 24: students 38% own home, 29% home of someone known, 16% commercial place, 13% open areas, 4% school; non-students 50%, 17%, 15%, 16%, 2%.'
+      })}</div>
+      <div class="method"><p class="method-src"><b>Source:</b> BJS, <i>Rape and Sexual Assault Victimization Among College-Age Females, 1995–2013</i> (NCVS), Tables 4 &amp; 6</p><details><summary>Methodology &amp; caveats</summary><div>National Crime Victimization Survey data on women ages 18–24, pooled 1995–2013. "Students" are enrolled part- or full-time in any post-secondary school. These describe where student <i>victims</i> were assaulted, not only incidents on campus grounds. The "at school" figures are based on 10 or fewer sample cases. Relative-as-offender (2% and 1%) is omitted from the chart for the same reason; percentages may not sum to 100.</div></details></div>
     </div>
 
     <div class="section-block" id="stat-incarcerated">
@@ -2821,6 +2845,18 @@ function renderNational() {
       </div>
       <div class="method"><p class="method-src"><b>Source:</b> BJS, <i>Violence Against Women</i> (1992–93 NCVS)</p><details><summary>Methodology &amp; caveats</summary><div>Source: BJS, <i>Violence Against Women: Estimates from the Redesigned Survey</i> (based on the 1992–1993 NCVS redesign). This is an older report, flagged as dated rather than presented as current.</div></details></div>
 
+      <p class="section-sub" style="margin-top:20px;">Newer data for women ages 18–24 (1995–2013) shows the same pattern: <b>more than 9 in 10</b> assaults involved a single offender.${dataAge('1995–2013')}</p>
+      <div class="chart-card">${valueBarChart({
+        series: [{ label: 'Students', color: 'var(--cat1)' }, { label: 'Not in school', color: 'var(--cat2)' }],
+        rows: [
+          { label: 'One offender', values: [95, 92] },
+          { label: 'Two or more offenders', values: [5, 5], note: 'Student figure based on 10 or fewer sample cases.' }
+        ],
+        max: 100,
+        ariaLabel: 'Number of offenders in rape and sexual assault of women ages 18 to 24: one offender in 95% of student and 92% of non-student victimizations; two or more in 5% of each.'
+      })}</div>
+      <div class="method"><p class="method-src"><b>Source:</b> BJS, <i>Rape and Sexual Assault Victimization Among College-Age Females, 1995–2013</i>, Table 7</p><details><summary>Methodology &amp; caveats</summary><div>Non-students: 3% unknown number of offenders. The two-or-more figure for students is based on 10 or fewer sample cases. Women ages 18–24 only — still no current all-ages national breakdown.</div></details></div>
+
       <h4 style="font-size:1.05rem;margin-top:30px;">Stranger vs. known offender, by number of offenders${dataAge('1992–1993')}</h4>
       <p class="section-sub">Share of all rape/sexual assault incidents. Group assaults are the one case where strangers outnumber known offenders.</p>
       <div class="chart-card">${valueBarChart({
@@ -2834,7 +2870,7 @@ function renderNational() {
         ariaLabel: 'Share of rape and sexual assault incidents: one offender known to the victim 73.5%, one stranger 17.6%, multiple offenders who were strangers 6.8%, multiple offenders known to the victim 2.1%.'
       })}</div>
       <div class="method"><p class="method-src"><b>Source:</b> BJS, <i>Violence Against Women: Estimates from the Redesigned Survey</i> (1992–93 NCVS)</p></div>
-      ${researchGap('gap-offender-count-current')}
+
 
       ${researchGap('gap-act-type')}
     </div>
@@ -2914,16 +2950,41 @@ function renderNational() {
         <div class="category-card"><h4>Russell, 1990</h4><p>14% of ever-married women in a San Francisco-area representative survey reported rape or attempted rape by a husband or ex-husband.</p></div>
       </div>
       <div class="method"><p class="method-src"><b>Source:</b> Finkelhor &amp; Yllo (1985); Russell (1990)</p><details><summary>Methodology &amp; caveats</summary><div>These are the original sources behind the "10–14%" figure cited throughout the later literature — <i>License to Rape</i> (Finkelhor &amp; Yllo, 1985) and <i>Rape in Marriage</i> (Russell, 1990). Both researchers and later commentators note marital rape is especially underreported, so the true figure may be higher than either study found.</div></details></div>
-      ${researchGap('gap-marital-current')}
+      <p class="section-sub" style="margin-top:20px;"><b>The current national number:</b> about <b>1 in 10 women</b> (13.2 million) have been raped by a current or former intimate partner — a spouse, boyfriend or girlfriend, dating partner, or ongoing sexual partner.</p>
+      <div class="chart-card">${valueBarChart({
+        series: [{ label: 'Women', color: 'var(--cat1)' }, { label: 'Men', color: 'var(--cat2)' }],
+        rows: [
+          { label: 'Any contact sexual violence by a partner', values: [19.6, 7.6] },
+          { label: 'Raped by a partner', values: [10.5, 0.5] }
+        ],
+        max: 50,
+        ariaLabel: 'Lifetime sexual violence by an intimate partner: any contact sexual violence 19.6% of women and 7.6% of men; rape 10.5% of women and 0.5% of men.'
+      })}</div>
+      <div class="method"><p class="method-src"><b>Source:</b> CDC, <i>NISVS 2016/2017 Report on Intimate Partner Violence</i>, Tables 1 &amp; 2</p><details><summary>Methodology &amp; caveats</summary><div>Lifetime prevalence. NISVS counts spouses together with other current or former partners, so this isn't a marriage-only figure — but it is the most recent nationally representative estimate of partner rape. Women: 10.5% (95% CI 9.7–11.4), about 13.2 million. Men: 0.5% (about 560,000). Contact sexual violence combines rape, being made to penetrate (men), sexual coercion, and unwanted sexual contact.</div></details></div>
     </div>
 
     <div class="section-block" id="stat-repeat-offenders">
-      <h3>Scale of perpetration &amp; repeat offenders${dataAge('1980s–2002')}</h3>
+      <h3>Scale of perpetration &amp; repeat offenders${dataAge('1980s–2015')}</h3>
       <p class="takeaway">Estimates of how many men have committed sexual assault range from about 4% to over 50% — depending almost entirely on how it is defined.</p>
       <p class="section-sub">This is one of the most contested numbers in this field. Different studies, using different definitions and populations, land in very different places — shown here as a range, not one cherry-picked figure.</p>
       <div class="chart-card">${perpetrationChart()}</div>
       <div class="method"><p class="method-src"><b>Source:</b> Koss et al.; Lisak &amp; Miller (2002); literature reviews</p><details><summary>Methodology &amp; caveats</summary><div>Sources: Koss et al. (1980s college samples, ~4.4% rape); Lisak &amp; Miller, 2002 (University of Massachusetts sample, 6.4% rape/attempted rape); broader literature reviews citing 7–15% for legally-defined rape and up to 25–57% when "sexual assault" is defined more broadly. Methodology differences — anonymous self-report vs. legal definitions vs. survey wording — explain most of the spread.</div></details></div>
-      ${researchGap('gap-repeat-offenders')}
+      <h4 style="font-size:1.05rem;margin-top:30px;">Are most rapes committed by a small number of repeat offenders?</h4>
+      <p class="section-sub">Two influential studies point in different directions — this is genuinely contested.</p>
+      <p class="aside"><b>The "serial offender" finding (Lisak &amp; Miller, 2002):</b> of 1,882 men surveyed, 120 (6.4%) described acts meeting the legal definition of rape or attempted rape, none ever prosecuted. Most of them were repeat offenders, averaging 5.8 rapes each.</p>
+      <p class="aside"><b>The challenge (Swartout et al., 2015):</b> following 1,642 men from age 14 through college, 10.8% reported committing at least one rape — but no group kept offending at a consistently high rate. Most men who offended did so in a limited period:</p>
+      <div class="chart-card">${valueBarChart({
+        rows: [
+          { label: 'Low or time-limited risk', values: [92.6] },
+          { label: 'Decreasing over time', values: [5.3] },
+          { label: 'Increasing over time', values: [2.1] },
+          { label: 'Consistently high', values: [0], display: ['none found'] }
+        ],
+        max: 100,
+        ariaLabel: 'Patterns of rape likelihood from age 14 through college: 92.6% low or time-limited, 5.3% decreasing, 2.1% increasing, and no consistently high group found.'
+      })}</div>
+      <div class="method"><p class="method-src"><b>Source:</b> Lisak &amp; Miller, <i>Violence and Victims</i> (2002); Swartout et al., <i>JAMA Pediatrics</i> (2015)</p><details><summary>Methodology &amp; caveats</summary><div>Lisak &amp; Miller pooled four samples of men at one Massachusetts university; their 120 offenders were responsible for 1,225 separate acts of interpersonal violence. Swartout et al. modeled trajectories across two longitudinal samples. Both studies have drawn published methodological critiques, and they measure different things (one cross-sectional, one over time) — neither settles the question on its own. Trajectory shares are of all participants in the model.</div></details></div>
+
     </div>
 
     <h2 class="stats-part-heading">VI. Aftermath</h2>
@@ -2954,7 +3015,15 @@ function renderNational() {
       })}</div>
       <div class="method"><p class="method-src"><b>Source:</b> CDC NISVS, female victims of contact sexual violence</p></div>
 
-      <h4 style="font-size:1.05rem;margin-top:30px;">Suicide risk${dataAge('1992')}</h4>
+      <h4 style="font-size:1.05rem;margin-top:30px;">Suicide risk</h4>
+      <p class="section-sub">Across 25 studies covering 88,376 people, suicidal thoughts or attempts were nearly <b>3 times as common</b> among people who had been sexually assaulted:</p>
+      <div class="chart-card">${valueBarChart({
+        rows: [ { label: 'Sexually assaulted', values: [27.25], display: ['27.3%'] }, { label: 'Not sexually assaulted', values: [9.37], display: ['9.4%'], color: 'var(--ink-faint)' } ],
+        max: 50,
+        ariaLabel: 'Prevalence of suicidal thoughts or attempts: 27.3% among people who had been sexually assaulted, 9.4% among those who had not, across 25 studies.'
+      })}</div>
+      <div class="method"><p class="method-src"><b>Source:</b> Dworkin, DeCou &amp; Fitzpatrick, <i>Psychological Trauma</i> (2022), meta-analysis</p><details><summary>Methodology &amp; caveats</summary><div>25 samples and 36 effects (N = 88,376). Includes lifetime and past-year suicidal ideation and lifetime suicide attempts. No tested moderator — share of women in the sample, college vs. non-college — significantly changed the strength of the association.</div></details></div>
+      <p class="section-sub" style="margin-top:20px;">An older national study of women found the same pattern for attempts specifically.${dataAge('1992')}</p>
       <p class="section-sub">A third of rape victims had seriously considered suicide (33%). Share who had attempted it:</p>
       <div class="chart-card">${valueBarChart({
         rows: [ { label: 'Rape victims', values: [13] }, { label: 'Women who were not crime victims', values: [1], color: 'var(--ink-faint)' } ],
@@ -2962,7 +3031,7 @@ function renderNational() {
         ariaLabel: '13% of rape victims had attempted suicide, compared with 1% of women who were not crime victims, about 13 times higher.'
       })}</div>
       <div class="method"><p class="method-src"><b>Source:</b> Kilpatrick et al., <i>Rape in America</i> (1992)</p><details><summary>Methodology &amp; caveats</summary><div>Source: Kilpatrick, Edmunds &amp; Seymour, <i>Rape in America: A Report to the Nation</i>, 1992 — the National Women's Study, a national probability household sample of 4,008 adult women. This is a foundational, still widely-cited study, but it is now over three decades old.</div></details></div>
-      ${researchGap('gap-suicide-current')}
+
 
       <h4 style="font-size:1.05rem;margin-top:30px;">Substance use${dataAge('1992')}</h4>
       <p class="section-sub">From the same National Women's Study, rape victims were found to be substantially more likely than non-victims to use several substances — consistent with substance use functioning as a coping response to trauma rather than a cause of it.</p>
@@ -3063,7 +3132,11 @@ function renderNational() {
         <li>Sensity AI, <i>The State of Deepfakes</i>, 2019</li>
         <li>Thorn, <i>Trends in Financial Sextortion</i>, 2024</li>
         <li>Finkelhor &amp; Yllo, <i>License to Rape</i>, 1985; Russell, <i>Rape in Marriage</i>, 1990</li>
-        <li>Koss et al. (1980s); Lisak &amp; Miller, 2002</li>
+        <li>Koss et al. (1980s); Lisak &amp; Miller, "Repeat Rape and Multiple Offending Among Undetected Rapists," <i>Violence and Victims</i>, 2002</li>
+        <li>Swartout, Koss, White, Thompson, Abbey &amp; Bellis, "Trajectory Analysis of the Campus Serial Rapist Assumption," <i>JAMA Pediatrics</i>, 2015</li>
+        <li>Dworkin, DeCou &amp; Fitzpatrick, "Associations Between Sexual Assault and Suicidal Thoughts and Behavior: A Meta-Analysis," <i>Psychological Trauma</i>, 2022</li>
+        <li>BJS, <i>Rape and Sexual Assault Victimization Among College-Age Females, 1995–2013</i> — <a href="https://bjs.ojp.gov/content/pub/pdf/rsavcaf9513.pdf" target="_blank" rel="noopener">link</a></li>
+        <li>CDC, <i>NISVS 2016/2017 Report on Intimate Partner Violence</i> — <a href="https://www.cdc.gov/nisvs/documentation/NISVSReportonIPV_2022.pdf" target="_blank" rel="noopener">link</a></li>
         <li>Rothbaum, Foa, Riggs et al., <i>Journal of Traumatic Stress</i>, 1992; Choudhary, Smith &amp; Bossarte, 2012</li>
         <li>Kilpatrick, Edmunds &amp; Seymour, <i>Rape in America: A Report to the Nation</i>, 1992</li>
         <li>Peterson, DeGue, Florence &amp; Lokey, "Lifetime Economic Burden of Rape Among U.S. Adults," <i>American Journal of Preventive Medicine</i>, 2017</li>
@@ -3272,18 +3345,8 @@ const RESEARCH_GAPS = [
     need: 'NISVS cross-tabs (or another national source) for female-on-female perpetration and for age/race breakdowns within each gender.' },
   { id: 'gap-income-bracket', section: 'By socioeconomic status', title: 'Current rate for the lowest income bracket',
     need: 'The lowest-income-bracket rape/sexual assault rate from the most recent NCVS income breakdown, to pair with the $200K+ figure (0.8 per 1,000).' },
-  { id: 'gap-campus-context', section: 'College campuses', title: 'Where campus assaults happen and who commits them',
-    need: 'A current national breakdown of campus assault locations and perpetrator relationships, distinct from general-population data.' },
-  { id: 'gap-offender-count-current', section: 'Type of assault', title: 'Current single- vs. multiple-offender data',
-    need: 'A national breakdown more recent than the 1992–93 NCVS redesign data shown in this section.' },
   { id: 'gap-act-type', section: 'Type of assault', title: 'Breakdown by act type',
     need: 'What share of rapes are vaginal, anal, oral, or digital/object penetration, from a national source.' },
-  { id: 'gap-marital-current', section: 'Perpetrators', title: 'A current marital-rape prevalence study',
-    need: 'A recent, nationally representative replication of Finkelhor & Yllo (1985) and Russell (1990).' },
-  { id: 'gap-repeat-offenders', section: 'Repeat offenders', title: 'Repeat and serial offenders',
-    need: 'Fuller coverage of serial-offender concentration research (e.g. Lisak & Miller) and men-in-power allegation tallies.' },
-  { id: 'gap-suicide-current', section: 'Victim outcomes', title: 'Current suicide-risk data',
-    need: 'A nationally representative replication of the 1992 National Women\'s Study suicide findings.' },
 ];
 function researchGap(id) {
   const g = RESEARCH_GAPS.find(x => x.id === id);
