@@ -405,7 +405,7 @@
   .vbar-legend { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0 0 12px 8px; font-size: 0.82rem; color: var(--ink-soft); }
   .vbar-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
   .vbar-stack { grid-column: 2 / -1; display: grid; gap: 4px; }
-  .vbar-line { display: grid; grid-template-columns: 1fr 5.5rem; align-items: center; gap: 12px; }
+  .vbar-line { display: grid; grid-template-columns: 1fr minmax(5.5rem, max-content); align-items: center; gap: 12px; }
   .hbar-track.thin { height: 10px; }
   .vbar-val { font-size: 0.86rem; font-weight: 700; color: var(--ink); text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
   .stack-bar { grid-column: 2 / -1; display: flex; gap: 2px; height: 22px; border-radius: 4px; overflow: hidden; }
@@ -482,7 +482,7 @@
     .hbar-row { padding: 6px 4px; }
     .hbar-label { max-width: 7.5rem; font-size: 0.8rem; }
     .hbar-val { font-size: 0.8rem; }
-    .vbar-line { grid-template-columns: 1fr 3.6rem; gap: 8px; }
+    .vbar-line { grid-template-columns: 1fr minmax(3.6rem, max-content); gap: 8px; }
     .vbar-val { font-size: 0.8rem; }
   }
 
@@ -2543,7 +2543,7 @@ function renderNational() {
         ariaLabel: 'Percent of police-reported sexual assaults resulting in an arrest, by victim age: under 6, 19%; 6 to 11, 33%; 12 to 17, 32%; adults, 22%.'
       })}</div>
       <div class="method"><p class="method-src"><b>Source:</b> BJS, <i>Sexual Assault of Young Children as Reported to Law Enforcement</i> (2000)</p><details><summary>Methodology &amp; caveats</summary><div>Source: BJS, <i>Sexual Assault of Young Children as Reported to Law Enforcement</i> (NCJ 182990, 2000), NIBRS data from 1991–1996 — dated and not nationally representative. Arrest only, not conviction.</div></details></div>
-      ${researchGap('gap-conviction-by-age')}
+      <p class="aside">No national data source tracks prosecution or conviction by victim age — arrest is the furthest point in the process that's published.</p>
     </div>
 
     <div class="section-block" id="stat-csa">
@@ -2631,7 +2631,20 @@ function renderNational() {
       })}</div>
       <div class="method"><p class="method-src"><b>Source:</b> CDC NISVS 2016/2017 Report</p><details><summary>Methodology &amp; caveats</summary><div>Source: CDC NISVS 2016/2017 Report. We could not locate a directly comparable rape-specific (not combined-measure) breakdown by race for women from this same report cycle — noted here rather than substituting the broader combined figure without saying so.</div></details></div>
 
-      ${researchGap('gap-race-outcomes')}
+      <h4 style="font-size:1.05rem;margin-top:30px;">Share reported to police, by victim race</h4>
+      <p class="section-sub">No group reports most assaults. Differences between groups are mostly within the survey's margin of error — the clearer signal is how low reporting is across the board.</p>
+      <div class="chart-card">${valueBarChart({
+        rows: [
+          { label: 'Black', values: [36.0] },
+          { label: 'White', values: [30.0] },
+          { label: 'Asian / Pacific Islander', values: [29.7] },
+          { label: 'Hispanic', values: [29.2] },
+          { label: 'Multiracial', values: [16.9] }
+        ],
+        max: 100,
+        ariaLabel: 'Share of rapes and sexual assaults reported to police by victim race, 2015 to 2024: Black 36.0%, White 30.0%, Asian or Pacific Islander 29.7%, Hispanic 29.2%, multiracial 16.9%.'
+      })}</div>
+      <div class="method"><p class="method-src"><b>Source:</b> BJS NCVS public-use data, 2015–2024 (our calculation)</p><details><summary>Methodology &amp; caveats</summary><div>Our calculation from BJS's NCVS Select public-use data (rape/sexual assault, series-adjusted victimization weights over person population weights). The same method reproduces BJS's published 2023 and 2024 totals, rates, and percent reported exactly. Years are pooled because a single year has only about 80–190 sample cases. Standard errors can't be computed from these files, so groups with fewer than 30 sample cases are not shown and groups with fewer than 50 are flagged. Reproduce with scripts/fetch_ncvs_crosstabs.py. Non-Hispanic groups except Hispanic. American Indian/Alaska Native victims had only 14 sample cases and are not shown. Overall, 29.0% were reported across these years. Case outcomes (arrest, prosecution, conviction) by victim race aren't published in any national source.</div></details></div>
     </div>
 
     <div class="section-block" id="stat-gender">
@@ -2647,7 +2660,19 @@ function renderNational() {
       </div>
       <div class="method"><p class="method-src"><b>Source:</b> CDC NISVS</p><details><summary>Methodology &amp; caveats</summary><div>Source: CDC NISVS. "Made to penetrate" — being physically forced or coerced into penetrating someone else — is tracked as its own category specifically because it's a distinct experience from rape, overwhelmingly reported by men, and disproportionately involves female perpetrators. Conflating it with "rape" (which is overwhelmingly male-perpetrated even against male victims) produces a misleading picture in either direction — this is why NISVS tracks them separately, and why this page does too.</div></details></div>
 
-      ${researchGap('gap-gender-crosstabs')}
+      <h4 style="font-size:1.05rem;margin-top:30px;">Sex of the offender, by sex of the victim</h4>
+      <p class="section-sub">For women, offenders are overwhelmingly male; female offenders alone account for about 2%. For men, more than a quarter of offenders are female.</p>
+      <div class="chart-card">${valueBarChart({
+        series: [{ label: 'Female victims', color: 'var(--cat1)' }, { label: 'Male victims', color: 'var(--cat2)' }],
+        rows: [
+          { label: 'Male offender(s)', values: [89.7, 60.7] },
+          { label: 'Female offender(s)', values: [2.4, 28.4], note: 'Female-victim figure is based on 33 sample cases — interpret with caution.' },
+          { label: 'Both, unknown, or not recorded', values: [8.0, 11.0] }
+        ],
+        max: 100,
+        ariaLabel: 'Offender sex in rape and sexual assault, 2015 to 2024. Female victims: 89.7% male offenders, 2.4% female, 8.0% both, unknown, or not recorded. Male victims: 60.7% male, 28.4% female, 11.0% both, unknown, or not recorded.'
+      })}</div>
+      <div class="method"><p class="method-src"><b>Source:</b> BJS NCVS public-use data, 2015–2024 (our calculation)</p><details><summary>Methodology &amp; caveats</summary><div>Our calculation from BJS's NCVS Select public-use data (rape/sexual assault, series-adjusted victimization weights over person population weights). The same method reproduces BJS's published 2023 and 2024 totals, rates, and percent reported exactly. Years are pooled because a single year has only about 80–190 sample cases. Standard errors can't be computed from these files, so groups with fewer than 30 sample cases are not shown and groups with fewer than 50 are flagged. Reproduce with scripts/fetch_ncvs_crosstabs.py. Based on 1,315 sample cases with female victims and 204 with male victims. The female-offender figure for female victims rests on 33 cases. This counts incidents in the survey's "crime" framing; NISVS's broader categories (e.g. "made to penetrate") are shown above.</div></details></div>
     </div>
     <div class="section-block" id="stat-lgbtq">
       <h3>By sexual orientation &amp; gender identity</h3>
@@ -2719,8 +2744,9 @@ function renderNational() {
     </div>
 
     <div class="section-block" id="stat-affluence">
-      <h3>By socioeconomic status${dataAge('2008–2012')}</h3>
-      <p class="takeaway">People in poor households face roughly 3.7 times the yearly risk of people in high-income households.</p>
+      <h3>By socioeconomic status</h3>
+      <p class="takeaway">People in the lowest-income households are raped or sexually assaulted at about 7 times the rate of those in the highest.</p>
+      <p class="section-sub">By poverty status${dataAge('2008–2012')}</p>
       <div class="chart-card">${valueBarChart({
         rows: [
           { label: 'At or below the poverty line', values: [2.2], display: ['about 1 in 450'] },
@@ -2729,8 +2755,20 @@ function renderNational() {
         ariaLabel: 'Each year, about 1 in 450 people in households at or below the poverty line (2.2 per 1,000) and about 1 in 1,700 people in high-income households (0.6 per 1,000) are raped or sexually assaulted.'
       })}</div>
       <p class="section-sub" style="margin-top:-8px;">People in poor households face roughly <b>3.7 times</b> the yearly risk (BJS, 2008–2012; underlying rates 2.2 vs. 0.6 per 1,000).</p>
-      <div class="method"><p class="method-src"><b>Source:</b> BJS, <i>Household Poverty and Nonfatal Violent Victimization, 2008–2012</i></p><details><summary>Methodology &amp; caveats</summary><div>Source: BJS, <i>Household Poverty and Nonfatal Violent Victimization, 2008–2012</i>. An older NCVS analysis found an even starker gap using raw income brackets rather than the federal poverty line: households earning under $7,500/year had a rape/sexual assault rate 12 times higher than households earning over $75,000. A more recent NCVS breakdown confirms the same direction — households earning $200,000+ had a lower rape/sexual assault rate (0.8 per 1,000) than each of the three lowest income categories.</div></details></div>
-      ${researchGap('gap-income-bracket')}
+      <div class="method"><p class="method-src"><b>Source:</b> BJS, <i>Household Poverty and Nonfatal Violent Victimization, 2008–2012</i></p><details><summary>Methodology &amp; caveats</summary><div>Source: BJS, <i>Household Poverty and Nonfatal Violent Victimization, 2008–2012</i>. An older NCVS analysis found an even starker gap using raw income brackets rather than the federal poverty line: households earning under $7,500/year had a rape/sexual assault rate 12 times higher than households earning over $75,000.</div></details></div>
+      <h4 style="font-size:1.05rem;margin-top:30px;">By household income, 2017–2024</h4>
+      <p class="section-sub">Newer data shows an even steeper gradient: people in households earning under $25,000 are raped or sexually assaulted at about <b>7 times</b> the rate of those earning $200,000 or more.</p>
+      <div class="chart-card">${valueBarChart({
+        rows: [
+          { label: 'Less than $25,000', values: [4.24], display: ['4.2 · ~1 in 240'] },
+          { label: '$25,000–$49,999', values: [1.74], display: ['1.7 · ~1 in 570'] },
+          { label: '$50,000–$99,999', values: [1.19], display: ['1.2 · ~1 in 840'] },
+          { label: '$100,000–$199,999', values: [1.03], display: ['1.0 · ~1 in 970'] },
+          { label: '$200,000 or more', values: [0.61], display: ['0.6 · ~1 in 1,640'], note: 'Based on 38 sample cases — interpret with caution.' }
+        ],
+        ariaLabel: 'Rape and sexual assault per 1,000 people per year by household income, 2017 to 2024: under 25,000 dollars 4.2; 25,000 to 49,999 1.7; 50,000 to 99,999 1.2; 100,000 to 199,999 1.0; 200,000 or more 0.6.'
+      })}</div>
+      <div class="method"><p class="method-src"><b>Source:</b> BJS NCVS public-use data, 2017–2024 (our calculation)</p><details><summary>Methodology &amp; caveats</summary><div>Our calculation from BJS's NCVS Select public-use data (rape/sexual assault, series-adjusted victimization weights over person population weights). The same method reproduces BJS's published 2023 and 2024 totals, rates, and percent reported exactly. Years are pooled because a single year has only about 80–190 sample cases. Standard errors can't be computed from these files, so groups with fewer than 30 sample cases are not shown and groups with fewer than 50 are flagged. Reproduce with scripts/fetch_ncvs_crosstabs.py. Rate per 1,000 persons age 12+ per year, averaged over 2017–2024 (income brackets in this form start in 2017). The $200,000+ bracket rests on 38 sample cases. "1 in N" is 1,000 ÷ the rate.</div></details></div>
 
       <h4 style="font-size:1.05rem;margin-top:30px;">Reporting</h4>
       <p class="section-sub">Counterintuitively, victims in poor households reported to police slightly <i>more</i> often — affluence doesn't straightforwardly buy access to the justice system. (Violent crime overall, not sexual assault specifically.)</p>
@@ -2863,7 +2901,7 @@ function renderNational() {
       <div class="method"><p class="method-src"><b>Source:</b> BJS, <i>Violence Against Women: Estimates from the Redesigned Survey</i> (1992–93 NCVS)</p></div>
 
 
-      ${researchGap('gap-act-type')}
+      <p class="aside">No national survey breaks rape down by act type. The closest proxy is police data: each state page splits reported cases into the FBI's four sex-offense categories (rape, sodomy, sexual assault with an object, fondling).</p>
     </div>
 
     <div class="section-block" id="stat-drug-facilitated">
@@ -3107,6 +3145,7 @@ function renderNational() {
         <li>BJS, <i>Sexual Assault of Young Children as Reported to Law Enforcement</i> (NCJ 182990, 2000) — <a href="https://bjs.ojp.gov/content/pub/pdf/saycrle.pdf" target="_blank" rel="noopener">link</a></li>
         <li>BJS, <i>Crime Against Persons with Disabilities, 2009–2019 — Statistical Tables</i> — <a href="https://bjs.ojp.gov/content/pub/pdf/capd0919st.pdf" target="_blank" rel="noopener">link</a></li>
         <li>BJS, <i>Household Poverty and Nonfatal Violent Victimization, 2008–2012</i></li>
+        <li>BJS, NCVS Select public-use data (Personal Victimization and Personal Population files), 1993–2024 — <a href="https://bjs.ojp.gov/national-crime-victimization-survey-ncvs-api" target="_blank" rel="noopener">link</a>; our cross-tabs reproducible via scripts/fetch_ncvs_crosstabs.py</li>
         <li>BJS, <i>Sexual Victimization in Prisons Reported by Inmates, 2023–24</i> — <a href="https://bjs.ojp.gov/document/svpri2324.pdf" target="_blank" rel="noopener">link</a></li>
         <li>BJS, <i>Sexual Victimization in Local Jails Reported by Inmates, 2023–24</i></li>
         <li>HHS Administration for Children &amp; Families, <i>Child Maltreatment 2023</i> — <a href="https://acf.gov/sites/default/files/documents/cb/cm2023.pdf" target="_blank" rel="noopener">link</a></li>
@@ -3328,22 +3367,13 @@ function stackedBarChart({ rows, parts, ariaLabel, fmt = v => `${Math.round(v)}%
    can't drift apart. Add an entry, then drop ${researchGap('id')} where it
    belongs. */
 const RESEARCH_GAPS = [
-  { id: 'gap-conviction-by-age', section: 'By age', title: 'Conviction rates by victim age',
-    need: 'A current national source tracking prosecution and conviction (not just arrest) by victim age, for child and adult victims.' },
-  { id: 'gap-race-outcomes', section: 'By race & ethnicity', title: 'Reporting and case outcomes by victim race',
-    need: 'A reliable national breakdown of police reporting, arrest, prosecution, and conviction by victim race, specific to sexual assault.' },
-  { id: 'gap-gender-crosstabs', section: 'By gender', title: 'Female-perpetrated assault against women; age and race within each gender',
-    need: 'NISVS cross-tabs (or another national source) for female-on-female perpetration and for age/race breakdowns within each gender.' },
-  { id: 'gap-income-bracket', section: 'By socioeconomic status', title: 'Current rate for the lowest income bracket',
-    need: 'The lowest-income-bracket rape/sexual assault rate from the most recent NCVS income breakdown, to pair with the $200K+ figure (0.8 per 1,000).' },
-  { id: 'gap-act-type', section: 'Type of assault', title: 'Breakdown by act type',
-    need: 'What share of rapes are vaginal, anal, oral, or digital/object penetration, from a national source.' },
 ];
 function researchGap(id) {
   const g = RESEARCH_GAPS.find(x => x.id === id);
   return `<div class="research-gap" id="${g.id}"><span class="gap-badge">Coming soon · needs research</span><h4>${g.title}</h4><p>${g.need}</p></div>`;
 }
 function researchGapIndex() {
+  if (!RESEARCH_GAPS.length) return '';
   return `
     <details class="gap-index">
       <summary>Open research gaps <span class="gap-count">${RESEARCH_GAPS.length}</span></summary>

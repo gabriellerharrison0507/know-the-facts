@@ -1,0 +1,154 @@
+{
+ "source": "BJS NCVS Select (Personal Victimization gcuy-rt5g, Personal Population r4j4-fdwx), via api.ojp.gov",
+ "offense": "Rape/sexual assault (newoff = 1)",
+ "validation": {
+  "2023": {
+   "victimizations": 481017,
+   "rate_per_1000": 1.69,
+   "pct_reported": 46.0,
+   "cases": 155
+  },
+  "2024": {
+   "victimizations": 560890,
+   "rate_per_1000": 1.96,
+   "pct_reported": 23.6,
+   "cases": 78
+  }
+ },
+ "income_rate_2017_2024": [
+  {
+   "code": "1",
+   "label": "Less than $25,000",
+   "cases": 517,
+   "rate_per_1000": 4.24
+  },
+  {
+   "code": "2",
+   "label": "$25,000–$49,999",
+   "cases": 313,
+   "rate_per_1000": 1.74
+  },
+  {
+   "code": "3",
+   "label": "$50,000–$99,999",
+   "cases": 266,
+   "rate_per_1000": 1.19
+  },
+  {
+   "code": "4",
+   "label": "$100,000–$199,999",
+   "cases": 156,
+   "rate_per_1000": 1.03
+  },
+  {
+   "code": "5",
+   "label": "$200,000 or more",
+   "cases": 38,
+   "rate_per_1000": 0.61
+  }
+ ],
+ "race_pct_reported_2015_2024": [
+  {
+   "code": "1",
+   "label": "Non-Hispanic white",
+   "cases": 1001,
+   "pct_reported": 30.0
+  },
+  {
+   "code": "2",
+   "label": "Non-Hispanic Black",
+   "cases": 134,
+   "pct_reported": 36.0
+  },
+  {
+   "code": "3",
+   "label": "Non-Hispanic American Indian/Alaska Native",
+   "cases": 14,
+   "pct_reported": 1.2
+  },
+  {
+   "code": "4",
+   "label": "Non-Hispanic Asian/Native Hawaiian/Other Pacific Islander",
+   "cases": 57,
+   "pct_reported": 29.7
+  },
+  {
+   "code": "5",
+   "label": "Non-Hispanic more than one race",
+   "cases": 66,
+   "pct_reported": 16.9
+  },
+  {
+   "code": "6",
+   "label": "Hispanic",
+   "cases": 247,
+   "pct_reported": 29.2
+  }
+ ],
+ "offender_sex_2015_2024": {
+  "female_victims": [
+   {
+    "code": "1",
+    "label": "Male",
+    "cases": 1199,
+    "pct": 89.7
+   },
+   {
+    "code": "2",
+    "label": "Female",
+    "cases": 33,
+    "pct": 2.4
+   },
+   {
+    "code": "3",
+    "label": "Both male and female",
+    "cases": 12,
+    "pct": 2.5
+   },
+   {
+    "code": "4",
+    "label": "Unknown",
+    "cases": 36,
+    "pct": 2.4
+   },
+   {
+    "code": "98",
+    "label": "Residue",
+    "cases": 35,
+    "pct": 3.1
+   }
+  ],
+  "male_victims": [
+   {
+    "code": "1",
+    "label": "Male",
+    "cases": 129,
+    "pct": 60.7
+   },
+   {
+    "code": "2",
+    "label": "Female",
+    "cases": 57,
+    "pct": 28.4
+   },
+   {
+    "code": "3",
+    "label": "Both male and female",
+    "cases": 4,
+    "pct": 2.0
+   },
+   {
+    "code": "4",
+    "label": "Unknown",
+    "cases": 10,
+    "pct": 4.9
+   },
+   {
+    "code": "98",
+    "label": "Residue",
+    "cases": 4,
+    "pct": 4.1
+   }
+  ]
+ }
+}
