@@ -439,6 +439,10 @@
   .method details > div { margin-top: 8px; padding: 12px 14px; background: var(--bg-alt); border-radius: 10px; max-width: 72ch; }
   .aside { font-size: 0.88rem; color: var(--ink-soft); line-height: 1.55; max-width: 72ch; margin: 12px 0 0; }
 
+  .jump-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; margin: -6px 0 26px; font-size: 0.86rem; }
+  .jump-row span { color: var(--ink-faint); font-weight: 600; }
+  .jump-row a { color: var(--accent); font-weight: 600; text-decoration: none; }
+  .jump-row a:hover { text-decoration: underline; }
   .takeaway { font-size: 1.02rem; line-height: 1.5; color: var(--ink); max-width: 72ch; margin: 6px 0 18px; padding-left: 12px; border-left: 3px solid var(--accent); }
 
   .data-age {
@@ -2139,7 +2143,7 @@ function renderState(abbr) {
     `;
   }
   const quickRefTable = legal && legal.rating ? `
-    <div class="quick-ref">
+    <div class="quick-ref" id="st-glance">
       <h3>At a glance</h3>
       <p class="section-sub">Short-form summary of each provision, and whether it's protective or a gap for survivors — our read, reasoned out one line at a time, not an official rating. Full detail and citations are below.</p>
       <div class="table-scroll">
@@ -2161,7 +2165,7 @@ function renderState(abbr) {
   let legalBody;
   if (legal) {
     legalBody = `
-      <div class="legal-section">
+      <div class="legal-section" id="st-law">
         <h3>How consent is defined</h3>
         <div class="body-text"><p>${legal.consent}</p></div>
       </div>
@@ -2219,40 +2223,34 @@ function renderState(abbr) {
 
   const trendBlock = stateTrendChart(abbr, fullName);
   const trendSection = trendBlock ? `
-    <div class="section-block" style="margin-top:20px;">
+    <div class="section-block" id="st-trend" style="margin-top:20px;">
       <h4 style="font-size:1.05rem;">Reported rate over time, 2014–2023</h4>
-      <p class="section-sub">Rapes reported to police per 100,000 people, by year. Hover any bar for its exact value. This is a separate FBI data pull from the single 2023 figure above — the two are usually close but not identical, since they aggregate police submissions slightly differently; read this chart for its year-over-year shape, not as a replacement for the headline number.</p>
+      <p class="section-sub">Rapes reported to police per 100,000 people, by year.</p>
       <div class="chart-card">${trendBlock}</div>
-      <div class="methodology-note">Source: FBI Crime Data Explorer, Rape (NIBRS offense 11A), state-level data, 2014–2023. Some states had incomplete or transitioning NIBRS participation in parts of this span (the FBI's nationwide shift away from the older Summary Reporting System completed in 2021) — treat any sharp single-year jump as a possible reporting-coverage change in that state's agencies, not necessarily a real crime-rate swing.</div>
+      <div class="method"><p class="method-src"><b>Source:</b> FBI Crime Data Explorer, NIBRS offense 11A (Rape), 2014–2023</p><details><summary>Methodology &amp; caveats</summary><div>This is a separate FBI data pull from the single 2023 figure above — the two are usually close but not identical, since they aggregate police submissions slightly differently; read this chart for its year-over-year shape, not as a replacement for the headline number. Some states had incomplete or transitioning NIBRS participation in parts of this span (the FBI's nationwide shift away from the older Summary Reporting System completed in 2021) — treat any sharp single-year jump as a possible reporting-coverage change in that state's agencies, not necessarily a real crime-rate swing.</div></details></div>
     </div>
   ` : '';
 
   const clearanceBlock = stateClearanceChart(abbr, fullName);
   const clearanceSection = clearanceBlock ? `
-    <div class="section-block" style="margin-top:20px;">
+    <div class="section-block" id="st-clearance" style="margin-top:20px;">
       <h4 style="font-size:1.05rem;">Cleared by arrest, 2014–2023</h4>
-      <p class="section-sub">Percent of reported rapes that resulted in an arrest or an FBI-defined "exceptional clearance" (cleared without an arrest for a specific reason, like the offender's death) that year. This is <em>not</em> a conviction rate — FBI/NIBRS data tracks the police-clearance step only, not what happened afterward in court.</p>
+      <p class="section-sub">Percent of reported rapes that led to an arrest each year. This is <em>not</em> a conviction rate — FBI data stops at the police step.</p>
       <div class="chart-card">${clearanceBlock}</div>
-      <div class="methodology-note">Source: FBI Crime Data Explorer, Rape (NIBRS offense 11A), state-level clearances ÷ offenses, 2014–2023. Same NIBRS-transition caveat as the chart above applies — a state with partial agency participation in a given year can show an unusually high or low clearance rate that reflects reporting coverage, not actual case outcomes.</div>
+      <div class="method"><p class="method-src"><b>Source:</b> FBI Crime Data Explorer, NIBRS offense 11A (Rape), clearances ÷ offenses, 2014–2023</p><details><summary>Methodology &amp; caveats</summary><div>"Cleared" means an arrest, or an FBI-defined "exceptional clearance" — closed without an arrest for a specific reason, like the offender's death. FBI/NIBRS data doesn't track what happened afterward in court. The same NIBRS-transition caveat as the chart above applies — a state with partial agency participation in a given year can show an unusually high or low clearance rate that reflects reporting coverage, not actual case outcomes.</div></details></div>
     </div>
   ` : '';
 
   const offenseTypes = STATE_OFFENSE_TYPES[abbr];
   const offenseTypesTotal = offenseTypes ? offenseTypes.reduce((sum, o) => sum + o.n, 0) : 0;
   const offenseTypesSection = (offenseTypes && offenseTypesTotal > 0) ? `
-    <div class="section-block" style="margin-top:20px;">
+    <div class="section-block" id="st-offense" style="margin-top:20px;">
       <h4 style="font-size:1.05rem;">Breakdown by type of offense, 2023</h4>
-      <p class="section-sub">NIBRS (the FBI's current reporting system) splits what used to be one "forcible rape" category into four distinct offenses. Counts below are reported victims in ${fullName} in 2023, each as a share of these four categories combined.</p>
-      <div class="category-grid">
-        ${offenseTypes.map(o => `
-          <div class="category-card">
-            <h4>${o.label}</h4>
-            <div class="cat-stat">${o.n.toLocaleString()}</div>
-            <p>${(100 * o.n / offenseTypesTotal).toFixed(1)}% of these four categories</p>
-          </div>
-        `).join('')}
-      </div>
-      <div class="methodology-note">Source: FBI Crime Data Explorer, NIBRS offenses 11A (Rape), 11B (Sodomy), 11C (Sexual Assault With An Object), 11D (Fondling), ${fullName}, 2023. There is no separate NIBRS category for generic "sexual harassment," so it isn't shown here. A count of 0 for a category in a given state can reflect genuine rarity or a local agency's classification/reporting practices rather than zero actual incidents — treat any single-category 0 with caution rather than as a confirmed absence.</div>
+      <p class="section-sub">Reported victims in ${fullName}, split across the four sex offenses the FBI now tracks separately.</p>
+      <div class="chart-card">${categoryBarChart(offenseTypes, {
+        ariaLabel: `Reported victims in ${fullName} in 2023 by offense type: ${offenseTypes.map(o => o.label + ' ' + o.n).join(', ')}.`
+      })}</div>
+      <div class="method"><p class="method-src"><b>Source:</b> FBI Crime Data Explorer, NIBRS offenses 11A–11D, ${fullName}, 2023</p><details><summary>Methodology &amp; caveats</summary><div>NIBRS (the FBI's current reporting system) splits what used to be one "forcible rape" category into four offenses: 11A Rape, 11B Sodomy, 11C Sexual Assault With An Object, 11D Fondling. Percentages are each offense's share of these four combined. There is no separate NIBRS category for generic "sexual harassment," so it isn't shown. A count of 0 for a category can reflect genuine rarity or a local agency's classification/reporting practices rather than zero actual incidents.</div></details></div>
     </div>
   ` : '';
 
@@ -2262,9 +2260,9 @@ function renderState(abbr) {
   const ageItems = STATE_VICTIM_AGE[abbr];
   const rapeVictimTotal = ageItems ? ageItems.reduce((sum, it) => sum + it.n, 0) : 0;
   const demographicsSection = (ageItems && rapeVictimTotal > 0) ? `
-    <div class="section-block" style="margin-top:20px;">
+    <div class="section-block" id="st-who" style="margin-top:20px;">
       <h4 style="font-size:1.05rem;">Who was affected, 2023</h4>
-      <p class="section-sub">Reported Rape (NIBRS 11A) victims in ${fullName} in 2023 — ${rapeVictimTotal.toLocaleString()} total — broken out by age, sex, race, and ethnicity. These are the specific people in these reports, not a survey sample, so there's no margin of error — but in a state with fewer total victims, one or two cases can swing a category's percentage noticeably. Watch the raw count, not just the percent, for the smaller categories.</p>
+      <p class="section-sub">The ${rapeVictimTotal.toLocaleString()} reported rape victims in ${fullName} in 2023, by age, sex, race, and ethnicity. In smaller states, one or two cases can move a percentage — check the count next to it.</p>
 
       <p class="section-sub" style="margin-top:16px;font-weight:600;">By age</p>
       <div class="chart-card">${categoryBarChart(STATE_VICTIM_AGE[abbr], {
@@ -2280,13 +2278,22 @@ function renderState(abbr) {
       <p class="section-sub" style="margin-top:16px;font-weight:600;">By ethnicity</p>
       ${victimBars(STATE_VICTIM_ETHNICITY[abbr], 'ethnicity')}
 
-      <p class="section-sub" style="margin-top:24px;font-weight:600;">Relationship to the person who assaulted them</p>
-      <p class="section-sub">NIBRS records roughly 30 specific relationship categories (stepparent, babysittee, ex-boyfriend, and so on) — collapsed here into five standard groups for readability.</p>
+      <p class="section-sub" id="st-relationship" style="margin-top:24px;font-weight:600;">Relationship to the person who assaulted them</p>
       ${victimBars(STATE_VICTIM_RELATIONSHIP[abbr], 'relationship to the offender')}
 
-      <div class="methodology-note">Source: FBI Crime Data Explorer, NIBRS offense 11A (Rape) victim detail, ${fullName}, 2023. Race and ethnicity are separate NIBRS fields (not combined into one list, unlike the survey-based breakdown on the National Stats page) — a victim can be e.g. both "White" and "Hispanic or Latino." Relationship categories are grouped from NIBRS's full relationship-type list; see scripts/fetch_cde_demographics.py for the exact grouping. "Unknown" reflects cases where the responding agency didn't record that field, not an implied value.</div>
+      <div class="method"><p class="method-src"><b>Source:</b> FBI Crime Data Explorer, NIBRS offense 11A (Rape) victim detail, ${fullName}, 2023</p><details><summary>Methodology &amp; caveats</summary><div>These are the specific people in police reports, not a survey sample, so there's no margin of error. Race and ethnicity are separate NIBRS fields (not combined into one list, unlike the survey-based breakdown on the National Stats page) — a victim can be e.g. both "White" and "Hispanic or Latino." NIBRS records roughly 30 specific relationship categories (stepparent, babysittee, ex-boyfriend, and so on), grouped here into five standard ones; see scripts/fetch_cde_demographics.py for the exact grouping. "Unknown" means the responding agency didn't record that field.</div></details></div>
     </div>
   ` : '';
+
+  const stateToc = [{ group: fullName, items: [
+    ...(quickRefTable ? [{ id: 'st-glance', label: 'Law at a glance' }] : []),
+    ...(legal ? [{ id: 'st-law', label: 'Law in detail' }] : []),
+    { id: 'st-police', label: 'Police reports' },
+    ...(trendSection ? [{ id: 'st-trend', label: 'Trend' }] : []),
+    ...(clearanceSection ? [{ id: 'st-clearance', label: 'Arrests' }] : []),
+    ...(offenseTypesSection ? [{ id: 'st-offense', label: 'Offense types' }] : []),
+    ...(demographicsSection ? [{ id: 'st-who', label: 'Who was affected' }, { id: 'st-relationship', label: 'Relationship to offender' }] : []),
+  ] }];
 
   return `
     <button class="back-link" data-nav="map">&larr; Back to map</button>
@@ -2294,11 +2301,13 @@ function renderState(abbr) {
       <h2>${fullName}</h2>
       ${saBlock}
     </div>
+    <nav class="jump-row" aria-label="On this page"><span>On this page:</span>${stateToc[0].items.map(it => `<a href="#${it.id}">${it.label}</a>`).join('')}</nav>
+    ${floatingToc(stateToc)}
     ${ranksStrip}
     ${notableStat}
     ${quickRefTable}
     ${legalBody}
-    <div class="section-block">
+    <div class="section-block" id="st-police">
       <h3>Reported Crime Data <span class="draft-badge" style="background:var(--bg-alt);color:var(--ink-faint);border-color:var(--border);">Secondary</span></h3>
       <p class="section-sub">The numbers above come from a confidential survey. These come from police reports (FBI/BJS) — a different, usually much smaller, measurement. Both are real; they're just answering different questions.</p>
       ${fbiBlock}
@@ -2362,8 +2371,8 @@ function statsToc() {
 /* Floating "Contents" button for the (very long) National Stats page:
    opens the same section list from anywhere on the page. Wired up in
    attachHandlers(). */
-function floatingToc() {
-  const groups = STATS_TOC.map(g => `
+function floatingToc(toc) {
+  const groups = toc.map(g => `
     <div class="toc-pop-group">
       <div class="toc-group-title">${g.group}</div>
       ${g.items.map(it => `<a href="#${it.id}">${it.label}</a>`).join('')}
@@ -2404,7 +2413,7 @@ function renderNational() {
 
     ${statsToc()}
     ${researchGapIndex()}
-    ${floatingToc()}
+    ${floatingToc(STATS_TOC)}
 
     <h2 class="stats-part-heading">I. The Big Picture</h2>
 
