@@ -416,7 +416,7 @@
 
   .research-gap {
     border: 1.5px dashed var(--draft-border); background: var(--draft-bg); color: var(--draft-ink);
-    border-radius: 12px; padding: 14px 18px; margin: 16px 0; scroll-margin-top: 24px;
+    border-radius: 12px; padding: 14px 18px; margin: 16px 0;
   }
   .research-gap h4 { font-size: 0.98rem; margin: 6px 0 4px; color: var(--draft-ink); }
   .research-gap p { font-size: 0.86rem; margin: 0; line-height: 1.45; }
@@ -430,6 +430,44 @@
   .gap-index ul { margin: 10px 0 2px; padding-left: 18px; font-size: 0.88rem; line-height: 1.7; }
   .gap-index a { color: var(--draft-ink); font-weight: 600; }
   .gap-index li span { opacity: 0.75; }
+
+  .method { margin: 10px 0 0; font-size: 0.8rem; color: var(--ink-soft); line-height: 1.5; }
+  .method-src { margin: 0; }
+  .method-src b { font-weight: 600; color: var(--ink-faint); }
+  .method details { margin-top: 2px; }
+  .method summary { cursor: pointer; color: var(--accent); font-weight: 600; font-size: 0.78rem; width: fit-content; }
+  .method details > div { margin-top: 8px; padding: 12px 14px; background: var(--bg-alt); border-radius: 10px; max-width: 72ch; }
+  .aside { font-size: 0.88rem; color: var(--ink-soft); line-height: 1.55; max-width: 72ch; margin: 12px 0 0; }
+
+  .takeaway { font-size: 1.02rem; line-height: 1.5; color: var(--ink); max-width: 72ch; margin: 6px 0 18px; padding-left: 12px; border-left: 3px solid var(--accent); }
+
+  .data-age {
+    display: inline-block; vertical-align: 2px; margin-left: 6px; padding: 2px 8px; border-radius: 999px;
+    font-family: 'Public Sans', sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.03em;
+    color: var(--draft-ink); background: var(--draft-bg); border: 1px solid var(--draft-border); white-space: nowrap;
+  }
+
+  .toc-fab {
+    position: fixed; right: 20px; bottom: 20px; z-index: 30;
+    font-family: 'Public Sans', sans-serif; font-size: 0.88rem; font-weight: 700;
+    background: var(--accent); color: var(--accent-ink); border: none; border-radius: 999px;
+    padding: 11px 18px; box-shadow: var(--shadow); cursor: pointer;
+  }
+  .toc-fab:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+  .toc-pop {
+    position: fixed; right: 20px; bottom: 72px; z-index: 30; width: min(320px, calc(100vw - 40px));
+    max-height: min(70vh, 560px); overflow-y: auto; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; box-shadow: var(--shadow); padding: 14px 16px;
+  }
+  .toc-pop[hidden] { display: none; }
+  .toc-pop a { display: block; padding: 4px 0; font-size: 0.88rem; color: var(--ink); text-decoration: none; }
+  .toc-pop a:hover { color: var(--accent); }
+  .toc-pop-group { margin-top: 10px; }
+  .toc-pop-top { font-weight: 700; color: var(--accent) !important; }
+  #main [id] { scroll-margin-top: 96px; }
+
+  .ref-list { margin: 10px 0 0; padding-left: 22px; font-size: 0.86rem; line-height: 1.6; color: var(--ink-soft); columns: 2 340px; column-gap: 40px; }
+  .ref-list li { break-inside: avoid; margin-bottom: 6px; }
 
   .read-this { border-left: 3px solid var(--accent); background: var(--accent-soft); border-radius: 0 10px 10px 0; padding: 12px 16px; margin: 0 0 16px; font-size: 0.9rem; line-height: 1.5; color: var(--ink); }
   .read-this b { color: var(--ink); }
@@ -2321,6 +2359,29 @@ function statsToc() {
   return `<nav class="stats-toc" aria-label="Table of contents">${groups}</nav>`;
 }
 
+/* Floating "Contents" button for the (very long) National Stats page:
+   opens the same section list from anywhere on the page. Wired up in
+   attachHandlers(). */
+function floatingToc() {
+  const groups = STATS_TOC.map(g => `
+    <div class="toc-pop-group">
+      <div class="toc-group-title">${g.group}</div>
+      ${g.items.map(it => `<a href="#${it.id}">${it.label}</a>`).join('')}
+    </div>`).join('');
+  return `
+    <button class="toc-fab" type="button" aria-expanded="false" aria-controls="toc-pop">Contents</button>
+    <nav class="toc-pop" id="toc-pop" aria-label="Jump to section" hidden>
+      <a class="toc-pop-top" href="#main">↑ Back to top</a>
+      ${groups}
+    </nav>`;
+}
+
+/* Small "Data: 1992" tag for charts and stats whose underlying data is
+   old enough that a reader should know before trusting it as current. */
+function dataAge(years) {
+  return ` <span class="data-age">Data: ${years}</span>`;
+}
+
 function statPending(id, title, note) {
   return `
     <div class="section-block" id="${id}">
@@ -2343,11 +2404,13 @@ function renderNational() {
 
     ${statsToc()}
     ${researchGapIndex()}
+    ${floatingToc()}
 
     <h2 class="stats-part-heading">I. The Big Picture</h2>
 
     <div class="section-block" id="stat-prevalence">
       <h3>National prevalence</h3>
+      <p class="takeaway">Nearly half of U.S. women (45.1%) and about 1 in 6 men (16.9%) have experienced contact sexual violence in their lifetime.</p>
       <div class="stat-row">
         <div class="stat-tile">
           <div class="stat-num">45.1%</div>
@@ -2360,7 +2423,7 @@ function renderNational() {
           <div class="stat-source">CDC NISVS, 2023/2024 survey cycle</div>
         </div>
       </div>
-      <p class="methodology-note" style="margin:-8px 0 28px;">"Contact sexual violence" is NISVS's umbrella term: rape, being made to penetrate someone else, sexual coercion, and unwanted sexual contact, combined. It's deliberately broader than rape alone — if what happened to you doesn't match a narrow legal definition of "rape," that doesn't put it outside "sexual assault."</p>
+      <p class="aside">"Contact sexual violence" is NISVS's umbrella term: rape, being made to penetrate someone else, sexual coercion, and unwanted sexual contact, combined. It's deliberately broader than rape alone — if what happened to you doesn't match a narrow legal definition of "rape," that doesn't put it outside "sexual assault."</p>
 
       <h4 style="font-size:1.05rem;margin-bottom:6px;">Sexual violence, broken down by category</h4>
       <p class="section-sub">Lifetime prevalence by category, women and men. These categories are not mutually exclusive — a person's experience doesn't need to be the most severe category to be real and worth taking seriously.</p>
@@ -2383,11 +2446,12 @@ function renderNational() {
         <div class="category-card"><h4>Unwanted sexual contact</h4><p>Being made to touch or be touched sexually without consent — this is the category childhood molestation by a relative typically falls under.</p></div>
         <div class="category-card"><h4>Non-contact experiences</h4><p>Unwanted verbal harassment (in public or at work) and technology-facilitated sexual violence — no physical contact, but still tracked as sexual violence.</p><p class="cap"><b>28–30%</b> women &middot; <b>7–15%</b> men, by subtype</p></div>
       </div>
-      <div class="methodology-note">Source: CDC NISVS 2023/2024 Sexual Violence Data Brief (Leemis et al.), Tables 1 &amp; 6.</div>
+      <div class="method"><p class="method-src"><b>Source:</b> CDC NISVS 2023/2024 Sexual Violence Data Brief, Tables 1 &amp; 6</p></div>
     </div>
 
     <div class="section-block" id="stat-trends" style="border-top:2px solid var(--border);padding-top:28px;">
       <h3>Trends over time <span class="draft-badge" style="background:var(--bg-alt);color:var(--ink-faint);border-color:var(--border);">Reported / secondary</span></h3>
+      <p class="takeaway">About 1 in 500 people age 12+ are raped or sexually assaulted every year — and in 2024, fewer than 1 in 4 of those assaults reached police.</p>
       <p class="section-sub">Everything above comes from confidential surveys at a single point in time. These come from crimes reported to police and from NCVS's own multi-year tracking — a different, usually smaller, measurement, because most sexual assault is never reported. Both are real; they're answering different questions.</p>
 
       <div class="section-block" style="margin-top:20px;">
@@ -2396,7 +2460,7 @@ function renderNational() {
           <ul><li>This survey (NCVS) asks about "crimes," which likely misses many assaults people don't think of as one. A National Research Council review (2014) concluded it probably <b>undercounts</b> rape and sexual assault — treat these as a floor, not a ceiling.</li></ul></div>
         <p class="section-sub">Gaps between bars are years without a published figure, not zeros.</p>
         <div class="chart-card">${trendChart()}</div>
-        <div class="methodology-note">Source: Bureau of Justice Statistics, National Crime Victimization Survey, compiled from the <i>Criminal Victimization</i> annual report for each plotted year (editions: 2000 [NCJ 187007], 2008 [NCJ 227777], 2011 [NCJ 239437], 2019 [NCJ 255113], 2024 [NCJ 310547]). Rate per 1,000 persons age 12+. BJS flags two breaks in long-run comparability within this span — the 1993 survey redesign (this chart's starting point) and a 2006 methodology change (that year is omitted here per BJS's own guidance).</div>
+        <div class="method"><p class="method-src"><b>Source:</b> BJS, <i>Criminal Victimization</i> (NCVS), annual editions 2000–2024</p><details><summary>Methodology &amp; caveats</summary><div>Source: Bureau of Justice Statistics, National Crime Victimization Survey, compiled from the <i>Criminal Victimization</i> annual report for each plotted year (editions: 2000 [NCJ 187007], 2008 [NCJ 227777], 2011 [NCJ 239437], 2019 [NCJ 255113], 2024 [NCJ 310547]). Rate per 1,000 persons age 12+. BJS flags two breaks in long-run comparability within this span — the 1993 survey redesign (this chart's starting point) and a 2006 methodology change (that year is omitted here per BJS's own guidance).</div></details></div>
       </div>
 
       <div class="section-block">
@@ -2409,7 +2473,7 @@ function renderNational() {
             <li>Big year-to-year swings partly reflect small samples — only a few hundred assaults are captured each year.</li>
           </ul></div>
         <div class="chart-card">${reportingChart()}</div>
-        <div class="methodology-note">Source: Bureau of Justice Statistics, National Crime Victimization Survey, compiled from the <i>Criminal Victimization</i> annual report for each plotted year (editions: 2000 [NCJ 187007, Table 7], 2011 [NCJ 239437, Table 8], 2019 [NCJ 255113, Table 6], 2024 [NCJ 310547, Table 4]). BJS's own 2000 figure (48.1%) is excluded — that report flags it as based on 10 or fewer sample cases, too small to treat as reliable. A single year's swing can reflect real behavior change, sampling variation, or both.</div>
+        <div class="method"><p class="method-src"><b>Source:</b> BJS, <i>Criminal Victimization</i> (NCVS), annual editions 2000–2024</p><details><summary>Methodology &amp; caveats</summary><div>Source: Bureau of Justice Statistics, National Crime Victimization Survey, compiled from the <i>Criminal Victimization</i> annual report for each plotted year (editions: 2000 [NCJ 187007, Table 7], 2011 [NCJ 239437, Table 8], 2019 [NCJ 255113, Table 6], 2024 [NCJ 310547, Table 4]). BJS's own 2000 figure (48.1%) is excluded — that report flags it as based on 10 or fewer sample cases, too small to treat as reliable. A single year's swing can reflect real behavior change, sampling variation, or both.</div></details></div>
       </div>
     </div>
 
@@ -2417,6 +2481,7 @@ function renderNational() {
 
     <div class="section-block" id="stat-age">
       <h3>By age</h3>
+      <p class="takeaway">Young people carry the highest risk: 18–24-year-olds have the highest yearly rate, and most rape victims were first raped before age 25.</p>
       <p class="section-sub">Four views, in order: <a href="#age-rate">rate by age this year</a> · <a href="#age-reporting">reporting by age</a> · <a href="#age-first">age at first victimization</a> · <a href="#age-arrest">arrests by victim age</a>.</p>
 
       <h4 id="age-rate" style="font-size:1.05rem;">Victimization rate by age, 2023 vs. 2024</h4>
@@ -2430,7 +2495,7 @@ function renderNational() {
         maxV: 25, yTicks: [0,5,10,15,20,25], unit: 'per 1,000',
         ariaLabel: 'Rape and sexual assault victimization rate by age group, 2023 and 2024. Highest in the 18 to 24 bracket both years.'
       })}</div>
-      <div class="methodology-note">Source: Bureau of Justice Statistics, <i>Criminal Victimization</i>, 2023 and 2024 editions (NCJ series), age-bracket tables. Rate per 1,000 persons in each age bracket.</div>
+      <div class="method"><p class="method-src"><b>Source:</b> BJS, <i>Criminal Victimization</i>, 2023 &amp; 2024</p><details><summary>Methodology &amp; caveats</summary><div>Source: Bureau of Justice Statistics, <i>Criminal Victimization</i>, 2023 and 2024 editions (NCJ series), age-bracket tables. Rate per 1,000 persons in each age bracket.</div></details></div>
 
       <h4 id="age-reporting" style="font-size:1.05rem;margin-top:30px;">Reporting to police, by victim age</h4>
       <p class="section-sub">Older victims report at close to double the rate of the youngest.</p>
@@ -2442,9 +2507,9 @@ function renderNational() {
         max: 100,
         ariaLabel: 'Percent of rapes and sexual assaults reported to police by victim age, rising from 25.5% at ages 12 to 17 to 56.6% at ages 50 to 64.'
       })}</div>
-      <div class="methodology-note">Source: BJS National Crime Victimization Survey, 2022 data. The youngest victims — exactly the group least equipped to navigate the justice system alone — report at roughly half the rate of victims over 50.</div>
+      <div class="method"><p class="method-src"><b>Source:</b> BJS, National Crime Victimization Survey, 2022</p><details><summary>Methodology &amp; caveats</summary><div>Source: BJS National Crime Victimization Survey, 2022 data. The youngest victims — exactly the group least equipped to navigate the justice system alone — report at roughly half the rate of victims over 50.</div></details></div>
 
-      <h4 id="age-first" style="font-size:1.05rem;margin-top:30px;">Age at first victimization (lifetime)</h4>
+      <h4 id="age-first" style="font-size:1.05rem;margin-top:30px;">Age at first victimization (lifetime)${dataAge('2010–2015')}</h4>
       <p class="section-sub">Not how old someone was when assaulted <i>this year</i>, but how old they were the <i>first time</i> it ever happened. Among people who have been raped:</p>
       <div class="chart-card">${valueBarChart({
         series: [{ label: 'Women', color: 'var(--cat1)' }, { label: 'Men', color: 'var(--cat2)' }],
@@ -2456,9 +2521,9 @@ function renderNational() {
         max: 100,
         ariaLabel: 'Share of rape victims by age at first rape: before 25, 81.3% of women and 70.8% of men; before 18, 43.2% of women and 51.3% of men; age 10 or younger, 27.8% of men.'
       })}</div>
-      <div class="methodology-note">Source: CDC National Intimate Partner and Sexual Violence Survey. The "10 or younger" figure for women isn't shown because we haven't verified it against the same report.</div>
+      <div class="method"><p class="method-src"><b>Source:</b> CDC NISVS</p><details><summary>Methodology &amp; caveats</summary><div>Source: CDC National Intimate Partner and Sexual Violence Survey. The "10 or younger" figure for women isn't shown because we haven't verified it against the same report.</div></details></div>
 
-      <h4 id="age-arrest" style="font-size:1.05rem;margin-top:30px;">How often a reported assault led to an arrest, by victim age</h4>
+      <h4 id="age-arrest" style="font-size:1.05rem;margin-top:30px;">How often a reported assault led to an arrest, by victim age${dataAge('1991–1996')}</h4>
       <p class="section-sub">Assaults of the youngest children were the least likely to end in an arrest.</p>
       <div class="chart-card">${valueBarChart({
         rows: [
@@ -2468,12 +2533,13 @@ function renderNational() {
         max: 100,
         ariaLabel: 'Percent of police-reported sexual assaults resulting in an arrest, by victim age: under 6, 19%; 6 to 11, 33%; 12 to 17, 32%; adults, 22%.'
       })}</div>
-      <div class="methodology-note">Source: BJS, <i>Sexual Assault of Young Children as Reported to Law Enforcement</i> (NCJ 182990, 2000), NIBRS data from 1991–1996 — dated and not nationally representative. Arrest only, not conviction.</div>
+      <div class="method"><p class="method-src"><b>Source:</b> BJS, <i>Sexual Assault of Young Children as Reported to Law Enforcement</i> (2000)</p><details><summary>Methodology &amp; caveats</summary><div>Source: BJS, <i>Sexual Assault of Young Children as Reported to Law Enforcement</i> (NCJ 182990, 2000), NIBRS data from 1991–1996 — dated and not nationally representative. Arrest only, not conviction.</div></details></div>
       ${researchGap('gap-conviction-by-age')}
     </div>
 
     <div class="section-block" id="stat-csa">
       <h3>Child sexual abuse</h3>
+      <p class="takeaway">About 1 in 4 girls and 1 in 20 boys are sexually abused by age 17 — usually by someone they know, and many take decades to tell anyone.</p>
       <p class="section-sub">A dedicated look at child victims specifically — separate from the general age breakdown above because the research tradition, data sources, and dynamics (disclosure, grooming, mandated reporting) are genuinely distinct from adult sexual assault.</p>
 
       <h4 style="font-size:1.05rem;">Prevalence</h4>
@@ -2487,16 +2553,16 @@ function renderNational() {
         max: 30,
         ariaLabel: 'Lifetime child sexual abuse by age 17: by any perpetrator, 26.6% of girls and 5.1% of boys; by adult perpetrators only, 11.2% of girls and 1.9% of boys.'
       })}</div>
-      <div class="methodology-note">Source: Finkelhor, Shattuck, Turner &amp; Hamby, "The Lifetime Prevalence of Child Sexual Abuse and Sexual Assault Assessed in Late Adolescence," <i>Journal of Adolescent Health</i>, 2014 — the study both CDC (<i>About Child Sexual Abuse</i>) and RAINN cite. We lead with the "by anyone" figure because it's the complete count.</div>
+      <div class="method"><p class="method-src"><b>Source:</b> Finkelhor et al., <i>Journal of Adolescent Health</i> (2014)</p><details><summary>Methodology &amp; caveats</summary><div>Source: Finkelhor, Shattuck, Turner &amp; Hamby, "The Lifetime Prevalence of Child Sexual Abuse and Sexual Assault Assessed in Late Adolescence," <i>Journal of Adolescent Health</i>, 2014 — the study both CDC (<i>About Child Sexual Abuse</i>) and RAINN cite. We lead with the "by anyone" figure because it's the complete count.</div></details></div>
 
       <h4 style="font-size:1.05rem;margin-top:30px;">Disclosure takes a long time — often decades</h4>
       <div class="stat-row">
         <div class="stat-tile"><div class="stat-num">23.9 yrs</div><div class="stat-label">average time to disclosure across survivors in a 2024 CHILD USA analysis</div><div class="stat-source">CHILD USA</div></div>
         <div class="stat-tile"><div class="stat-num">70%+</div><div class="stat-label">of victims do not disclose within 5 years of the abuse</div><div class="stat-source">CHILD USA</div></div>
       </div>
-      <div class="methodology-note">The same analysis found men take longer to disclose than women on average (25.7 years vs. 20.6 years). Other, smaller clinical-sample studies report shorter median delays (around 1–2 years) — disclosure-timeline research varies substantially by sample and methodology, and we're showing the larger, more frequently-cited figure rather than implying false consensus.</div>
+      <p class="aside">The same analysis found men take longer to disclose than women on average (25.7 years vs. 20.6 years). Other, smaller clinical-sample studies report shorter median delays (around 1–2 years) — disclosure-timeline research varies substantially by sample and methodology, and we're showing the larger, more frequently-cited figure rather than implying false consensus.</p>
 
-      <h4 style="font-size:1.05rem;margin-top:30px;">Who are the perpetrators of child sexual abuse specifically?</h4>
+      <h4 style="font-size:1.05rem;margin-top:30px;">Who are the perpetrators of child sexual abuse specifically?${dataAge('1991–1996')}</h4>
       <p class="section-sub">The opposite of "stranger danger": the younger the victim, the more likely the offender is family — and the less likely a stranger.</p>
       <div class="chart-card">${stackedBarChart({
         parts: [{ label: 'Family member', color: 'var(--cat1)' }, { label: 'Acquaintance', color: 'var(--cat2)' }, { label: 'Stranger', color: 'var(--cat3)' }],
@@ -2509,7 +2575,7 @@ function renderNational() {
         ],
         ariaLabel: 'Offender relationship by victim age. Under 6: 49% family, 48% acquaintance, 3% stranger. Ages 6 to 11: 42%, 53%, 5%. Ages 12 to 17: 24%, 66%, 10%. Ages 18 to 24: 10%, 67%, 24%. Age 25 and up: 13%, 57%, 30%.'
       })}</div>
-      <div class="methodology-note">Source: BJS, <i>Sexual Assault of Young Children as Reported to Law Enforcement</i> (NCJ 182990, 2000), Table 6 — police-reported cases, 1991–1996 NIBRS data. Dated, but still the most specific national source for this exact question. Adult rows included for contrast.</div>
+      <div class="method"><p class="method-src"><b>Source:</b> BJS, <i>Sexual Assault of Young Children as Reported to Law Enforcement</i> (2000), Table 6</p><details><summary>Methodology &amp; caveats</summary><div>Source: BJS, <i>Sexual Assault of Young Children as Reported to Law Enforcement</i> (NCJ 182990, 2000), Table 6 — police-reported cases, 1991–1996 NIBRS data. Dated, but still the most specific national source for this exact question. Adult rows included for contrast.</div></details></div>
 
       <h4 style="font-size:1.05rem;margin-top:30px;">Child Protective Services context</h4>
       <p class="section-sub">Of all child victims CPS confirmed in 2023, about <b>1 in 13</b> were confirmed for sexual abuse alone. Most confirmed maltreatment is neglect — so CPS totals shouldn't be read as mostly sexual abuse.</p>
@@ -2524,11 +2590,12 @@ function renderNational() {
         max: 100,
         ariaLabel: 'Substantiated child maltreatment by type, federal fiscal year 2023: neglect only 64.1%, physical abuse only 10.6%, sexual abuse only 7.5%, psychological abuse only 3.5%, multiple types or other 14.3%.'
       })}</div>
-      <div class="methodology-note">Source: U.S. Department of Health &amp; Human Services, <i>Child Maltreatment 2023</i> (Administration for Children &amp; Families), FFY 2023. "Multiple types, or other" is the remainder after the four single-type categories. Children confirmed for sexual abuse <i>plus</i> another type are in that bar, so 7.5% undercounts all CPS-confirmed sexual abuse.</div>
+      <div class="method"><p class="method-src"><b>Source:</b> HHS, <i>Child Maltreatment 2023</i></p><details><summary>Methodology &amp; caveats</summary><div>Source: U.S. Department of Health &amp; Human Services, <i>Child Maltreatment 2023</i> (Administration for Children &amp; Families), FFY 2023. "Multiple types, or other" is the remainder after the four single-type categories. Children confirmed for sexual abuse <i>plus</i> another type are in that bar, so 7.5% undercounts all CPS-confirmed sexual abuse.</div></details></div>
     </div>
 
     <div class="section-block" id="stat-race">
       <h3>By race &amp; ethnicity</h3>
+      <p class="takeaway">Multiracial and American Indian/Alaska Native women report the highest lifetime rates of sexual violence, partner violence, or stalking.</p>
       <p class="section-sub">The most recent CDC report with a full race/ethnicity breakdown is the NISVS 2016/2017 cycle — the newer 2023/2024 data brief used elsewhere on this page doesn't yet include this level of demographic detail, so this section is a few years older than the rest of the page. We'll update it if CDC publishes a newer breakdown.</p>
 
       <h4 style="font-size:1.05rem;">Lifetime prevalence, women, by race &amp; ethnicity</h4>
@@ -2542,7 +2609,7 @@ function renderNational() {
         max: 100,
         ariaLabel: 'Lifetime combined measure for women by race and ethnicity: multiracial 63.8%, American Indian or Alaska Native 57.7%, non-Hispanic Black 53.6%, non-Hispanic White 48.4%, Hispanic 42.1%, Asian or Pacific Islander 27.2%.'
       })}</div>
-      <div class="methodology-note">Source: CDC NISVS 2016/2017 Report. Combined lifetime measure: contact sexual violence, intimate partner physical violence, or stalking.</div>
+      <div class="method"><p class="method-src"><b>Source:</b> CDC NISVS 2016/2017 Report</p><details><summary>Methodology &amp; caveats</summary><div>Source: CDC NISVS 2016/2017 Report. Combined lifetime measure: contact sexual violence, intimate partner physical violence, or stalking.</div></details></div>
 
       <h4 style="font-size:1.05rem;margin-top:30px;">Lifetime rape prevalence, men, by race &amp; ethnicity</h4>
       <p class="section-sub">This one is specific to rape alone, not the combined measure above.</p>
@@ -2553,13 +2620,14 @@ function renderNational() {
         ],
         ariaLabel: 'Lifetime rape prevalence for men by race and ethnicity: multiracial 6.3%, non-Hispanic White 3.9%, Hispanic 3.2%, non-Hispanic Black 2.9%.'
       })}</div>
-      <div class="methodology-note">Source: CDC NISVS 2016/2017 Report. We could not locate a directly comparable rape-specific (not combined-measure) breakdown by race for women from this same report cycle — noted here rather than substituting the broader combined figure without saying so.</div>
+      <div class="method"><p class="method-src"><b>Source:</b> CDC NISVS 2016/2017 Report</p><details><summary>Methodology &amp; caveats</summary><div>Source: CDC NISVS 2016/2017 Report. We could not locate a directly comparable rape-specific (not combined-measure) breakdown by race for women from this same report cycle — noted here rather than substituting the broader combined figure without saying so.</div></details></div>
 
       ${researchGap('gap-race-outcomes')}
     </div>
 
     <div class="section-block" id="stat-gender">
       <h3>By gender</h3>
+      <p class="takeaway">Rape is overwhelmingly committed by men, even against male victims — but men who were made to penetrate mostly report female perpetrators.</p>
       <p class="section-sub">The overall lifetime prevalence split by gender is already shown at the top of this page (45.1% of women, 16.9% of men). This section goes one level deeper: the gender of perpetrators, and how it varies by the specific type of sexual violence involved.</p>
 
       <h4 style="font-size:1.05rem;">The gender of perpetrators depends heavily on which category of sexual violence you're asking about</h4>
@@ -2568,14 +2636,15 @@ function renderNational() {
         <div class="category-card"><h4>Male rape victims</h4><div class="cat-stat">87%</div><p>report only male perpetrators.</p></div>
         <div class="category-card"><h4>Male "made to penetrate" victims</h4><div class="cat-stat">79%</div><p>report only female perpetrators — the opposite pattern.</p></div>
       </div>
-      <div class="methodology-note">Source: CDC NISVS. "Made to penetrate" — being physically forced or coerced into penetrating someone else — is tracked as its own category specifically because it's a distinct experience from rape, overwhelmingly reported by men, and disproportionately involves female perpetrators. Conflating it with "rape" (which is overwhelmingly male-perpetrated even against male victims) produces a misleading picture in either direction — this is why NISVS tracks them separately, and why this page does too.</div>
+      <div class="method"><p class="method-src"><b>Source:</b> CDC NISVS</p><details><summary>Methodology &amp; caveats</summary><div>Source: CDC NISVS. "Made to penetrate" — being physically forced or coerced into penetrating someone else — is tracked as its own category specifically because it's a distinct experience from rape, overwhelmingly reported by men, and disproportionately involves female perpetrators. Conflating it with "rape" (which is overwhelmingly male-perpetrated even against male victims) produces a misleading picture in either direction — this is why NISVS tracks them separately, and why this page does too.</div></details></div>
 
       ${researchGap('gap-gender-crosstabs')}
     </div>
     <div class="section-block" id="stat-lgbtq">
       <h3>By sexual orientation &amp; gender identity</h3>
+      <p class="takeaway">Bisexual women report the highest rates of any group measured, and nearly half of trans and nonbinary people have been sexually assaulted.</p>
 
-      <h4 style="font-size:1.05rem;">By sexual orientation (NISVS)</h4>
+      <h4 style="font-size:1.05rem;">By sexual orientation (NISVS)${dataAge('2010')}</h4>
       <p class="section-sub">This is NISVS's combined "rape, physical violence, or stalking by an intimate partner" lifetime measure, not rape alone — the same combined measure used in the race/ethnicity section above, shown here because it's what CDC published broken out by sexual orientation.</p>
       <div class="chart-card">${valueBarChart({
         series: [{ label: 'Women', color: 'var(--cat1)' }, { label: 'Men', color: 'var(--cat2)' }],
@@ -2587,9 +2656,9 @@ function renderNational() {
         max: 100,
         ariaLabel: 'Lifetime rape, physical violence, or stalking by an intimate partner, by sexual orientation: bisexual women 61.1%, bisexual men 37.3%; lesbian women 43.8%, gay men 26%; heterosexual women 35%, heterosexual men 29%.'
       })}</div>
-      <div class="methodology-note">Source: CDC NISVS, 2010 cycle. For rape specifically (not the combined measure): more than 1 in 4 lesbian women, almost half of bisexual women, and over 1 in 4 heterosexual women were raped in their lifetime; about 1 in 4 gay men were raped in their lifetime. Nearly 1 in 3 bisexual women reported their first victimization occurred before age 10. Among women who experienced the combined measure, self-identified lesbians overwhelmingly reported only female perpetrators (67.4%), while bisexual and heterosexual women overwhelmingly reported only male perpetrators (89.5% and 98.7%).</div>
+      <div class="method"><p class="method-src"><b>Source:</b> CDC NISVS, 2010 cycle</p><details><summary>Methodology &amp; caveats</summary><div>Source: CDC NISVS, 2010 cycle. For rape specifically (not the combined measure): more than 1 in 4 lesbian women, almost half of bisexual women, and over 1 in 4 heterosexual women were raped in their lifetime; about 1 in 4 gay men were raped in their lifetime. Nearly 1 in 3 bisexual women reported their first victimization occurred before age 10. Among women who experienced the combined measure, self-identified lesbians overwhelmingly reported only female perpetrators (67.4%), while bisexual and heterosexual women overwhelmingly reported only male perpetrators (89.5% and 98.7%).</div></details></div>
 
-      <h4 style="font-size:1.05rem;margin-top:30px;">Transgender &amp; nonbinary people</h4>
+      <h4 style="font-size:1.05rem;margin-top:30px;">Transgender &amp; nonbinary people${dataAge('2015')}</h4>
       <p class="section-sub">NISVS's 2010–2012 sample had only 5 self-identified transgender respondents — too few for a reliable estimate. The best available data instead comes from a dedicated survey of trans and nonbinary people specifically.</p>
       <p class="section-sub">Nearly half of trans and nonbinary respondents had been sexually assaulted in their lifetime (10% in the past year alone) — and far more within some groups:</p>
       <div class="chart-card">${valueBarChart({
@@ -2613,11 +2682,12 @@ function renderNational() {
         max: 10, fmt: v => `${v}×`,
         ariaLabel: 'Incarcerated trans respondents reported sexual assault by facility staff over 5 times as often, and by other inmates over 9 times as often, as the general incarcerated population.'
       })}</div>
-      <div class="methodology-note">Source: 2015 U.S. Transgender Survey (Advocates for Trans Equality), the largest survey of trans people in the U.S.</div>
+      <div class="method"><p class="method-src"><b>Source:</b> 2015 U.S. Transgender Survey (Advocates for Trans Equality)</p></div>
     </div>
 
     <div class="section-block" id="stat-disability">
       <h3>By disability status</h3>
+      <p class="takeaway">People with disabilities are assaulted at more than 4 times the rate of others — and report to police about half as often.</p>
       <p class="section-sub">People with disabilities are raped or sexually assaulted at <b>more than 4 times</b> the rate of people without — and report it to police about <b>half as often</b>.</p>
       <h4 style="font-size:1.05rem;">How many are assaulted each year</h4>
       <div class="chart-card">${valueBarChart({
@@ -2636,11 +2706,12 @@ function renderNational() {
         max: 100,
         ariaLabel: 'Share of rapes and sexual assaults reported to police: 18.6% for people with a disability, 36.3% for people without.'
       })}</div>
-      <div class="methodology-note">Source: BJS, <i>Crime Against Persons with Disabilities, 2009–2019 — Statistical Tables</i>, 2017–19 annual averages, ages 12+. Underlying rates are 4.1 vs. 0.9 per 1,000 people per year (age-adjusted); "1 in N" is 1,000 ÷ the rate.</div>
+      <div class="method"><p class="method-src"><b>Source:</b> BJS, <i>Crime Against Persons with Disabilities</i> (2017–19 data)</p><details><summary>Methodology &amp; caveats</summary><div>Source: BJS, <i>Crime Against Persons with Disabilities, 2009–2019 — Statistical Tables</i>, 2017–19 annual averages, ages 12+. Underlying rates are 4.1 vs. 0.9 per 1,000 people per year (age-adjusted); "1 in N" is 1,000 ÷ the rate.</div></details></div>
     </div>
 
     <div class="section-block" id="stat-affluence">
-      <h3>By socioeconomic status</h3>
+      <h3>By socioeconomic status${dataAge('2008–2012')}</h3>
+      <p class="takeaway">People in poor households face roughly 3.7 times the yearly risk of people in high-income households.</p>
       <div class="chart-card">${valueBarChart({
         rows: [
           { label: 'At or below the poverty line', values: [2.2], display: ['about 1 in 450'] },
@@ -2649,27 +2720,36 @@ function renderNational() {
         ariaLabel: 'Each year, about 1 in 450 people in households at or below the poverty line (2.2 per 1,000) and about 1 in 1,700 people in high-income households (0.6 per 1,000) are raped or sexually assaulted.'
       })}</div>
       <p class="section-sub" style="margin-top:-8px;">People in poor households face roughly <b>3.7 times</b> the yearly risk (BJS, 2008–2012; underlying rates 2.2 vs. 0.6 per 1,000).</p>
-      <div class="methodology-note">Source: BJS, <i>Household Poverty and Nonfatal Violent Victimization, 2008–2012</i>. An older NCVS analysis found an even starker gap using raw income brackets rather than the federal poverty line: households earning under $7,500/year had a rape/sexual assault rate 12 times higher than households earning over $75,000. A more recent NCVS breakdown confirms the same direction — households earning $200,000+ had a lower rape/sexual assault rate (0.8 per 1,000) than each of the three lowest income categories.</div>
+      <div class="method"><p class="method-src"><b>Source:</b> BJS, <i>Household Poverty and Nonfatal Violent Victimization, 2008–2012</i></p><details><summary>Methodology &amp; caveats</summary><div>Source: BJS, <i>Household Poverty and Nonfatal Violent Victimization, 2008–2012</i>. An older NCVS analysis found an even starker gap using raw income brackets rather than the federal poverty line: households earning under $7,500/year had a rape/sexual assault rate 12 times higher than households earning over $75,000. A more recent NCVS breakdown confirms the same direction — households earning $200,000+ had a lower rape/sexual assault rate (0.8 per 1,000) than each of the three lowest income categories.</div></details></div>
       ${researchGap('gap-income-bracket')}
 
       <h4 style="font-size:1.05rem;margin-top:30px;">Reporting</h4>
-      <div class="methodology-note">Counterintuitively, victims from poor households reported to police slightly <i>more</i> often than victims from high-income households (51% vs. 45%, for violent crime generally) — cutting against a simple assumption that affluence straightforwardly buys better access to the justice system. Source: BJS.</div>
+      <p class="section-sub">Counterintuitively, victims in poor households reported to police slightly <i>more</i> often — affluence doesn't straightforwardly buy access to the justice system. (Violent crime overall, not sexual assault specifically.)</p>
+      <div class="chart-card">${valueBarChart({
+        rows: [ { label: 'Poor households', values: [51] }, { label: 'High-income households', values: [45] } ],
+        max: 100,
+        ariaLabel: 'Share of violent victimizations reported to police: 51% for victims in poor households, 45% for victims in high-income households.'
+      })}</div>
+      <div class="method"><p class="method-src"><b>Source:</b> BJS, <i>Household Poverty and Nonfatal Violent Victimization, 2008–2012</i></p><details><summary>Methodology &amp; caveats</summary><div>Source: BJS, <i>Household Poverty and Nonfatal Violent Victimization, 2008–2012</i>. Violent crime generally, not rape/sexual assault specifically.</div></details></div>
     </div>
 
     <h2 class="stats-part-heading">III. Where & In What Context</h2>
 
     <div class="section-block" id="stat-campus">
       <h3>College campuses</h3>
+      <p class="takeaway">Nearly 1 in 4 female undergraduates experience nonconsensual sexual contact, few report it, and few of those found responsible are expelled.</p>
 
       <h4 style="font-size:1.05rem;">Prevalence</h4>
-      <div class="stat-row">
-        <div class="stat-tile"><div class="stat-num">23.1%</div><div class="stat-label">of female undergraduates reported nonconsensual sexual contact by force, threat, or incapacitation since enrolling</div><div class="stat-source">AAU, 27 schools, 2019 cycle</div></div>
-        <div class="stat-tile"><div class="stat-num">5.4%</div><div class="stat-label">of male undergraduates reported the same</div><div class="stat-source">AAU, 27 schools, 2019 cycle</div></div>
-      </div>
-      <div class="methodology-note">Source: Association of American Universities, Campus Climate Survey on Sexual Assault and Misconduct, 2019 cycle (27 participating universities). A newer, smaller 2024 survey (10 schools, the Higher Education Sexual Misconduct and Awareness Survey) found 9.4% of students reported nonconsensual penetration, attempted penetration, or forced sexual touching since enrollment — a different survey instrument and school sample, so not presented here as a directly comparable trend line with the 2019 figure.</div>
+      <p class="section-sub">Undergraduates reporting nonconsensual sexual contact by force, threat, or incapacitation since enrolling:</p>
+      <div class="chart-card">${valueBarChart({
+        rows: [ { label: 'Women', values: [23.1], color: 'var(--cat1)' }, { label: 'Men', values: [5.4], color: 'var(--cat2)' } ],
+        max: 100,
+        ariaLabel: '23.1% of female and 5.4% of male undergraduates reported nonconsensual sexual contact by force, threat, or incapacitation since enrolling.'
+      })}</div>
+      <div class="method"><p class="method-src"><b>Source:</b> AAU Campus Climate Survey, 2019</p><details><summary>Methodology &amp; caveats</summary><div>Source: Association of American Universities, Campus Climate Survey on Sexual Assault and Misconduct, 2019 cycle (27 participating universities). A newer, smaller 2024 survey (10 schools, the Higher Education Sexual Misconduct and Awareness Survey) found 9.4% of students reported nonconsensual penetration, attempted penetration, or forced sexual touching since enrollment — a different survey instrument and school sample, so not presented here as a directly comparable trend line with the 2019 figure.</div></details></div>
 
       <h4 style="font-size:1.05rem;margin-top:30px;">Reporting</h4>
-      <div class="methodology-note">Reporting rates to campus officials or police ranged from just 5% to 28% depending on the specific type of behavior, per the AAU survey — even though 63.3% of students said they believed a report would be taken seriously. Believing the system would respond well and actually reporting are evidently two different things.</div>
+      <p class="aside">Reporting rates to campus officials or police ranged from just 5% to 28% depending on the specific type of behavior, per the AAU survey — even though 63.3% of students said they believed a report would be taken seriously. Believing the system would respond well and actually reporting are evidently two different things.</p>
 
       <h4 style="font-size:1.05rem;margin-top:30px;">What happens to the accused</h4>
       <div class="stat-row">
@@ -2677,13 +2757,14 @@ function renderNational() {
       </div>
 
       <h4 style="font-size:1.05rem;margin-top:30px;">What happens to victims</h4>
-      <div class="methodology-note">See the "Leaving school" finding under Victim Outcomes above: among students who formally reported to their school, 39% experienced a substantial educational disruption (leave of absence, transfer, or dropping out entirely).</div>
+      <p class="aside">See the "Leaving school" finding under Victim Outcomes above: among students who formally reported to their school, 39% experienced a substantial educational disruption (leave of absence, transfer, or dropping out entirely).</p>
 
       ${researchGap('gap-campus-context')}
     </div>
 
     <div class="section-block" id="stat-incarcerated">
       <h3>Incarcerated populations</h3>
+      <p class="takeaway">About 1 in 25 people in prison or jail report sexual victimization — and staff are responsible nearly as often as other inmates.</p>
       <p class="section-sub">Prisons and jails have their own dedicated federal data collection, separate from NCVS and NISVS — the BJS National Inmate Survey, part of the National Prison Rape Statistics Program mandated by the Prison Rape Elimination Act (PREA).</p>
       <p class="section-sub">Share of people in custody who reported sexual victimization:</p>
       <div class="chart-card">${valueBarChart({
@@ -2695,32 +2776,34 @@ function renderNational() {
         ],
         ariaLabel: 'Sexual victimization reported by people in custody, 2023 to 24: prison 4.1% overall, 2.3% by another inmate, 2.2% by staff; jail 4.0% overall, 2.2% by another inmate, 2.3% by staff.'
       })}</div>
-      <div class="methodology-note">Source: BJS, <i>Sexual Victimization in Prisons Reported by Inmates, 2023–24</i> and <i>Sexual Victimization in Local Jails Reported by Inmates, 2023–24</i>. The jail rate rose from 3.2% in 2011–12 to 4.0% in 2023–24. Worth noting directly: staff-perpetrated victimization is nearly as common as inmate-perpetrated victimization in both settings — this cuts against the assumption that the risk in custody is primarily from other inmates.</div>
+      <div class="method"><p class="method-src"><b>Source:</b> BJS, <i>Sexual Victimization in Prisons</i> and <i>in Local Jails</i>, 2023–24</p><details><summary>Methodology &amp; caveats</summary><div>Source: BJS, <i>Sexual Victimization in Prisons Reported by Inmates, 2023–24</i> and <i>Sexual Victimization in Local Jails Reported by Inmates, 2023–24</i>. The jail rate rose from 3.2% in 2011–12 to 4.0% in 2023–24. Worth noting directly: staff-perpetrated victimization is nearly as common as inmate-perpetrated victimization in both settings — this cuts against the assumption that the risk in custody is primarily from other inmates.</div></details></div>
     </div>
 
     <div class="section-block" id="stat-military">
       <h3>Military &amp; veterans</h3>
+      <p class="takeaway">Service members filed 8,195 sexual assault reports in FY2024, yet an estimated two-thirds of unwanted sexual contact still goes unreported.</p>
       <div class="stat-row">
         <div class="stat-tile"><div class="stat-num">8,195</div><div class="stat-label">sexual assault reports involving service members as victims and/or subjects, FY2024 — down 4% from FY2023's 8,515</div><div class="stat-source">DoD SAPRO</div></div>
         <div class="stat-tile"><div class="stat-num">~33%</div><div class="stat-label">estimated share of service members experiencing unwanted sexual contact who actually reported it, up from ~25% in FY2023</div><div class="stat-source">DoD SAPRO</div></div>
       </div>
-      <div class="methodology-note">Source: Department of Defense Sexual Assault Prevention and Response Office (SAPRO), FY2024 Annual Report. The 8,195 figure is an administrative count of formal reports (6,843 of them from active-duty members specifically); the ~33% estimated reporting rate is a separate, survey-based figure comparing self-reported "unwanted sexual contact" prevalence against how many of those incidents were ever formally reported — these are two different kinds of measurement, not the same number expressed two ways.</div>
+      <div class="method"><p class="method-src"><b>Source:</b> DoD SAPRO, FY2024 Annual Report</p><details><summary>Methodology &amp; caveats</summary><div>Source: Department of Defense Sexual Assault Prevention and Response Office (SAPRO), FY2024 Annual Report. The 8,195 figure is an administrative count of formal reports (6,843 of them from active-duty members specifically); the ~33% estimated reporting rate is a separate, survey-based figure comparing self-reported "unwanted sexual contact" prevalence against how many of those incidents were ever formally reported — these are two different kinds of measurement, not the same number expressed two ways.</div></details></div>
     </div>
 
     <h2 class="stats-part-heading">IV. The Nature of the Assault</h2>
 
     <div class="section-block" id="stat-type">
       <h3>Type of assault</h3>
+      <p class="takeaway">Most rapes involve a single offender the victim knows; group assaults are the one case where strangers are more common.</p>
       <p class="section-sub">NISVS itself splits "rape" into three components, which is a useful frame for this whole question: completed forced penetration, attempted forced penetration, and completed penetration facilitated by alcohol or drugs. All three count as rape — none is treated as a lesser category.</p>
 
-      <h4 style="font-size:1.05rem;">How many perpetrators?</h4>
+      <h4 style="font-size:1.05rem;">How many perpetrators?${dataAge('1992–1993')}</h4>
       <div class="stat-row">
         <div class="stat-tile"><div class="stat-num">~90%</div><div class="stat-label">of rape/sexual assault victimizations against women involved a single offender</div><div class="stat-source">BJS</div></div>
         <div class="stat-tile"><div class="stat-num">~10%</div><div class="stat-label">involved multiple offenders — the lowest multiple-offender share of any violent crime category BJS tracks</div><div class="stat-source">BJS</div></div>
       </div>
-      <div class="methodology-note">Source: BJS, <i>Violence Against Women: Estimates from the Redesigned Survey</i> (based on the 1992–1993 NCVS redesign). This is an older report, flagged as dated rather than presented as current.</div>
+      <div class="method"><p class="method-src"><b>Source:</b> BJS, <i>Violence Against Women</i> (1992–93 NCVS)</p><details><summary>Methodology &amp; caveats</summary><div>Source: BJS, <i>Violence Against Women: Estimates from the Redesigned Survey</i> (based on the 1992–1993 NCVS redesign). This is an older report, flagged as dated rather than presented as current.</div></details></div>
 
-      <h4 style="font-size:1.05rem;margin-top:30px;">Stranger vs. known offender, by number of offenders</h4>
+      <h4 style="font-size:1.05rem;margin-top:30px;">Stranger vs. known offender, by number of offenders${dataAge('1992–1993')}</h4>
       <p class="section-sub">Share of all rape/sexual assault incidents. Group assaults are the one case where strangers outnumber known offenders.</p>
       <div class="chart-card">${valueBarChart({
         rows: [
@@ -2732,7 +2815,7 @@ function renderNational() {
         max: 100,
         ariaLabel: 'Share of rape and sexual assault incidents: one offender known to the victim 73.5%, one stranger 17.6%, multiple offenders who were strangers 6.8%, multiple offenders known to the victim 2.1%.'
       })}</div>
-      <div class="methodology-note">Source: BJS, <i>Violence Against Women: Estimates from the Redesigned Survey</i> (1992–93 NCVS).</div>
+      <div class="method"><p class="method-src"><b>Source:</b> BJS, <i>Violence Against Women: Estimates from the Redesigned Survey</i> (1992–93 NCVS)</p></div>
       ${researchGap('gap-offender-count-current')}
 
       ${researchGap('gap-act-type')}
@@ -2740,24 +2823,26 @@ function renderNational() {
 
     <div class="section-block" id="stat-drug-facilitated">
       <h3>Drug-facilitated sexual assault</h3>
+      <p class="takeaway">About 1 in 9 women have experienced alcohol- or drug-facilitated rape — and alcohol, not a "date rape drug," is the substance most often involved.</p>
       <p class="section-sub">This connects directly to a theme running through the state legal pages on this site: many states' incapacitation standards only cover a substance <i>administered without the victim's consent</i>, excluding voluntary intoxication. The research below is relevant to exactly that distinction — and the real-world pattern cuts against the "stranger with a syringe" stereotype that framing implies.</p>
 
       <div class="stat-row">
-        <div class="stat-tile"><div class="stat-num">11%</div><div class="stat-label">of U.S. women have experienced alcohol- or drug-facilitated completed penetration in their lifetime</div><div class="stat-source">NISVS, 2015 cycle</div></div>
-        <div class="stat-tile"><div class="stat-num">5.5%</div><div class="stat-label">of U.S. men were made to penetrate someone else via alcohol or drug facilitation</div><div class="stat-source">NISVS, 2015 cycle</div></div>
+        <div class="stat-tile"><div class="stat-num">11%${dataAge('2015')}</div><div class="stat-label">of U.S. women have experienced alcohol- or drug-facilitated completed penetration in their lifetime</div><div class="stat-source">NISVS, 2015 cycle</div></div>
+        <div class="stat-tile"><div class="stat-num">5.5%${dataAge('2015')}</div><div class="stat-label">of U.S. men were made to penetrate someone else via alcohol or drug facilitation</div><div class="stat-source">NISVS, 2015 cycle</div></div>
       </div>
-      <div class="methodology-note">Source: CDC NISVS. These are lifetime prevalence figures for the alcohol/drug-facilitated component specifically, one of the three categories NISVS tracks under "rape" (alongside completed and attempted forced penetration).</div>
+      <div class="method"><p class="method-src"><b>Source:</b> CDC NISVS, 2015 cycle</p><details><summary>Methodology &amp; caveats</summary><div>Source: CDC NISVS. These are lifetime prevalence figures for the alcohol/drug-facilitated component specifically, one of the three categories NISVS tracks under "rape" (alongside completed and attempted forced penetration).</div></details></div>
 
       <h4 style="font-size:1.05rem;margin-top:30px;">What toxicology-confirmed cases show: alcohol, not a "date rape drug," is overwhelmingly the most common substance</h4>
       <div class="category-grid">
         <div class="category-card"><h4>Systematic review, ~1,000 cases</h4><p>Alcohol detected in 30.9% of cases, more than any other substance.</p></div>
         <div class="category-card"><h4>Danish study, 268 cases</h4><p>Alcohol 45%, drugs of abuse 38%, antidepressants 14%, antihistamines 12%, benzodiazepines 11%.</p></div>
       </div>
-      <div class="methodology-note">Sources: Recalde-Esnoz et al., <i>Drug-Facilitated Sexual Assault: A Systematic Review</i>, 2024; Danish sexual assault center observational study (toxicology findings, Eastern Denmark). A lack of a positive toxicology finding doesn't necessarily mean no substance was involved — delayed reporting and specimen collection can miss substances that clear the body quickly, which these studies note as a limitation of all DFSA toxicology research, not just these two. Across the broader literature, offenders use alcohol to facilitate assault far more often than any drug popularly associated with "date rape."</div>
+      <div class="method"><p class="method-src"><b>Source:</b> Recalde-Esnoz et al. (2024); Danish observational study</p><details><summary>Methodology &amp; caveats</summary><div>Sources: Recalde-Esnoz et al., <i>Drug-Facilitated Sexual Assault: A Systematic Review</i>, 2024; Danish sexual assault center observational study (toxicology findings, Eastern Denmark). A lack of a positive toxicology finding doesn't necessarily mean no substance was involved — delayed reporting and specimen collection can miss substances that clear the body quickly, which these studies note as a limitation of all DFSA toxicology research, not just these two. Across the broader literature, offenders use alcohol to facilitate assault far more often than any drug popularly associated with "date rape."</div></details></div>
     </div>
 
     <div class="section-block" id="stat-tech-facilitated">
       <h3>Technology-facilitated abuse</h3>
+      <p class="takeaway">Sextortion and nonconsensual image sharing each affect about 1 in 20 adults, and nearly all sexual deepfakes target women.</p>
       <p class="section-sub">Broader than the campus-specific "sharing nudes" scenario mentioned elsewhere on this site — this covers nonconsensual pornography, sextortion, and deepfakes as their own category of sexual abuse.</p>
 
       <h4 style="font-size:1.05rem;">Prevalence among U.S. adults</h4>
@@ -2769,27 +2854,27 @@ function renderNational() {
         ],
         ariaLabel: 'Share of U.S. adults who experienced sextortion 4.74%, nonconsensual pornography 4.33%, deepfake pornography 1.13%.'
       })}</div>
-      <div class="methodology-note">Source: national online sample of U.S. adults, published in Archives of Sexual Behavior (2026). A separate multinational study found a broader 22.6% of respondents reported some experience of image-based sexual abuse in any form.</div>
+      <div class="method"><p class="method-src"><b>Source:</b> <i>Archives of Sexual Behavior</i> (2026)</p><details><summary>Methodology &amp; caveats</summary><div>Source: national online sample of U.S. adults, published in Archives of Sexual Behavior (2026). A separate multinational study found a broader 22.6% of respondents reported some experience of image-based sexual abuse in any form.</div></details></div>
 
-      <h4 style="font-size:1.05rem;margin-top:30px;">Who deepfakes target</h4>
+      <h4 style="font-size:1.05rem;margin-top:30px;">Who deepfakes target${dataAge('2019')}</h4>
       <div class="stat-row">
         <div class="stat-tile"><div class="stat-num">96%</div><div class="stat-label">of deepfakes online are nonconsensual sexual deepfakes</div><div class="stat-source">Sensity AI, 2019</div></div>
         <div class="stat-tile"><div class="stat-num">99%</div><div class="stat-label">of those nonconsensual sexual deepfakes target women</div><div class="stat-source">Sensity AI, 2019</div></div>
       </div>
-      <div class="methodology-note">Source: Sensity AI, <i>The State of Deepfakes: Landscape, Threats, and Impact</i>, 2019 — this is the original, still most-cited source for this exact figure, but it is now several years old in a technology space that has changed enormously since (consumer-grade AI image/video generation didn't yet exist in its current form in 2019). Treat the proportional pattern — deepfakes are overwhelmingly nonconsensual, sexual, and aimed at women — as more durable than the precise percentages.</div>
+      <div class="method"><p class="method-src"><b>Source:</b> Sensity AI (2019)</p><details><summary>Methodology &amp; caveats</summary><div>Source: Sensity AI, <i>The State of Deepfakes: Landscape, Threats, and Impact</i>, 2019 — this is the original, still most-cited source for this exact figure, but it is now several years old in a technology space that has changed enormously since (consumer-grade AI image/video generation didn't yet exist in its current form in 2019). Treat the proportional pattern — deepfakes are overwhelmingly nonconsensual, sexual, and aimed at women — as more durable than the precise percentages.</div></details></div>
 
       <h4 style="font-size:1.05rem;margin-top:30px;">Sextortion, especially of minors, is an active and growing crisis</h4>
       <div class="stat-row">
         <div class="stat-tile"><div class="stat-num">1 in 5</div><div class="stat-label">teens report personally experiencing sextortion</div><div class="stat-source">Thorn, 2024</div></div>
       </div>
-      <div class="methodology-note">Source: Thorn, <i>Trends in Financial Sextortion</i>, June 2024. In February 2023, the FBI issued a joint public-safety warning with agencies from Canada, the UK, Australia, and New Zealand describing a "global financial sextortion crisis" that had already been linked to more than a dozen reported suicides.</div>
-    </div>
+      <div class="method"><p class="method-src"><b>Source:</b> Thorn (2024)</p><details><summary>Methodology &amp; caveats</summary><div>Source: Thorn, <i>Trends in Financial Sextortion</i>, June 2024. In February 2023, the FBI issued a joint public-safety warning with agencies from Canada, the UK, Australia, and New Zealand describing a "global financial sextortion crisis" that had already been linked to more than a dozen reported suicides.</div></details></div>
     </div>
 
     <h2 class="stats-part-heading">V. Who Commits It</h2>
 
     <div class="section-block" id="stat-perpetrators">
       <h3>Perpetrators &amp; victim relationship</h3>
+      <p class="takeaway">Most women who are raped are raped by a partner or acquaintance; strangers account for a small minority.</p>
       <p class="section-sub">The "stranger in a dark alley" is, by every national data source, the least common pattern.</p>
 
       <h4 style="font-size:1.05rem;">Lifetime rape, by relationship to perpetrator — women</h4>
@@ -2802,23 +2887,24 @@ function renderNational() {
         max: 100,
         ariaLabel: 'Women raped in their lifetime, by relationship to perpetrator: intimate partner 51.1%, acquaintance 40.8%, stranger 13.8%, family member 12.5%, authority figure 2.5%. Can sum past 100% because of multiple assaults.'
       })}</div>
-      <div class="methodology-note">Source: CDC NISVS. Figures sum to well over 100% because this is a lifetime measure — a victim with more than one assault across their life can report more than one relationship category. For men who were made to penetrate someone else, the pattern is similar: intimate partner (44.8%) and acquaintance (44.7%) are the two most frequent categories.</div>
+      <div class="method"><p class="method-src"><b>Source:</b> CDC NISVS</p><details><summary>Methodology &amp; caveats</summary><div>Source: CDC NISVS. Figures sum to well over 100% because this is a lifetime measure — a victim with more than one assault across their life can report more than one relationship category. For men who were made to penetrate someone else, the pattern is similar: intimate partner (44.8%) and acquaintance (44.7%) are the two most frequent categories.</div></details></div>
 
-      <h4 style="font-size:1.05rem;margin-top:30px;">How common is marital/spousal rape?</h4>
+      <h4 style="font-size:1.05rem;margin-top:30px;">How common is marital/spousal rape?${dataAge('1985 & 1990')}</h4>
       <p class="section-sub">The two landmark studies on this exact question are both decades old — we could not locate a more recent, comparably rigorous, nationally-representative replication, and say so rather than presenting a dated figure as current.</p>
       <div class="category-grid">
         <div class="category-card"><h4>Finkelhor &amp; Yllo, 1985</h4><p>10% of a random sample of married/cohabiting Boston mothers reported force or threat of force from a spouse or partner.</p></div>
         <div class="category-card"><h4>Russell, 1990</h4><p>14% of ever-married women in a San Francisco-area representative survey reported rape or attempted rape by a husband or ex-husband.</p></div>
       </div>
-      <div class="methodology-note">These are the original sources behind the "10–14%" figure cited throughout the later literature — <i>License to Rape</i> (Finkelhor &amp; Yllo, 1985) and <i>Rape in Marriage</i> (Russell, 1990). Both researchers and later commentators note marital rape is especially underreported, so the true figure may be higher than either study found.</div>
+      <div class="method"><p class="method-src"><b>Source:</b> Finkelhor &amp; Yllo (1985); Russell (1990)</p><details><summary>Methodology &amp; caveats</summary><div>These are the original sources behind the "10–14%" figure cited throughout the later literature — <i>License to Rape</i> (Finkelhor &amp; Yllo, 1985) and <i>Rape in Marriage</i> (Russell, 1990). Both researchers and later commentators note marital rape is especially underreported, so the true figure may be higher than either study found.</div></details></div>
       ${researchGap('gap-marital-current')}
     </div>
 
     <div class="section-block" id="stat-repeat-offenders">
-      <h3>Scale of perpetration & repeat offenders</h3>
+      <h3>Scale of perpetration &amp; repeat offenders${dataAge('1980s–2002')}</h3>
+      <p class="takeaway">Estimates of how many men have committed sexual assault range from about 4% to over 50% — depending almost entirely on how it is defined.</p>
       <p class="section-sub">This is one of the most contested numbers in this field. Different studies, using different definitions and populations, land in very different places — shown here as a range, not one cherry-picked figure.</p>
       <div class="chart-card">${perpetrationChart()}</div>
-      <div class="methodology-note">Sources: Koss et al. (1980s college samples, ~4.4% rape); Lisak &amp; Miller, 2002 (University of Massachusetts sample, 6.4% rape/attempted rape); broader literature reviews citing 7–15% for legally-defined rape and up to 25–57% when "sexual assault" is defined more broadly. Methodology differences — anonymous self-report vs. legal definitions vs. survey wording — explain most of the spread.</div>
+      <div class="method"><p class="method-src"><b>Source:</b> Koss et al.; Lisak &amp; Miller (2002); literature reviews</p><details><summary>Methodology &amp; caveats</summary><div>Sources: Koss et al. (1980s college samples, ~4.4% rape); Lisak &amp; Miller, 2002 (University of Massachusetts sample, 6.4% rape/attempted rape); broader literature reviews citing 7–15% for legally-defined rape and up to 25–57% when "sexual assault" is defined more broadly. Methodology differences — anonymous self-report vs. legal definitions vs. survey wording — explain most of the spread.</div></details></div>
       ${researchGap('gap-repeat-offenders')}
     </div>
 
@@ -2826,14 +2912,17 @@ function renderNational() {
 
     <div class="section-block" id="stat-outcomes">
       <h3>Victim outcomes</h3>
+      <p class="takeaway">Most rape victims develop PTSD symptoms, and victims are far more likely than others to attempt suicide or use drugs.</p>
       <p class="section-sub">Sexual assault's consequences extend well past the incident itself. The research below is split into mental health, suicide/self-harm, substance use, and life disruption — each with its own source rather than one blended "trauma" statistic.</p>
 
-      <h4 style="font-size:1.05rem;">Mental health</h4>
-      <div class="stat-row">
-        <div class="stat-tile"><div class="stat-num">94%</div><div class="stat-label">of rape victims met symptom criteria for PTSD 2 weeks after the assault</div><div class="stat-source">Rothbaum et al., 1992</div></div>
-        <div class="stat-tile"><div class="stat-num">50%</div><div class="stat-label">still met PTSD symptom criteria 3 months later</div><div class="stat-source">Rothbaum et al., 1992</div></div>
-      </div>
-      <div class="methodology-note">Source: Rothbaum, Foa, Riggs et al., <i>A Prospective Examination of Post-Traumatic Stress Disorder in Rape Victims</i>, Journal of Traumatic Stress, 1992 — 95 female rape victims assessed weekly for 12 weeks starting shortly after the assault. A separate study (Choudhary, Smith &amp; Bossarte, 2012) found that among sexual violence victims generally, 18.8% reported a depression diagnosis, 8.4% an anxiety diagnosis, and 28.3% reported both.</div>
+      <h4 style="font-size:1.05rem;">Mental health${dataAge('1992')}</h4>
+      <p class="section-sub">Share of rape victims meeting PTSD symptom criteria, after the assault:</p>
+      <div class="chart-card">${valueBarChart({
+        rows: [ { label: '2 weeks after', values: [94] }, { label: '3 months after', values: [50] } ],
+        max: 100,
+        ariaLabel: '94% of rape victims met PTSD symptom criteria 2 weeks after the assault, and 50% still did 3 months later.'
+      })}</div>
+      <div class="method"><p class="method-src"><b>Source:</b> Rothbaum et al. (1992); Choudhary et al. (2012)</p><details><summary>Methodology &amp; caveats</summary><div>Source: Rothbaum, Foa, Riggs et al., <i>A Prospective Examination of Post-Traumatic Stress Disorder in Rape Victims</i>, Journal of Traumatic Stress, 1992 — 95 female rape victims assessed weekly for 12 weeks starting shortly after the assault. A separate study (Choudhary, Smith &amp; Bossarte, 2012) found that among sexual violence victims generally, 18.8% reported a depression diagnosis, 8.4% an anxiety diagnosis, and 28.3% reported both.</div></details></div>
 
       <h4 style="font-size:1.05rem;margin-top:30px;">What victims report experiencing, in their own words (NISVS)</h4>
       <div class="chart-card">${valueBarChart({
@@ -2845,17 +2934,19 @@ function renderNational() {
         max: 100,
         ariaLabel: 'Impacts reported by female victims of contact sexual violence: fear 65.2%, concern for safety 58.9%, PTSD symptoms 56.6%, physical injury 35.7%, missed work or school 25.9%, needed medical care 25.4%.'
       })}</div>
-      <div class="methodology-note">Source: CDC NISVS, female victims of contact sexual violence.</div>
+      <div class="method"><p class="method-src"><b>Source:</b> CDC NISVS, female victims of contact sexual violence</p></div>
 
-      <h4 style="font-size:1.05rem;margin-top:30px;">Suicide risk</h4>
-      <div class="stat-row">
-        <div class="stat-tile"><div class="stat-num">33%</div><div class="stat-label">of rape victims seriously considered suicide</div><div class="stat-source">Kilpatrick et al., 1992</div></div>
-        <div class="stat-tile"><div class="stat-num">13&times;</div><div class="stat-label">more likely to have actually attempted suicide than non-crime victims (13% vs. 1%)</div><div class="stat-source">Kilpatrick et al., 1992</div></div>
-      </div>
-      <div class="methodology-note">Source: Kilpatrick, Edmunds &amp; Seymour, <i>Rape in America: A Report to the Nation</i>, 1992 — the National Women's Study, a national probability household sample of 4,008 adult women. This is a foundational, still widely-cited study, but it is now over three decades old.</div>
+      <h4 style="font-size:1.05rem;margin-top:30px;">Suicide risk${dataAge('1992')}</h4>
+      <p class="section-sub">A third of rape victims had seriously considered suicide (33%). Share who had attempted it:</p>
+      <div class="chart-card">${valueBarChart({
+        rows: [ { label: 'Rape victims', values: [13] }, { label: 'Women who were not crime victims', values: [1], color: 'var(--ink-faint)' } ],
+        max: 20,
+        ariaLabel: '13% of rape victims had attempted suicide, compared with 1% of women who were not crime victims, about 13 times higher.'
+      })}</div>
+      <div class="method"><p class="method-src"><b>Source:</b> Kilpatrick et al., <i>Rape in America</i> (1992)</p><details><summary>Methodology &amp; caveats</summary><div>Source: Kilpatrick, Edmunds &amp; Seymour, <i>Rape in America: A Report to the Nation</i>, 1992 — the National Women's Study, a national probability household sample of 4,008 adult women. This is a foundational, still widely-cited study, but it is now over three decades old.</div></details></div>
       ${researchGap('gap-suicide-current')}
 
-      <h4 style="font-size:1.05rem;margin-top:30px;">Substance use</h4>
+      <h4 style="font-size:1.05rem;margin-top:30px;">Substance use${dataAge('1992')}</h4>
       <p class="section-sub">From the same National Women's Study, rape victims were found to be substantially more likely than non-victims to use several substances — consistent with substance use functioning as a coping response to trauma rather than a cause of it.</p>
       <div class="chart-card">${valueBarChart({
         rows: [
@@ -2865,47 +2956,102 @@ function renderNational() {
         fmt: v => `${v}×`,
         ariaLabel: 'How many times more likely rape victims were to use each substance than non-victims: marijuana 3.4 times, non-medical prescription drugs 5.3 times, cocaine 6.4 times, other hard drugs 10 times.'
       })}</div>
-      <div class="methodology-note">Source: Kilpatrick, Edmunds &amp; Seymour, 1992 (see above) — likelihood of use compared to non-victims. Separately, a review of multiple studies found 25–50% of women with a PTSD diagnosis also have a substance use disorder (National Comorbidity Study).</div>
+      <div class="method"><p class="method-src"><b>Source:</b> Kilpatrick et al. (1992); National Comorbidity Study</p><details><summary>Methodology &amp; caveats</summary><div>Source: Kilpatrick, Edmunds &amp; Seymour, 1992 (see above) — likelihood of use compared to non-victims. Separately, a review of multiple studies found 25–50% of women with a PTSD diagnosis also have a substance use disorder (National Comorbidity Study).</div></details></div>
 
       <h4 style="font-size:1.05rem;margin-top:30px;">Leaving school</h4>
       <p class="section-sub">This figure is from a survey specifically of students who <i>formally reported</i> to their school, not survivors generally — a narrower, smaller sample than the other figures on this page, noted here rather than generalized.</p>
-      <div class="methodology-note">Among just over 100 student survivors who formally reported sexual violence to their school, 39% experienced a substantial disruption to their education: 27% took a leave of absence, 20% transferred schools, and nearly 10% dropped out entirely. Source: Know Your IX (Advocates for Youth), <i>The Cost of Reporting: Perpetrator Retaliation, Institutional Betrayal, and Student Survivor Pushout</i>.</div>
+      <div class="chart-card">${valueBarChart({
+        rows: [
+          { label: 'Any major disruption', values: [39] },
+          { label: 'Took a leave of absence', values: [27] },
+          { label: 'Transferred schools', values: [20] },
+          { label: 'Dropped out', values: [10], display: ['~10%'] }
+        ],
+        max: 100,
+        ariaLabel: 'Among student survivors who formally reported to their school: 39% had a major educational disruption, 27% took a leave of absence, 20% transferred, and nearly 10% dropped out.'
+      })}</div>
+      <div class="method"><p class="method-src"><b>Source:</b> Know Your IX, <i>The Cost of Reporting</i></p><details><summary>Methodology &amp; caveats</summary><div>Source: Know Your IX (Advocates for Youth), <i>The Cost of Reporting: Perpetrator Retaliation, Institutional Betrayal, and Student Survivor Pushout</i>. Just over 100 student survivors who formally reported sexual violence to their school.</div></details></div>
     </div>
 
     <div class="section-block" id="stat-economic-cost">
       <h3>Economic cost</h3>
+      <p class="takeaway">Rape costs an estimated $122,461 per victim over a lifetime — $3.1 trillion across the U.S. population.</p>
       <div class="stat-row">
         <div class="stat-tile"><div class="stat-num">$122,461</div><div class="stat-label">estimated lifetime cost of rape, per victim</div><div class="stat-source">Peterson et al., CDC, 2017</div></div>
         <div class="stat-tile"><div class="stat-num">$3.1T</div><div class="stat-label">total population economic burden, over victims' lifetimes</div><div class="stat-source">Peterson et al., CDC, 2017</div></div>
       </div>
-      <div class="methodology-note">Source: Peterson, DeGue, Florence &amp; Lokey, <i>Lifetime Economic Burden of Rape Among U.S. Adults</i>, American Journal of Preventive Medicine, June 2017 — among the first CDC studies to estimate the full long-term economic cost of rape, not just criminal-justice spending. The $3.1 trillion figure breaks down into $1.2 trillion in medical costs, $1.6 trillion in lost productivity (victims and perpetrators), and $234 billion in criminal justice costs, based on an estimated 25+ million U.S. adults who have been raped.</div>
+      <p class="section-sub" style="margin-top:20px;">Where the $3.1 trillion comes from:</p>
+      <div class="chart-card">${valueBarChart({
+        rows: [
+          { label: 'Lost productivity (victims and perpetrators)', values: [1600], display: ['$1.6 trillion'] },
+          { label: 'Medical costs', values: [1200], display: ['$1.2 trillion'] },
+          { label: 'Criminal justice', values: [234], display: ['$234 billion'] }
+        ],
+        ariaLabel: 'Lifetime economic burden of rape across the U.S. population: lost productivity 1.6 trillion dollars, medical costs 1.2 trillion, criminal justice 234 billion.'
+      })}</div>
+      <div class="method"><p class="method-src"><b>Source:</b> Peterson et al., <i>American Journal of Preventive Medicine</i> (2017)</p><details><summary>Methodology &amp; caveats</summary><div>Source: Peterson, DeGue, Florence &amp; Lokey, <i>Lifetime Economic Burden of Rape Among U.S. Adults</i>, American Journal of Preventive Medicine, June 2017 — among the first CDC studies to estimate the full long-term economic cost of rape, not just criminal-justice spending. The $3.1 trillion figure breaks down into $1.2 trillion in medical costs, $1.6 trillion in lost productivity (victims and perpetrators), and $234 billion in criminal justice costs, based on an estimated 25+ million U.S. adults who have been raped.</div></details></div>
     </div>
 
     <h2 class="stats-part-heading">VII. The System's Response</h2>
 
     <div class="section-block" id="stat-reporting-experience">
       <h3>Reporting experience</h3>
+      <p class="takeaway">In one major research program, 90% of victims experienced harm from the systems meant to help them, and 86% of cases never reached prosecution.</p>
       <p class="section-sub">Research on this specific question is dominated by one research program — Rebecca Campbell's multi-community studies of the legal and medical systems' treatment of sexual assault victims — so the figures below largely trace back to that body of work rather than being independently cross-validated across many separate studies. Worth knowing before treating any single number here as a settled national constant.</p>
       <div class="stat-row">
         <div class="stat-tile"><div class="stat-num">90%</div><div class="stat-label">of sexual assault victims experienced some form of secondary victimization from the systems meant to help them</div><div class="stat-source">Campbell research</div></div>
         <div class="stat-tile"><div class="stat-num">70%</div><div class="stat-label">of cases, victims report, involved police asking what they were wearing</div><div class="stat-source">Campbell research</div></div>
         <div class="stat-tile"><div class="stat-num">86%</div><div class="stat-label">of cases tracked across six communities over 12 years did not proceed to prosecution</div><div class="stat-source">Campbell research</div></div>
       </div>
-      <div class="methodology-note">Sources: Rebecca Campbell et al. (Michigan State University), multi-community longitudinal studies of sexual assault case processing, and Campbell, Wasco, Ahrens, Sefl &amp; Barnes, <i>Preventing the "Second Rape"</i>, 2001. The 90% secondary-victimization figure and 70% wardrobe-question figure are frequently cited together but come from survey and case-tracking work across several of Campbell's studies rather than one single number; we were not able to isolate each to one specific publication with full confidence, so treat them as representative of this research program's findings rather than a single definitive survey.</div>
+      <div class="method"><p class="method-src"><b>Source:</b> Rebecca Campbell et al.; Campbell et al. (2001)</p><details><summary>Methodology &amp; caveats</summary><div>Sources: Rebecca Campbell et al. (Michigan State University), multi-community longitudinal studies of sexual assault case processing, and Campbell, Wasco, Ahrens, Sefl &amp; Barnes, <i>Preventing the "Second Rape"</i>, 2001. The 90% secondary-victimization figure and 70% wardrobe-question figure are frequently cited together but come from survey and case-tracking work across several of Campbell's studies rather than one single number; we were not able to isolate each to one specific publication with full confidence, so treat them as representative of this research program's findings rather than a single definitive survey.</div></details></div>
     </div>
 
     <div class="section-block" id="stat-false-reporting">
       <h3>False reporting — what the research shows</h3>
+      <p class="takeaway">Rigorous research puts false reports at 2–10% — about the same as for other felonies.</p>
       <p class="section-sub">One of the most searched-for and most politicized numbers in this field. The honest answer is a range, not one number, and the methodology behind each study matters enormously — "false" has been defined inconsistently across the research base, and some older, much-higher estimates have been discredited for conflating "unfounded" police classifications (which can simply mean an under-investigated case) with an actually-proven false report.</p>
       <div class="stat-row">
         <div class="stat-tile"><div class="stat-num">2–10%</div><div class="stat-label">is the range the National Sexual Violence Resource Center identifies as supported by rigorous, methodologically sound research</div><div class="stat-source">NSVRC</div></div>
         <div class="stat-tile"><div class="stat-num">5.9%</div><div class="stat-label">of 136 sexual assault reports at one major Northeastern university, over 10 years, were classified false after full investigation</div><div class="stat-source">Lisak et al., 2010</div></div>
       </div>
-      <div class="methodology-note">Sources: National Sexual Violence Resource Center, overview of false-reporting research; Lisak, Gardinier, Nicksa &amp; Cote, <i>False Allegations of Sexual Assault: An Analysis of Ten Years of Reported Cases</i>, Violence Against Women, 2010 — a false claim was counted only where a full investigation found the reported assault had likely not occurred, deliberately excluding cases merely closed as "unfounded" without full investigation, since under-investigation (not a false report) is a well-documented separate problem in how police classify sexual assault cases. This 2–10% range is comparable to false-reporting rates found for other felony crimes, not uniquely high or low for sexual assault.</div>
+      <div class="method"><p class="method-src"><b>Source:</b> NSVRC; Lisak et al. (2010)</p><details><summary>Methodology &amp; caveats</summary><div>Sources: National Sexual Violence Resource Center, overview of false-reporting research; Lisak, Gardinier, Nicksa &amp; Cote, <i>False Allegations of Sexual Assault: An Analysis of Ten Years of Reported Cases</i>, Violence Against Women, 2010 — a false claim was counted only where a full investigation found the reported assault had likely not occurred, deliberately excluding cases merely closed as "unfounded" without full investigation, since under-investigation (not a false report) is a well-documented separate problem in how police classify sexual assault cases. This 2–10% range is comparable to false-reporting rates found for other felony crimes, not uniquely high or low for sexual assault.</div></details></div>
     </div>
 
-    <div class="source-list">
-      Primary sources used on this page so far: <a href="https://www.cdc.gov/nisvs/media/pdfs/sexualviolence-brief.pdf" target="_blank" rel="noopener">CDC NISVS 2023/2024 Sexual Violence Data Brief</a>, <a href="https://icasa.org/uploads/documents/Stats-and-Facts/NISVS-2016-2017-State-Report-508.pdf" target="_blank" rel="noopener">CDC NISVS 2016/2017 Report</a>, CDC NISVS 2015 cycle, <a href="https://bjs.ojp.gov/document/cv24.pdf" target="_blank" rel="noopener">BJS Criminal Victimization 2024 (NCJ 310547)</a> and prior-year editions (2000, 2008, 2011, 2019), BJS <i>Violence Against Women: Estimates from the Redesigned Survey</i>, <a href="https://acf.gov/sites/default/files/documents/cb/cm2023.pdf" target="_blank" rel="noopener">HHS Child Maltreatment 2023</a>, BJS/NIBRS <i>Sexual Assault of Young Children as Reported to Law Enforcement</i> (NCJ 182990, 2000), Finkelhor &amp; Yllo (1985), Russell (1990), Recalde-Esnoz et al. (2024) DFSA systematic review, Rothbaum et al. (1992), Choudhary, Smith &amp; Bossarte (2012), Kilpatrick, Edmunds &amp; Seymour (1992) <i>Rape in America</i>, Peterson et al. (CDC, 2017) lifetime economic burden of rape, Rebecca Campbell et al. secondary-victimization research, Lisak, Gardinier, Nicksa &amp; Cote (2010), National Sexual Violence Resource Center, Know Your IX / Advocates for Youth, Association of American Universities Campus Climate Survey (2019, 2024), NPR / Center for Public Integrity campus-discipline investigation, <a href="https://bjs.ojp.gov/document/svpri2324.pdf" target="_blank" rel="noopener">BJS Sexual Victimization in Prisons 2023-24</a>, BJS Sexual Victimization in Local Jails 2023-24, DoD SAPRO FY2024 Annual Report, Sensity AI (2019), Thorn (2024), 2015 U.S. Transgender Survey (Advocates for Trans Equality), BJS <i>Crime Against Persons with Disabilities, 2009–2019</i>, BJS <i>Household Poverty and Nonfatal Violent Victimization, 2008–2012</i>, RAINN, CHILD USA.
+    <div class="section-block" id="sources">
+      <h3>Sources</h3>
+      <ol class="ref-list">
+        <li>CDC, <i>NISVS 2023/2024 Sexual Violence Data Brief</i> (Leemis et al.) — <a href="https://www.cdc.gov/nisvs/media/pdfs/sexualviolence-brief.pdf" target="_blank" rel="noopener">link</a></li>
+        <li>CDC, <i>NISVS 2016/2017 Report</i> — <a href="https://icasa.org/uploads/documents/Stats-and-Facts/NISVS-2016-2017-State-Report-508.pdf" target="_blank" rel="noopener">link</a></li>
+        <li>CDC, NISVS 2010 and 2015 survey cycles</li>
+        <li>CDC, <i>About Child Sexual Abuse</i> — <a href="https://www.cdc.gov/child-abuse-neglect/about/about-child-sexual-abuse.html" target="_blank" rel="noopener">link</a></li>
+        <li>BJS, <i>Criminal Victimization, 2024</i> (NCJ 310547), and the 2000, 2008, 2011, 2019 and 2023 editions — <a href="https://bjs.ojp.gov/document/cv24.pdf" target="_blank" rel="noopener">link</a></li>
+        <li>BJS, <i>Violence Against Women: Estimates from the Redesigned Survey</i> (1992–93 NCVS)</li>
+        <li>BJS, <i>Sexual Assault of Young Children as Reported to Law Enforcement</i> (NCJ 182990, 2000) — <a href="https://bjs.ojp.gov/content/pub/pdf/saycrle.pdf" target="_blank" rel="noopener">link</a></li>
+        <li>BJS, <i>Crime Against Persons with Disabilities, 2009–2019 — Statistical Tables</i> — <a href="https://bjs.ojp.gov/content/pub/pdf/capd0919st.pdf" target="_blank" rel="noopener">link</a></li>
+        <li>BJS, <i>Household Poverty and Nonfatal Violent Victimization, 2008–2012</i></li>
+        <li>BJS, <i>Sexual Victimization in Prisons Reported by Inmates, 2023–24</i> — <a href="https://bjs.ojp.gov/document/svpri2324.pdf" target="_blank" rel="noopener">link</a></li>
+        <li>BJS, <i>Sexual Victimization in Local Jails Reported by Inmates, 2023–24</i></li>
+        <li>HHS Administration for Children &amp; Families, <i>Child Maltreatment 2023</i> — <a href="https://acf.gov/sites/default/files/documents/cb/cm2023.pdf" target="_blank" rel="noopener">link</a></li>
+        <li>Finkelhor, Shattuck, Turner &amp; Hamby, "The Lifetime Prevalence of Child Sexual Abuse and Sexual Assault Assessed in Late Adolescence," <i>Journal of Adolescent Health</i>, 2014 — <a href="https://www.unh.edu/ccrc/resource/lifetime-prevalence-child-sexual-abuse-sexual-assault-assessed-late-adolescence" target="_blank" rel="noopener">link</a></li>
+        <li>National Research Council, <i>Estimating the Incidence of Rape and Sexual Assault</i>, 2014</li>
+        <li>CHILD USA, delayed-disclosure analysis, 2024</li>
+        <li>RAINN, child and teen statistics</li>
+        <li>2015 U.S. Transgender Survey (Advocates for Trans Equality)</li>
+        <li>Association of American Universities, <i>Campus Climate Survey on Sexual Assault and Misconduct</i>, 2019; Higher Education Sexual Misconduct and Awareness Survey, 2024</li>
+        <li>NPR / Center for Public Integrity, campus sexual assault discipline investigation</li>
+        <li>Know Your IX (Advocates for Youth), <i>The Cost of Reporting</i></li>
+        <li>Department of Defense SAPRO, <i>FY2024 Annual Report on Sexual Assault in the Military</i></li>
+        <li>Recalde-Esnoz et al., <i>Drug-Facilitated Sexual Assault: A Systematic Review</i>, 2024</li>
+        <li>Sensity AI, <i>The State of Deepfakes</i>, 2019</li>
+        <li>Thorn, <i>Trends in Financial Sextortion</i>, 2024</li>
+        <li>Finkelhor &amp; Yllo, <i>License to Rape</i>, 1985; Russell, <i>Rape in Marriage</i>, 1990</li>
+        <li>Koss et al. (1980s); Lisak &amp; Miller, 2002</li>
+        <li>Rothbaum, Foa, Riggs et al., <i>Journal of Traumatic Stress</i>, 1992; Choudhary, Smith &amp; Bossarte, 2012</li>
+        <li>Kilpatrick, Edmunds &amp; Seymour, <i>Rape in America: A Report to the Nation</i>, 1992</li>
+        <li>Peterson, DeGue, Florence &amp; Lokey, "Lifetime Economic Burden of Rape Among U.S. Adults," <i>American Journal of Preventive Medicine</i>, 2017</li>
+        <li>Rebecca Campbell et al., multi-community case-processing studies; Campbell, Wasco, Ahrens, Sefl &amp; Barnes, <i>Preventing the "Second Rape"</i>, 2001</li>
+        <li>Lisak, Gardinier, Nicksa &amp; Cote, "False Allegations of Sexual Assault," <i>Violence Against Women</i>, 2010; National Sexual Violence Resource Center</li>
+      </ol>
     </div>
   `;
 }
@@ -3274,7 +3420,28 @@ function attachHandlers() {
   document.querySelectorAll('.back-link[data-nav]').forEach(el => {
     el.addEventListener('click', () => navigate(el.dataset.nav));
   });
+  const fab = document.querySelector('.toc-fab');
+  const pop = document.getElementById('toc-pop');
+  if (fab && pop) {
+    fab.addEventListener('click', e => { e.stopPropagation(); setTocOpen(pop.hidden); });
+    pop.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setTocOpen(false)));
+  }
 }
+
+function setTocOpen(open) {
+  const fab = document.querySelector('.toc-fab'), pop = document.getElementById('toc-pop');
+  if (!fab || !pop) return;
+  pop.hidden = !open;
+  fab.setAttribute('aria-expanded', String(open));
+}
+document.addEventListener('click', e => {
+  const pop = document.getElementById('toc-pop');
+  if (pop && !pop.hidden && !pop.contains(e.target)) setTocOpen(false);
+});
+document.addEventListener('keydown', e => {
+  const pop = document.getElementById('toc-pop');
+  if (e.key === 'Escape' && pop && !pop.hidden) { setTocOpen(false); document.querySelector('.toc-fab').focus(); }
+});
 
 let lastNarrow = isNarrow();
 window.addEventListener('resize', () => {
