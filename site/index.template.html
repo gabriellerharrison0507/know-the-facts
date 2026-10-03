@@ -304,6 +304,19 @@
   .rating-concerning { background: var(--concern-bg); color: var(--concern-ink); border-color: var(--concern-border); }
   .rating-unknown { background: var(--bg-alt); color: var(--ink-faint); border-color: var(--border); }
   .rating-why { font-size: 0.8rem; color: var(--ink-soft); margin-top: 6px; line-height: 1.4; }
+  /* Phones: stack each provision into a card (provision, summary, rating)
+     so the rating column isn't pushed off-screen behind a sideways scroll. */
+  @media (max-width: 600px) {
+    .rating-table thead { display: none; }
+    .rating-table, .rating-table tbody, .rating-table tr,
+    .rating-table tbody th, .rating-table td { display: block; width: auto; }
+    .rating-table tr { padding: 14px 16px; border-bottom: 1px solid var(--border); }
+    .rating-table tbody tr:last-child { border-bottom: none; }
+    .rating-table th, .rating-table td { padding: 0; border-bottom: none; }
+    .rating-table tbody th { white-space: normal; }
+    .rating-table td:nth-child(2) { max-width: none; margin-top: 4px; }
+    .rating-table td:nth-child(3) { min-width: 0; margin-top: 10px; }
+  }
 
   /* ---------- national view ---------- */
   .stats-toc {
@@ -363,20 +376,27 @@
   .chart-card svg { display: block; }
   .chart-card .chart-cap { font-size: 0.78rem; color: var(--ink-faint); margin-top: 14px; }
 
-  .hbar-chart { display: grid; gap: 4px; }
+  .hbar-chart {
+    display: grid; grid-template-columns: minmax(3.5rem, max-content) minmax(60px, 1fr) max-content;
+    row-gap: 4px; column-gap: 12px;
+  }
   .hbar-row {
-    display: grid; grid-template-columns: 5.5rem 1fr 7.5rem; align-items: center; gap: 12px;
+    grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; align-items: center;
     padding: 6px 8px; border-radius: 8px; cursor: pointer;
   }
   .hbar-row:hover { background: var(--bg-alt); }
-  .hbar-label { font-size: 0.86rem; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+  .hbar-label { font-size: 0.86rem; color: var(--ink-soft); font-variant-numeric: tabular-nums; max-width: 13rem; line-height: 1.3; }
   .hbar-track { height: 14px; background: var(--bg-alt); border-radius: 4px; overflow: hidden; }
-  .hbar-fill { display: block; height: 100%; background: var(--accent); border-radius: 4px; }
+  .hbar-fill { display: block; height: 100%; min-width: 3px; background: var(--accent); border-radius: 4px; }
   .hbar-row.is-unknown .hbar-fill { opacity: 0.45; }
   .hbar-val { font-size: 0.86rem; color: var(--ink); text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
   .hbar-val span { color: var(--ink-faint); margin-left: 4px; }
   @media (max-width: 480px) {
-    .hbar-row { grid-template-columns: 4.5rem 1fr 6.5rem; gap: 8px; padding: 6px 4px; }
+    .chart-card { padding: 14px 12px; }
+    .hbar-chart { column-gap: 8px; }
+    .hbar-row { padding: 6px 4px; }
+    .hbar-label { max-width: 7.5rem; font-size: 0.8rem; }
+    .hbar-val { font-size: 0.8rem; }
   }
 
   .methodology-note {
@@ -2153,21 +2173,9 @@ function renderState(abbr) {
     </div>
   ` : '';
 
-  const victimGrid = items => {
-    const total = items.reduce((sum, it) => sum + it.n, 0);
-    if (total === 0) return '';
-    return `
-      <div class="category-grid">
-        ${items.filter(it => it.n > 0).map(it => `
-          <div class="category-card">
-            <h4>${it.label}</h4>
-            <div class="cat-stat">${it.n.toLocaleString()}</div>
-            <p>${(100 * it.n / total).toFixed(1)}%</p>
-          </div>
-        `).join('')}
-      </div>
-    `;
-  };
+  const victimBars = (items, what) => items ? `<div class="chart-card">${categoryBarChart(items.filter(it => it.n > 0), {
+    ariaLabel: `Reported rape victims in ${fullName} in 2023 by ${what}, with count and percent of total for each group. Hover any bar for exact values.`
+  })}</div>` : '';
   const ageItems = STATE_VICTIM_AGE[abbr];
   const rapeVictimTotal = ageItems ? ageItems.reduce((sum, it) => sum + it.n, 0) : 0;
   const demographicsSection = (ageItems && rapeVictimTotal > 0) ? `
@@ -2181,17 +2189,17 @@ function renderState(abbr) {
       })}</div>
 
       <p class="section-sub" style="margin-top:16px;font-weight:600;">By sex</p>
-      ${victimGrid(STATE_VICTIM_SEX[abbr])}
+      ${victimBars(STATE_VICTIM_SEX[abbr], 'sex')}
 
       <p class="section-sub" style="margin-top:16px;font-weight:600;">By race</p>
-      ${victimGrid(STATE_VICTIM_RACE[abbr])}
+      ${victimBars(STATE_VICTIM_RACE[abbr], 'race')}
 
       <p class="section-sub" style="margin-top:16px;font-weight:600;">By ethnicity</p>
-      ${victimGrid(STATE_VICTIM_ETHNICITY[abbr])}
+      ${victimBars(STATE_VICTIM_ETHNICITY[abbr], 'ethnicity')}
 
       <p class="section-sub" style="margin-top:24px;font-weight:600;">Relationship to the person who assaulted them</p>
       <p class="section-sub">NIBRS records roughly 30 specific relationship categories (stepparent, babysittee, ex-boyfriend, and so on) — collapsed here into five standard groups for readability.</p>
-      ${victimGrid(STATE_VICTIM_RELATIONSHIP[abbr])}
+      ${victimBars(STATE_VICTIM_RELATIONSHIP[abbr], 'relationship to the offender')}
 
       <div class="methodology-note">Source: FBI Crime Data Explorer, NIBRS offense 11A (Rape) victim detail, ${fullName}, 2023. Race and ethnicity are separate NIBRS fields (not combined into one list, unlike the survey-based breakdown on the National Stats page) — a victim can be e.g. both "White" and "Hispanic or Latino." Relationship categories are grouped from NIBRS's full relationship-type list; see scripts/fetch_cde_demographics.py for the exact grouping. "Unknown" reflects cases where the responding agency didn't record that field, not an implied value.</div>
     </div>
@@ -2353,7 +2361,7 @@ function renderNational() {
           { label: '2023', values: [8.4,18.7,13.4,10.6,8.0,4.1] },
           { label: '2024', values: [5.4,24.1,12.6,7.1,6.2,3.5] }
         ],
-        maxV: 25, yTicks: [0,5,10,15,20,25],
+        maxV: 25, yTicks: [0,5,10,15,20,25], unit: 'per 1,000',
         ariaLabel: 'Rape and sexual assault victimization rate by age group, 2023 and 2024. Highest in the 18 to 24 bracket both years.'
       })}</div>
       <div class="methodology-note">Source: Bureau of Justice Statistics, <i>Criminal Victimization</i>, 2023 and 2024 editions (NCJ series), age-bracket tables. Rate per 1,000 persons in each age bracket.</div>
@@ -2782,20 +2790,29 @@ const TREND_POINTS = [
    bar stands alone on purpose. Hover uses the site's real tooltip system
    (showTooltip/moveTooltip/hideTooltip), wired up in attachHandlers() via
    .chart-dot-hit + data-tip. */
+/* On phones the SVG charts are drawn at roughly the card's real width, so
+   text renders near true size instead of a 720-unit drawing being shrunk
+   ~50%. render() re-runs when the window crosses this breakpoint. */
+const NARROW_BREAKPOINT = 600;
+const isNarrow = () => window.innerWidth < NARROW_BREAKPOINT;
+
 function yearBarChart(pts, opts) {
   const { color = 'var(--accent)', maxV, suffix = '', ariaLabel, unitLabel = '', yTicks } = opts;
-  const w = 720, h = 260, pad = 52, rightPad = 16, bottomPad = 34, topPad = 26;
+  const narrow = isNarrow();
+  const [w, h, pad, rightPad, bottomPad, topPad] = narrow ? [340, 230, 40, 6, 30, 24] : [720, 260, 52, 16, 34, 26];
   const n = pts.length;
   const slotW = (w - pad - rightPad) / n;
   const barW = Math.min(22, slotW * 0.62);
   const xc = i => pad + slotW * (i + 0.5);
   const y = v => h - bottomPad - (v / maxV) * (h - bottomPad - topPad);
   const ticks = yTicks || [0, maxV/4, maxV/2, maxV*3/4, maxV];
+  const labelEvery = narrow ? Math.ceil(30 / slotW) : 1;
+  const fs = narrow ? 11.5 : 10.5;
   let grid = '';
   ticks.forEach(t => {
     const ty = y(t);
     grid += `<line x1="${pad}" y1="${ty}" x2="${w-rightPad}" y2="${ty}" stroke="var(--border)" stroke-width="1"/>
-      <text x="${pad-10}" y="${ty+4}" text-anchor="end" font-size="10.5" fill="var(--ink-faint)">${Number.isInteger(t) ? t : t.toFixed(1)}${suffix}</text>`;
+      <text x="${pad-8}" y="${ty+4}" text-anchor="end" font-size="${fs}" fill="var(--ink-faint)">${Number.isInteger(t) ? t : t.toFixed(1)}${suffix}</text>`;
   });
   let bars = '', labels = '';
   pts.forEach((p, i) => {
@@ -2808,9 +2825,11 @@ function yearBarChart(pts, opts) {
     if (isLast) {
       bars += `<text x="${xc(i)}" y="${by - 7}" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink)">${p.v}${suffix}</text>`;
     }
-    labels += `<text x="${xc(i)}" y="${h-bottomPad+17}" text-anchor="middle" font-size="${n > 15 ? 9 : 10.5}" fill="var(--ink-faint)">${p.year}</text>`;
+    if ((n - 1 - i) % labelEvery === 0) {
+      labels += `<text x="${xc(i)}" y="${h-bottomPad+17}" text-anchor="middle" font-size="${!narrow && n > 15 ? 9 : fs}" fill="var(--ink-faint)">${p.year}</text>`;
+    }
   });
-  return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" role="img" aria-label="${ariaLabel}">
+  return `<svg viewBox="0 0 ${w} ${h}" width="100%"${narrow ? '' : ` height="${h}"`} role="img" aria-label="${ariaLabel}">
     ${grid}
     <line x1="${pad}" y1="${h-bottomPad}" x2="${w-rightPad}" y2="${h-bottomPad}" stroke="var(--border)" stroke-width="1.5"/>
     ${bars}
@@ -2869,29 +2888,32 @@ function categoryBarChart(items, opts) {
 
 function groupedBarChart(opts) {
   const { categories, series, unit, maxV, yTicks, ariaLabel } = opts;
-  const w = 680, h = 280, pad = 50, bottomPad = 46, topPad = 40;
-  const groupW = (w - pad - 20) / categories.length;
-  const barW = Math.min(26, (groupW - 14) / series.length);
+  const narrow = isNarrow();
+  const [w, h, pad, bottomPad, topPad] = narrow ? [340, 250, 38, 40, 40] : [680, 280, 50, 46, 40];
+  const groupW = (w - pad - (narrow ? 4 : 20)) / categories.length;
+  const barW = Math.min(26, (groupW - (narrow ? 8 : 14)) / series.length);
   const colors = ['var(--accent)', 'var(--ink-faint)'];
   const ticks = yTicks || [0, maxV/4, maxV/2, maxV*3/4, maxV];
   let grid = '';
   ticks.forEach(t => {
     const ty = h - bottomPad - (t / maxV) * (h - topPad - bottomPad);
-    grid += `<line x1="${pad-10}" y1="${ty}" x2="${w-10}" y2="${ty}" stroke="var(--border)" stroke-width="1"/>
-      <text x="${pad-16}" y="${ty+4}" text-anchor="end" font-size="10.5" fill="var(--ink-faint)">${Number.isInteger(t) ? t : t.toFixed(1)}</text>`;
+    grid += `<line x1="${pad-6}" y1="${ty}" x2="${w-(narrow ? 2 : 10)}" y2="${ty}" stroke="var(--border)" stroke-width="1"/>
+      <text x="${pad-12}" y="${ty+4}" text-anchor="end" font-size="10.5" fill="var(--ink-faint)">${Number.isInteger(t) ? t : t.toFixed(1)}</text>`;
   });
   let bars = '', labels = '';
   categories.forEach((cat, ci) => {
     const groupX = pad + ci * groupW + (groupW - series.length * barW - (series.length-1)*4) / 2;
+    const tip = `<b>${cat}</b>` + series.map(s => `${s.label}: ${s.values[ci]}${unit ? ' ' + unit : ''}`).join('<br>');
     series.forEach((s, si) => {
       const val = s.values[ci];
       const bh = (val / maxV) * (h - topPad - bottomPad);
       const bx = groupX + si * (barW + 4);
       const by = h - bottomPad - bh;
       bars += `<rect x="${bx}" y="${by}" width="${barW}" height="${bh}" rx="3" fill="${colors[si % colors.length]}"/>`;
-      bars += `<text x="${bx + barW/2}" y="${by-6}" text-anchor="middle" font-size="10" font-weight="700" fill="var(--ink)">${val}</text>`;
+      bars += `<text x="${bx + barW/2}" y="${by-6}" text-anchor="middle" font-size="${narrow ? 8.5 : 10}" font-weight="700" fill="var(--ink)">${val}</text>`;
     });
-    labels += `<text x="${pad + ci * groupW + groupW/2}" y="${h-bottomPad+18}" text-anchor="middle" font-size="11" fill="var(--ink-faint)">${cat}</text>`;
+    bars += `<rect class="chart-dot-hit" data-tip="${tip.replace(/"/g, '&quot;')}" x="${pad + ci * groupW}" y="${topPad - 10}" width="${groupW}" height="${h - bottomPad - topPad + 10}" fill="transparent" style="cursor:pointer"/>`;
+    labels += `<text x="${pad + ci * groupW + groupW/2}" y="${h-bottomPad+18}" text-anchor="middle" font-size="${narrow ? 10 : 11}" fill="var(--ink-faint)">${cat}</text>`;
   });
   let legend = '';
   if (series.length > 1) {
@@ -2900,7 +2922,7 @@ function groupedBarChart(opts) {
         <text x="${pad + si*120 + 16}" y="17" font-size="11" fill="var(--ink-soft)">${s.label}</text>`;
     });
   }
-  return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" role="img" aria-label="${ariaLabel}">
+  return `<svg viewBox="0 0 ${w} ${h}" width="100%"${narrow ? '' : ` height="${h}"`} role="img" aria-label="${ariaLabel}">
     ${legend}
     ${grid}
     <line x1="${pad-10}" y1="${h-bottomPad}" x2="${w-10}" y2="${h-bottomPad}" stroke="var(--border)" stroke-width="1.5"/>
@@ -2935,13 +2957,17 @@ function perpetrationChart() {
     {label:'Rape, broader lit.', lo:7, hi:15, note:'legally-defined rape'},
     {label:'"Sexual assault", broad def.', lo:25, hi:57, note:'broader definition'}
   ];
-  const w = 600, h = 230, pad = 170, rightPad = 50, rowH = 46;
+  const narrow = isNarrow();
+  const [w, pad, rightPad, rowH, top] = narrow ? [340, 8, 64, 58, 40] : [600, 170, 50, 46, 30];
+  const h = narrow ? top + data.length * rowH - 14 : 230;
   const maxV = 60;
   const xs = v => pad + (v/maxV) * (w - pad - rightPad);
   let rows = '';
   data.forEach((d,i) => {
-    const cy = 30 + i * rowH;
-    rows += `<text x="${pad-14}" y="${cy+4}" text-anchor="end" font-size="12.5" fill="var(--ink)">${d.label}</text>`;
+    const cy = top + i * rowH;
+    rows += narrow
+      ? `<text x="${pad}" y="${cy-14}" font-size="12.5" fill="var(--ink)">${d.label}</text>`
+      : `<text x="${pad-14}" y="${cy+4}" text-anchor="end" font-size="12.5" fill="var(--ink)">${d.label}</text>`;
     if (d.lo === d.hi) {
       rows += `<circle cx="${xs(d.lo)}" cy="${cy}" r="5" fill="var(--accent2)"/>
         <text x="${xs(d.lo)+10}" y="${cy+4}" font-size="12" fill="var(--ink-soft)">${d.lo}%</text>`;
@@ -2952,7 +2978,7 @@ function perpetrationChart() {
         <text x="${xs(d.hi)+10}" y="${cy+4}" font-size="12" fill="var(--ink-soft)">${d.lo}–${d.hi}%</text>`;
     }
   });
-  return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" role="img" aria-label="Perpetration rate studies ranging from 4.4 percent to 57 percent depending on definition and methodology">${rows}</svg>`;
+  return `<svg viewBox="0 0 ${w} ${h}" width="100%"${narrow ? '' : ` height="${h}"`} role="img" aria-label="Perpetration rate studies ranging from 4.4 percent to 57 percent depending on definition and methodology">${rows}</svg>`;
 }
 
 /* ---------------- main render ---------------- */
@@ -3002,6 +3028,15 @@ function attachHandlers() {
     el.addEventListener('click', () => navigate(el.dataset.nav));
   });
 }
+
+let lastNarrow = isNarrow();
+window.addEventListener('resize', () => {
+  if (isNarrow() === lastNarrow) return;
+  lastNarrow = isNarrow();
+  const y = window.scrollY;
+  render();
+  window.scrollTo(0, y);
+});
 
 render();
 </script>
