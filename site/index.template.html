@@ -479,6 +479,16 @@ const STATE_TREND = __STATE_TREND_DATA__;
    track court outcomes, only the police-clearance step. */
 const STATE_CLEARANCE = __STATE_CLEARANCE_DATA__;
 
+/* Per-state 2023 victim counts for the four NIBRS Group A sex-offense
+   categories (Rape, Sodomy, Sexual Assault With An Object, Fondling) --
+   what UCR's old Summary Reporting System lumped into one "forcible rape"
+   figure. Pulled via scripts/fetch_cde_offense_types.py from FBI CDE's
+   NIBRS-detail endpoint (counts, not population-adjusted rates -- see
+   that script's docstring). No separate NIBRS category exists for generic
+   "sexual harassment," so it isn't included. See
+   data/fbi_cde_state_offense_types_2023.csv for provenance. */
+const STATE_OFFENSE_TYPES = __STATE_OFFENSE_TYPES_DATA__;
+
 const LEGAL = {
   CO: {
     name: 'Colorado',
@@ -1933,6 +1943,25 @@ function renderState(abbr) {
     </div>
   ` : '';
 
+  const offenseTypes = STATE_OFFENSE_TYPES[abbr];
+  const offenseTypesTotal = offenseTypes ? offenseTypes.reduce((sum, o) => sum + o.n, 0) : 0;
+  const offenseTypesSection = (offenseTypes && offenseTypesTotal > 0) ? `
+    <div class="section-block" style="margin-top:20px;">
+      <h4 style="font-size:1.05rem;">Breakdown by type of offense, 2023</h4>
+      <p class="section-sub">NIBRS (the FBI's current reporting system) splits what used to be one "forcible rape" category into four distinct offenses. Counts below are reported victims in ${fullName} in 2023, each as a share of these four categories combined.</p>
+      <div class="category-grid">
+        ${offenseTypes.map(o => `
+          <div class="category-card">
+            <h4>${o.label}</h4>
+            <div class="cat-stat">${o.n.toLocaleString()}</div>
+            <p>${(100 * o.n / offenseTypesTotal).toFixed(1)}% of these four categories</p>
+          </div>
+        `).join('')}
+      </div>
+      <div class="methodology-note">Source: FBI Crime Data Explorer, NIBRS offenses 11A (Rape), 11B (Sodomy), 11C (Sexual Assault With An Object), 11D (Fondling), ${fullName}, 2023. There is no separate NIBRS category for generic "sexual harassment," so it isn't shown here. A count of 0 for a category in a given state can reflect genuine rarity or a local agency's classification/reporting practices rather than zero actual incidents — treat any single-category 0 with caution rather than as a confirmed absence.</div>
+    </div>
+  ` : '';
+
   return `
     <button class="back-link" data-nav="map">&larr; Back to map</button>
     <div class="state-head">
@@ -1949,6 +1978,7 @@ function renderState(abbr) {
       ${fbiBlock}
       ${trendSection}
       ${clearanceSection}
+      ${offenseTypesSection}
     </div>
   `;
 }

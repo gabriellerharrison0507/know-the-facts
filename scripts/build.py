@@ -64,6 +64,22 @@ def state_clearance_literal():
     return _state_year_literal("data/fbi_cde_state_rape_clearance_2014_2023.csv", "clearance_rate_pct")
 
 
+def state_offense_types_literal():
+    by_state = {}
+    with open(ROOT / "data/fbi_cde_state_offense_types_2023.csv", newline="") as f:
+        for row in csv.DictReader(f):
+            by_state.setdefault(row["state_abbr"], []).append(
+                {"label": row["offense_label"], "n": int(row["victim_count_2023"])}
+            )
+    order = {"Rape": 0, "Sodomy": 1, "Sexual Assault With An Object": 2, "Fondling": 3}
+    parts = []
+    for abbr, items in by_state.items():
+        items.sort(key=lambda it: order[it["label"]])
+        items_lit = ",".join(f"{{label:'{it['label']}',n:{it['n']}}}" for it in items)
+        parts.append(f"{abbr}:[{items_lit}]")
+    return "{" + ",".join(parts) + "}"
+
+
 def main():
     template = (ROOT / "site/index.template.html").read_text()
     out = (
@@ -75,8 +91,9 @@ def main():
         .replace("__STATE_PATHS__", state_paths_literal())
         .replace("__STATE_TREND_DATA__", state_trend_literal())
         .replace("__STATE_CLEARANCE_DATA__", state_clearance_literal())
+        .replace("__STATE_OFFENSE_TYPES_DATA__", state_offense_types_literal())
     )
-    remaining = [tok for tok in ("__FRAUNCES_B64__", "__PUBLICSANS_B64__", "__RANKS_DATA__", "__SA_STATE_DATA__", "__STATE_PATHS__", "__STATE_TREND_DATA__", "__STATE_CLEARANCE_DATA__") if tok in out]
+    remaining = [tok for tok in ("__FRAUNCES_B64__", "__PUBLICSANS_B64__", "__RANKS_DATA__", "__SA_STATE_DATA__", "__STATE_PATHS__", "__STATE_TREND_DATA__", "__STATE_CLEARANCE_DATA__", "__STATE_OFFENSE_TYPES_DATA__") if tok in out]
     if remaining:
         raise SystemExit(f"Unsubstituted placeholders remain: {remaining}")
 
