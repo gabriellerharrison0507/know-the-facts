@@ -363,6 +363,22 @@
   .chart-card svg { display: block; }
   .chart-card .chart-cap { font-size: 0.78rem; color: var(--ink-faint); margin-top: 14px; }
 
+  .hbar-chart { display: grid; gap: 4px; }
+  .hbar-row {
+    display: grid; grid-template-columns: 5.5rem 1fr 7.5rem; align-items: center; gap: 12px;
+    padding: 6px 8px; border-radius: 8px; cursor: pointer;
+  }
+  .hbar-row:hover { background: var(--bg-alt); }
+  .hbar-label { font-size: 0.86rem; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+  .hbar-track { height: 14px; background: var(--bg-alt); border-radius: 4px; overflow: hidden; }
+  .hbar-fill { display: block; height: 100%; background: var(--accent); border-radius: 4px; }
+  .hbar-row.is-unknown .hbar-fill { opacity: 0.45; }
+  .hbar-val { font-size: 0.86rem; color: var(--ink); text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .hbar-val span { color: var(--ink-faint); margin-left: 4px; }
+  @media (max-width: 480px) {
+    .hbar-row { grid-template-columns: 4.5rem 1fr 6.5rem; gap: 8px; padding: 6px 4px; }
+  }
+
   .methodology-note {
     font-size: 0.86rem; color: var(--ink-soft); background: var(--bg-alt); border-radius: 10px;
     padding: 14px 16px; margin-top: 14px; max-width: 72ch;
@@ -2160,7 +2176,9 @@ function renderState(abbr) {
       <p class="section-sub">Reported Rape (NIBRS 11A) victims in ${fullName} in 2023 — ${rapeVictimTotal.toLocaleString()} total — broken out by age, sex, race, and ethnicity. These are the specific people in these reports, not a survey sample, so there's no margin of error — but in a state with fewer total victims, one or two cases can swing a category's percentage noticeably. Watch the raw count, not just the percent, for the smaller categories.</p>
 
       <p class="section-sub" style="margin-top:16px;font-weight:600;">By age</p>
-      ${victimGrid(STATE_VICTIM_AGE[abbr])}
+      <div class="chart-card">${categoryBarChart(STATE_VICTIM_AGE[abbr], {
+        ariaLabel: `Reported rape victims in ${fullName} in 2023 by age group, with count and percent of total for each group. Hover any bar for exact values.`
+      })}</div>
 
       <p class="section-sub" style="margin-top:16px;font-weight:600;">By sex</p>
       ${victimGrid(STATE_VICTIM_SEX[abbr])}
@@ -2825,6 +2843,28 @@ function trendChart() {
     color: 'var(--accent)', maxV: 3.0, yTicks: [0,1,2,3], unitLabel: 'per 1,000',
     ariaLabel: 'Rape and sexual assault victimization rate, 1993 to 2024, per 1,000 persons age 12 and older, from a high of 2.5 in 1993 to 2.0 in 2024 with a long decline in between. Hover any point for its year and value.'
   });
+}
+
+/* HTML (not SVG) horizontal bars so label text stays at real font size on
+   phones -- a 720-wide SVG viewBox scaled to ~350px shrinks text to ~5px.
+   Bar length is relative to the largest category, not to 100%, so small
+   distributions still use the full track width. */
+function categoryBarChart(items, opts) {
+  const { ariaLabel } = opts;
+  const total = items.reduce((s, it) => s + it.n, 0);
+  if (!total) return '';
+  const maxN = Math.max(...items.map(it => it.n));
+  const rows = items.map(it => {
+    const pct = (100 * it.n / total).toFixed(1);
+    const tip = `<b>${it.label}</b>${it.n.toLocaleString()} victims · ${pct}%`;
+    return `
+      <div class="hbar-row chart-dot-hit${it.label === 'Unknown' ? ' is-unknown' : ''}" data-tip="${tip.replace(/"/g, '&quot;')}">
+        <span class="hbar-label">${it.label}</span>
+        <span class="hbar-track"><span class="hbar-fill" style="width:${(100 * it.n / maxN).toFixed(1)}%"></span></span>
+        <span class="hbar-val"><b>${pct}%</b> <span>${it.n.toLocaleString()}</span></span>
+      </div>`;
+  }).join('');
+  return `<div class="hbar-chart" role="img" aria-label="${ariaLabel}">${rows}</div>`;
 }
 
 function groupedBarChart(opts) {
