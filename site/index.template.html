@@ -489,6 +489,26 @@ const STATE_CLEARANCE = __STATE_CLEARANCE_DATA__;
    data/fbi_cde_state_offense_types_2023.csv for provenance. */
 const STATE_OFFENSE_TYPES = __STATE_OFFENSE_TYPES_DATA__;
 
+/* Per-state 2023 victim demographics and victim/offender relationship,
+   scoped to NIBRS offense 11A (Rape) only -- not all four sex-offense
+   types combined, since victim profiles plausibly differ by offense type
+   and blending them would hide that. Pulled via
+   scripts/fetch_cde_demographics.py. The ~29 raw NIBRS relationship
+   categories are pre-collapsed (in that script, not here) into five
+   standard criminology buckets: stranger / intimate partner / other
+   family member / acquaintance-friend / unknown. These are real reported
+   counts, not survey extrapolations, so there's no sampling-error
+   concept -- but a state with few total victims will have individual
+   categories small enough that a single case can swing a percentage by
+   several points; renderVictimGrid() below surfaces the raw N alongside
+   every percentage so that's visible, not hidden. See
+   data/fbi_cde_state_victim_*_2023.csv for provenance. */
+const STATE_VICTIM_AGE = __STATE_VICTIM_AGE_DATA__;
+const STATE_VICTIM_SEX = __STATE_VICTIM_SEX_DATA__;
+const STATE_VICTIM_RACE = __STATE_VICTIM_RACE_DATA__;
+const STATE_VICTIM_ETHNICITY = __STATE_VICTIM_ETHNICITY_DATA__;
+const STATE_VICTIM_RELATIONSHIP = __STATE_VICTIM_RELATIONSHIP_DATA__;
+
 const LEGAL = {
   CO: {
     name: 'Colorado',
@@ -2117,6 +2137,48 @@ function renderState(abbr) {
     </div>
   ` : '';
 
+  const victimGrid = items => {
+    const total = items.reduce((sum, it) => sum + it.n, 0);
+    if (total === 0) return '';
+    return `
+      <div class="category-grid">
+        ${items.filter(it => it.n > 0).map(it => `
+          <div class="category-card">
+            <h4>${it.label}</h4>
+            <div class="cat-stat">${it.n.toLocaleString()}</div>
+            <p>${(100 * it.n / total).toFixed(1)}%</p>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  };
+  const ageItems = STATE_VICTIM_AGE[abbr];
+  const rapeVictimTotal = ageItems ? ageItems.reduce((sum, it) => sum + it.n, 0) : 0;
+  const demographicsSection = (ageItems && rapeVictimTotal > 0) ? `
+    <div class="section-block" style="margin-top:20px;">
+      <h4 style="font-size:1.05rem;">Who was affected, 2023</h4>
+      <p class="section-sub">Reported Rape (NIBRS 11A) victims in ${fullName} in 2023 — ${rapeVictimTotal.toLocaleString()} total — broken out by age, sex, race, and ethnicity. These are the specific people in these reports, not a survey sample, so there's no margin of error — but in a state with fewer total victims, one or two cases can swing a category's percentage noticeably. Watch the raw count, not just the percent, for the smaller categories.</p>
+
+      <p class="section-sub" style="margin-top:16px;font-weight:600;">By age</p>
+      ${victimGrid(STATE_VICTIM_AGE[abbr])}
+
+      <p class="section-sub" style="margin-top:16px;font-weight:600;">By sex</p>
+      ${victimGrid(STATE_VICTIM_SEX[abbr])}
+
+      <p class="section-sub" style="margin-top:16px;font-weight:600;">By race</p>
+      ${victimGrid(STATE_VICTIM_RACE[abbr])}
+
+      <p class="section-sub" style="margin-top:16px;font-weight:600;">By ethnicity</p>
+      ${victimGrid(STATE_VICTIM_ETHNICITY[abbr])}
+
+      <p class="section-sub" style="margin-top:24px;font-weight:600;">Relationship to the person who assaulted them</p>
+      <p class="section-sub">NIBRS records roughly 30 specific relationship categories (stepparent, babysittee, ex-boyfriend, and so on) — collapsed here into five standard groups for readability.</p>
+      ${victimGrid(STATE_VICTIM_RELATIONSHIP[abbr])}
+
+      <div class="methodology-note">Source: FBI Crime Data Explorer, NIBRS offense 11A (Rape) victim detail, ${fullName}, 2023. Race and ethnicity are separate NIBRS fields (not combined into one list, unlike the survey-based breakdown on the National Stats page) — a victim can be e.g. both "White" and "Hispanic or Latino." Relationship categories are grouped from NIBRS's full relationship-type list; see scripts/fetch_cde_demographics.py for the exact grouping. "Unknown" reflects cases where the responding agency didn't record that field, not an implied value.</div>
+    </div>
+  ` : '';
+
   return `
     <button class="back-link" data-nav="map">&larr; Back to map</button>
     <div class="state-head">
@@ -2134,6 +2196,7 @@ function renderState(abbr) {
       ${trendSection}
       ${clearanceSection}
       ${offenseTypesSection}
+      ${demographicsSection}
     </div>
   `;
 }

@@ -80,6 +80,49 @@ def state_offense_types_literal():
     return "{" + ",".join(parts) + "}"
 
 
+def _state_category_literal(csv_path, label_col, value_col, order):
+    by_state = {}
+    with open(ROOT / csv_path, newline="") as f:
+        for row in csv.DictReader(f):
+            by_state.setdefault(row["state_abbr"], []).append(
+                {"label": row[label_col], "n": int(row[value_col])}
+            )
+    parts = []
+    for abbr, items in by_state.items():
+        items.sort(key=lambda it: order.index(it["label"]) if it["label"] in order else len(order))
+        items_lit = ",".join(f"{{label:'{it['label']}',n:{it['n']}}}" for it in items)
+        parts.append(f"{abbr}:[{items_lit}]")
+    return "{" + ",".join(parts) + "}"
+
+
+AGE_ORDER = ["0-9", "10-19", "20-29", "30-39", "40-49", "50+", "Unknown"]
+SEX_ORDER = ["Female", "Male", "Unknown/Not Specified"]
+RACE_ORDER = ["White", "Black or African American", "American Indian / Alaska Native",
+              "Asian / Pacific Islander", "Multiracial", "Unknown"]
+ETHNICITY_ORDER = ["Hispanic or Latino", "Not Hispanic or Latino", "Unknown"]
+RELATIONSHIP_ORDER = ["Stranger", "Intimate partner", "Other family member", "Acquaintance / friend", "Unknown"]
+
+
+def state_victim_age_literal():
+    return _state_category_literal("data/fbi_cde_state_victim_age_2023.csv", "age_group", "victim_count_2023", AGE_ORDER)
+
+
+def state_victim_sex_literal():
+    return _state_category_literal("data/fbi_cde_state_victim_sex_2023.csv", "sex", "victim_count_2023", SEX_ORDER)
+
+
+def state_victim_race_literal():
+    return _state_category_literal("data/fbi_cde_state_victim_race_2023.csv", "race", "victim_count_2023", RACE_ORDER)
+
+
+def state_victim_ethnicity_literal():
+    return _state_category_literal("data/fbi_cde_state_victim_ethnicity_2023.csv", "ethnicity", "victim_count_2023", ETHNICITY_ORDER)
+
+
+def state_victim_relationship_literal():
+    return _state_category_literal("data/fbi_cde_state_victim_relationship_2023.csv", "relationship_group", "victim_count_2023", RELATIONSHIP_ORDER)
+
+
 def main():
     template = (ROOT / "site/index.template.html").read_text()
     out = (
@@ -92,8 +135,13 @@ def main():
         .replace("__STATE_TREND_DATA__", state_trend_literal())
         .replace("__STATE_CLEARANCE_DATA__", state_clearance_literal())
         .replace("__STATE_OFFENSE_TYPES_DATA__", state_offense_types_literal())
+        .replace("__STATE_VICTIM_AGE_DATA__", state_victim_age_literal())
+        .replace("__STATE_VICTIM_SEX_DATA__", state_victim_sex_literal())
+        .replace("__STATE_VICTIM_RACE_DATA__", state_victim_race_literal())
+        .replace("__STATE_VICTIM_ETHNICITY_DATA__", state_victim_ethnicity_literal())
+        .replace("__STATE_VICTIM_RELATIONSHIP_DATA__", state_victim_relationship_literal())
     )
-    remaining = [tok for tok in ("__FRAUNCES_B64__", "__PUBLICSANS_B64__", "__RANKS_DATA__", "__SA_STATE_DATA__", "__STATE_PATHS__", "__STATE_TREND_DATA__", "__STATE_CLEARANCE_DATA__", "__STATE_OFFENSE_TYPES_DATA__") if tok in out]
+    remaining = [tok for tok in ("__FRAUNCES_B64__", "__PUBLICSANS_B64__", "__RANKS_DATA__", "__SA_STATE_DATA__", "__STATE_PATHS__", "__STATE_TREND_DATA__", "__STATE_CLEARANCE_DATA__", "__STATE_OFFENSE_TYPES_DATA__", "__STATE_VICTIM_AGE_DATA__", "__STATE_VICTIM_SEX_DATA__", "__STATE_VICTIM_RACE_DATA__", "__STATE_VICTIM_ETHNICITY_DATA__", "__STATE_VICTIM_RELATIONSHIP_DATA__") if tok in out]
     if remaining:
         raise SystemExit(f"Unsubstituted placeholders remain: {remaining}")
 
