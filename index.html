@@ -278,6 +278,11 @@
   .notable-stat p { margin: 0; color: var(--ink); font-size: 0.95rem; line-height: 1.5; }
   .notable-stat .cite { font-size: 0.78rem; color: var(--ink-soft); margin-top: 8px; }
   .notable-stat .cite a { color: var(--ink-soft); }
+  .notable-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+  .notable-list li { position: relative; padding-left: 18px; }
+  .notable-list li::before { content: ''; position: absolute; left: 0; top: 0.6em; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+  .notable-list li + li { padding-top: 14px; border-top: 1px solid color-mix(in srgb, var(--accent) 25%, transparent); }
+  .notable-list li + li::before { top: calc(14px + 0.6em); }
 
   .legal-section { margin-bottom: 30px; }
   .legal-section h3 {
@@ -1620,6 +1625,61 @@ const STATE_ORDER = ['CO','NY','AR','AK','DC','UT','OR','MD','VT','MN','WY','WA'
    NOT populated for every state: left absent where nothing specific and
    well-sourced turned up, rather than filled with a generic or weak finding
    just for visual consistency. { text, source, url? } */
+/* Extra "Worth knowing" facts (up to 2 more per state, 3 total). Same bar
+   as NOTABLE -- state-specific and verified against the source -- and
+   chosen to be a *different kind* of fact than the first (a law change,
+   a major case, a reform), since most NOTABLE entries are evidence-backlog
+   stories. States without a strong second fact are simply left out. */
+const NOTABLE_MORE = {
+  MI: [
+    { text: "Michigan State University paid $500 million in 2018 to settle claims from 332 survivors of team doctor Larry Nassar — one of the largest sexual abuse settlements ever by a U.S. university. Nassar was sentenced to 40 to 175 years in an Ingham County court.", source: "ABC / AP, May 2018", url: "https://www.adn.com/nation-world/2018/05/16/michigan-state-to-pay-larry-nassar-victims-500-million-in-settlements" },
+  ],
+  OH: [
+    { text: "An independent investigation commissioned by Ohio State found team doctor Richard Strauss sexually abused at least 177 male students between 1979 and 1998 — and that university staff knew of complaints as early as 1979 but didn't act until 1996.", source: "Perkins Coie report for Ohio State, 2019", url: "https://news.osu.edu/independent-investigation-finds-ohio-state-doctor-richard-strauss-abused-students-from-1979-to-1998" },
+    { text: "Until 2024, Ohio law exempted spouses from several sex-offense charges — including when the offender drugged or got the victim drunk. Ohio was one of 11 states with such a loophole before lawmakers removed it, on the fourth attempt since 2019.", source: "WFMJ / Ohio House Bill 161", url: "https://www.wfmj.com/story/50773220/gov-dewine-signs-bill-closing-spousal-rape-loophole-into-law" },
+  ],
+  NC: [
+    { text: "Until 2019, North Carolina was the only state where a person couldn't legally withdraw consent once sex had begun — a rule from a 1979 state Supreme Court case. The legislature unanimously closed that loophole in 2019.", source: "UNC School of Government", url: "https://nccriminallaw.sog.unc.edu/no-will-mean-no-in-north-carolina/" },
+  ],
+  MN: [
+    { text: "In 2021, Minnesota's Supreme Court overturned a rape conviction because the victim had voluntarily been drinking — the law only counted someone as \"mentally incapacitated\" if they'd been drugged without consent. Lawmakers closed that intoxication loophole months later.", source: "Minnesota Lawyer / MinnPost, 2021", url: "https://www.minnpost.com/state-government/2021/04/will-the-minnesota-legislatures-plan-to-fix-the-sexual-assault-intoxication-loophole-actually-help/" },
+  ],
+  PA: [
+    { text: "A 2018 statewide grand jury report found 301 \"predator priests\" across six Catholic dioceses had abused more than 1,000 identifiable children over 70 years — and that church leaders systematically covered it up. The grand jury believed the real number was in the thousands.", source: "Pennsylvania grand jury report, 2018, via WHYY", url: "https://whyy.org/articles/report-detailing-widespread-child-sexual-abuse-by-pa-catholic-clergy-released-after-long-legal-battle" },
+  ],
+  AK: [
+    { text: "One in three Alaska communities has no local law enforcement at all — almost all of them primarily Alaska Native villages, many off the road system. Survivors may have to fly hundreds of miles for a sexual assault exam.", source: "Anchorage Daily News &amp; ProPublica, \"Lawless\" (Pulitzer Prize, 2020)", url: "https://www.adn.com/alaska-news/lawless/2019/05/16/lawless-one-in-three-alaska-villages-have-no-local-police/" },
+  ],
+  NY: [
+    { text: "New York's Adult Survivors Act opened a one-year window (Nov. 2022 – Nov. 2023) for adult survivors to sue over assaults too old to otherwise bring to court. More than 3,000 lawsuits were filed — many against state prisons, jails, and hospitals.", source: "Hollywood Reporter / Wikipedia", url: "https://www.hollywoodreporter.com/news/general-news/sexual-assault-lawsuits-new-york-1235668667/" },
+  ],
+  CO: [
+    { text: "Colorado passed a 2021 law letting survivors of childhood sexual abuse from as far back as 1960 sue their abusers and the institutions that employed them. In 2023 the state Supreme Court struck that down as an unconstitutional retroactive law.", source: "Colorado Supreme Court, <i>Aurora Public Schools v. A.S.</i> (2023), via Courthouse News", url: "https://www.courthousenews.com/colorado-look-back-law-on-child-sex-abuse-struck-down-as-unconstitutional/" },
+  ],
+  FL: [
+    { text: "In 2008, federal prosecutors in Miami secretly ended a sex-trafficking investigation of Jeffrey Epstein involving at least 40 girls with a non-prosecution deal; he served 13 months in county jail. The Justice Department later concluded the prosecutors used \"poor judgment.\"", source: "NPR, 2020 (Miami Herald, \"Perversion of Justice,\" 2018)", url: "https://www.npr.org/2020/11/12/934265386/jeffrey-epsteins-former-prosecutors-used-poor-judgment-in-deal-doj-says" },
+  ],
+  CA: [
+    { text: "In 2014 California became the first state to require \"yes means yes\" — affirmative, conscious, voluntary agreement — as the consent standard at colleges that receive state financial aid, and barred intoxication from excusing a lack of consent.", source: "CBS News, 2014 (Senate Bill 967)", url: "https://www.cbsnews.com/sacramento/news/california-approves-landmark-yes-means-yes-law" },
+  ],
+  SC: [
+    { text: "Under South Carolina law, a spouse generally can't be charged with criminal sexual conduct unless the couple is living apart — and even then the assault must be reported to police within 30 days to be prosecuted.", source: "S.C. Code § 16-3-658", url: "https://www.womenslaw.org/laws/sc/statutes/16-3-658-criminal-sexual-conduct-when-victim-spouse" },
+  ],
+  MD: [
+    { text: "A 2023 Maryland Attorney General investigation found 156 people associated with the Archdiocese of Baltimore had sexually abused more than 600 children over eight decades.", source: "Maryland Attorney General report, 2023", url: "https://dbknews.com/2023/04/05/maryland-attorney-general-baltimore-archdiocese-abuse" },
+    { text: "Days later, Maryland's Child Victims Act of 2023 abolished the time limit for child sexual abuse survivors to sue \u2014 no matter how long ago the abuse happened \u2014 reviving claims that had already expired.", source: "CBS News Baltimore, 2023 (Senate Bill 686)", url: "https://www.cbsnews.com/baltimore/news/new-maryland-law-stops-statute-of-limitations-for-sex-abuse-survivors-to-sue-abusers-baltimore" },
+  ],
+  TX: [
+    { text: "A 2016 outside review of Baylor University found a \"fundamental failure\" to follow federal Title IX law, including administrators discouraging students from reporting sexual assaults. The football coach was fired and the university president removed.", source: "Baylor Board of Regents / Pepper Hamilton findings, 2016", url: "https://news.web.baylor.edu/news/story/2016/baylor-university-board-regents-announces-leadership-changes-and-extensive" },
+  ],
+  MA: [
+    { text: "The Boston Globe's 2002 Spotlight investigation exposed decades of child sexual abuse by Catholic priests and its cover-up by the Archdiocese of Boston — about 250 priests were ultimately accused. Cardinal Bernard Law resigned, and the reporting won a Pulitzer and inspired the film <i>Spotlight</i>.", source: "Boston Globe Spotlight, 2002", url: "https://muckrakerfarm.com/2002/01/the-boston-globe-spotlight-investigation-sexual-abuse-by-priests-in-the-catholic-church-2002/" },
+  ],
+  DE: [
+    { text: "Lewes pediatrician Earl Bradley was indicted in 2010 on charges involving 103 child patients — one of the worst child sexual abuse cases in U.S. history. Convicted in 2011, he received 14 consecutive life sentences.", source: "ABC News / Delaware Public Media", url: "https://abcnews.go.com/WN/delaware-pediatrician-earl-bradley-indicted-103-counts-sexual/story?id=9921990" },
+  ],
+};
+
 const NOTABLE = {
   CO: {
     text: "A 2023 scandal at the Colorado Bureau of Investigation — a forensic scientist later found to have manipulated DNA test results across hundreds of cases — left the state with a sexual assault kit backlog that peaked at over 1,400 untested kits in early 2025.",
@@ -2083,12 +2143,14 @@ function renderState(abbr) {
   const fullName = abbr === 'DC' ? 'Washington, D.C.' : (Object.keys(ABBR).find(k => ABBR[k] === abbr) || abbr);
   const legal = LEGAL[abbr];
   const lawRank = LAW_RANK[abbr];
-  const notable = NOTABLE[abbr];
-  const notableStat = notable ? `
+  const notables = [NOTABLE[abbr], ...(NOTABLE_MORE[abbr] || [])].filter(Boolean).slice(0, 3);
+  const notableCite = n => `<div class="cite">${n.url ? `<a href="${n.url}" target="_blank" rel="noopener">${n.source}</a>` : n.source}</div>`;
+  const notableStat = notables.length ? `
     <div class="notable-stat">
       <div class="eyebrow-sm">Worth knowing about ${fullName}</div>
-      <p>${notable.text}</p>
-      <div class="cite">${notable.url ? `<a href="${notable.url}" target="_blank" rel="noopener">${notable.source}</a>` : notable.source}</div>
+      ${notables.length === 1
+        ? `<p>${notables[0].text}</p>${notableCite(notables[0])}`
+        : `<ul class="notable-list">${notables.map(n => `<li><p>${n.text}</p>${notableCite(n)}</li>`).join('')}</ul>`}
     </div>
   ` : '';
 
