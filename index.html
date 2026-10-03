@@ -3302,7 +3302,7 @@ function valueBarChart({ rows, series = [{ color: 'var(--accent)' }], max, fmt =
     const tip = `<b>${r.label}</b>` + r.values.map((v, i) => `${multi ? series[i].label + ': ' : ''}${shown(v, i)}`).join('<br>') + (r.note ? `<br>${r.note}` : '');
     const lines = r.values.map((v, i) => `
       <span class="vbar-line">
-        <span class="hbar-track${multi ? ' thin' : ''}">${v == null ? '' : `<span class="hbar-fill" style="width:${(100 * v / top).toFixed(1)}%;background:${r.color || series[i].color}"></span>`}</span>
+        <span class="hbar-track${multi ? ' thin' : ''}">${v == null || v === 0 ? '' : `<span class="hbar-fill" style="width:${(100 * v / top).toFixed(1)}%;background:${r.color || series[i].color}"></span>`}</span>
         <span class="vbar-val">${v == null ? '—' : shown(v, i)}</span>
       </span>`).join('');
     return `
