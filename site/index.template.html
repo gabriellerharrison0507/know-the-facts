@@ -331,6 +331,19 @@
   .rating-table tbody tr:last-child td, .rating-table tbody tr:last-child th { border-bottom: none; }
   .rating-table td:nth-child(2) { max-width: 38ch; color: var(--ink-soft); }
   .rating-table td:nth-child(3) { min-width: 22ch; }
+  .school-table { width: 100%; border-collapse: collapse; background: var(--surface); font-size: 0.86rem; }
+  .school-table th, .school-table td { padding: 9px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+  .school-table thead th { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-faint); background: var(--bg-alt); white-space: nowrap; }
+  .school-table tbody th { font-weight: 600; color: var(--ink); }
+  .school-table .num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .school-table tbody tr:last-child th, .school-table tbody tr:last-child td { border-bottom: none; }
+  .school-table-label { font-size: 0.78rem; color: var(--ink-faint); text-align: right; margin: 0 4px 6px; }
+  @media (max-width: 600px) {
+    .school-table { font-size: 0.8rem; }
+    .school-table th, .school-table td { padding: 8px 8px; }
+    .school-table .yr-old { display: none; }
+  }
+  .school-st { font-size: 0.72rem; font-weight: 600; color: var(--ink-faint); margin-left: 4px; }
   .rating-pill {
     display: inline-block; font-size: 0.74rem; font-weight: 700; padding: 3px 10px; border-radius: 20px;
     border: 1px solid; white-space: nowrap;
@@ -667,6 +680,15 @@ const STATE_VICTIM_RELATIONSHIP = __STATE_VICTIM_RELATIONSHIP_DATA__;
    null year means End the Backlog didn't state one). */
 const STATE_KITS = __STATE_KITS_DATA__;
 const CLERY = __CLERY_DATA__;
+const CLERY_SCHOOLS = __CLERY_SCHOOLS_DATA__;
+
+/* Named-school table for the campus sections: school | students | reports by
+   year. Counts are reports to the school or police, not assaults. */
+function schoolTable(items, { showState = false } = {}) {
+  const head = `<tr><th scope="col">School</th><th scope="col" class="num">Students</th>${[2022, 2023, 2024].map((y, i) => `<th scope="col" class="num${i === 0 ? ' yr-old' : ''}">${y}</th>`).join('')}</tr>`;
+  const body = items.map(it => `<tr><th scope="row">${it.n}${showState && it.st ? ` <span class="school-st">${it.st}</span>` : ''}</th><td class="num">${it.s.toLocaleString()}</td>${it.y.map((v, i) => `<td class="num${i === 0 ? ' yr-old' : ''}">${v}</td>`).join('')}</tr>`).join('');
+  return `<div class="school-table-label">Rapes reported each year</div><div class="table-scroll"><table class="school-table"><thead>${head}</thead><tbody>${body}</tbody></table></div>`;
+}
 const KIT_PILLARS = [
   { label: 'Statewide inventory', what: 'Counted every untested kit in the state' },
   { label: 'Test backlogged kits', what: 'Committed to testing old, untested kits' },
@@ -2504,6 +2526,13 @@ function renderState(abbr) {
   const clery = CLERY[abbr], cleryUS = CLERY.US;
   const cleryTopNote = clery && clery.years[2] >= 10 && clery.topN / clery.years[2] > 0.4
     ? ` ${clery.topN} of the ${clery.years[2]} reports in 2024 came from one school, ${clery.top}, so one school's reporting can drive the state's total.` : '';
+  const schools = CLERY_SCHOOLS[abbr] || { top: [], major: [] };
+  const cleryNamed = (schools.top.length ? `
+      <p class="section-sub" style="margin-top:18px;font-weight:600;">Schools with the most rapes reported in 2024</p>
+      ${schoolTable(schools.top)}` : '') + (schools.major.length ? `
+      <p class="section-sub" style="margin-top:18px;font-weight:600;">${fullName}'s major universities</p>
+      <p class="section-sub">Every four-year school in ${fullName} with 10,000+ students and campus housing for 1,000+, largest first.</p>
+      ${schoolTable(schools.major)}` : '');
   const campusSection = clery ? `
     <div class="section-block" id="st-campus" style="margin-top:20px;">
       <h4 style="font-size:1.05rem;">Reported on college campuses, 2022–2024</h4>
@@ -2515,8 +2544,9 @@ function renderState(abbr) {
         caption: `Rapes reported on campus, at off-campus school property, and on adjacent public property. ${clery.fondl.toLocaleString()} reports of fondling in 2024 are counted separately.${cleryTopNote}`,
         ariaLabel: `Rapes reported by colleges in ${fullName}: ${clery.years.map((n, i) => (2022 + i) + ' ' + n).join(', ')}.`
       })}</div>
+      ${cleryNamed}
       ${clery.zeroBig != null ? `<p class="section-sub" style="margin-top:14px;">In 2024, <b>${Math.round(clery.zeroBig * clery.big / 100)} of ${fullName}'s ${clery.big}</b> colleges with 1,000 or more students (${Math.round(clery.zeroBig)}%) reported <b>zero</b> rapes. Nationally, ${Math.round(cleryUS.zeroBig)}% did.</p>` : ''}
-      <div class="method"><p class="method-src"><b>Source:</b> U.S. Department of Education, <a href="https://ope.ed.gov/campussafety/" target="_blank" rel="noopener">Campus Safety and Security data</a>, calendar years 2022–2024 (our calculation)</p><details><summary>Methodology &amp; caveats</summary><div>Counts add each school's on-campus, noncampus (school-owned or -controlled property off the main campus, like some Greek housing), and public-property figures; residence halls are already part of on-campus. Branch campuses are rolled up into their parent institution, which is counted in the state of its main record. Online-only and very small schools are included in the college count; the zero-report share is limited to schools with 1,000+ students. Reproduce with scripts/fetch_clery.py.</div></details></div>
+      <div class="method"><p class="method-src"><b>Source:</b> U.S. Department of Education, <a href="https://ope.ed.gov/campussafety/" target="_blank" rel="noopener">Campus Safety and Security data</a>, calendar years 2022–2024 (our calculation)</p><details><summary>Methodology &amp; caveats</summary><div>Counts add each school's on-campus, noncampus (school-owned or -controlled property off the main campus, like some Greek housing), and public-property figures; residence halls are already part of on-campus. Branch campuses are rolled up into their parent institution, which is counted in the state of its main record. Online-only and very small schools are included in the college count; the zero-report share is limited to schools with 1,000+ students. "Students" is the school's total enrollment, including online and graduate students. "Major universities" are four-year schools with 10,000+ students, at least 1,000 beds of school-controlled housing (IPEDS 2023–24), and fewer than half their students enrolled exclusively online (IPEDS Fall 2023). Reproduce with scripts/fetch_clery.py.</div></details></div>
     </div>
   ` : '';
 
@@ -3102,7 +3132,11 @@ function renderNational() {
         <div class="stat-tile"><div class="stat-num">89%</div><div class="stat-label">of U.S. college campuses reported zero rapes for 2015 — including 73% of campuses with 250+ students</div><div class="stat-source">AAUW analysis of Clery Act data, 2017</div></div>
         <div class="stat-tile"><div class="stat-num">${Math.round(CLERY.US.zeroBig)}%</div><div class="stat-label">of colleges with 1,000+ students still reported zero rapes for 2024 (${Math.round(CLERY.US.zeroAll)}% of all ${CLERY.US.inst.toLocaleString()} colleges). U.S. colleges reported ${CLERY.US.years[2].toLocaleString()} rapes in total.</div><div class="stat-source">Dept. of Education Clery data, our calculation</div></div>
       </div>
-      <p class="section-sub">Each state page shows its colleges' reported totals for 2022–2024.</p>
+      <p class="section-sub">Zero reports cluster at commuter schools. Of ${CLERY_SCHOOLS.US.ccN} community colleges with 10,000+ students, <b>${CLERY_SCHOOLS.US.ccZeroN}</b> reported no rapes at all in 2022–2024 — most of their students live off campus, where an assault usually falls outside the school's required count. Of the ${CLERY_SCHOOLS.US.majorN} large residential universities, ${CLERY_SCHOOLS.US.majorZero.length === 1 ? `only one — ${CLERY_SCHOOLS.US.majorZero[0]} — reported none` : `${CLERY_SCHOOLS.US.majorZero.length} reported none`} in those three years.</p>
+      <p class="section-sub" style="margin-top:18px;font-weight:600;">The 10 colleges with the most reported rapes, 2024</p>
+      <p class="section-sub">All ten are large public universities. A high count often reflects a big residential campus and visible reporting options, not necessarily a more dangerous school.</p>
+      ${schoolTable(CLERY_SCHOOLS.US.top, { showState: true })}
+      <p class="section-sub" style="margin-top:14px;">Each state page lists its own schools: the three with the most reports and every major university.</p>
       <p class="aside">The AAUW put it this way: zero reports "simply does not square with research, campus climate surveys, and widespread experiences reported by students." The AAU also found that a school's Clery numbers didn't line up with its survey results. That's why this page doesn't rank schools by reported assaults — a high count can mean a school is doing a better job, not a worse one.</p>
       <div class="method"><p class="method-src"><b>Source:</b> AAU Campus Climate Survey, 2019; AAUW, Clery Act data analysis (2017), via <a href="https://wiareport.com/2017/05/2015-89-percent-colleges-universities-reported-zero-incidents-rape/" target="_blank" rel="noopener">WIA Report</a></p><details><summary>Methodology &amp; caveats</summary><div>AAU 2019, Figures 3–4: school-level rates for undergraduate women ranged from 14.0% to 32.0%; schools are not named in the aggregate report, though many participating schools published their own results. AAU notes that school characteristics, including "the number of crimes reported in the school's Clery Act statistics," were not highly different across schools with different survey rates. AAUW analyzed 2015 Clery Act data submitted by about 11,000 campuses; 89% disclosed zero reports of rape, and among about 4,000 campuses with 250 or more students, 73% did. Many of the zero-report campuses are very small schools. The 2024 figures are our calculation from the U.S. Department of Education's <a href="https://ope.ed.gov/campussafety/" target="_blank" rel="noopener">Campus Safety and Security data</a> (on-campus + noncampus + public property), counted per institution with branch campuses rolled up. AAUW counted individual campuses, so the two percentages aren't a precise like-for-like trend. Reproduce with scripts/fetch_clery.py.</div></details></div>
 

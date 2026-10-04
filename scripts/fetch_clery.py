@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Summarizes college-reported rapes per state from the U.S. Department of
 Education's Campus Safety and Security (Clery Act) data and writes
-data/clery_state_rape_2022_2024.csv.
+data/clery_state_rape_2022_2024.csv (per state) and
+data/clery_institutions_2022_2024.csv (per institution, 1,000+ students).
 
 Source: https://ope.ed.gov/campussafety/ -> Crime2025EXCEL.zip (calendar
 years 2022-2024). Requires xlrd (pip install xlrd).
@@ -20,6 +21,13 @@ Method:
   - Only the 50 states + DC are kept (territories dropped); a final "US"
     row summarizes all of them.
 
+  - Each institution's share of students enrolled exclusively online comes
+    from IPEDS Fall 2023 distance-education enrollment (EF2023A_DIST, all
+    students), and its student-housing capacity from IPEDS Institutional
+    Characteristics 2023-24 (IC2023, revised file, ROOMCAP), so the page's
+    list of large schools reporting zero can be limited to residential
+    four-year schools rather than commuter or mostly online ones.
+
 These are reports to the school or police, not a measure of how many
 assaults happened; see the page's caveats.
 """
@@ -33,6 +41,9 @@ import xlrd
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 OUT = ROOT / "data/clery_state_rape_2022_2024.csv"
+OUT_INST = ROOT / "data/clery_institutions_2022_2024.csv"
+IPEDS_DIST = "https://nces.ed.gov/ipeds/datacenter/data/EF2023A_DIST.zip"
+IPEDS_IC = "https://nces.ed.gov/ipeds/datacenter/data/IC2023.zip"
 URL = "https://ope.ed.gov/campussafety/api/dataFiles/file?fileName=Crime2025EXCEL.zip"
 FILES = ["Oncampuscrime222324.xls", "Noncampuscrime222324.xls", "Publicpropertycrime222324.xls"]
 YEARS = ("22", "23", "24")
@@ -49,16 +60,48 @@ def num(v):
     return float(v) if v not in ("", None) else 0.0
 
 
-def main():
-    req = urllib.request.Request(URL, headers={"User-Agent": "Mozilla/5.0"})
+def fetch_zip(url):
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
     with urllib.request.urlopen(req, timeout=300) as r:
-        zf = zipfile.ZipFile(io.BytesIO(r.read()))
+        return zipfile.ZipFile(io.BytesIO(r.read()))
+
+
+def online_share():
+    """UNITID -> share of all students enrolled exclusively in distance ed."""
+    zf = fetch_zip(IPEDS_DIST)
+    name = next(n for n in zf.namelist() if n.lower().endswith(".csv"))
+    out = {}
+    for r in csv.DictReader(io.TextIOWrapper(zf.open(name), encoding="utf-8-sig")):
+        r = {k.strip(): v.strip() for k, v in r.items()}
+        if r["EFDELEV"] == "1" and r["EFDETOT"] and int(r["EFDETOT"]) > 0:
+            out[int(r["UNITID"])] = int(r["EFDEEXC"] or 0) / int(r["EFDETOT"])
+    return out
+
+
+def housing_capacity():
+    """UNITID -> institutionally controlled housing capacity (0 if none)."""
+    zf = fetch_zip(IPEDS_IC)
+    names = [n for n in zf.namelist() if n.lower().endswith(".csv")]
+    name = next((n for n in names if "_rv" in n.lower()), names[0])
+    out = {}
+    for r in csv.DictReader(io.TextIOWrapper(zf.open(name), encoding="utf-8-sig", errors="replace")):
+        r = {k.strip(): v.strip() for k, v in r.items()}
+        cap = r.get("ROOMCAP", "")
+        out[int(r["UNITID"])] = int(cap) if cap.lstrip("-").isdigit() and int(cap) > 0 else 0
+    return out
+
+
+def main():
+    zf = fetch_zip(URL)
+    online = online_share()
+    housing = housing_capacity()
 
     inst = {}
     for name in FILES:
         for r in rows(zf, name):
             uid = int(r["UNITID_P"]) // 1000
-            i = inst.setdefault(uid, {"state": r["State"].strip(), "name": r["INSTNM"].strip(), "enroll": 0.0,
+            i = inst.setdefault(uid, {"state": r["State"].strip(), "name": r["INSTNM"].strip(),
+                                      "sector": r["Sector_desc"].strip(), "enroll": 0.0,
                                       **{f"RAPE{y}": 0.0 for y in YEARS}, "FONDL24": 0.0})
             i["enroll"] = max(i["enroll"], num(r["Total"]))
             for y in YEARS:
@@ -99,6 +142,21 @@ def main():
         w.writeheader()
         w.writerows(out)
     print(out[-1])
+
+    inst_rows = sorted(
+        ({"unitid": uid, "name": i["name"], "state_abbr": i["state"], "enrollment": int(i["enroll"]),
+          "sector": i["sector"],
+          "pct_exclusively_online": round(100 * online[uid], 1) if uid in online else "",
+          "housing_capacity": housing.get(uid, ""),
+          **{f"rape_20{y}": int(i[f"RAPE{y}"]) for y in YEARS}}
+         for uid, i in inst.items() if i["state"] in STATES and i["enroll"] >= 1000),
+        key=lambda r: (r["state_abbr"], r["name"]))
+    with open(OUT_INST, "w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=list(inst_rows[0]))
+        w.writeheader()
+        w.writerows(inst_rows)
+    print(f"Wrote {OUT_INST} ({len(inst_rows)} institutions; "
+          f"{sum(1 for r in inst_rows if r['pct_exclusively_online'] == '')} without IPEDS online share)")
     print(f"Wrote {OUT}")
 
 

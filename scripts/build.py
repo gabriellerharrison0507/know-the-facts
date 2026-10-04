@@ -190,6 +190,40 @@ def clery_literal():
     return json.dumps(out, separators=(",", ":"), ensure_ascii=False)
 
 
+def is_major_university(r):
+    """Residential four-year school with 10,000+ students: 1,000+ beds of
+    school-controlled housing, under half its students exclusively online."""
+    return (int(r["enrollment"]) >= 10000 and "4-year" in r["sector"]
+            and int(r["housing_capacity"] or 0) >= 1000 and float(r["pct_exclusively_online"] or 100) < 50)
+
+
+def clery_schools_literal():
+    """Named schools for the campus sections: per state, the three schools
+    with the most 2024 reports and every major university; nationally, the
+    top 10 and the zero-report comparison. From data/clery_institutions_2022_2024.csv."""
+    rows = list(csv.DictReader(open(ROOT / "data/clery_institutions_2022_2024.csv", newline="")))
+    for r in rows:
+        r["y"] = [int(r["rape_2022"]), int(r["rape_2023"]), int(r["rape_2024"])]
+    item = lambda r: {"n": r["name"], "s": int(r["enrollment"]), "y": r["y"]}
+    by_state = {}
+    for r in rows:
+        by_state.setdefault(r["state_abbr"], []).append(r)
+    out = {}
+    for st, L in by_state.items():
+        top = sorted((r for r in L if r["y"][2] > 0), key=lambda r: (-r["y"][2], r["name"]))[:3]
+        major = sorted((r for r in L if is_major_university(r)), key=lambda r: -int(r["enrollment"]))
+        out[st] = {"top": [item(r) for r in top], "major": [item(r) for r in major]}
+    major = [r for r in rows if is_major_university(r)]
+    cc = [r for r in rows if int(r["enrollment"]) >= 10000 and r["sector"].endswith("2-year")]
+    zero3 = lambda r: sum(r["y"]) == 0
+    out["US"] = {
+        "top": [dict(item(r), st=r["state_abbr"]) for r in sorted(rows, key=lambda r: -r["y"][2])[:10]],
+        "majorN": len(major), "majorZero": [r["name"] for r in major if zero3(r)],
+        "ccN": len(cc), "ccZeroN": sum(1 for r in cc if zero3(r)),
+    }
+    return json.dumps(out, separators=(",", ":"), ensure_ascii=False)
+
+
 def main():
     template = (ROOT / "site/index.template.html").read_text()
     out = (
@@ -209,8 +243,9 @@ def main():
         .replace("__STATE_VICTIM_RELATIONSHIP_DATA__", state_victim_relationship_literal())
         .replace("__STATE_KITS_DATA__", state_kits_literal())
         .replace("__CLERY_DATA__", clery_literal())
+        .replace("__CLERY_SCHOOLS_DATA__", clery_schools_literal())
     )
-    remaining = [tok for tok in ("__FRAUNCES_B64__", "__PUBLICSANS_B64__", "__RANKS_DATA__", "__SA_STATE_DATA__", "__STATE_PATHS__", "__STATE_TREND_DATA__", "__STATE_CLEARANCE_DATA__", "__STATE_OFFENSE_TYPES_DATA__", "__STATE_VICTIM_AGE_DATA__", "__STATE_VICTIM_SEX_DATA__", "__STATE_VICTIM_RACE_DATA__", "__STATE_VICTIM_ETHNICITY_DATA__", "__STATE_VICTIM_RELATIONSHIP_DATA__", "__STATE_KITS_DATA__", "__CLERY_DATA__") if tok in out]
+    remaining = [tok for tok in ("__FRAUNCES_B64__", "__PUBLICSANS_B64__", "__RANKS_DATA__", "__SA_STATE_DATA__", "__STATE_PATHS__", "__STATE_TREND_DATA__", "__STATE_CLEARANCE_DATA__", "__STATE_OFFENSE_TYPES_DATA__", "__STATE_VICTIM_AGE_DATA__", "__STATE_VICTIM_SEX_DATA__", "__STATE_VICTIM_RACE_DATA__", "__STATE_VICTIM_ETHNICITY_DATA__", "__STATE_VICTIM_RELATIONSHIP_DATA__", "__STATE_KITS_DATA__", "__CLERY_DATA__", "__CLERY_SCHOOLS_DATA__") if tok in out]
     if remaining:
         raise SystemExit(f"Unsubstituted placeholders remain: {remaining}")
 
