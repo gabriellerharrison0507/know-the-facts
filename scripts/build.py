@@ -212,16 +212,22 @@ def clery_schools_literal():
     by_state = {}
     for r in rows:
         by_state.setdefault(r["state_abbr"], []).append(r)
+    # Per-capita ranking is limited to major universities (and schools with at
+    # least one 2024 report), so a small school with one report can't top it.
+    rate = lambda r: r["y"][2] / item(r)["p"] if item(r)["p"] else 0
+    by_rate = lambda L: sorted((r for r in L if r["y"][2] > 0), key=lambda r: (-rate(r), r["name"]))
     out = {}
     for st, L in by_state.items():
         top = sorted((r for r in L if r["y"][2] > 0), key=lambda r: (-r["y"][2], r["name"]))[:3]
         major = sorted((r for r in L if is_major_university(r)), key=lambda r: -int(r["enrollment"]))
-        out[st] = {"top": [item(r) for r in top], "major": [item(r) for r in major]}
+        out[st] = {"top": [item(r) for r in top], "topRate": [item(r) for r in by_rate(major)[:3]],
+                   "major": [item(r) for r in major]}
     major = [r for r in rows if is_major_university(r)]
     cc = [r for r in rows if int(r["enrollment"]) >= 10000 and r["sector"].endswith("2-year")]
     zero3 = lambda r: sum(r["y"]) == 0
     out["US"] = {
         "top": [dict(item(r), st=r["state_abbr"]) for r in sorted(rows, key=lambda r: -r["y"][2])[:10]],
+        "topRate": [dict(item(r), st=r["state_abbr"]) for r in by_rate([r for r in rows if is_major_university(r)])[:10]],
         "majorN": len(major), "majorZero": [r["name"] for r in major if zero3(r)],
         "ccN": len(cc), "ccZeroN": sum(1 for r in cc if zero3(r)),
     }
