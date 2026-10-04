@@ -205,7 +205,10 @@ def clery_schools_literal():
     rows = list(csv.DictReader(open(ROOT / "data/clery_institutions_2022_2024.csv", newline="")))
     for r in rows:
         r["y"] = [int(r["rape_2022"]), int(r["rape_2023"]), int(r["rape_2024"])]
-    item = lambda r: {"n": r["name"], "s": int(r["enrollment"]), "y": r["y"]}
+    # "p" = students not enrolled exclusively online (IPEDS Fall 2023), the
+    # denominator for the per-1,000 rate.
+    item = lambda r: {"n": r["name"], "s": int(r["enrollment"]), "y": r["y"],
+                      "p": round(int(r["enrollment"]) * (1 - float(r["pct_exclusively_online"] or 0) / 100))}
     by_state = {}
     for r in rows:
         by_state.setdefault(r["state_abbr"], []).append(r)
