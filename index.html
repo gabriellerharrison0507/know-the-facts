@@ -3,8 +3,27 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="build-id" content="c519c32f0ab5">
 <title>Know The Facts — Sexual Assault Law &amp; Statistics</title>
 <meta name="description" content="State-by-state sexual assault law and survey-based statistics, cited to primary sources.">
+<script>
+(function () {
+  if (!/\.github\.io$/.test(location.hostname) || !window.fetch) return;
+  var mine = "c519c32f0ab5";
+  fetch(location.pathname + "?build-check=" + Date.now(), { cache: "no-store" })
+    .then(function (r) { return r.ok ? r.text() : ""; })
+    .then(function (t) {
+      var m = t.match(/name="build-id" content="([0-9a-f]+)"/);
+      if (!m || m[1] === mine) return;
+      try {
+        if (sessionStorage.getItem("kf-reloaded-for") === m[1]) return;
+        sessionStorage.setItem("kf-reloaded-for", m[1]);
+      } catch (e) {}
+      location.replace(location.pathname + "?v=" + m[1] + location.hash);
+    })
+    .catch(function () {});
+})();
+</script>
 </head>
 <body>
 <style>

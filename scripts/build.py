@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Builds index.html from site/index.template.html by substituting fonts and data literals."""
 import base64
+import hashlib
 import csv
 import json
 import pathlib
@@ -249,13 +250,37 @@ def main():
     if remaining:
         raise SystemExit(f"Unsubstituted placeholders remain: {remaining}")
 
+    # A content hash, so the page can tell when a newer build is live. GitHub
+    # Pages lets browsers reuse a cached copy, and some (notably phones) hold
+    # on to it well past the 10-minute max-age; the head script below checks
+    # the live build id and, if it differs, reloads once at a fresh URL.
+    build_id = hashlib.sha1(out.encode("utf-8")).hexdigest()[:12]
     document = f"""<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="build-id" content="{build_id}">
 <title>Know The Facts — Sexual Assault Law &amp; Statistics</title>
 <meta name="description" content="State-by-state sexual assault law and survey-based statistics, cited to primary sources.">
+<script>
+(function () {{
+  if (!/\.github\.io$/.test(location.hostname) || !window.fetch) return;
+  var mine = "{build_id}";
+  fetch(location.pathname + "?build-check=" + Date.now(), {{ cache: "no-store" }})
+    .then(function (r) {{ return r.ok ? r.text() : ""; }})
+    .then(function (t) {{
+      var m = t.match(/name="build-id" content="([0-9a-f]+)"/);
+      if (!m || m[1] === mine) return;
+      try {{
+        if (sessionStorage.getItem("kf-reloaded-for") === m[1]) return;
+        sessionStorage.setItem("kf-reloaded-for", m[1]);
+      }} catch (e) {{}}
+      location.replace(location.pathname + "?v=" + m[1] + location.hash);
+    }})
+    .catch(function () {{}});
+}})();
+</script>
 </head>
 <body>
 {out}
@@ -263,7 +288,7 @@ def main():
 </html>
 """
     (ROOT / "index.html").write_text(document, encoding="utf-8")
-    print(f"Wrote index.html ({len(document):,} bytes)")
+    print(f"Wrote index.html ({len(document):,} bytes, build {build_id})")
 
 
 if __name__ == "__main__":
