@@ -287,6 +287,11 @@
   .kit-chip.rating-unknown { background: var(--bg-alt); color: var(--ink-faint); border-color: var(--border); }
   .kit-pl { color: var(--ink-soft); }
   .kit-pl b { color: var(--ink); font-weight: 600; }
+  .kit-story { margin: 18px 0 6px; padding: 14px 18px; border-left: 3px solid var(--accent); background: var(--bg-alt); border-radius: 0 10px 10px 0; }
+  .kit-story .eyebrow-sm { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 700; color: var(--accent); margin-bottom: 6px; }
+  .kit-story p { margin: 0; font-size: 0.93rem; line-height: 1.5; color: var(--ink); }
+  .kit-story .cite { font-size: 0.78rem; color: var(--ink-soft); margin-top: 6px; }
+  .kit-story .cite a { color: var(--ink-soft); }
   .kit-map { width: 100%; height: auto; display: block; }
   .kit-shape { cursor: pointer; transition: opacity 0.15s; }
   .kit-shape:hover, .kit-shape:focus-visible { opacity: 0.75; outline: none; }
@@ -432,6 +437,7 @@
   .hbar-val { font-size: 0.86rem; color: var(--ink); text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
   .hbar-val span { color: var(--ink-faint); margin-left: 4px; }
 
+  .vbar-caption { margin: 10px 0 0 8px; font-size: 0.8rem; color: var(--ink-faint); line-height: 1.45; }
   .vbar-legend { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0 0 12px 8px; font-size: 0.82rem; color: var(--ink-soft); }
   .vbar-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
   .vbar-stack { grid-column: 2 / -1; display: grid; gap: 4px; }
@@ -1741,10 +1747,53 @@ const NOTABLE_MORE = {
   DE: [
     { text: "Lewes pediatrician Earl Bradley was indicted in 2010 on charges involving 103 child patients — one of the worst child sexual abuse cases in U.S. history. Convicted in 2011, he received 14 consecutive life sentences.", source: "ABC News / Delaware Public Media", url: "https://abcnews.go.com/WN/delaware-pediatrician-earl-bradley-indicted-103-counts-sexual/story?id=9921990" },
   ],
+  IL: [
+    { text: "A 2023 Illinois Attorney General investigation identified 451 Catholic clergy and religious brothers who sexually abused at least 1,997 children across every diocese in the state since 1950 — 149 of them never before publicly disclosed by the church.", source: "Illinois Attorney General report, 2023, via Al Jazeera / AP", url: "https://www.aljazeera.com/amp/news/2023/5/24/illinois-probe-reveals-rampant-sexual-abuse-in-catholic-church" },
+  ],
+  MO: [
+    { text: "Reviewing records for every priest in Missouri back to 1945, a 2019 state Attorney General investigation found 163 clergy accused of sexual abuse or misconduct with minors. Of the 80 still living, the statute of limitations had already run out on 46.", source: "Missouri Attorney General, 2019, via AP", url: "https://wjla.com/news/nation-world/missouri-investigation-12-ex-clergy-could-face-prosecution-09-13-2019" },
+  ],
+  KY: [
+    { text: "Louisville police officers sexually abused teenagers in the department's youth Explorer program, which was later shut down. Three officers were convicted of federal sex crimes, and the city settled with seven survivors for $3.65 million in 2021.", source: "Louisville Public Media, 2021", url: "https://www.lpm.org/news/2021-11-03/3-65m-settlement-reached-in-lmpd-explorer-program-abuse-case" },
+  ],
+  IN: [
+    { text: "A 2016 Indianapolis Star investigation found that Indianapolis-based USA Gymnastics had a policy of not reporting all abuse allegations against coaches — at least 368 gymnasts had alleged sexual abuse over 20 years. The reporting also first brought to light allegations against team doctor Larry Nassar.", source: "IndyStar, \"Out of Balance,\" 2016, via IRE", url: "https://www.ire.org/2016/09/15/behind-the-story-how-indystar-uncovered-sexual-abuse-within-usa-gymnastics/" },
+  ],
+  OK: [
+    { text: "Oklahoma City police officer Daniel Holtzclaw was convicted in 2015 of raping and sexually assaulting women he stopped on patrol — targeting Black women in a low-income neighborhood. He was sentenced to 263 years in prison.", source: "CBS News, 2016", url: "https://www.cbsnews.com/news/daniel-holtzclaw-ex-oklahoma-officer-sentenced-for-rape-sex-crimes" },
+  ],
+  NJ: [
+    { text: "A 2019 New Jersey law gave survivors of childhood sexual abuse until age 55 (or seven years after realizing the harm) to sue, and opened a two-year window for claims that had already expired.", source: "Goldberg Segalla legal analysis of S477 (2019)", url: "https://www.goldbergsegalla.com/news-and-knowledge/knowledge/now-in-effect-new-jersey-law-creates-two-year-look-back-window-to-revive-child-sexual-abuse-cases" },
+  ],
+  CT: [
+    { text: "A 2017 investigation commissioned by Choate Rosemary Hall, the elite Wallingford boarding school, found at least 12 former teachers had sexually abused students over five decades. None was reported to police, and the school failed to report to the state child-welfare agency despite a legal duty to.", source: "NBC News, 2017", url: "https://www.nbcnews.com/news/us-news/choate-failed-report-sexual-misconduct-authorities-decades-report-n746756" },
+  ],
+  NV: [
+    { text: "In 2019 Nevada's Gaming Commission fined Wynn Resorts a record $20 million after finding executives had failed for over a decade to investigate sexual misconduct allegations against founder Steve Wynn.", source: "The Nevada Independent, 2019", url: "https://thenevadaindependent.com/article/gaming-commission-assesses-wynn-resorts-with-a-record-setting-20-million-fine" },
+  ],
+  MT: [
+    { text: "A U.S. Justice Department investigation of more than 350 sexual assault reports in Missoula (2008–2012) found police sometimes made women feel the assault was their fault and failed to collect timely statements. The city police and University of Montana signed reform agreements; the county attorney refused to cooperate.", source: "Bangor Daily News / AP, 2014", url: "https://www.bangordailynews.com/2014/02/15/news/us-justice-officials-accuse-montana-prosecutor-of-gender-bias-in-rape-cases/" },
+  ],
+  RI: [
+    { text: "A 2016 investigation into St. George's School, an elite Middletown boarding school, found at least 61 students had been sexually abused — 51 by school employees — mostly in the 1970s and '80s. One athletic trainer abused at least 31 girls and kept receiving an annual payment from the school until he died.", source: "Boston.com / AP, 2016", url: "https://www.boston.com/news/local-news/2016/09/01/report-trainer-abused-1-in-5-girls-at-st-georges-prep-school-in-1970s/" },
+  ],
+  GA: [
+    { text: "Georgia's 2015 Hidden Predator Act opened a two-year window (2015–2017) for survivors of childhood sexual abuse to sue over abuse that was otherwise too old to bring to court. Outside that window, most survivors must sue by age 23.", source: "Georgia House Bill 17 (2015), via Legiscan", url: "https://legiscan.com/GA/bill/HB17/2015" },
+  ],
+  WA: [
+    { text: "Until 2019, Washington's third-degree rape law required a victim's lack of consent to be \"clearly expressed by the victim's words or conduct\" — a standard critics said ignored the common \"freeze\" response to trauma. Lawmakers removed it in 2019 and also eliminated the statute of limitations for the most serious child sex crimes.", source: "KUOW, 2019", url: "https://www.kuow.org/law/2019-04-11/legislature-passes-massive-changes-to-state-s-sexual-abuse-laws" },
+  ],
+  VA: [
+    { text: "Virginia law still lets a judge put a rape case on hold when the victim is the defendant's spouse — and dismiss it entirely if the defendant completes counseling and the court finds that would \"promote maintenance of the family unit.\"", source: "Va. Code § 18.2-61(C)", url: "https://law.lis.virginia.gov/vacode/title18.2/chapter4/section18.2-61/" },
+  ],
+  ID: [
+    { text: "Until 2021, Idaho law said \"no person shall be convicted of rape for any act or acts with that person's spouse\" except in limited circumstances — a rule dating to 1977. Lawmakers repealed it unanimously in 2021.", source: "Idaho Press, 2021 (Senate Bill 1089)", url: "https://www.idahopress.com/news/local/house-votes-unanimously-to-roll-back-idahos-spousal-rape-exceptions/article_46b617dc-4a45-5f89-aa94-4f60bbf16e89.html" },
+  ],
 };
 
 const NOTABLE = {
   CO: {
+    kit: true,
     text: "A 2023 scandal at the Colorado Bureau of Investigation — a forensic scientist later found to have manipulated DNA test results across hundreds of cases — left the state with a sexual assault kit backlog that peaked at over 1,400 untested kits in early 2025.",
     source: "NPR, May 2025",
     url: "https://www.npr.org/2025/05/26/nx-s1-5381401/colorados-rape-kit-backlog-is-a-barrier-to-investigations-and-arrests",
@@ -1774,11 +1823,13 @@ const NOTABLE = {
     url: "https://www.usu.edu/uwlp/files/snapshot/42.pdf",
   },
   OR: {
+    kit: true,
     text: "A 2018 state law required Oregon State Police to report its sexual assault kit backlog to lawmakers every year specifically to prevent the backlog from silently regrowing — but those required reports were never actually delivered. By the time the lapse came to light, the backlog had grown to roughly three times its 2019 size.",
     source: "Governing / KGW investigative reporting",
     url: "https://www.governing.com/archive/oregons-backlog-of-untested-rape-kits-is-back",
   },
   MD: {
+    kit: true,
     text: "A doctor at a Baltimore-area hospital quietly preserved physical evidence from rape exams starting in the 1970s, decades before DNA testing existed. A 2023 ProPublica investigation found much of that evidence had sat unused and outside the state's official backlog count for years after being rediscovered — testing it has already led to 2 exonerations and helped solve 80 cold cases.",
     source: "ProPublica, 2023",
     url: "https://www.propublica.org/article/maryland-moves-to-process-rape-kits-backlog",
@@ -1799,6 +1850,7 @@ const NOTABLE = {
     url: "https://www.uwyo.edu/news/2023/05/survey-of-uw-students-shows-decline-in-sexual-misconduct.html",
   },
   WA: {
+    kit: true,
     text: "Washington once had one of the nation's largest sexual assault kit backlogs — over 10,000 untested kits in 2014, some dating to the 1980s. A December 2024 state audit found the backlog \"effectively eliminated,\" with kits now tested within 45 days. Testing the old kits produced over 2,100 DNA database matches, including one in 2023 that linked a suspect to a California murder from four decades earlier.",
     source: "Washington State Auditor's Office, Dec. 2024",
     url: "https://sao.wa.gov/the-audit-connection-blog/states-backlog-sexual-assault-kits-effectively-eliminated-audit-finds",
@@ -1809,6 +1861,7 @@ const NOTABLE = {
     url: "https://www.bostonglobe.com/2023/05/10/metro/nh-youth-development-center-abuse-claim-settled-15m-maximum",
   },
   VA: {
+    kit: true,
     text: "Virginia eliminated its entire pre-2014 backlog of roughly 2,900 untested rape kits through a five-year, $3.4 million statewide testing project — DNA hits from the old kits went on to identify suspects in new criminal cases, including charges against a man for the sexual assault of a minor.",
     source: "Virginia Attorney General's Office, via 13News Now / WUSA9",
     url: "https://www.13newsnow.com/article/news/investigations/testing-of-rape-kit-backlog-leads-to-criminal-case-in-virginia/65-d70e9e2b-52ce-4661-96f9-4e542821b580",
@@ -1819,61 +1872,73 @@ const NOTABLE = {
     url: "https://www.npr.org/sections/thetwo-way/2011/12/08/143355817/arizona-sheriff-joe-arpaio-under-fire-for-mishandled-sex-crime-cases",
   },
   NE: {
+    kit: true,
     text: "Nebraska had never conducted a statewide inventory of untested sexual assault kits until Omaha police turned up roughly 1,500 sitting untested, some dating back to 1998. A $1.9 million federal grant funded testing starting in 2019; within two years, usable DNA from the backlog had identified 46 offenders.",
     source: "Associated Press, via Washington Times, Dec. 2018",
     url: "https://www.washingtontimes.com/news/2018/dec/6/omaha-police-get-19m-grant-to-test-sex-assault-kit/",
   },
   ME: {
+    kit: true,
     text: "Maine has no state tracking program for sexual assault kits and hasn't adopted any of the reform measures recommended nationally to prevent kits from going untested. In 2023, only 12% of the 415 kits sent out to hospitals that year were ever submitted to a lab for testing — most go into what advocates call a \"black hole,\" their location afterward completely unknown.",
     source: "Sun Journal investigation, with Maine legislative testimony",
     url: "https://new.sunjournal.com/?p=11028132",
   },
   NM: {
+    kit: true,
     text: "A 2016 state auditor's report found New Mexico had the worst untested rape-kit backlog in the nation per capita — 254 untested kits for every 100,000 residents, far above the next-highest state (Michigan, at 153 per 100,000). Albuquerque's crime lab alone held about 73% of the statewide backlog.",
     source: "New Mexico State Auditor, 2016, via Albuquerque Journal",
     url: "https://www.pressreader.com/usa/albuquerque-journal/20161207/281509340811563",
   },
   MO: {
+    kit: true,
     text: "A 2017 Columbia Missourian investigation found Missouri didn't actually know how many untested sexual assault kits sat in evidence rooms statewide — even with only 40% of agencies responding to a survey, it still turned up at least 5,424 untested kits. A formal statewide inventory launched under incoming Attorney General Eric Schmitt in 2019 identified 7,019 kits using a federal SAKI grant.",
     source: "Columbia Missourian, 2017; End the Backlog / Missouri AG inventory reporting",
     url: "https://www.endthebacklog.org/blog/working-towards-justice-missouris-effort-to-complete-a-rape-kit-inventory/",
   },
   OH: {
+    kit: true,
     text: "When Cuyahoga County (Cleveland) began testing its backlog of untested rape kits, prosecutors expected maybe 15% to trace back to a serial offender. The real figure, once testing was done, was closer to a third — \"I was astonished,\" the county prosecutor said at the time.",
     source: "Case Western Reserve University research reporting",
     url: "https://case.edu/news/testing-backlogged-rape-kits-yields-new-insights-rapists-and-major-implications-how-sexual-assaults-should-be-investigated",
   },
   DE: {
+    kit: true,
     text: "Delaware let more than 1,200 sexual assault kits sit untested in evidence lockers for decades. One of them belonged to a man named Jeffrey King, who escaped justice for more than 25 years after a 1993 street assault — the DNA evidence against him was never tested until the state's backlog-clearing effort finally reached it. Testing the full backlog, completed in 2020, led to 9 arrests covering crimes against 23 women.",
     source: "WHYY / Delaware Public Media",
     url: "https://whyy.org/articles/finding-justice-for-rape-victims-whose-cases-went-unresolved",
   },
   TN: {
+    kit: true,
     text: "Memphis alone held 6,942 of Tennessee's 9,062 statewide untested rape kits — 77% of the total, roughly 18 times the next-largest city's count. In one case, DNA evidence sitting untested for 11 months would have identified the man later charged with the murder of Memphis teacher Eliza Fletcher, had it been tested sooner.",
     source: "AP, via Tennessee news coverage",
     url: "https://abc17news.com/news/ap-national-news/2022/10/01/untested-rape-kits-plagued-memphis-long-before-jogger-case/",
   },
   RI: {
+    kit: true,
     text: "Unlike most states on this list, Rhode Island doesn't have a kit backlog at all — kits are typically processed within about 30 days, down from a six-month average five years earlier. A prominent victim advocate has called the state's forensic lab \"a model for the rest of the country.\"",
     source: "The Day (New London, CT)",
     url: "https://www.theday.com/?p=72827",
   },
   MT: {
+    kit: true,
     text: "A statewide survey found 1,410 untested sexual assault kits sitting in Montana evidence lockers, some dating back to 1995. The state's Board of Crime Control has estimated a sexual assault is reported in Montana roughly once every 23 hours.",
     source: "Montana Department of Justice / Montana Public Radio",
     url: "https://www.mtpr.org/post/task-force-meets-act-montanas-1400-untested-rape-kits",
   },
   KS: {
+    kit: true,
     text: "Testing Kansas's backlog of roughly 2,200 untested kits (some dating to 1989) found that 93% of the suspects identified already had criminal histories involving other violent crimes — collectively linked to more than 7,000 prior offenses.",
     source: "WIBW / Fox News, on the Kansas Bureau of Investigation's SAKI results",
     url: "https://www.wibw.com/content/news/KBI-and-Attorney-General--563330841.html",
   },
   ID: {
+    kit: true,
     text: "A 2015 Idaho Press investigation found that whether a rape kit got sent for testing often came down to a single officer's personal judgment — some law enforcement agencies submitted as few as 10% of their kits. A subsequent audit found over 1,100 untested kits statewide.",
     source: "Idaho Press investigation, via Boise State Public Radio",
     url: "https://www.boisestatepublicradio.org/law-justice/2016-12-28/police-nearly-half-of-idahos-rape-kits-not-sent-to-lab",
   },
   NC: {
+    kit: true,
     text: "A 2017 statewide inventory found 15,160 untested rape kits sitting in North Carolina law enforcement custody. Testing nearly all of them over the following six years produced 2,702 CODIS database hits and 114 arrests before the state declared the backlog cleared in 2024.",
     source: "North Carolina Department of Justice",
     url: "https://ncdoj.gov/wp-content/uploads/2024/04/Ending-the-Backlog_Case-Narratives.pdf",
@@ -1884,116 +1949,139 @@ const NOTABLE = {
     url: "https://www.theadvocate.com/baton_rouge/opinion/our_views/sexual-assault-violence-rape-law-enforcement-police-courts/article_a1c5abcc-46ee-54ba-abd5-d7f4be45a9b0.html",
   },
   GA: {
+    kit: true,
     text: "Georgia's rape kit backlog push began after 1,351 untested kits were discovered forgotten in storage at an Atlanta hospital in 2015 — some had been sitting for 15 years. Testing more than 3,000 backlogged kits statewide linked 321 cases to other crimes and identified two previously-unknown serial rapists.",
     source: "Georgia Bureau of Investigation, via AllOnGeorgia / WTOC",
     url: "https://www.allongeorgia.com/georgia-state-news/georgia-rape-kit-backlog-finally-cleared-321-link-to-other-crimes/",
   },
   IN: {
+    kit: true,
     text: "A state audit found 5,396 sexual assault kits in Indiana police custody, nearly half (2,560) untested with no clear record of why. St. Joseph County alone accounted for 478 of the untested kits, the most of any county in the state.",
     source: "Indiana State Police audit, via Indianapolis news coverage",
     url: "https://www.abc57.com/news/audit-indiana-has-2-500-untested-sexual-assault-kits",
   },
   KY: {
+    kit: true,
     text: "Kentucky State Police identified 3,354 untested sexual assault kits statewide in 2015. Testing them led to 10 indictments, including four tied to two separate serial offenders identified only once the old evidence was finally analyzed.",
     source: "Kentucky Association of Sexual Assault Programs (KASAP), via state police reporting",
     url: "https://www.kasap.org/results-of-backlog-testing-in-kentucky/",
   },
   SC: {
+    kit: true,
     text: "South Carolina has no law requiring that sexual assault kits ever be tested at all. A FOX Carolina investigation found survivors waiting an average of nearly 1,000 days — about 2.7 years — between reporting an assault and getting kit results back.",
     source: "FOX Carolina investigation",
     url: "https://www.foxcarolina.com/2026/02/24/new-report-rape-kit-wait-times-sc-have-grown-nearly-3-years",
   },
   WV: {
+    kit: true,
     text: "West Virginia identified over 3,200 untested sexual assault kits after joining a federal testing initiative in 2015. Testing 2,677 of them produced 1,000 DNA profiles and matched 388 of those to offenders across 25 other states and Puerto Rico.",
     source: "West Virginia Sexual Assault Kit Initiative reporting",
     url: "https://wvmetronews.com/2024/01/07/federal-grant-to-address-statewide-sexual-assault-kit-backlog-goes-to-monongalia-county/",
   },
   NV: {
+    kit: true,
     text: "Nevada's backlog once totaled 7,915 untested sexual assault kits, the oldest dating to 1983. Testing the Southern Nevada portion alone produced 913 DNA matches and led to 37 arrests statewide.",
     source: "Nevada Attorney General's Office, via local news coverage",
     url: "https://news3lv.com/news/local/nevada-rape-kit-processing-backlog-resolved",
   },
   AL: {
+    kit: true,
     text: "An inventory of sexual assault kits held by Birmingham police found 3,944 kits in storage — 3,391 of them, nearly 86%, had never been submitted for testing at all.",
     source: "BirminghamWatch / WBHM",
     url: "https://birminghamwatch.org/birmingham-police-face-biggest-backlog-sexual-assault-kits-not-submitted-analysis/",
   },
   MI: {
+    kit: true,
     text: "In 2009, more than 11,000 untested rape kits — some dating to 1984 — were discovered in a Detroit Police storage facility. Testing every one of them, a decade-long effort led by Wayne County's prosecutor, has produced 224 convictions and traced offenders to crime scenes in 40 other states.",
     source: "WDET / Wayne County Prosecutor's Office",
     url: "https://wdet.org/2021/09/13/Evidence-from-Massive-Rape-Kit-Backlog-Yields-More-Than-200-Convictions-Lasting-Policy-Changes/",
   },
   WI: {
+    kit: true,
     text: "Wisconsin discovered nearly 7,000 untested sexual assault kits in 2014. Testing about 4,500 of them found that more than 1,600 contained DNA that didn't match the victim — evidence of another person's presence that had simply never been examined.",
     source: "Wisconsin Department of Justice, via CBS News",
     url: "https://www.cbsnews.com/minnesota/news/9-people-charged-so-far-from-wisconsin-rape-kit-backlog/",
   },
   IL: {
+    kit: true,
     text: "A 2010 Human Rights Watch investigation found that as many as 80% of Illinois rape kits may never have been examined. Illinois's sexual assault arrest rate — about 11% — was roughly half the national average of 22% at the time.",
     source: "Human Rights Watch, 2010",
     url: "https://www.hrw.org/report/2010/07/07/i-used-think-law-would-protect-me/illinoiss-failure-test-rape-kits",
   },
   OK: {
+    kit: true,
     text: "A 2018 statewide audit found more than 7,200 untested rape kits in Oklahoma, 3,000 of them from Tulsa alone. A 2019 law requiring kits be submitted within 20 days tripled the state crime lab's caseload — and, in the short term, pushed average processing time from 40 days to over 300.",
     source: "Investigative reporting via Dayton Daily News / Frontier",
     url: "https://www.readfrontier.org/stories/impact-lawmaker-plans-study-on-oklahomas-rape-kit-backlog/",
   },
   CA: {
+    kit: true,
     text: "Orange County cleared a 30-year-old backlog of 6,480 sexual assault kits, of which 3,791 had never been tested — testing them produced new DNA matches and led to criminal charges in 6 cold cases. Separately, a 2008 count found Los Angeles's police and sheriff's departments held a combined 12,000-plus untested kits of their own.",
     source: "Orange County District Attorney's Office, via national news coverage",
     url: "https://www.wcpo.com/news/national/charges-filed-in-6-california-cold-cases-after-backlog-of-sexual-assault-kits-cleared",
   },
   FL: {
+    kit: true,
     text: "A 2016 FDLE report found 13,435 untested rape kits statewide — Miami PD alone accounted for 2,243 of them, the most of any single agency. Clearing more than 8,000 of the backlogged kits over the following three years produced 1,814 hits in the national DNA database.",
     source: "Florida Department of Law Enforcement",
     url: "https://www.miaminewtimes.com/news/13-435-untested-rape-kits-found-in-florida-27-percent-are-in-miami-dade-8152700",
   },
   SD: {
+    kit: true,
     text: "South Dakota's kit backlog was always small by national standards — about 500 kits in 2013 — and the state finished testing all of them by 2017, down to just 7 untested as of 2023. Watchdog groups note the state still has no formal system for tracking sexual assault kits going forward, though.",
     source: "South Dakota Attorney General's Office / End the Backlog",
     url: "https://www.endthebacklog.org/state/South-dakota",
   },
   CT: {
+    kit: true,
     text: "Connecticut's 2015 kit count found nearly 1,200 untested kits statewide, some sitting for as long as 20 years — during which, by the state's own account, a serial rapist continued to offend because testing hadn't caught up. By 2018 Connecticut had tested its entire backlog, becoming only the third state to do so, and now typically returns results in 30 days against a 60-day legal requirement.",
     source: "NBC Connecticut / state reporting",
     url: "https://nbcconnecticut.com/news/local/more-than-800-rape-kits-in-ct-were-never-tested/1992887",
   },
   PA: {
+    kit: true,
     text: "Pennsylvania had 3,217 backlogged rape kits at the end of 2015, with Philadelphia's police department alone holding roughly 1,300 of them. A statewide tracking law drove that number down to 339 by 2019 (about a 90% reduction) and to just 94 more recently — a 97% decrease from the original count.",
     source: "Pennsylvania Auditor General's Office",
     url: "https://www.paauditor.gov/press-releases/auditor-general-depasquale-new-state-data-shows-where-rape-kits-are-still-backlogged-victims-deserve-chance-at-justice",
   },
   MA: {
+    kit: true,
     text: "Bristol County alone held more than 1,100 backlogged, untested rape kits, part of a statewide backlog dating back over two decades. A 2019 federal grant funded testing that began in 2021 and has already produced new charges in decades-old cases, including a 2010 assault that went uncharged for over a decade.",
     source: "NBC Boston / CBS News",
     url: "https://www.nbcboston.com/news/local/bristol-county-sexual-assault-kit-backlog/2924345/",
   },
   NJ: {
+    kit: true,
     text: "New Jersey is one of only about a dozen states that lets prosecutors choose which rape kits get tested rather than testing all of them — and an investigation found 74% of kits took longer than 30 days (the federal threshold for \"backlogged\") to test, with roughly 5,000 kits never submitted at all. A 2025 deadline to clear the backlog came and went; as of this writing the state remains months past it.",
     source: "News 12 New York, \"Kane In Your Corner\" investigation",
     url: "https://longisland.news12.com/kiyc-new-jersey-has-the-worst-record-in-tristate-when-it-comes-to-testing-rape-kits",
   },
   IA: {
+    kit: true,
     text: "Iowa's kit backlog once totaled 4,275, the oldest dating to 1992. Of the 1,606 selected for testing, the 290 that produced a federal database match included 26 people who were already convicted of other crimes — evidence that had simply never been connected to them.",
     source: "Iowa Attorney General's Office / KCRG investigative reporting",
     url: "https://www.kcrg.com/content/news/i9-investigation-finds-4265-untested-rape-kits-in-Iowa-oldest-dates-back-to-1992-415479573.html",
   },
   MS: {
+    kit: true,
     text: "Investigative reporting found Mississippi rape kits routinely sitting for years in hospital refrigerators or the trunks of law enforcement vehicles rather than a lab — in one case, an officer reportedly kept 50 untested kits, including 15 from child sexual abuse cases, in a refrigerator. Jackson alone had more than 600 untested kits as of 2019, a count that has since grown past 800.",
     source: "Mississippi Free Press / Investigative Reporters and Editors (IRE)",
     url: "https://www.mississippifreepress.org/women-push-to-end-rape-kit-backlog-reform-marital-rape-laws-in-bipartisan-effort/",
   },
   ND: {
+    kit: true,
     text: "North Dakota's kit backlog is small by national standards but has fluctuated — up from 126 kits awaiting testing in late 2021 to 271 a year later, cut down to 80 under a new state crime lab director, then back up to 118 in the most recent report. One Fargo kit sat untested for more than 20 months.",
     source: "InForum / North Dakota Attorney General's Office",
     url: "https://www.inforum.com/news/north-dakota/how-north-dakota-eliminated-a-testing-backlog-for-hundreds-of-sexual-assault-kits",
   },
   TX: {
+    kit: true,
     text: "Houston's police crime lab alone identified 6,571 unsubmitted sexual assault kits in 2012 — testing them produced a usable DNA profile in only 55% of cases, with 21% matching someone in the national database. Texas's statewide count has since fallen from roughly 19,000 untested kits to 5,298, though that figure excludes 231 law enforcement agencies that never reported their numbers to the state.",
     source: "Texas Department of Public Safety / Houston Police Department study",
     url: "https://kvia.com/news/us-world/2021/09/14/texas-governor-says-hes-committed-to-eliminating-rapists-the-state-has-more-than-5000-untested-rape-kits-2/",
   },
   HI: {
+    kit: true,
     text: "Honolulu police tested fewer than 6 rape kits a year on average between 1992 and 2016 — only about 9% of the kits they'd actually collected — leaving a backlog of 1,375 untested kits by mid-2016. Once testing finally caught up statewide, 1,512 kits produced 441 DNA profiles and 173 hits against known suspects.",
     source: "Hawaii State Auditor / Honolulu Star-Advertiser",
     url: "https://www.civilbeat.org/2016/03/untested-rape-kits-hawaii-isnt-the-only-state-struggling-with-a-backlog",
@@ -2206,7 +2294,9 @@ function renderState(abbr) {
   const fullName = abbr === 'DC' ? 'Washington, D.C.' : (Object.keys(ABBR).find(k => ABBR[k] === abbr) || abbr);
   const legal = LEGAL[abbr];
   const lawRank = LAW_RANK[abbr];
-  const notables = [NOTABLE[abbr], ...(NOTABLE_MORE[abbr] || [])].filter(Boolean).slice(0, 3);
+  /* Backlog stories (kit: true) live in the "Rape kits" section instead. */
+  const kitStory = NOTABLE[abbr] && NOTABLE[abbr].kit ? NOTABLE[abbr] : null;
+  const notables = [kitStory ? null : NOTABLE[abbr], ...(NOTABLE_MORE[abbr] || [])].filter(Boolean).slice(0, 3);
   const notableCite = n => `<div class="cite">${n.url ? `<a href="${n.url}" target="_blank" rel="noopener">${n.source}</a>` : n.source}</div>`;
   const notableStat = notables.length ? `
     <div class="notable-stat">
@@ -2444,6 +2534,7 @@ function renderState(abbr) {
       ${kitChecklist(kits)}
       ${backlogLine}${backlogChart}
       ${kits.turnaround ? `<p class="section-sub" style="margin-top:14px;">Most recently reported lab turnaround for a kit: <b>${kits.turnaround} days</b>.</p>` : ''}
+      ${kitStory ? `<div class="kit-story"><div class="eyebrow-sm">The backlog story</div><p>${kitStory.text}</p>${notableCite(kitStory)}</div>` : ''}
       <p class="aside"><b>Who pays:</b> under federal law, survivors can't be charged for the forensic exam itself and don't have to report to police to get one — but related emergency care can still be billed. See <a href="#" data-nav="national">National Stats</a> → Rape kits.</p>
       <div class="method"><p class="method-src"><b>Source:</b> End the Backlog (Joyful Heart Foundation), <a href="https://www.endthebacklog.org/state/${kits.slug}/" target="_blank" rel="noopener">${fullName} tracker</a>, pulled October 2026</p><details><summary>Methodology &amp; caveats</summary><div>End the Backlog scores every state on six reforms ("pillars") it recommends. A pillar counts toward the map's score if it's done or in progress. Untested-kit counts are the figures End the Backlog cites from state reports and news coverage, each with its own year; they aren't all measured the same way or at the same time, so compare states with care. ${kits.testing ? `Testing status per End the Backlog: ${kits.testing}.` : ''}</div></details></div>
     </div>`;
@@ -2873,14 +2964,16 @@ function renderNational() {
         max: 100,
         ariaLabel: 'Lifetime sexual assault among trans and nonbinary respondents: all respondents 47%, Black respondents 53%, respondents with a disability 61%, who experienced homelessness 65%, who had done sex work 72%.'
       })}</div>
-      <h4 style="font-size:1.05rem;margin-top:24px;">In jail or prison</h4>
-      <p class="section-sub">How much more often incarcerated trans respondents reported sexual assault than the incarcerated population overall:</p>
+      <h4 style="font-size:1.05rem;margin-top:24px;">In jail or prison: how many times more often trans people are sexually assaulted</h4>
+      <p class="section-sub">Compared with everyone else in jail or prison (set at 1×), incarcerated trans respondents were sexually assaulted:</p>
       <div class="chart-card">${valueBarChart({
         rows: [
-          { label: 'By facility staff', values: [5], display: ['5×+'] },
-          { label: 'By other inmates', values: [9], display: ['9×+'] }
+          { label: 'All people in jail or prison (baseline)', values: [1], display: ['1×'], color: 'var(--ink-faint)' },
+          { label: 'Trans people — by facility staff', values: [5], display: ['5×+'] },
+          { label: 'Trans people — by other inmates', values: [9], display: ['9×+'] }
         ],
         max: 10, fmt: v => `${v}×`,
+        caption: '“9×+” means more than 9 times as often as the baseline.',
         ariaLabel: 'Incarcerated trans respondents reported sexual assault by facility staff over 5 times as often, and by other inmates over 9 times as often, as the general incarcerated population.'
       })}</div>
       <div class="method"><p class="method-src"><b>Source:</b> 2015 U.S. Transgender Survey (Advocates for Trans Equality)</p></div>
@@ -2890,12 +2983,13 @@ function renderNational() {
       <h3>By disability status</h3>
       <p class="takeaway">People with disabilities are assaulted at more than 4 times the rate of others — and report to police about half as often.</p>
       <p class="section-sub">People with disabilities are raped or sexually assaulted at <b>more than 4 times</b> the rate of people without — and report it to police about <b>half as often</b>.</p>
-      <h4 style="font-size:1.05rem;">How many are assaulted each year</h4>
+      <h4 style="font-size:1.05rem;">Raped or sexually assaulted in a single year, per 1,000 people</h4>
       <div class="chart-card">${valueBarChart({
         rows: [
-          { label: 'With a disability', values: [4.1], display: ['about 1 in 240'] },
-          { label: 'Without a disability', values: [0.9], display: ['about 1 in 1,100'] }
+          { label: 'With a disability', values: [4.1], display: ['4.1 per 1,000'] },
+          { label: 'Without a disability', values: [0.9], display: ['0.9 per 1,000'] }
         ],
+        caption: 'Longer bar = higher risk. Put another way: each year about 1 in 240 people with a disability is raped or sexually assaulted, vs. about 1 in 1,100 people without one.',
         ariaLabel: 'Each year, about 1 in 240 people with a disability (4.1 per 1,000) and about 1 in 1,100 people without a disability (0.9 per 1,000) are raped or sexually assaulted.'
       })}</div>
       <h4 style="font-size:1.05rem;margin-top:24px;">Share reported to police</h4>
@@ -2913,26 +3007,28 @@ function renderNational() {
     <div class="section-block" id="stat-affluence">
       <h3>By socioeconomic status</h3>
       <p class="takeaway">People in the lowest-income households are raped or sexually assaulted at about 7 times the rate of those in the highest.</p>
-      <p class="section-sub">By poverty status${dataAge('2008–2012')}</p>
+      <h4 style="font-size:1.05rem;">By poverty status: raped or sexually assaulted in a single year, per 1,000 people${dataAge('2008–2012')}</h4>
       <div class="chart-card">${valueBarChart({
         rows: [
-          { label: 'At or below the poverty line', values: [2.2], display: ['about 1 in 450'] },
-          { label: 'High-income households', values: [0.6], display: ['about 1 in 1,700'] }
+          { label: 'At or below the poverty line', values: [2.2], display: ['2.2 per 1,000'] },
+          { label: 'High-income households', values: [0.6], display: ['0.6 per 1,000'] }
         ],
+        caption: 'Longer bar = higher risk. Put another way: about 1 in 450 people in poor households each year, vs. about 1 in 1,700 in high-income households.',
         ariaLabel: 'Each year, about 1 in 450 people in households at or below the poverty line (2.2 per 1,000) and about 1 in 1,700 people in high-income households (0.6 per 1,000) are raped or sexually assaulted.'
       })}</div>
-      <p class="section-sub" style="margin-top:-8px;">People in poor households face roughly <b>3.7 times</b> the yearly risk (BJS, 2008–2012; underlying rates 2.2 vs. 0.6 per 1,000).</p>
+      <p class="section-sub" style="margin-top:12px;">People in poor households face roughly <b>3.7 times</b> the yearly risk (BJS, 2008–2012; underlying rates 2.2 vs. 0.6 per 1,000).</p>
       <div class="method"><p class="method-src"><b>Source:</b> BJS, <i>Household Poverty and Nonfatal Violent Victimization, 2008–2012</i></p><details><summary>Methodology &amp; caveats</summary><div>Source: BJS, <i>Household Poverty and Nonfatal Violent Victimization, 2008–2012</i>. An older NCVS analysis found an even starker gap using raw income brackets rather than the federal poverty line: households earning under $7,500/year had a rape/sexual assault rate 12 times higher than households earning over $75,000.</div></details></div>
-      <h4 style="font-size:1.05rem;margin-top:30px;">By household income, 2017–2024</h4>
+      <h4 style="font-size:1.05rem;margin-top:30px;">By household income: raped or sexually assaulted in a single year, per 1,000 people (2017–2024)</h4>
       <p class="section-sub">Newer data shows an even steeper gradient: people in households earning under $25,000 are raped or sexually assaulted at about <b>7 times</b> the rate of those earning $200,000 or more.</p>
       <div class="chart-card">${valueBarChart({
         rows: [
-          { label: 'Less than $25,000', values: [4.24], display: ['4.2 · ~1 in 240'] },
-          { label: '$25,000–$49,999', values: [1.74], display: ['1.7 · ~1 in 570'] },
-          { label: '$50,000–$99,999', values: [1.19], display: ['1.2 · ~1 in 840'] },
-          { label: '$100,000–$199,999', values: [1.03], display: ['1.0 · ~1 in 970'] },
-          { label: '$200,000 or more', values: [0.61], display: ['0.6 · ~1 in 1,640'], note: 'Based on 38 sample cases — interpret with caution.' }
+          { label: 'Less than $25,000', values: [4.24], display: ['4.2 per 1,000'] },
+          { label: '$25,000–$49,999', values: [1.74], display: ['1.7 per 1,000'] },
+          { label: '$50,000–$99,999', values: [1.19], display: ['1.2 per 1,000'] },
+          { label: '$100,000–$199,999', values: [1.03], display: ['1.0 per 1,000'] },
+          { label: '$200,000 or more', values: [0.61], display: ['0.6 per 1,000'], note: 'Based on 38 sample cases — interpret with caution.' }
         ],
+        caption: 'Longer bar = higher risk. Put another way: about 1 in 240 people in the lowest-income households each year, vs. about 1 in 1,640 in the highest. The $200,000+ estimate rests on only 38 survey cases.',
         ariaLabel: 'Rape and sexual assault per 1,000 people per year by household income, 2017 to 2024: under 25,000 dollars 4.2; 25,000 to 49,999 1.7; 50,000 to 99,999 1.2; 100,000 to 199,999 1.0; 200,000 or more 0.6.'
       })}</div>
       <div class="method"><p class="method-src"><b>Source:</b> BJS NCVS public-use data, 2017–2024 (our calculation)</p><details><summary>Methodology &amp; caveats</summary><div>Our calculation from BJS's NCVS Select public-use data (rape/sexual assault, series-adjusted victimization weights over person population weights). The same method reproduces BJS's published 2023 and 2024 totals, rates, and percent reported exactly. Years are pooled because a single year has only about 80–190 sample cases. Standard errors can't be computed from these files, so groups with fewer than 30 sample cases are not shown and groups with fewer than 50 are flagged. Reproduce with scripts/fetch_ncvs_crosstabs.py. Rate per 1,000 persons age 12+ per year, averaged over 2017–2024 (income brackets in this form start in 2017). The $200,000+ bracket rests on 38 sample cases. "1 in N" is 1,000 ÷ the rate.</div></details></div>
@@ -3230,9 +3326,10 @@ function renderNational() {
 
 
       <h4 style="font-size:1.05rem;margin-top:30px;">Substance use${dataAge('1992')}</h4>
-      <p class="section-sub">From the same National Women's Study, rape victims were found to be substantially more likely than non-victims to use several substances — consistent with substance use functioning as a coping response to trauma rather than a cause of it.</p>
+      <p class="section-sub">From the same National Women's Study, rape victims were found to be substantially more likely than non-victims to use several substances — consistent with substance use functioning as a coping response to trauma rather than a cause of it. How many times more likely rape victims were to use each, compared with women who had not been raped (1×):</p>
       <div class="chart-card">${valueBarChart({
         rows: [
+          { label: 'Non-victims (baseline)', values: [1], display: ['1×'], color: 'var(--ink-faint)' },
           { label: 'Marijuana', values: [3.4] }, { label: 'Prescription drugs, non-medical use', values: [5.3] },
           { label: 'Cocaine', values: [6.4] }, { label: 'Other hard drugs', values: [10] }
         ],
@@ -3538,7 +3635,7 @@ function categoryBarChart(items, opts) {
    row stacks one thin bar per series, identified by a legend; value text
    stays in ink, never the series color. A null value renders an empty
    track and an em dash rather than a zero-length bar that reads as 0. */
-function valueBarChart({ rows, series = [{ color: 'var(--accent)' }], max, fmt = v => `${v}%`, ariaLabel }) {
+function valueBarChart({ rows, series = [{ color: 'var(--accent)' }], max, fmt = v => `${v}%`, ariaLabel, caption }) {
   const all = rows.flatMap(r => r.values).filter(v => v != null);
   const top = max || Math.max(...all);
   const multi = series.length > 1;
@@ -3557,7 +3654,8 @@ function valueBarChart({ rows, series = [{ color: 'var(--accent)' }], max, fmt =
         <span class="vbar-stack">${lines}</span>
       </div>`;
   }).join('');
-  return `<div class="vbar" role="img" aria-label="${ariaLabel}">${legend}<div class="hbar-chart">${body}</div></div>`;
+  const cap = caption ? `<p class="vbar-caption">${caption}</p>` : '';
+  return `<div class="vbar" role="img" aria-label="${ariaLabel}">${legend}<div class="hbar-chart">${body}</div>${cap}</div>`;
 }
 
 /* 100%-stacked horizontal bars: each row splits into parts (e.g. family /
