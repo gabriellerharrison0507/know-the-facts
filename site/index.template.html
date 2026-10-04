@@ -347,8 +347,10 @@
     .school-table .yr-old { display: none; }
   }
   .school-table .rate-col { font-weight: 700; color: var(--ink); }
-  .school-all { margin-top: 18px; }
-  .school-all summary { cursor: pointer; font-weight: 600; color: var(--accent); font-size: 0.9rem; margin-bottom: 10px; }
+  .school-table .rank-col { width: 2.5em; text-align: right; color: var(--ink-faint); font-weight: 600; padding-right: 4px; }
+  .school-more { margin-top: 10px; background: none; border: 1px solid var(--border); border-radius: 20px; padding: 6px 14px; font: inherit; font-size: 0.85rem; font-weight: 600; color: var(--accent); cursor: pointer; }
+  .school-more:hover { background: var(--bg-alt); }
+  .school-more:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .school-st { font-size: 0.72rem; font-weight: 600; color: var(--ink-faint); margin-left: 4px; }
   .rating-pill {
     display: inline-block; font-size: 0.74rem; font-weight: 700; padding: 3px 10px; border-radius: 20px;
@@ -688,26 +690,40 @@ const STATE_KITS = __STATE_KITS_DATA__;
 const CLERY = __CLERY_DATA__;
 const CLERY_SCHOOLS = __CLERY_SCHOOLS_DATA__;
 
-/* Named-school tables for the campus sections. Counts are reports to the
-   school or police, not assaults. mode 'count': reports by year; 'rate':
-   2024 reports per 1,000 in-person students; 'full': both. */
+/* Named-school tables for the campus sections, ranked. Counts are reports
+   to the school or police, not assaults. mode 'count': reports by year,
+   ranked by 2024 reports; 'rate': 2024 reports per 1,000 in-person students,
+   ranked by that rate. Ties (on the value as displayed) share a rank. Rows
+   past `show` are hidden behind a "Show all" button. */
 function schoolRate(it) {
   if (!(it.p > 0)) return '—';
   const r = 1000 * it.y[2] / it.p;
   return r > 0 && r < 0.05 ? '&lt;0.1' : r.toFixed(1);
 }
-function schoolTable(items, { showState = false, mode = 'full' } = {}) {
-  const years = mode !== 'rate', rate = mode !== 'count';
+function schoolTable(items, { showState = false, mode = 'count', show = Infinity } = {}) {
+  const rate = mode === 'rate';
+  const key = rate ? schoolRate : it => it.y[2];
+  const ranks = items.map((it, i) => i > 0 && key(it) === key(items[i - 1]) ? null : i + 1);
+  ranks.forEach((r, i) => { if (r == null) ranks[i] = ranks[i - 1]; });
   const yearCls = i => (i < 2 ? ' yr-old' : '') + (i === 0 ? ' yr-oldest' : '');
-  const head = `<tr><th scope="col">School</th><th scope="col" class="num">${rate ? 'In-person<br>students' : 'Students'}</th>`
-    + (years ? [2022, 2023, 2024].map((y, i) => `<th scope="col" class="num${yearCls(i)}">${y}</th>`).join('') : `<th scope="col" class="num">Reports<br>2024</th>`)
-    + (rate ? `<th scope="col" class="num rate-col">Per<br>1,000</th>` : '') + `</tr>`;
-  const body = items.map(it => `<tr><th scope="row">${it.n}${showState && it.st ? ` <span class="school-st">${it.st}</span>` : ''}</th><td class="num">${(rate ? it.p : it.s).toLocaleString()}</td>`
-    + (years ? it.y.map((v, i) => `<td class="num${yearCls(i)}">${v}</td>`).join('') : `<td class="num">${it.y[2]}</td>`)
-    + (rate ? `<td class="num rate-col">${schoolRate(it)}</td>` : '') + `</tr>`).join('');
-  const label = mode === 'count' ? 'Rapes reported each year' : mode === 'rate' ? '2024 reports per 1,000 in-person students' : 'Rapes reported each year, and 2024 reports per 1,000 in-person students';
-  return `<div class="school-table-label">${label}</div><div class="table-scroll"><table class="school-table"><thead>${head}</thead><tbody>${body}</tbody></table></div>`;
+  const head = `<tr><th scope="col" class="num rank-col">#</th><th scope="col">School</th><th scope="col" class="num">${rate ? 'In-person<br>students' : 'Students'}</th>`
+    + (rate ? `<th scope="col" class="num">Reports<br>2024</th><th scope="col" class="num rate-col">Per<br>1,000</th>`
+            : [2022, 2023, 2024].map((y, i) => `<th scope="col" class="num${yearCls(i)}">${y}</th>`).join('')) + `</tr>`;
+  const body = items.map((it, i) => `<tr${i >= show ? ' class="school-more-row" hidden' : ''}><td class="num rank-col">${ranks[i]}</td><th scope="row">${it.n}${showState && it.st ? ` <span class="school-st">${it.st}</span>` : ''}</th><td class="num">${(rate ? it.p : it.s).toLocaleString()}</td>`
+    + (rate ? `<td class="num">${it.y[2]}</td><td class="num rate-col">${schoolRate(it)}</td>`
+            : it.y.map((v, i) => `<td class="num${yearCls(i)}">${v}</td>`).join('')) + `</tr>`).join('');
+  const label = rate ? '2024 reports per 1,000 in-person students' : 'Rapes reported each year · ranked by 2024';
+  const more = items.length > show ? `<button type="button" class="school-more" aria-expanded="false">Show all ${items.length}</button>` : '';
+  return `<div class="school-table-wrap"><div class="school-table-label">${label}</div><div class="table-scroll"><table class="school-table"><thead>${head}</thead><tbody>${body}</tbody></table></div>${more}</div>`;
 }
+document.addEventListener('click', e => {
+  const btn = e.target.closest && e.target.closest('.school-more');
+  if (!btn) return;
+  const open = btn.getAttribute('aria-expanded') !== 'true';
+  btn.closest('.school-table-wrap').querySelectorAll('.school-more-row').forEach(tr => { tr.hidden = !open; });
+  btn.setAttribute('aria-expanded', String(open));
+  btn.textContent = open ? 'Show fewer' : `Show all ${btn.closest('.school-table-wrap').querySelectorAll('tbody tr').length}`;
+});
 const KIT_PILLARS = [
   { label: 'Statewide inventory', what: 'Counted every untested kit in the state' },
   { label: 'Test backlogged kits', what: 'Committed to testing old, untested kits' },
@@ -2545,21 +2561,13 @@ function renderState(abbr) {
   const clery = CLERY[abbr], cleryUS = CLERY.US;
   const cleryTopNote = clery && clery.years[2] >= 10 && clery.topN / clery.years[2] > 0.4
     ? ` ${clery.topN} of the ${clery.years[2]} reports in 2024 came from one school, ${clery.top}, so one school's reporting can drive the state's total.` : '';
-  const schools = CLERY_SCHOOLS[abbr] || { top: [], topRate: [], major: [] };
-  const majorBlurb = `four-year schools with 10,000+ students and campus housing for 1,000+`;
-  const manyMajors = schools.major.length > 3;
+  const schools = CLERY_SCHOOLS[abbr] || { top: [], rate: [] };
   const cleryNamed = (schools.top.length ? `
       <p class="section-sub" style="margin-top:18px;font-weight:600;">Most rapes reported, 2024</p>
-      ${schoolTable(schools.top, { mode: 'count' })}` : '') + (manyMajors && schools.topRate.length ? `
-      <p class="section-sub" style="margin-top:18px;font-weight:600;">Highest rate per student, 2024</p>
-      <p class="section-sub">Among ${fullName}'s major universities (${majorBlurb}).</p>
-      ${schoolTable(schools.topRate, { mode: 'rate' })}` : '') + (schools.major.length ? (manyMajors ? `
-      <details class="school-all"><summary>All ${schools.major.length} major universities in ${fullName}</summary>
-        ${schoolTable(schools.major)}
-      </details>` : `
-      <p class="section-sub" style="margin-top:18px;font-weight:600;">${fullName}'s major universities</p>
-      <p class="section-sub">Every one of ${fullName}'s ${majorBlurb}.</p>
-      ${schoolTable(schools.major)}`) : '');
+      ${schoolTable(schools.top, { mode: 'count' })}` : '') + (schools.rate.length ? `
+      <p class="section-sub" style="margin-top:18px;font-weight:600;">Rate per student, 2024</p>
+      <p class="section-sub">${schools.rate.length === 1 ? `${fullName}'s one major university` : `All ${schools.rate.length} of ${fullName}'s major universities`} (four-year schools with 10,000+ students and campus housing for 1,000+), ranked by 2024 reports per 1,000 in-person students.</p>
+      ${schoolTable(schools.rate, { mode: 'rate', show: 5 })}` : '');
   const campusSection = clery ? `
     <div class="section-block" id="st-campus" style="margin-top:20px;">
       <h4 style="font-size:1.05rem;">Reported on college campuses, 2022–2024</h4>
@@ -2573,7 +2581,7 @@ function renderState(abbr) {
       })}</div>
       ${cleryNamed}
       ${clery.zeroBig != null ? `<p class="section-sub" style="margin-top:14px;">In 2024, <b>${Math.round(clery.zeroBig * clery.big / 100)} of ${fullName}'s ${clery.big}</b> colleges with 1,000 or more students (${Math.round(clery.zeroBig)}%) reported <b>zero</b> rapes. Nationally, ${Math.round(cleryUS.zeroBig)}% did.</p>` : ''}
-      <div class="method"><p class="method-src"><b>Source:</b> U.S. Department of Education, <a href="https://ope.ed.gov/campussafety/" target="_blank" rel="noopener">Campus Safety and Security data</a>, calendar years 2022–2024 (our calculation)</p><details><summary>Methodology &amp; caveats</summary><div>Counts add each school's on-campus, noncampus (school-owned or -controlled property off the main campus, like some Greek housing), and public-property figures; residence halls are already part of on-campus. Branch campuses are rolled up into their parent institution, which is counted in the state of its main record. Online-only and very small schools are included in the college count; the zero-report share is limited to schools with 1,000+ students. "Students" is the school's total enrollment, including online and graduate students; "in-person students" leaves out those enrolled exclusively online (IPEDS Fall 2023). "Per 1,000" divides 2024 reports by in-person students, so schools with large online programs aren't made to look lower. The per-student ranking only includes major universities with at least one 2024 report. It's still a rate of <i>reports</i>: a higher number can mean more survivors coming forward, not more assaults. "Major universities" are four-year schools with 10,000+ students, at least 1,000 beds of school-controlled housing (IPEDS 2023–24), and fewer than half their students enrolled exclusively online (IPEDS Fall 2023). Reproduce with scripts/fetch_clery.py.</div></details></div>
+      <div class="method"><p class="method-src"><b>Source:</b> U.S. Department of Education, <a href="https://ope.ed.gov/campussafety/" target="_blank" rel="noopener">Campus Safety and Security data</a>, calendar years 2022–2024 (our calculation)</p><details><summary>Methodology &amp; caveats</summary><div>Counts add each school's on-campus, noncampus (school-owned or -controlled property off the main campus, like some Greek housing), and public-property figures; residence halls are already part of on-campus. Branch campuses are rolled up into their parent institution, which is counted in the state of its main record. Online-only and very small schools are included in the college count; the zero-report share is limited to schools with 1,000+ students. "Students" is the school's total enrollment, including online and graduate students; "in-person students" leaves out those enrolled exclusively online (IPEDS Fall 2023). "Per 1,000" divides 2024 reports by in-person students, so schools with large online programs aren't made to look lower. The per-student ranking covers every major university, including any with zero reports; schools with equal rates (as displayed) share a rank. It's still a rate of <i>reports</i>: a higher number can mean more survivors coming forward, not more assaults. "Major universities" are four-year schools with 10,000+ students, at least 1,000 beds of school-controlled housing (IPEDS 2023–24), and fewer than half their students enrolled exclusively online (IPEDS Fall 2023). Reproduce with scripts/fetch_clery.py.</div></details></div>
     </div>
   ` : '';
 
@@ -3162,11 +3170,11 @@ function renderNational() {
       <p class="section-sub">Zero reports cluster at commuter schools. Of ${CLERY_SCHOOLS.US.ccN} community colleges with 10,000+ students, <b>${CLERY_SCHOOLS.US.ccZeroN}</b> reported no rapes at all in 2022–2024 — most of their students live off campus, where an assault usually falls outside the school's required count. Of the ${CLERY_SCHOOLS.US.majorN} large residential universities, ${CLERY_SCHOOLS.US.majorZero.length === 1 ? `only one — ${CLERY_SCHOOLS.US.majorZero[0]} — reported none` : `${CLERY_SCHOOLS.US.majorZero.length} reported none`} in those three years.</p>
       <p class="section-sub" style="margin-top:18px;font-weight:600;">The 10 colleges with the most reported rapes, 2024</p>
       <p class="section-sub">All ten are large public universities. A high count often reflects a big residential campus and visible reporting options, not necessarily a more dangerous school.</p>
-      ${schoolTable(CLERY_SCHOOLS.US.top, { showState: true, mode: 'count' })}
+      ${schoolTable(CLERY_SCHOOLS.US.top, { showState: true })}
       <p class="section-sub" style="margin-top:22px;font-weight:600;">The 10 highest rates per student, 2024</p>
       <p class="section-sub">Among the ${CLERY_SCHOOLS.US.majorN} major universities — four-year schools with 10,000+ students and campus housing for 1,000+. Limiting the list this way keeps a small school with one or two reports from topping it.</p>
-      ${schoolTable(CLERY_SCHOOLS.US.topRate, { showState: true, mode: 'rate' })}
-      <p class="section-sub" style="margin-top:14px;">Each state page lists its own schools by count and by rate, plus every major university.</p>
+      ${schoolTable(CLERY_SCHOOLS.US.rate, { showState: true, mode: 'rate' })}
+      <p class="section-sub" style="margin-top:14px;">Each state page lists its top schools by count and ranks every one of its major universities by rate.</p>
       <p class="aside">The AAUW put it this way: zero reports "simply does not square with research, campus climate surveys, and widespread experiences reported by students." The AAU also found that a school's Clery numbers didn't line up with its survey results. That's why this page doesn't rank schools by reported assaults — a high count can mean a school is doing a better job, not a worse one.</p>
       <div class="method"><p class="method-src"><b>Source:</b> AAU Campus Climate Survey, 2019; AAUW, Clery Act data analysis (2017), via <a href="https://wiareport.com/2017/05/2015-89-percent-colleges-universities-reported-zero-incidents-rape/" target="_blank" rel="noopener">WIA Report</a></p><details><summary>Methodology &amp; caveats</summary><div>AAU 2019, Figures 3–4: school-level rates for undergraduate women ranged from 14.0% to 32.0%; schools are not named in the aggregate report, though many participating schools published their own results. AAU notes that school characteristics, including "the number of crimes reported in the school's Clery Act statistics," were not highly different across schools with different survey rates. AAUW analyzed 2015 Clery Act data submitted by about 11,000 campuses; 89% disclosed zero reports of rape, and among about 4,000 campuses with 250 or more students, 73% did. Many of the zero-report campuses are very small schools. The 2024 figures are our calculation from the U.S. Department of Education's <a href="https://ope.ed.gov/campussafety/" target="_blank" rel="noopener">Campus Safety and Security data</a> (on-campus + noncampus + public property), counted per institution with branch campuses rolled up. In the school table, "per 1,000" divides each school's 2024 reports by its students who aren't enrolled exclusively online (IPEDS Fall 2023). AAUW counted individual campuses, so the two percentages aren't a precise like-for-like trend. Reproduce with scripts/fetch_clery.py.</div></details></div>
 
