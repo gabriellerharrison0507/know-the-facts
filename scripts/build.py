@@ -172,6 +172,24 @@ def state_kits_literal():
     return json.dumps(out, separators=(",", ":"))
 
 
+def clery_literal():
+    """Per-state college-reported rapes (Clery Act, 2022-2024), plus a "US"
+    row; produced by scripts/fetch_clery.py."""
+    out = {}
+    with open(ROOT / "data/clery_state_rape_2022_2024.csv", newline="") as f:
+        for r in csv.DictReader(f):
+            out[r["state_abbr"]] = {
+                "inst": int(r["institutions"]), "big": int(r["institutions_1000plus"]),
+                "years": [int(r["rape_2022"]), int(r["rape_2023"]), int(r["rape_2024"])],
+                "fondl": int(r["fondling_2024"]),
+                "zeroAll": float(r["pct_all_zero_rape_2024"]),
+                "zeroBig": float(r["pct_1000plus_zero_rape_2024"]) if r["pct_1000plus_zero_rape_2024"] else None,
+                "top": r["top_institution_2024"], "topN": int(r["top_institution_rape_2024"]),
+            }
+    assert len(out) == 52, len(out)
+    return json.dumps(out, separators=(",", ":"), ensure_ascii=False)
+
+
 def main():
     template = (ROOT / "site/index.template.html").read_text()
     out = (
@@ -190,8 +208,9 @@ def main():
         .replace("__STATE_VICTIM_ETHNICITY_DATA__", state_victim_ethnicity_literal())
         .replace("__STATE_VICTIM_RELATIONSHIP_DATA__", state_victim_relationship_literal())
         .replace("__STATE_KITS_DATA__", state_kits_literal())
+        .replace("__CLERY_DATA__", clery_literal())
     )
-    remaining = [tok for tok in ("__FRAUNCES_B64__", "__PUBLICSANS_B64__", "__RANKS_DATA__", "__SA_STATE_DATA__", "__STATE_PATHS__", "__STATE_TREND_DATA__", "__STATE_CLEARANCE_DATA__", "__STATE_OFFENSE_TYPES_DATA__", "__STATE_VICTIM_AGE_DATA__", "__STATE_VICTIM_SEX_DATA__", "__STATE_VICTIM_RACE_DATA__", "__STATE_VICTIM_ETHNICITY_DATA__", "__STATE_VICTIM_RELATIONSHIP_DATA__", "__STATE_KITS_DATA__") if tok in out]
+    remaining = [tok for tok in ("__FRAUNCES_B64__", "__PUBLICSANS_B64__", "__RANKS_DATA__", "__SA_STATE_DATA__", "__STATE_PATHS__", "__STATE_TREND_DATA__", "__STATE_CLEARANCE_DATA__", "__STATE_OFFENSE_TYPES_DATA__", "__STATE_VICTIM_AGE_DATA__", "__STATE_VICTIM_SEX_DATA__", "__STATE_VICTIM_RACE_DATA__", "__STATE_VICTIM_ETHNICITY_DATA__", "__STATE_VICTIM_RELATIONSHIP_DATA__", "__STATE_KITS_DATA__", "__CLERY_DATA__") if tok in out]
     if remaining:
         raise SystemExit(f"Unsubstituted placeholders remain: {remaining}")
 

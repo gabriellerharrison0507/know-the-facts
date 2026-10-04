@@ -1,0 +1,53 @@
+state_abbr,institutions,institutions_1000plus,enrollment,rape_2022,rape_2023,rape_2024,fondling_2024,rape_per_10k_students_2024,pct_all_zero_rape_2024,pct_1000plus_zero_rape_2024,top_institution_2024,top_institution_rape_2024
+AK,10,4,22995,15,22,14,17,6.09,70.0,50.0,University of Alaska Anchorage,8
+AL,72,43,313719,82,84,63,41,2.01,76.4,69.8,The University of Alabama,16
+AR,75,34,158912,42,38,32,34,2.01,84.0,70.6,Arkansas State University,7
+AZ,95,38,601052,175,81,96,55,1.6,93.7,84.2,University of Arizona,36
+CA,590,244,2872081,574,635,532,597,1.85,85.9,70.5,University of California-Los Angeles,52
+CO,76,38,365522,142,112,190,81,5.2,76.3,55.3,University of Colorado Boulder,96
+CT,50,25,201202,106,116,68,48,3.38,68.0,36.0,Yale University,19
+DC,19,9,88468,48,44,45,45,5.09,73.7,44.4,George Washington University,17
+DE,15,5,59522,28,18,16,13,2.69,80.0,60.0,University of Delaware,10
+FL,293,88,1095869,207,157,131,134,1.2,89.8,67.0,University of Central Florida,19
+GA,132,74,590704,169,134,170,129,2.88,71.2,51.4,Mercer University,16
+HI,20,13,61578,10,10,15,8,2.44,80.0,76.9,University of Hawaii at Manoa,6
+IA,75,42,208398,92,128,91,96,4.37,66.7,45.2,University of Iowa,19
+ID,31,11,134880,30,29,29,43,2.15,80.6,45.5,Brigham Young University-Idaho,13
+IL,216,100,735384,198,180,151,129,2.05,84.7,68.0,University of Illinois Urbana-Champaign,30
+IN,102,41,436964,237,190,236,161,5.4,76.5,46.3,Indiana University-Indianapolis,99
+KS,75,37,199359,83,56,95,74,4.77,70.7,59.5,University of Kansas,40
+KY,84,42,288524,134,95,110,74,3.81,79.8,61.9,University of Kentucky,42
+LA,102,37,262097,84,74,98,38,3.74,87.3,64.9,Louisiana State University and Agricultural & Mechanical College,39
+MA,134,77,477934,242,248,192,173,4.02,63.4,40.3,University of Massachusetts-Amherst,16
+MD,72,40,352744,107,118,118,96,3.35,69.4,47.5,Johns Hopkins University,13
+ME,33,19,81542,62,65,51,35,6.25,66.7,47.4,University of Maine,12
+MI,153,66,489509,213,205,178,140,3.64,80.4,57.6,Michigan State University,33
+MN,87,59,412989,121,144,118,152,2.86,67.8,55.9,Mayo Clinic College of Medicine and Science,25
+MO,129,51,344074,102,102,81,64,2.35,81.4,56.9,University of Missouri-Columbia,9
+MS,50,28,167276,46,41,26,22,1.55,90.0,85.7,University of Mississippi,14
+MT,26,10,48645,45,48,19,17,3.91,84.6,60.0,The University of Montana,10
+NC,156,94,586119,287,222,205,151,3.5,76.9,68.1,University of North Carolina at Chapel Hill,18
+ND,25,12,53821,21,25,22,10,4.09,64.0,33.3,University of North Dakota,6
+NE,39,21,141114,83,50,63,41,4.46,66.7,47.6,University of Nebraska-Lincoln,11
+NH,29,13,240372,60,51,78,58,3.24,72.4,38.5,Dartmouth College,28
+NJ,146,53,412560,112,69,106,65,2.57,85.6,60.4,Rutgers University-New Brunswick,20
+NM,42,20,127836,55,32,44,34,3.44,81.0,75.0,University of New Mexico-Main Campus,17
+NV,35,11,125295,7,10,25,6,2.0,91.4,72.7,University of Nevada-Reno,21
+NY,384,167,1154131,432,537,372,391,3.22,79.2,54.5,Cornell University,25
+OH,257,93,624332,399,298,271,196,4.34,84.0,62.4,Ohio State University-Main Campus,67
+OK,97,46,225717,75,61,58,52,2.57,83.5,65.2,University of Oklahoma-Norman Campus,17
+OR,65,30,203599,66,49,56,67,2.75,78.5,53.3,Oregon State University,17
+PA,287,109,632720,372,395,323,221,5.1,73.9,37.6,Pennsylvania State University-Main Campus,58
+RI,20,11,74649,67,49,47,32,6.3,50.0,18.2,Brown University,10
+SC,85,46,258955,82,92,90,63,3.48,78.8,60.9,University of South Carolina-Columbia,17
+SD,21,15,52920,21,27,22,11,4.16,66.7,53.3,University of South Dakota,8
+TN,134,63,355702,85,88,78,93,2.19,83.6,68.3,The University of Tennessee-Knoxville,20
+TX,370,151,1693589,477,385,388,322,2.29,81.1,56.3,Texas A&M University-College Station,41
+UT,56,19,280331,73,199,186,126,6.64,83.9,52.6,University of Utah,146
+VA,131,60,577171,226,170,175,305,3.03,72.5,48.3,Virginia Commonwealth University,21
+VT,15,7,38527,47,34,89,13,23.1,53.3,14.3,Bennington College,53
+WA,91,56,335184,195,95,87,69,2.6,78.0,66.1,Washington State University,14
+WI,80,47,328572,153,128,139,87,4.23,70.0,51.1,University of Wisconsin-Madison,21
+WV,65,23,135612,37,41,41,35,3.02,80.0,56.5,West Virginia University,20
+WY,10,9,31126,21,19,15,6,4.82,40.0,33.3,University of Wyoming,5
+US,5456,2451,19761897,6847,6300,5945,4970,3.01,79.6,58.5,University of Utah,146
