@@ -1,0 +1,1440 @@
+{
+ "Alabama": {
+  "status": 200,
+  "summary": "Alabama has achieved two of six pillars of rape kit reform: Inventory of untested kits, and victim’s right to know the status of their sexual assault kits.",
+  "reform": "Some Reform",
+  "testing": "In-Process, Locally",
+  "now": "Unknown*",
+  "then": "Unknown**",
+  "pillarCount": "2/6 Pillars",
+  "notes": [],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state has a recurring inventory.",
+   "Test Backlogged Kits": "No, the state has not committed to testing its backlogged kits.",
+   "Test New Kits": "No, the state has not mandated testing.",
+   "Implement Tracking System": "No, the state does not have a tracking system.",
+   "Victim's Right To Know": "Yes, the state has granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "No, the state has not allocated any of its own funds towards reform."
+  },
+  "turnaround": null
+ },
+ "Alaska": {
+  "status": 200,
+  "summary": "Alaska has achieved all six pillars of rape kit reform.",
+  "reform": "Some Reform",
+  "testing": "In-Process",
+  "now": "15*",
+  "then": "3484**",
+  "pillarCount": "6/6 Pillars",
+  "notes": [
+   {
+    "mark": "*",
+    "text": "According to a report by the Department of Public Safety there were 15 untested kits in Alaska in 2025",
+    "year": "2025"
+   },
+   {
+    "mark": "**",
+    "text": "According to a report by the Department of Public Safety there were 3484 untested kits in Alaska in 2017",
+    "year": "2017"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state has a recurring inventory.",
+   "Test Backlogged Kits": "In-Process, the state has committed to testing its backlogged kits.",
+   "Test New Kits": "Yes, all newly collected kits are being tested.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "Yes, the state has granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "Yes, the state has allocated one-time funding."
+  },
+  "turnaround": null
+ },
+ "Arizona": {
+  "status": 200,
+  "summary": "Arizona has established five of six pillars of rape kit reform.",
+  "reform": "Some Reform",
+  "testing": "In-Process",
+  "now": "433*",
+  "then": "6424**",
+  "pillarCount": "5/6 Pillars",
+  "notes": [
+   {
+    "mark": "*",
+    "text": "According to a report by Arizona Department of Public Safety there were 433 untested kits in Arizona in 2025",
+    "year": "2025"
+   },
+   {
+    "mark": "**",
+    "text": "According to a report by the Arizona Sexual Assault Task Force there were 6424 untested kits in Arizona in 2016",
+    "year": "2016"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state has a recurring inventory.",
+   "Test Backlogged Kits": "In-Process, the state has committed to testing its backlogged kits.",
+   "Test New Kits": "Yes, all newly collected kits are being tested.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "No, the state has not granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "Yes, the state has allocated ongoing funding."
+  },
+  "turnaround": null
+ },
+ "Arkansas": {
+  "status": 200,
+  "summary": "Arkansas has achieved five of six pillars.",
+  "reform": "Some Reform",
+  "testing": "In-Process",
+  "now": "260*",
+  "then": "2217**",
+  "pillarCount": "5/6 Pillars",
+  "notes": [
+   {
+    "mark": "**",
+    "text": "According to a report by the Arkansas State Crime Laboratory there were 2217 untested kits in Arkansas in 2016",
+    "year": "2016"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state has a recurring inventory.",
+   "Test Backlogged Kits": "In-Process, the state has committed to testing its backlogged kits.",
+   "Test New Kits": "Yes, all newly collected kits are being tested.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "No, the state has not granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "Yes, the state has allocated one-time funding."
+  },
+  "turnaround": null
+ },
+ "California": {
+  "status": 200,
+  "summary": "California has achieved five of six pillars of rape kit reform.",
+  "reform": "Some Reform",
+  "testing": "In-Process, Locally",
+  "now": "13929*",
+  "then": "Unknown**",
+  "pillarCount": "5/6 Pillars",
+  "notes": [
+   {
+    "mark": "*",
+    "text": "According to a report by the Office of the Attorney General there were 13929 untested kits in California in 2020",
+    "year": "2020"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state carried out a one-time inventory.",
+   "Test Backlogged Kits": "No, the state has not committed to testing its backlogged kits.",
+   "Test New Kits": "Yes, all newly collected kits are being tested.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "Yes, the state has granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "Yes, the state has allocated one-time funding."
+  },
+  "turnaround": null
+ },
+ "Colorado": {
+  "status": 200,
+  "summary": "Colorado has achieved all six pillars of rape kit reform.",
+  "reform": "Full Reform",
+  "testing": "In-Process",
+  "now": "493*",
+  "then": "3542**",
+  "pillarCount": "6/6 Pillars",
+  "notes": [
+   {
+    "mark": "*",
+    "text": "According to a report by the Colorado Bureau of Investigation there were 493 untested kits in Colorado in 2026",
+    "year": "2026"
+   },
+   {
+    "mark": "**",
+    "text": "According to a media report by The Denver Post there were 3542 untested kits in Colorado in 2015",
+    "year": "2015"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state carried out a one-time inventory.",
+   "Test Backlogged Kits": "In-Process, the state has committed to testing its backlogged kits.",
+   "Test New Kits": "Yes, all newly collected kits are being tested.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "Yes, the state has granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "Yes, the state has allocated one-time funding."
+  },
+  "turnaround": "turnaround time of 185 days"
+ },
+ "Connecticut": {
+  "status": 200,
+  "summary": "Connecticut has achieved all six pillars of rape kit reform.",
+  "reform": "Full Reform",
+  "testing": "Complete",
+  "now": "0*",
+  "then": "1188**",
+  "pillarCount": "6/6 Pillars",
+  "notes": [
+   {
+    "mark": "*",
+    "text": "According to a report by the Governor’s Sexual Assault Kit Working Group there were 0 untested kits in Connecticut in 2018",
+    "year": "2018"
+   },
+   {
+    "mark": "**",
+    "text": "According to a report by the Governor’s Sexual Assault Kit Working Group there were 1188 untested kits in Connecticut in 2015",
+    "year": "2015"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state carried out a one-time inventory.",
+   "Test Backlogged Kits": "Yes, the state has eliminated its backlog.",
+   "Test New Kits": "Yes, all newly collected kits are being tested.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "Yes, the state has granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "Yes, the state has allocated ongoing funding."
+  },
+  "turnaround": "turnaround timeline for rape kits at 27 days"
+ },
+ "Delaware": {
+  "status": 200,
+  "summary": "Delaware has achieved four of the six pillars of rape kit reform.",
+  "reform": "Some Reform",
+  "testing": "Complete",
+  "now": "0*",
+  "then": "1033**",
+  "pillarCount": "4/6 Pillars",
+  "notes": [
+   {
+    "mark": "*",
+    "text": "According to a report by the Delaware State Auditor there were 0 untested kits in Delaware in 2022",
+    "year": "2022"
+   },
+   {
+    "mark": "**",
+    "text": "According to a report by the Delaware Criminal Justice Council there were 1033 untested kits in Delaware in 2016",
+    "year": "2016"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state carried out a one-time inventory.",
+   "Test Backlogged Kits": "Yes, the state has eliminated its backlog.",
+   "Test New Kits": "Yes, all newly collected kits are being tested.",
+   "Implement Tracking System": "No, the state does not have a tracking system.",
+   "Victim's Right To Know": "Yes, the state has granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "No, the state has not allocated any of its own funds towards reform."
+  },
+  "turnaround": null
+ },
+ "District of Columbia": {
+  "status": 200,
+  "summary": "Washington, D.C. has adopted all six pillars of rape kit reform and has cleared its backlog.",
+  "reform": "Full Reform",
+  "testing": "Complete",
+  "now": "0*",
+  "then": "Unknown**",
+  "pillarCount": "6/6 Pillars",
+  "notes": [],
+  "pillars": {
+   "Statewide Inventory": "Yes, the city has a recurring inventory.",
+   "Test Backlogged Kits": "Yes, the city has eliminated its backlog.",
+   "Test New Kits": "Yes, all newly collected kits are being tested.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "Yes, the city has granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "Yes, the city has allocated ongoing funding."
+  },
+  "turnaround": null
+ },
+ "Florida": {
+  "status": 200,
+  "summary": "Florida has implemented all but one pillar of rape kit reform.",
+  "reform": "Some Reform",
+  "testing": "Complete",
+  "now": "0*",
+  "then": "13435**",
+  "pillarCount": "5/6 Pillars",
+  "notes": [
+   {
+    "mark": "*",
+    "text": "According to a report by the Florida Department of Law Enforcement there were 0 untested kits in Florida in 2019",
+    "year": "2019"
+   },
+   {
+    "mark": "**",
+    "text": "According to a report by the Florida Department of Law Enforcement there were 13435 untested kits in Florida in 2015",
+    "year": "2015"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state carried out a one-time inventory.",
+   "Test Backlogged Kits": "Yes, the state has eliminated its backlog.",
+   "Test New Kits": "Yes, all newly collected kits are being tested.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "No, the state has not granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "Yes, the state has allocated ongoing funding."
+  },
+  "turnaround": "turnaround time\n\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\n\t\t\t\t\t\n\t\t\t\t\t\t\nAccording to the Florida Department of Law Enforcement Forensic Services, from April to June 2025, the average turnaround time for testing sexual assault"
+ },
+ "Georgia": {
+  "status": 200,
+  "summary": "Georgia has achieved five of six pillars of rape kit reform.",
+  "reform": "Some Reform",
+  "testing": "In-Process",
+  "now": "342*",
+  "then": "10314**",
+  "pillarCount": "5/6 Pillars",
+  "notes": [
+   {
+    "mark": "*",
+    "text": "According to a report by the Georgia Bureau of Investigation's Sexual Assault Report there were 342 untested kits in Georgia in 2025",
+    "year": "2025"
+   },
+   {
+    "mark": "**",
+    "text": "According to a media report by the Atlanta Journal-Constitution there were 10314 untested kits in Georgia in 2017",
+    "year": "2017"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state has a recurring inventory.",
+   "Test Backlogged Kits": "In-Process, the state has committed to testing its backlogged kits.",
+   "Test New Kits": "Yes, all newly collected kits are being tested.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "No, the state has not granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "Yes, the state has allocated one-time funding."
+  },
+  "turnaround": null
+ },
+ "Hawaii": {
+  "status": 200,
+  "summary": "Hawaii has adopted all six pillars of rape kit reform.",
+  "reform": "Full Reform",
+  "testing": "In-Process",
+  "now": "4*",
+  "then": "1951**",
+  "pillarCount": "6/6 Pillars",
+  "notes": [
+   {
+    "mark": "*",
+    "text": "According to a report by the Department of the Attorney General there were 4 untested kits in Hawaii in 2025",
+    "year": "2025"
+   },
+   {
+    "mark": "**",
+    "text": "According to a report by the Department of the Attorney General there were 1951 untested kits in Hawaii in 2016",
+    "year": "2016"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state has a recurring inventory.",
+   "Test Backlogged Kits": "In-Process, the state has committed to testing its backlogged kits.",
+   "Test New Kits": "Yes, all newly collected kits are being tested.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "Yes, the state has granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "Yes, the state has allocated ongoing funding."
+  },
+  "turnaround": null
+ },
+ "Idaho": {
+  "status": 200,
+  "summary": "Idaho has adopted all six pillars of rape kit reform.",
+  "reform": "Full Reform",
+  "testing": "In-Process",
+  "now": "88*",
+  "then": "1116**",
+  "pillarCount": "6/6 Pillars",
+  "notes": [
+   {
+    "mark": "*",
+    "text": "According to a report by Idaho State Police News Release there were 88 untested kits in Idaho in 2025",
+    "year": "2025"
+   },
+   {
+    "mark": "**",
+    "text": "According to a media report by Idaho Press there were 1116 untested kits in Idaho in 2016",
+    "year": "2016"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state has a recurring inventory.",
+   "Test Backlogged Kits": "In-Process, the state has committed to testing its backlogged kits.",
+   "Test New Kits": "Yes, all newly collected kits are being tested.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "Yes, the state has granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "Yes, the state has allocated one-time funding."
+  },
+  "turnaround": null
+ },
+ "Illinois": {
+  "status": 200,
+  "summary": "Illinois has achieved all six pillars of rape kit reform.",
+  "reform": "Full Reform",
+  "testing": "Complete",
+  "now": "0*",
+  "then": "4138**",
+  "pillarCount": "6/6 Pillars",
+  "notes": [
+   {
+    "mark": "*",
+    "text": "According to a press release by Governor J.B. Pritzker’s office there were 0 untested kits in Illinois in 2022",
+    "year": "2022"
+   },
+   {
+    "mark": "**",
+    "text": "According to a report by the Illinois State Police there were 4138 untested kits in Illinois in 2013",
+    "year": "2013"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state has a recurring inventory.",
+   "Test Backlogged Kits": "Yes, the state has eliminated its backlog.",
+   "Test New Kits": "Yes, all newly collected kits are being tested.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "Yes, the state has granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "Yes, the state has allocated ongoing funding."
+  },
+  "turnaround": null
+ },
+ "Indiana": {
+  "status": 200,
+  "summary": "Indiana has adopted just two of the six pillars of reform: inventory of untested kits and statewide tracking system.",
+  "reform": "Some Reform",
+  "testing": "Unknown",
+  "now": "6600*",
+  "then": "4980**",
+  "pillarCount": "2/6 Pillars",
+  "notes": [
+   {
+    "mark": "**",
+    "text": "According to a report by the Indiana State Police there were 4980 untested kits in Indiana in 2017",
+    "year": "2017"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state carried out a one-time inventory.",
+   "Test Backlogged Kits": "No, the state has not committed to testing its backlogged kits.",
+   "Test New Kits": "No, the state has not mandated testing.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "No, the state has not granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "No, the state has not allocated any of its own funds towards reform."
+  },
+  "turnaround": null
+ },
+ "Iowa": {
+  "status": 200,
+  "summary": "Iowa has achieved four of six pillars of reform.",
+  "reform": "Some Reform",
+  "testing": "Unknown",
+  "now": "2502*",
+  "then": "4265**",
+  "pillarCount": "4/6 Pillars",
+  "notes": [
+   {
+    "mark": "*",
+    "text": "According to information by internal sources there were 2502 untested kits in Iowa in 2021",
+    "year": "2021"
+   },
+   {
+    "mark": "**",
+    "text": "According to a report by the Office of the Attorney General of Iowa there were 4265 untested kits in Iowa in 2017",
+    "year": "2017"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state carried out a one-time inventory.",
+   "Test Backlogged Kits": "No, the state has not committed to testing its backlogged kits.",
+   "Test New Kits": "No, the state has not mandated testing.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "Yes, the state has granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "Yes, the state has allocated one-time funding."
+  },
+  "turnaround": null
+ },
+ "Kansas": {
+  "status": 200,
+  "summary": "Kansas has achieved three of six pillars of reform: conducting a statewide inventory of untested kits, testing backlogged kits, and testing newly collected kits.",
+  "reform": "Some Reform",
+  "testing": "Complete",
+  "now": "0*",
+  "then": "2220**",
+  "pillarCount": "4/6 Pillars",
+  "notes": [
+   {
+    "mark": "*",
+    "text": "According to a report by the Kansas Bureau of Investigation there were 0 untested kits in Kansas in 2021",
+    "year": "2021"
+   },
+   {
+    "mark": "**",
+    "text": "According to a media report by CJonline there were 2220 untested kits in Kansas in 2017",
+    "year": "2017"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state carried out a one-time inventory.",
+   "Test Backlogged Kits": "Yes, the state has eliminated its backlog.",
+   "Test New Kits": "Yes, all newly collected kits are being tested.",
+   "Implement Tracking System": "In-Process, the state is developing a tracking system.",
+   "Victim's Right To Know": "No, the state has not granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "No, the state has not allocated any of its own funds towards reform."
+  },
+  "turnaround": null
+ },
+ "Kentucky": {
+  "status": 200,
+  "summary": "Kentucky has achieved all six pillars of rape kit reform.",
+  "reform": "Full Reform",
+  "testing": "Complete",
+  "now": "0*",
+  "then": "3090**",
+  "pillarCount": "6/6 Pillars",
+  "notes": [
+   {
+    "mark": "*",
+    "text": "According to a report by Kentucky Sexual Assault Kit Initiative there were 0 untested kits in Kentucky in 2021",
+    "year": "2021"
+   },
+   {
+    "mark": "**",
+    "text": "According to a report by Kentucky Sexual Assault Kit Initiative there were 3090 untested kits in Kentucky in 2015",
+    "year": "2015"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state has a recurring inventory.",
+   "Test Backlogged Kits": "Yes, the state has eliminated its backlog.",
+   "Test New Kits": "Yes, all newly collected kits are being tested.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "Yes, the state has granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "Yes, the state has allocated one-time funding."
+  },
+  "turnaround": null
+ },
+ "Louisiana": {
+  "status": 200,
+  "summary": "Louisiana has achieved four of six pillars of rape kit reform: inventory of untested kits, the creation of a statewide rape kit tracking system, granting victims the right to know the status and location of their kits, and funding for reform.",
+  "reform": "Some Reform",
+  "testing": "Unknown",
+  "now": "442*",
+  "then": "1333**",
+  "pillarCount": "4/6 Pillars",
+  "notes": [
+   {
+    "mark": "*",
+    "text": "According to a report by the Louisiana Commission on Law Enforcement and Administration of Criminal Justice Statistical Analysis Center there were 442 untested kits in Louisiana in 2025",
+    "year": "2025"
+   },
+   {
+    "mark": "**",
+    "text": "According to a media report by NOLA there were 1333 untested kits in Louisiana in 2015",
+    "year": "2015"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state has a recurring inventory.",
+   "Test Backlogged Kits": "No, the state has not committed to testing its backlogged kits.",
+   "Test New Kits": "No, the state has not mandated testing.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "Yes, the state has granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "Yes, the state has allocated one-time funding."
+  },
+  "turnaround": null
+ },
+ "Maine": {
+  "status": 200,
+  "summary": "Maine has achieved three pillars of reform: the state is working on a statewide inventory, establishing a tracking system, and has allocated annual funding for these reforms.",
+  "reform": "Some Reform",
+  "testing": "Unknown",
+  "now": "Unknown*",
+  "then": "530**",
+  "pillarCount": "3/6 Pillars",
+  "notes": [
+   {
+    "mark": "**",
+    "text": "According to a report by the Cutler Institute and Maine Coalition Against Sexual Assault there were 530 untested kits in Maine in 2018",
+    "year": "2018"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, state law requires a one-time inventory.",
+   "Test Backlogged Kits": "No, the state has not committed to testing its backlogged kits.",
+   "Test New Kits": "No, the state has not mandated testing.",
+   "Implement Tracking System": "In-Process, the state is developing a tracking system.",
+   "Victim's Right To Know": "No, the state has not granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "Yes, the state has allocated ongoing funding."
+  },
+  "turnaround": null
+ },
+ "Maryland": {
+  "status": 200,
+  "summary": "Maryland has adopted all six pillars of rape kit reform.",
+  "reform": "Full Reform",
+  "testing": "In-Process",
+  "now": "5999*",
+  "then": "3736**",
+  "pillarCount": "6/6 Pillars",
+  "notes": [
+   {
+    "mark": "*",
+    "text": "According to a report by the Office of Attorney General there were 5999 untested kits in Maryland in 2024",
+    "year": "2024"
+   },
+   {
+    "mark": "**",
+    "text": "According to a report by the Office of Attorney General there were 3736 untested kits in Maryland in 2017",
+    "year": "2017"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state carried out a one-time inventory.",
+   "Test Backlogged Kits": "In-Process, the state has committed to testing its backlogged kits.",
+   "Test New Kits": "Yes, all newly collected kits are being tested.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "Yes, the state has granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "Yes, the state has allocated one-time funding."
+  },
+  "turnaround": null
+ },
+ "Massachusetts": {
+  "status": 200,
+  "summary": "Massachusetts has adopted all six pillars of rape kit reform.",
+  "reform": "Full Reform",
+  "testing": "In-Process",
+  "now": "2339*",
+  "then": "387**",
+  "pillarCount": "6/6 Pillars",
+  "notes": [
+   {
+    "mark": "*",
+    "text": "According to a report by The Sexual Assault Evidence Collection Kit Quarterly Report there were 2339 untested kits in Massachusetts in 2025",
+    "year": "2025"
+   },
+   {
+    "mark": "**",
+    "text": "According to a media report by Mass Live there were 387 untested kits in Massachusetts in 2019",
+    "year": "2019"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state has a recurring inventory.",
+   "Test Backlogged Kits": "In-Process, the state has committed to testing its backlogged kits.",
+   "Test New Kits": "Yes, all newly collected kits are being tested.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "Yes, the state has granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "Yes, the state has allocated one-time funding."
+  },
+  "turnaround": null
+ },
+ "Michigan": {
+  "status": 200,
+  "summary": "Michigan has achieved all six pillars of rape kit reform.",
+  "reform": "Full Reform",
+  "testing": "In-Process",
+  "now": "520*",
+  "then": "1177**",
+  "pillarCount": "6/6 Pillars",
+  "notes": [
+   {
+    "mark": "*",
+    "text": "According to a report by the Michigan State Police there were 520 untested kits in Michigan in 2025",
+    "year": "2025"
+   },
+   {
+    "mark": "**",
+    "text": "According to a report by the Michigan Department of State Police there were 1177 untested kits in Michigan in 2017",
+    "year": "2017"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state has a recurring inventory.",
+   "Test Backlogged Kits": "In-Process, the state has committed to testing its backlogged kits.",
+   "Test New Kits": "Yes, all newly collected kits are being tested.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "Yes, the state has granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "Yes, the state has allocated ongoing funding."
+  },
+  "turnaround": null
+ },
+ "Minnesota": {
+  "status": 200,
+  "summary": "Minnesota has implemented all but one of six pillars of rape kit reform.",
+  "reform": "Some Reform",
+  "testing": "Unknown",
+  "now": "153*",
+  "then": "3482**",
+  "pillarCount": "5/6 Pillars",
+  "notes": [
+   {
+    "mark": "*",
+    "text": "According to a report by the Minnesota Bureau of Criminal Apprehension (BCA) there were 153 untested kits in Minnesota in 2024",
+    "year": "2024"
+   },
+   {
+    "mark": "**",
+    "text": "According to a report by the Minnesota Department of Public Safety Bureau of Criminal Apprehension there were 3482 untested kits in Minnesota in 2015",
+    "year": "2015"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state carried out a one-time inventory.",
+   "Test Backlogged Kits": "No, the state has not committed to testing its backlogged kits.",
+   "Test New Kits": "Yes, all newly collected kits are being tested.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "Yes, the state has granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "Yes, the state has allocated ongoing funding."
+  },
+  "turnaround": null
+ },
+ "Mississippi": {
+  "status": 200,
+  "summary": "Mississippi has achieved three of the six pillars of rape kit reform: testing newly collected kits, statewide tracking system, and victims’ rights.",
+  "reform": "Some Reform",
+  "testing": "Unknown",
+  "now": "Unknown*",
+  "then": "600**",
+  "pillarCount": "3/6 Pillars",
+  "notes": [
+   {
+    "mark": "**",
+    "text": "According to a media report by AP News there were 600 untested kits in Mississippi in 2019",
+    "year": "2019"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "No, the state has not carried out an inventory.",
+   "Test Backlogged Kits": "No, the state has not committed to testing its backlogged kits.",
+   "Test New Kits": "Yes, the state has not mandated testing.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "Yes, the state has granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "No, the state has not allocated any of its own funds towards reform."
+  },
+  "turnaround": null
+ },
+ "Missouri": {
+  "status": 200,
+  "summary": "Missouri has implemented all but one of six pillars of rape kit reform.",
+  "reform": "Some Reform",
+  "testing": "In-Process",
+  "now": "297*",
+  "then": "5424**",
+  "pillarCount": "5/6 Pillars",
+  "notes": [
+   {
+    "mark": "*",
+    "text": "According to a press release by the Missouri Attorney General’s Office there were 297 untested kits in Missouri in 2023",
+    "year": "2023"
+   },
+   {
+    "mark": "**",
+    "text": "According to a media report by STL Today there were 5424 untested kits in Missouri in 2018",
+    "year": "2018"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state carried out a one-time inventory.",
+   "Test Backlogged Kits": "In-Process, the state has committed to testing its backlogged kits.",
+   "Test New Kits": "Yes, all newly collected kits are being tested.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "No, the state has not granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "Yes, the state has allocated ongoing funding."
+  },
+  "turnaround": "turnaround time for DNA cases, including for sexual assault cases, had increased from around 300 days"
+ },
+ "Montana": {
+  "status": 200,
+  "summary": "Montana has adopted all six pillars of rape kit reform.",
+  "reform": "Full Reform",
+  "testing": "In-Process",
+  "now": "141*",
+  "then": "1410**",
+  "pillarCount": "6/6 Pillars",
+  "notes": [
+   {
+    "mark": "*",
+    "text": "According to a report by internal sources there were 141 untested kits in Montana in 2025",
+    "year": "2025"
+   },
+   {
+    "mark": "**",
+    "text": "According to a media report by the Flathead Beacon there were 1410 untested kits in Montana in 2016",
+    "year": "2016"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state carried out a one-time inventory.",
+   "Test Backlogged Kits": "In-Process, the state has committed to testing its backlogged kits.",
+   "Test New Kits": "Yes, all newly collected kits are being tested.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "Yes, the state has granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "Yes, the state has allocated one-time funding."
+  },
+  "turnaround": null
+ },
+ "Nebraska": {
+  "status": 200,
+  "summary": "Nebraska has achieved two of the six pillars of rape kit reform: victims’ rights to know the status of their kits and establishment of a rape kit tracking system.",
+  "reform": "Some Reform",
+  "testing": "Unknown",
+  "now": "493*",
+  "then": "1500**",
+  "pillarCount": "2/6 Pillars",
+  "notes": [
+   {
+    "mark": "**",
+    "text": "According to a media report by the Omaha World-Herald there were 1500 untested kits in Nebraska in 2018",
+    "year": "2018"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "No, the state has not carried out an inventory.",
+   "Test Backlogged Kits": "No, the state has not committed to testing its backlogged kits.",
+   "Test New Kits": "No, the state has not mandated testing.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "Yes, the state has granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "No, the state has not allocated any of its own funds towards reform."
+  },
+  "turnaround": null
+ },
+ "Nevada": {
+  "status": 200,
+  "summary": "Nevada has achieved all six pillars of rape kit reform, the state is working on clearing its backlog.",
+  "reform": "Full Reform",
+  "testing": "In-Process",
+  "now": "87*",
+  "then": "7634**",
+  "pillarCount": "6/6 Pillars",
+  "notes": [
+   {
+    "mark": "*",
+    "text": "According to a report by the Office of the Nevada Attorney General there were 87 untested kits in Nevada in 2026",
+    "year": "2026"
+   },
+   {
+    "mark": "**",
+    "text": "According to a report by the Office of the Nevada Attorney General there were 7634 untested kits in Nevada in 2017",
+    "year": "2017"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state has a recurring inventory.",
+   "Test Backlogged Kits": "Yes, the state has committed to testing its backlogged kits.",
+   "Test New Kits": "Yes, all newly collected kits are being tested.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "Yes, the state has granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "Yes, the state has allocated ongoing funding."
+  },
+  "turnaround": null
+ },
+ "New Hampshire": {
+  "status": 200,
+  "summary": "New Hampshire has achieved two of the six pillars of rape kit reform: victims’ rights to know the status of their kits and the creation of a rape kit tracking system.",
+  "reform": "Some Reform",
+  "testing": "Unknown",
+  "now": "Unknown*",
+  "then": "582**",
+  "pillarCount": "2/6 Pillars",
+  "notes": [
+   {
+    "mark": "**",
+    "text": "According to a media report by the Concord Monitor there were 582 untested kits in New Hampshire in 2019",
+    "year": "2019"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "No, the state has not carried out an inventory.",
+   "Test Backlogged Kits": "No, the state has not committed to testing its backlogged kits.",
+   "Test New Kits": "No, the state has not mandated testing.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "Yes, the state has granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "No, the state has not allocated any of its own funds towards reform."
+  },
+  "turnaround": null
+ },
+ "New Jersey": {
+  "status": 200,
+  "summary": "New Jersey has achieved four pillars of reform: statewide inventory, testing backlogged kits, developing a statewide rape kit tracking system, and granting survivors the right to know the status of their rape kits.",
+  "reform": "Some Reform",
+  "testing": "In-Process",
+  "now": "5873*",
+  "then": "2834**",
+  "pillarCount": "4/6 Pillars",
+  "notes": [
+   {
+    "mark": "*",
+    "text": "According to a report by the New Jersey Attorney General's Office there were 5873 untested kits in New Jersey in 2025",
+    "year": "2025"
+   },
+   {
+    "mark": "**",
+    "text": "According to a report by the Office of the State Auditor there were 2834 untested kits in New Jersey in 2018",
+    "year": "2018"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state carried out a one-time inventory.",
+   "Test Backlogged Kits": "In-Process, the state has committed to testing its backlogged kits.",
+   "Test New Kits": "No, the state has not mandated testing.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "Yes, the state has granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "No, the state has not allocated any of its own funds towards reform."
+  },
+  "turnaround": null
+ },
+ "New Mexico": {
+  "status": 200,
+  "summary": "New Mexico has adopted all six pillars of rape kit reform.",
+  "reform": "Full Reform",
+  "testing": "In-Process",
+  "now": "701*",
+  "then": "5302**",
+  "pillarCount": "6/6 Pillars",
+  "notes": [
+   {
+    "mark": "*",
+    "text": "According to a media report by Santa Fe New Mexican there were 701 untested kits in New Mexico in 2025",
+    "year": "2025"
+   },
+   {
+    "mark": "**",
+    "text": "According to a media report by the Albuquerque Journal there were 5302 untested kits in New Mexico in 2016",
+    "year": "2016"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state carried out a one-time inventory.",
+   "Test Backlogged Kits": "In-Process, the state has committed to testing its backlogged kits.",
+   "Test New Kits": "Yes, all newly collected kits are being tested.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "Yes, the state has granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "Yes, the state has allocated one-time funding."
+  },
+  "turnaround": "turnaround time of 415 days"
+ },
+ "New York": {
+  "status": 200,
+  "summary": "New York has adopted all six pillars of reform.",
+  "reform": "Some Reform",
+  "testing": "In-Process",
+  "now": "Unknown*",
+  "then": "1981**",
+  "pillarCount": "6/6 Pillars",
+  "notes": [
+   {
+    "mark": "**",
+    "text": "According to a report by the New York Division of Criminal Justice Services there were 1981 untested kits in New York in 2017",
+    "year": "2017"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state has a recurring inventory.",
+   "Test Backlogged Kits": "In-Process, the state has committed to testing its backlogged kits.",
+   "Test New Kits": "Yes, all newly collected kits are being tested.",
+   "Implement Tracking System": "In-Process, the state is developing a tracking system.",
+   "Victim's Right To Know": "Yes, the state has granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "Yes, the state has allocated ongoing funding."
+  },
+  "turnaround": null
+ },
+ "North Carolina": {
+  "status": 200,
+  "summary": "North Carolina is one pillar away from achieving comprehensive rape kit reform.",
+  "reform": "Some Reform",
+  "testing": "In-Process",
+  "now": "14*",
+  "then": "15160**",
+  "pillarCount": "5/6 Pillars",
+  "notes": [
+   {
+    "mark": "*",
+    "text": "According to a report by the North Carolina Department of Justice there were 14 untested kits in North Carolina in 2025",
+    "year": "2025"
+   },
+   {
+    "mark": "**",
+    "text": "According to a media report by WECT News there were 15160 untested kits in North Carolina in 2018",
+    "year": "2018"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state has a recurring inventory.",
+   "Test Backlogged Kits": "In-Process, the state has committed to testing its backlogged kits.",
+   "Test New Kits": "Yes, all newly collected kits are being tested.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "No, the state has not granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "Yes, the state has allocated one-time funding."
+  },
+  "turnaround": null
+ },
+ "North Dakota": {
+  "status": 200,
+  "summary": "North Dakota has achieved three of six pillars of rape kit reform: inventory of untested kits, the creation of a rape kit tracking system, and testing of backlogged kits.",
+  "reform": "Some Reform",
+  "testing": "In-Process",
+  "now": "118*",
+  "then": "500**",
+  "pillarCount": "3/6 Pillars",
+  "notes": [
+   {
+    "mark": "*",
+    "text": "According to a report by the North Dakota Office of Attorney General there were 118 untested kits in North Dakota in 2025",
+    "year": "2025"
+   },
+   {
+    "mark": "**",
+    "text": "According to a media report by NBC25 there were 500 untested kits in North Dakota in 2015",
+    "year": "2015"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state has a recurring inventory.",
+   "Test Backlogged Kits": "In-Process, the state has committed to testing its backlogged kits.",
+   "Test New Kits": "No, the state has not mandated testing.",
+   "Implement Tracking System": "In-Process, the state is developing a tracking system.",
+   "Victim's Right To Know": "No, the state has not granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "No, the state has not allocated any of its own funds towards reform."
+  },
+  "turnaround": null
+ },
+ "Ohio": {
+  "status": 200,
+  "summary": "Ohio has achieved all six pillars of rape kit reform.",
+  "reform": "Full Reform",
+  "testing": "In-Process",
+  "now": "525*",
+  "then": "13931**",
+  "pillarCount": "6/6 Pillars",
+  "notes": [
+   {
+    "mark": "*",
+    "text": "According to information from internal sources, there were 525 untested kits at the Ohio Bureau of Criminal Investigation in 2025",
+    "year": "2025"
+   },
+   {
+    "mark": "**",
+    "text": "According to a media report by cleveland.com there were 13931 untested kits in Ohio in 2017",
+    "year": "2017"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state has a recurring inventory.",
+   "Test Backlogged Kits": "In-Process, the state has committed to testing its backlogged kits.",
+   "Test New Kits": "Yes, all newly collected kits are being tested.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "Yes, the state has granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "Yes, the state has allocated ongoing funding."
+  },
+  "turnaround": null
+ },
+ "Oklahoma": {
+  "status": 200,
+  "summary": "Oklahoma has achieved all six pillars of rape kit reform.",
+  "reform": "Full Reform",
+  "testing": "In-Process",
+  "now": "3015*",
+  "then": "7270**",
+  "pillarCount": "6/6 Pillars",
+  "notes": [
+   {
+    "mark": "*",
+    "text": "According to a report by the SAFE Board there were 3015 untested kits in Oklahoma in 2025",
+    "year": "2025"
+   },
+   {
+    "mark": "**",
+    "text": "According to a media report by the Oklahoman there were 7270 untested kits in Oklahoma in 2018",
+    "year": "2018"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state carried out a one-time inventory.",
+   "Test Backlogged Kits": "In-Process, the state has committed to testing its backlogged kits.",
+   "Test New Kits": "Yes, all newly collected kits are being tested.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "Yes, the state has granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "Yes, the state has allocated one-time funding."
+  },
+  "turnaround": null
+ },
+ "Oregon": {
+  "status": 200,
+  "summary": "Oregon has achieved all six pillars of rape kit reform.",
+  "reform": "Full Reform",
+  "testing": "In-Process",
+  "now": "638*",
+  "then": "4700**",
+  "pillarCount": "6/6 Pillars",
+  "notes": [
+   {
+    "mark": "*",
+    "text": "According to a report by the Oregon State Police there were 638 untested kits in Oregon in 2025",
+    "year": "2025"
+   },
+   {
+    "mark": "**",
+    "text": "According to a media report by OPB there were 4700 untested kits in Oregon in 2015",
+    "year": "2015"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state has a recurring inventory.",
+   "Test Backlogged Kits": "In-Process, the state has committed to testing its backlogged kits.",
+   "Test New Kits": "Yes, all newly collected kits are being tested.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "Yes, the state has granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "Yes, the state has allocated one-time funding."
+  },
+  "turnaround": null
+ },
+ "Pennsylvania": {
+  "status": 200,
+  "summary": "Pennsylvania has achieved all six pillars of rape kit reform.",
+  "reform": "Full Reform",
+  "testing": "In-Process",
+  "now": "233*",
+  "then": "3217**",
+  "pillarCount": "6/6 Pillars",
+  "notes": [
+   {
+    "mark": "*",
+    "text": "According to a report by the Pennsylvania Department of Health there were 233 untested kits in Pennsylvania in 2024",
+    "year": "2024"
+   },
+   {
+    "mark": "**",
+    "text": "According to a report by the Pennsylvania Department of Health there were 3217 untested kits in Pennsylvania in 2015",
+    "year": "2015"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state has a recurring inventory.",
+   "Test Backlogged Kits": "In-Process, the state has committed to testing its backlogged kits.",
+   "Test New Kits": "Yes, all newly collected kits are being tested.",
+   "Implement Tracking System": "In-Process, the state is developing a tracking system.",
+   "Victim's Right To Know": "Yes, the state has granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "Yes, the state has allocated ongoing funding."
+  },
+  "turnaround": null
+ },
+ "Rhode Island": {
+  "status": 200,
+  "summary": "Rhode Island has achieved four of six pillars of reform.",
+  "reform": "Some Reform",
+  "testing": "In-Process",
+  "now": "58*",
+  "then": "Unknown**",
+  "pillarCount": "4/6 Pillars",
+  "notes": [
+   {
+    "mark": "*",
+    "text": "According to a report by the State Health Laboratories there were 58 untested kits in Rhode Island in 2022",
+    "year": "2022"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state has a recurring inventory.",
+   "Test Backlogged Kits": "In-Process, the state has committed to testing its backlogged kits.",
+   "Test New Kits": "Yes, all newly collected kits are being tested.",
+   "Implement Tracking System": "No, the state does not have a tracking system.",
+   "Victim's Right To Know": "Yes, the state has granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "No, the state has not allocated any of its own funds towards reform."
+  },
+  "turnaround": null
+ },
+ "South Carolina": {
+  "status": 200,
+  "summary": "South Carolina has achieved one of six pillars of rape kit reform: The creation of a statewide rape kit tracking system.",
+  "reform": "Some Reform",
+  "testing": "Unknown",
+  "now": "2749*",
+  "then": "1800**",
+  "pillarCount": "1/6 Pillars",
+  "notes": [
+   {
+    "mark": "**",
+    "text": "According to a media report by WYFF there were 1800 untested kits in South Carolina in 2019",
+    "year": "2019"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "No, the state has not carried out an inventory.",
+   "Test Backlogged Kits": "No, the state has not committed to testing its backlogged kits.",
+   "Test New Kits": "No, the state has not mandated testing.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "No, the state has not granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "No, the state has not allocated any of its own funds towards reform."
+  },
+  "turnaround": null
+ },
+ "South Dakota": {
+  "status": 200,
+  "summary": "South Dakota has achieved three of six pillars of rape kit reform: conducting a statewide inventory of untested kits, testing backlogged kits, and testing newly collected kits.",
+  "reform": "Some Reform",
+  "testing": "In-Process",
+  "now": "7*",
+  "then": "504**",
+  "pillarCount": "3/6 Pillars",
+  "notes": [
+   {
+    "mark": "*",
+    "text": "According to information from internal sources there were 7 untested kits in South Dakota in 2023",
+    "year": "2023"
+   },
+   {
+    "mark": "**",
+    "text": "According to a media report by KOTA-TV there were 504 untested kits in South Dakota in 2015",
+    "year": "2015"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state carried out a one-time inventory.",
+   "Test Backlogged Kits": "In-Process, the state has committed to testing its backlogged kits.",
+   "Test New Kits": "Yes, all newly collected kits are being tested.",
+   "Implement Tracking System": "No, the state does not have a tracking system.",
+   "Victim's Right To Know": "No, the state has not granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "No, the state has not allocated any of its own funds towards reform."
+  },
+  "turnaround": null
+ },
+ "Tennessee": {
+  "status": 200,
+  "summary": "Tennessee has achieved four of six pillars of rape kit reform.",
+  "reform": "Some Reform",
+  "testing": "Unknown",
+  "now": "Unknown*",
+  "then": "9062**",
+  "pillarCount": "4/6 Pillars",
+  "notes": [
+   {
+    "mark": "**",
+    "text": "According to a media report by the Commercial Appeal there were 9062 untested kits in Tennessee in 2014",
+    "year": "2014"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state carried out a one-time inventory.",
+   "Test Backlogged Kits": "No, the state has not committed to testing its backlogged kits.",
+   "Test New Kits": "Yes, all newly collected kits are being tested.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "Yes, the state has granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "No, the state has not allocated any of its own funds towards reform."
+  },
+  "turnaround": null
+ },
+ "Texas": {
+  "status": 200,
+  "summary": "Texas has achieved all six pillars of rape kit reform.",
+  "reform": "Full Reform",
+  "testing": "In-Process",
+  "now": "2327*",
+  "then": "20000**",
+  "pillarCount": "6/6 Pillars",
+  "notes": [
+   {
+    "mark": "*",
+    "text": "According to a report by the Texas Department of Public Safety there were 2327 untested kits in Texas in 2025",
+    "year": "2025"
+   },
+   {
+    "mark": "**",
+    "text": "According to a media report by the New York Times there were 20000 untested kits in Texas in 2013",
+    "year": "2013"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state carried out a one-time inventory.",
+   "Test Backlogged Kits": "In-Process, the state has committed to testing its backlogged kits.",
+   "Test New Kits": "Yes, all newly collected kits are being tested.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "Yes, the state has granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "Yes, the state has allocated ongoing funding."
+  },
+  "turnaround": null
+ },
+ "Utah": {
+  "status": 200,
+  "summary": "Utah has achieved all six pillars of rape kit reform and is working on clearing its backlog of untested kits.",
+  "reform": "Full Reform",
+  "testing": "Complete",
+  "now": "0*",
+  "then": "2700**",
+  "pillarCount": "6/6 Pillars",
+  "notes": [
+   {
+    "mark": "*",
+    "text": "According to a report by the Utah Bureau of Forensic Services there were 0 untested kits in Utah in 2025",
+    "year": "2025"
+   },
+   {
+    "mark": "**",
+    "text": "According to a media report by the Salt Lake Tribune there were 2700 untested kits in Utah in 2014",
+    "year": "2014"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state has a recurring inventory.",
+   "Test Backlogged Kits": "Yes, the state has eliminated its backlog.",
+   "Test New Kits": "Yes, all newly collected kits are being tested.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "Yes, the state has granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "Yes, the state has allocated ongoing funding."
+  },
+  "turnaround": "turnaround time of 57 days"
+ },
+ "Vermont": {
+  "status": 200,
+  "summary": "Vermont has achieved four of six pillars of reform.",
+  "reform": "Some Reform",
+  "testing": "Complete",
+  "now": "0*",
+  "then": "58**",
+  "pillarCount": "4/6 Pillars",
+  "notes": [
+   {
+    "mark": "**",
+    "text": "According to a media report by Seven Days News there were 58 untested kits in Vermont in 2017",
+    "year": "2017"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state carried out a one-time inventory.",
+   "Test Backlogged Kits": "Yes, the state has eliminated its backlog.",
+   "Test New Kits": "No, the state has not mandated testing.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "Yes, the state has granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "No, the state has not allocated any of its own funds towards reform."
+  },
+  "turnaround": null
+ },
+ "Virginia": {
+  "status": 200,
+  "summary": "Virginia has adopted all six pillars of reform and is working on clearing its backlog.",
+  "reform": "Full Reform",
+  "testing": "In-Process",
+  "now": "9*",
+  "then": "2902**",
+  "pillarCount": "6/6 Pillars",
+  "notes": [
+   {
+    "mark": "*",
+    "text": "According to a report by the Annual Forensic Science Board Report there were 9 untested kits in Virginia in 2025",
+    "year": "2025"
+   },
+   {
+    "mark": "**",
+    "text": "According to a report by the Department of Forensic Science there were 2902 untested kits in Virginia in 2015",
+    "year": "2015"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state carried out a one-time inventory.",
+   "Test Backlogged Kits": "In-Process, the state has committed to testing its backlogged kits.",
+   "Test New Kits": "Yes, all newly collected kits are being tested.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "Yes, the state has granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "Yes, the state has allocated ongoing funding."
+  },
+  "turnaround": null
+ },
+ "Washington": {
+  "status": 200,
+  "summary": "Washington has adopted all six pillars of rape kit reform and has cleared its backlog.",
+  "reform": "Full Reform",
+  "testing": "Complete",
+  "now": "0*",
+  "then": "6725**",
+  "pillarCount": "6/6 Pillars",
+  "notes": [
+   {
+    "mark": "*",
+    "text": "According to a report by the Office of the Attorney General there were 0 untested kits in Washington in 2023",
+    "year": "2023"
+   },
+   {
+    "mark": "**",
+    "text": "According to a report by the Office of the Attorney General there were 6725 untested kits in Washington in 2018",
+    "year": "2018"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state carried out a one-time inventory.",
+   "Test Backlogged Kits": "Yes, the state has eliminated its backlog.",
+   "Test New Kits": "Yes, all newly collected kits are being tested.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "Yes, the state has granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "Yes, the state has allocated ongoing funding."
+  },
+  "turnaround": null
+ },
+ "West Virginia": {
+  "status": 200,
+  "summary": "West Virginia has adopted five of six pillars of rape kit reform.",
+  "reform": "Some Reform",
+  "testing": "Complete",
+  "now": "0*",
+  "then": "2400**",
+  "pillarCount": "5/6 Pillars",
+  "notes": [
+   {
+    "mark": "**",
+    "text": "According to a media report by WOWKTV 13 News there were 2400 untested kits in West Virginia in 2015",
+    "year": "2015"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state carried out a one-time inventory.",
+   "Test Backlogged Kits": "Yes, the state has eliminated its backlog.",
+   "Test New Kits": "Yes, all newly collected kits are being tested.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "Yes, the state has granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "No, the state has not allocated any of its own funds towards reform."
+  },
+  "turnaround": null
+ },
+ "Wisconsin": {
+  "status": 200,
+  "summary": "Wisconsin has adopted five of six pillars of rape kit reform.",
+  "reform": "Some Reform",
+  "testing": "Complete",
+  "now": "0*",
+  "then": "6841**",
+  "pillarCount": "5/6 Pillars",
+  "notes": [
+   {
+    "mark": "*",
+    "text": "According to a report by Wisconsin Department of Justice there were 0 untested kits in Wisconsin in 2021",
+    "year": "2021"
+   },
+   {
+    "mark": "**",
+    "text": "According to a report by the WiSAKI project there were 6841 untested kits in Wisconsin in 2017",
+    "year": "2017"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state carried out a one-time inventory.",
+   "Test Backlogged Kits": "Yes, the state has eliminated its backlog.",
+   "Test New Kits": "Yes, all newly collected kits are being tested.",
+   "Implement Tracking System": "Yes, tracking system in use.",
+   "Victim's Right To Know": "No, the state has not granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "Yes, the state has allocated one-time funding."
+  },
+  "turnaround": null
+ },
+ "Wyoming": {
+  "status": 200,
+  "summary": "Wyoming has achieved one of six pillars of reform: statewide inventory of rape kits.",
+  "reform": "Some Reform",
+  "testing": "Unknown",
+  "now": "32*",
+  "then": "Unknown**",
+  "pillarCount": "1/6 Pillars",
+  "notes": [
+   {
+    "mark": "*",
+    "text": "According to a report by the Wyoming Division of Criminal Investigation there were 32 untested kits in Wyoming in 2023",
+    "year": "2023"
+   }
+  ],
+  "pillars": {
+   "Statewide Inventory": "Yes, the state has a recurring inventory.",
+   "Test Backlogged Kits": "No, the state has not committed to testing its backlogged kits.",
+   "Test New Kits": "No, the state has not mandated testing.",
+   "Implement Tracking System": "No, the state does not have a tracking system.",
+   "Victim's Right To Know": "No, the state has not granted victims the right to notice and be informed on the status of their kit.",
+   "Fund Reform": "No, the state has not allocated any of its own funds towards reform."
+  },
+  "turnaround": null
+ }
+}

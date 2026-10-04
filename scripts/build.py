@@ -123,6 +123,55 @@ def state_victim_relationship_literal():
     return _state_category_literal("data/fbi_cde_state_victim_relationship_2023.csv", "relationship_group", "victim_count_2023", RELATIONSHIP_ORDER)
 
 
+STATE_ABBR = {"Alabama": "AL", "Alaska": "AK", "Arizona": "AZ", "Arkansas": "AR", "California": "CA", "Colorado": "CO",
+    "Connecticut": "CT", "Delaware": "DE", "District of Columbia": "DC", "Florida": "FL", "Georgia": "GA", "Hawaii": "HI",
+    "Idaho": "ID", "Illinois": "IL", "Indiana": "IN", "Iowa": "IA", "Kansas": "KS", "Kentucky": "KY", "Louisiana": "LA",
+    "Maine": "ME", "Maryland": "MD", "Massachusetts": "MA", "Michigan": "MI", "Minnesota": "MN", "Mississippi": "MS",
+    "Missouri": "MO", "Montana": "MT", "Nebraska": "NE", "Nevada": "NV", "New Hampshire": "NH", "New Jersey": "NJ",
+    "New Mexico": "NM", "New York": "NY", "North Carolina": "NC", "North Dakota": "ND", "Ohio": "OH", "Oklahoma": "OK",
+    "Oregon": "OR", "Pennsylvania": "PA", "Rhode Island": "RI", "South Carolina": "SC", "South Dakota": "SD",
+    "Tennessee": "TN", "Texas": "TX", "Utah": "UT", "Vermont": "VT", "Virginia": "VA", "Washington": "WA",
+    "West Virginia": "WV", "Wisconsin": "WI", "Wyoming": "WY"}
+KIT_PILLARS = ["Statewide Inventory", "Test Backlogged Kits", "Test New Kits", "Implement Tracking System",
+               "Victim's Right To Know", "Fund Reform"]
+
+
+def state_kits_literal():
+    """End the Backlog's per-state rape kit reform tracker (scraped from each
+    state page into data/end_the_backlog_states_raw.json) -> compact JS."""
+    import re
+    raw = json.loads((ROOT / "data/end_the_backlog_states_raw.json").read_text())
+
+    def status(v):
+        v = (v or "").lower()
+        if v.startswith("yes"):
+            return "yes"
+        if v.startswith("in-process") or v.startswith("in process"):
+            return "progress"
+        if v.startswith("no"):
+            return "no"
+        return "unknown"
+
+    def count(v):
+        n = re.sub(r"[^0-9]", "", v or "")
+        return int(n) if n else None
+
+    out = {}
+    for name, v in raw.items():
+        years = {n["mark"]: n["year"] for n in (v.get("notes") or [])}
+        ta = re.search(r"(\d+)\s*days", v.get("turnaround") or "")
+        slug = "washington-d-c" if name == "District of Columbia" else name.lower().replace(" ", "-")
+        out[STATE_ABBR[name]] = {
+            "p": [status(v["pillars"].get(k)) for k in KIT_PILLARS],
+            "now": count(v.get("now")), "nowYear": years.get("*"),
+            "then": count(v.get("then")), "thenYear": years.get("**"),
+            "testing": v.get("testing"), "reform": v.get("reform"),
+            "turnaround": int(ta.group(1)) if ta else None, "slug": slug,
+        }
+    assert len(out) == 51, len(out)
+    return json.dumps(out, separators=(",", ":"))
+
+
 def main():
     template = (ROOT / "site/index.template.html").read_text()
     out = (
@@ -140,8 +189,9 @@ def main():
         .replace("__STATE_VICTIM_RACE_DATA__", state_victim_race_literal())
         .replace("__STATE_VICTIM_ETHNICITY_DATA__", state_victim_ethnicity_literal())
         .replace("__STATE_VICTIM_RELATIONSHIP_DATA__", state_victim_relationship_literal())
+        .replace("__STATE_KITS_DATA__", state_kits_literal())
     )
-    remaining = [tok for tok in ("__FRAUNCES_B64__", "__PUBLICSANS_B64__", "__RANKS_DATA__", "__SA_STATE_DATA__", "__STATE_PATHS__", "__STATE_TREND_DATA__", "__STATE_CLEARANCE_DATA__", "__STATE_OFFENSE_TYPES_DATA__", "__STATE_VICTIM_AGE_DATA__", "__STATE_VICTIM_SEX_DATA__", "__STATE_VICTIM_RACE_DATA__", "__STATE_VICTIM_ETHNICITY_DATA__", "__STATE_VICTIM_RELATIONSHIP_DATA__") if tok in out]
+    remaining = [tok for tok in ("__FRAUNCES_B64__", "__PUBLICSANS_B64__", "__RANKS_DATA__", "__SA_STATE_DATA__", "__STATE_PATHS__", "__STATE_TREND_DATA__", "__STATE_CLEARANCE_DATA__", "__STATE_OFFENSE_TYPES_DATA__", "__STATE_VICTIM_AGE_DATA__", "__STATE_VICTIM_SEX_DATA__", "__STATE_VICTIM_RACE_DATA__", "__STATE_VICTIM_ETHNICITY_DATA__", "__STATE_VICTIM_RELATIONSHIP_DATA__", "__STATE_KITS_DATA__") if tok in out]
     if remaining:
         raise SystemExit(f"Unsubstituted placeholders remain: {remaining}")
 

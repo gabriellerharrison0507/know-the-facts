@@ -269,6 +269,22 @@
   .notable-stat p { margin: 0; color: var(--ink); font-size: 0.95rem; line-height: 1.5; }
   .notable-stat .cite { font-size: 0.78rem; color: var(--ink-soft); margin-top: 8px; }
   .notable-stat .cite a { color: var(--ink-soft); }
+  .kit-pillars { list-style: none; margin: 4px 0 8px; padding: 0; display: grid; gap: 8px; }
+  .kit-pillars li { display: grid; grid-template-columns: 9.5rem 1fr; gap: 12px; align-items: baseline; font-size: 0.9rem; }
+  .kit-chip { display: inline-flex; gap: 6px; align-items: center; justify-content: center; width: fit-content; padding: 3px 10px; border-radius: 999px; font-size: 0.78rem; font-weight: 700; white-space: nowrap; border: 1px solid; }
+  .kit-chip.rating-good { background: var(--good-bg); color: var(--good-ink); border-color: var(--good-border); }
+  .kit-chip.rating-mixed { background: var(--mixed-bg); color: var(--mixed-ink); border-color: var(--mixed-border); }
+  .kit-chip.rating-concerning { background: var(--concern-bg); color: var(--concern-ink); border-color: var(--concern-border); }
+  .kit-chip.rating-unknown { background: var(--bg-alt); color: var(--ink-faint); border-color: var(--border); }
+  .kit-pl { color: var(--ink-soft); }
+  .kit-pl b { color: var(--ink); font-weight: 600; }
+  .kit-map { width: 100%; height: auto; display: block; }
+  .kit-shape { cursor: pointer; transition: opacity 0.15s; }
+  .kit-shape:hover, .kit-shape:focus-visible { opacity: 0.75; outline: none; }
+  .kit-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; margin-top: 12px; font-size: 0.8rem; color: var(--ink-soft); }
+  .kit-legend-title { font-weight: 600; }
+  .kit-legend i { display: inline-block; width: 16px; height: 12px; border-radius: 3px; margin-right: 4px; vertical-align: -1px; border: 1px solid var(--border); }
+  @media (max-width: 480px) { .kit-pillars li { grid-template-columns: 1fr; gap: 4px; } }
   .notable-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
   .notable-list li { position: relative; padding-left: 18px; }
   .notable-list li::before { content: ''; position: absolute; left: 0; top: 0.6em; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
@@ -636,6 +652,53 @@ const STATE_VICTIM_SEX = __STATE_VICTIM_SEX_DATA__;
 const STATE_VICTIM_RACE = __STATE_VICTIM_RACE_DATA__;
 const STATE_VICTIM_ETHNICITY = __STATE_VICTIM_ETHNICITY_DATA__;
 const STATE_VICTIM_RELATIONSHIP = __STATE_VICTIM_RELATIONSHIP_DATA__;
+
+/* Per-state rape kit reform, from End the Backlog (Joyful Heart
+   Foundation)'s state tracker, scraped into
+   data/end_the_backlog_states_raw.json and compacted in build.py. Pillar
+   status per state: yes | progress | no | unknown, in KIT_PILLARS order.
+   now/then are untested-kit counts with the year each was reported (a
+   null year means End the Backlog didn't state one). */
+const STATE_KITS = __STATE_KITS_DATA__;
+const KIT_PILLARS = [
+  { label: 'Statewide inventory', what: 'Counted every untested kit in the state' },
+  { label: 'Test backlogged kits', what: 'Committed to testing old, untested kits' },
+  { label: 'Test new kits', what: 'Requires every newly collected kit to be tested' },
+  { label: 'Tracking system', what: 'Tracks each kit from collection to lab result' },
+  { label: "Survivors' right to know", what: 'Survivors can be told where their kit is and what it showed' },
+  { label: 'Funding', what: 'Has set aside money to pay for reform' },
+];
+const KIT_STATUS = { yes: ['✓', 'Done', 'good'], progress: ['◐', 'In progress', 'mixed'], no: ['✕', 'Not adopted', 'concerning'], unknown: ['?', 'Unknown', 'unknown'] };
+const kitScore = k => k.p.filter(x => x === 'yes' || x === 'progress').length;
+
+function kitChecklist(k) {
+  return `<ul class="kit-pillars">${KIT_PILLARS.map((pl, i) => {
+    const [icon, word, cls] = KIT_STATUS[k.p[i]] || KIT_STATUS.unknown;
+    return `<li><span class="kit-chip rating-${cls}"><span aria-hidden="true">${icon}</span> ${word}</span><span class="kit-pl"><b>${pl.label}</b> — ${pl.what}</span></li>`;
+  }).join('')}</ul>`;
+}
+
+/* Choropleth of reforms adopted (0-6), drawn from the same state outlines
+   as the home map but with its own one-hue scale, tooltip, and click
+   handler (attachHandlers wires .kit-shape). */
+function kitMap() {
+  const states = MAP_DATA.states;
+  const STEPS = [6, 16, 27, 38, 50, 66, 100];
+  const fill = n => `color-mix(in oklab, var(--accent) ${STEPS[n]}%, var(--surface))`;
+  let shapes = '', dc = '';
+  Object.keys(states).forEach(abbr => {
+    const k = STATE_KITS[abbr]; if (!k) return;
+    const name = abbr === 'DC' ? 'Washington, D.C.' : (Object.keys(ABBR).find(x => ABBR[x] === abbr) || abbr);
+    const n = kitScore(k);
+    const tip = `<b>${name}</b>${n} of 6 reforms adopted or in progress<br>${k.testing === 'Complete' ? 'Backlog cleared' : (k.now != null ? `${k.now.toLocaleString()} untested kits${k.nowYear ? ' (' + k.nowYear + ')' : ''}` : 'Current backlog unknown')}`;
+    const attrs = `class="kit-shape chart-dot-hit" data-abbr="${abbr}" data-tip="${tip.replace(/"/g, '&quot;')}" tabindex="0" role="button" aria-label="${name}: ${n} of 6 reforms"`;
+    if (abbr === 'DC') dc = `<circle ${attrs} cx="${states.DC.cx}" cy="${states.DC.cy}" r="8" fill="${fill(n)}" stroke="var(--ink)" stroke-width="1.2" />`;
+    else shapes += `<path ${attrs} fill="${fill(n)}" stroke="var(--surface)" stroke-width="1" d="${states[abbr]}" />`;
+  });
+  const legend = [0, 1, 2, 3, 4, 5, 6].map(n => `<span><i style="background:${fill(n)}"></i>${n}</span>`).join('');
+  return `<svg class="kit-map" viewBox="${MAP_VIEWBOX}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Map of rape kit reforms adopted by state, 0 to 6. Hover or tap a state for details; click to open its page.">${shapes}${dc}</svg>
+    <div class="kit-legend"><span class="kit-legend-title">Reforms adopted or in progress:</span>${legend}</div>`;
+}
 
 const LEGAL = {
   CO: {
@@ -2347,6 +2410,36 @@ function renderState(abbr) {
     </div>
   ` : '';
 
+  const kits = STATE_KITS[abbr];
+  let kitSection = '';
+  if (kits) {
+    const done = kits.p.filter(x => x === 'yes').length, prog = kits.p.filter(x => x === 'progress').length;
+    const both = kits.then != null && kits.now != null;
+    const backlogLine = kits.testing === 'Complete'
+      ? `<p class="section-sub"><b>Backlog cleared.</b> ${fullName} has finished testing its backlogged kits${kits.then != null ? ` — ${kits.then.toLocaleString()} untested${kits.thenYear ? ' in ' + kits.thenYear : ''}` : ''}.</p>`
+      : (kits.now == null ? `<p class="section-sub">The current number of untested kits in ${fullName} isn't known${kits.then != null ? ` (it was ${kits.then.toLocaleString()}${kits.thenYear ? ' in ' + kits.thenYear : ''})` : ''}.</p>` : '');
+    const backlogChart = (kits.testing !== 'Complete' && kits.now != null) ? `
+      <p class="section-sub" style="margin-top:18px;font-weight:600;">Untested kits</p>
+      <div class="chart-card">${valueBarChart({
+        rows: [
+          ...(kits.then != null ? [{ label: kits.thenYear ? `Then (${kits.thenYear})` : 'Then', values: [kits.then], color: 'var(--ink-faint)' }] : []),
+          { label: kits.nowYear ? `Most recent (${kits.nowYear})` : 'Most recent (year not stated)', values: [kits.now] }
+        ],
+        fmt: v => v.toLocaleString(),
+        ariaLabel: `Untested rape kits in ${fullName}: ${kits.then != null ? kits.then + ' then, ' : ''}${kits.now} most recently.`
+      })}</div>` : '';
+    kitSection = `
+    <div class="section-block" id="st-kits">
+      <h3>Rape kits in ${fullName}</h3>
+      <p class="takeaway">${fullName} has adopted ${done} of 6 recommended rape kit reforms${prog ? `, with ${prog} more in progress` : ''}.</p>
+      ${kitChecklist(kits)}
+      ${backlogLine}${backlogChart}
+      ${kits.turnaround ? `<p class="section-sub" style="margin-top:14px;">Most recently reported lab turnaround for a kit: <b>${kits.turnaround} days</b>.</p>` : ''}
+      <p class="aside"><b>Who pays:</b> under federal law, survivors can't be charged for the forensic exam itself and don't have to report to police to get one — but related emergency care can still be billed. See <a href="#" data-nav="national">National Stats</a> → Rape kits.</p>
+      <div class="method"><p class="method-src"><b>Source:</b> End the Backlog (Joyful Heart Foundation), <a href="https://www.endthebacklog.org/state/${kits.slug}/" target="_blank" rel="noopener">${fullName} tracker</a>, pulled October 2026</p><details><summary>Methodology &amp; caveats</summary><div>End the Backlog scores every state on six reforms ("pillars") it recommends. A pillar counts toward the map's score if it's done or in progress. Untested-kit counts are the figures End the Backlog cites from state reports and news coverage, each with its own year; they aren't all measured the same way or at the same time, so compare states with care. ${kits.testing ? `Testing status per End the Backlog: ${kits.testing}.` : ''}</div></details></div>
+    </div>`;
+  }
+
   const stateToc = [{ group: fullName, items: [
     ...(quickRefTable ? [{ id: 'st-glance', label: 'Law at a glance' }] : []),
     ...(legal ? [{ id: 'st-law', label: 'Law in detail' }] : []),
@@ -2355,6 +2448,7 @@ function renderState(abbr) {
     ...(clearanceSection ? [{ id: 'st-clearance', label: 'Arrests' }] : []),
     ...(offenseTypesSection ? [{ id: 'st-offense', label: 'Offense types' }] : []),
     ...(demographicsSection ? [{ id: 'st-who', label: 'Who was affected' }, { id: 'st-relationship', label: 'Relationship to offender' }] : []),
+    ...(kitSection ? [{ id: 'st-kits', label: 'Rape kits' }] : []),
   ] }];
 
   return `
@@ -2378,6 +2472,7 @@ function renderState(abbr) {
       ${offenseTypesSection}
       ${demographicsSection}
     </div>
+    ${kitSection}
   `;
 }
 
@@ -2417,6 +2512,7 @@ const STATS_TOC = [
   { group: "The System's Response", items: [
     { id: 'stat-reporting-experience', label: 'Reporting experience', done: true },
     { id: 'stat-false-reporting', label: 'False reporting — what the research shows', done: true },
+    { id: 'stat-rape-kits', label: 'Rape kits', done: true },
   ]},
 ];
 
@@ -3195,6 +3291,51 @@ function renderNational() {
       <div class="method"><p class="method-src"><b>Source:</b> NSVRC; Lisak et al. (2010)</p><details><summary>Methodology &amp; caveats</summary><div>Sources: National Sexual Violence Resource Center, overview of false-reporting research; Lisak, Gardinier, Nicksa &amp; Cote, <i>False Allegations of Sexual Assault: An Analysis of Ten Years of Reported Cases</i>, Violence Against Women, 2010 — a false claim was counted only where a full investigation found the reported assault had likely not occurred, deliberately excluding cases merely closed as "unfounded" without full investigation, since under-investigation (not a false report) is a well-documented separate problem in how police classify sexual assault cases. This 2–10% range is comparable to false-reporting rates found for other felony crimes, not uniquely high or low for sexual assault.</div></details></div>
     </div>
 
+    <div class="section-block" id="stat-rape-kits">
+      <h3>Rape kits</h3>
+      <p class="takeaway">No one knows how many rape kits sit untested nationwide — but testing old ones has produced more than 18,500 DNA database matches.</p>
+      <p class="section-sub">A rape kit (sexual assault kit) is the evidence collected during a medical forensic exam after an assault. How quickly kits get tested — or whether they're tested at all — varies enormously by state.</p>
+
+      <h4 style="font-size:1.05rem;margin-top:24px;">Who pays for the exam?</h4>
+      <div class="read-this"><b>The exam itself should be free.</b> Under the Violence Against Women Act, states must make sure survivors aren't charged for the forensic exam to keep certain federal funding — and since 2009, they can't require a survivor to report to police or cooperate with an investigation to get one.
+        <ul><li><b>But related care can still be billed.</b> The exam is covered; an ER visit, tests, and medication around it may not be.</li></ul></div>
+      <p class="section-sub">Emergency room visits for sexual violence in 2019 averaged <b>$3,551</b> in charges, and about <b>1 in 6</b> were expected to be paid out of pocket:</p>
+      <div class="chart-card">${valueBarChart({
+        rows: [
+          { label: 'Medicaid', values: [36.2] },
+          { label: 'Private insurance', values: [22.1] },
+          { label: 'Out of pocket (self-pay)', values: [16.0], color: 'var(--cat3)', note: 'Self-pay visits averaged $3,673 in charges.' },
+          { label: 'All other payers', values: [25.7], color: 'var(--ink-faint)', note: 'Remainder of 100%: Medicare, other, and unrecorded payers.' }
+        ],
+        max: 100,
+        ariaLabel: 'Expected payer for 2019 emergency department visits for sexual violence: Medicaid 36.2%, private insurance 22.1%, out of pocket 16.0%, all other payers 25.7%.'
+      })}</div>
+      <div class="method"><p class="method-src"><b>Source:</b> Dickman et al., <i>New England Journal of Medicine</i>, Sept. 2022; VAWA 2005 forensic exam requirements</p><details><summary>Methodology &amp; caveats</summary><div>An estimated 112,844 emergency department visits in 2019 carried a sexual violence diagnosis. Average charges were $3,551 overall, $3,673 for self-pay patients, and $4,553 for pregnant patients. "Charges" are what hospitals bill, not necessarily what anyone ends up paying. "All other payers" is the remainder after the three named categories. The exam-cost rule applies to the forensic exam; states implement the related-care rules differently.</div></details></div>
+
+      <h4 style="font-size:1.05rem;margin-top:30px;">What testing old kits has found</h4>
+      <p class="section-sub">There's no national count of untested kits — many police departments never tracked them. The best national picture comes from the federal Sexual Assault Kit Initiative, which has funded backlog work in 43 states and D.C.:</p>
+      <div class="chart-card">${valueBarChart({
+        rows: [
+          { label: 'Kits inventoried', values: [209483] },
+          { label: 'Kits tested', values: [96169] },
+          { label: 'DNA profiles uploaded', values: [38428] },
+          { label: 'DNA database matches', values: [18528] },
+          { label: 'Cases charged', values: [2734] },
+          { label: 'Convictions', values: [1508] }
+        ],
+        fmt: v => v.toLocaleString(),
+        ariaLabel: 'Sexual Assault Kit Initiative results: 209,483 kits inventoried, 96,169 tested, 38,428 DNA profiles uploaded, 18,528 database matches, 2,734 cases charged, 1,508 convictions.'
+      })}</div>
+      <p class="section-sub">Of the 18,528 database matches, <b>2,733 pointed to serial sex offenders</b> and 9,941 to serial violent offenders.</p>
+      <div class="method"><p class="method-src"><b>Source:</b> Bureau of Justice Assistance, National Sexual Assault Kit Initiative fact sheet, April 2024</p><details><summary>Methodology &amp; caveats</summary><div>Cumulative results across SAKI-funded sites since 2015. A database match doesn't mean a conviction is possible: cases can be past the statute of limitations, the survivor may choose not to proceed, or the match may confirm a suspect already known. 29,367 investigations had been opened. There's also no national standard for lab turnaround time — only a small number of labs report it in a comparable way.</div></details></div>
+
+      <h4 style="font-size:1.05rem;margin-top:30px;">How states compare</h4>
+      <p class="section-sub">End the Backlog scores every state on six recommended reforms: count every untested kit, test the backlog, test every new kit, track each kit, tell survivors their kit's status, and fund it. Darker means more reforms. Click a state for its details.</p>
+      <div class="chart-card kit-map-card">${kitMap()}</div>
+      <p class="section-sub" style="margin-top:16px;"><b>${Object.values(STATE_KITS).filter(k => k.testing === 'Complete').length} jurisdictions</b> have finished testing their backlogged kits: ${Object.entries(STATE_KITS).filter(([, k]) => k.testing === 'Complete').map(([a]) => a === 'DC' ? 'Washington, D.C.' : Object.keys(ABBR).find(x => ABBR[x] === a)).sort().join(', ')}.</p>
+      <div class="method"><p class="method-src"><b>Source:</b> End the Backlog (Joyful Heart Foundation), state tracker, pulled October 2026</p><details><summary>Methodology &amp; caveats</summary><div>A reform counts toward a state's score if End the Backlog marks it done or in progress, matching how End the Backlog itself scores states. Each state page on this site shows the pillar-by-pillar breakdown and the untested-kit counts, with the year each count was reported.</div></details></div>
+    </div>
+
     <div class="section-block" id="sources">
       <h3>Sources</h3>
       <ol class="ref-list">
@@ -3207,6 +3348,10 @@ function renderNational() {
         <li>BJS, <i>Sexual Assault of Young Children as Reported to Law Enforcement</i> (NCJ 182990, 2000) — <a href="https://bjs.ojp.gov/content/pub/pdf/saycrle.pdf" target="_blank" rel="noopener">link</a></li>
         <li>BJS, <i>Crime Against Persons with Disabilities, 2009–2019 — Statistical Tables</i> — <a href="https://bjs.ojp.gov/content/pub/pdf/capd0919st.pdf" target="_blank" rel="noopener">link</a></li>
         <li>BJS, <i>Household Poverty and Nonfatal Violent Victimization, 2008–2012</i></li>
+        <li>End the Backlog (Joyful Heart Foundation), state rape kit reform tracker — <a href="https://www.endthebacklog.org/" target="_blank" rel="noopener">link</a></li>
+        <li>Bureau of Justice Assistance, National Sexual Assault Kit Initiative fact sheet, April 2024 — <a href="https://www.rti.org/sites/default/files/documents/2024-04/SAKISiteFactsheet_April2024.pdf" target="_blank" rel="noopener">link</a></li>
+        <li>Dickman et al., "Out-of-Pocket Costs for Emergency Care after Sexual Assault," <i>New England Journal of Medicine</i>, 2022</li>
+        <li>Violence Against Women and Department of Justice Reauthorization Act of 2005 (forensic exam provisions)</li>
         <li>BJS, NCVS Select public-use data (Personal Victimization and Personal Population files), 1993–2024 — <a href="https://bjs.ojp.gov/national-crime-victimization-survey-ncvs-api" target="_blank" rel="noopener">link</a>; our cross-tabs reproducible via scripts/fetch_ncvs_crosstabs.py</li>
         <li>BJS, <i>Sexual Victimization in Prisons Reported by Inmates, 2023–24</i> — <a href="https://bjs.ojp.gov/document/svpri2324.pdf" target="_blank" rel="noopener">link</a></li>
         <li>BJS, <i>Sexual Victimization in Local Jails Reported by Inmates, 2023–24</i></li>
@@ -3583,6 +3728,11 @@ function attachHandlers() {
   });
   document.querySelectorAll('.back-link[data-nav]').forEach(el => {
     el.addEventListener('click', () => navigate(el.dataset.nav));
+  });
+  document.querySelectorAll('.kit-shape[data-abbr]').forEach(el => {
+    const go = () => navigate('state', el.dataset.abbr);
+    el.addEventListener('click', go);
+    el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
   });
   const fab = document.querySelector('.toc-fab');
   const pop = document.getElementById('toc-pop');
