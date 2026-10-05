@@ -688,6 +688,12 @@ const STATE_VICTIM_RELATIONSHIP = __STATE_VICTIM_RELATIONSHIP_DATA__;
    null year means End the Backlog didn't state one). */
 const STATE_KITS = __STATE_KITS_DATA__;
 const CLERY = __CLERY_DATA__;
+
+// '2026-10-04' -> 'October 4, 2026' (parsed as a calendar date, no timezone shift)
+function fmtDate(iso) {
+  const [y, m, d] = iso.split('-').map(Number);
+  return `${['January','February','March','April','May','June','July','August','September','October','November','December'][m - 1]} ${d}, ${y}`;
+}
 const CLERY_SCHOOLS = __CLERY_SCHOOLS_DATA__;
 
 /* Named-school tables for the campus sections, ranked. Counts are reports
@@ -805,21 +811,22 @@ const LEGAL = {
   },
   AR: {
     name: 'Arkansas',
-    verified: '2026-10-01',
+    verified: '2026-10-04',
+    checked: '2026-10-04',
     consent: "Arkansas law frames this around lack of consent: a sexual act is unlawful if accomplished by forcible compulsion, or with a person incapable of consent because they are physically helpless, mentally defective, mentally incapacitated, or because of their age.",
-    incapacitation: "“Mentally incapacitated” is specifically defined as temporarily unable to appreciate or control one's conduct due to a substance administered without the person's consent, or that renders them unaware a sexual act is occurring. This phrasing centers on a substance given without consent, which raises real open questions about how voluntary intoxication — with no one else administering anything — is treated under this specific statutory language. This needs a careful primary-source read, not an assumption either way.",
-    ageOfConsent: "16, generally. A person under 14 cannot consent to a partner more than 3 years older. The age of consent rises to 18 or 21 if the other person holds a position of trust or authority.",
-    solCriminal: "No limit for first-degree offenses, and no limit for the rape or sexual assault of a minor. 3 years for second- and third-degree offenses.",
-    solCivil: "3 years from the incident (or from discovery, for minors). The 2021 Childhood Sexual Abuse Victims Act (Act 1036) opened a revival window letting childhood sexual abuse survivors file at any age — secondary sources describe this window as running “until 2026,” which needs direct confirmation of the exact closing mechanics before being treated as current fact.",
-    citation: "Ark. Code Ann. §§ 5-14-101 et seq., 5-14-103, 5-14-124–127 (draft citation — pending verification against the current codified statute text)",
-    maritalException: "Mostly closed, with a narrower gap than it first appears. Arkansas's top charge, rape (§ 5-14-103), carries no spousal exemption — forcible or incapacity-based rape against a spouse is prosecutable the same as against anyone else. The state's four separate \"sexual assault\" statutes (§§ 5-14-124 through 127) do build \"not the person's spouse\" into their age-based subsections specifically — at least one confirmed (second-degree, for a victim under 14) functions as an age-of-consent carve-out for a married minor, the same pattern seen in a few other states, rather than a broad shield for assaulting an adult or incapacitated spouse. Whether the identical language in the other three statutes (124, 126, 127) is scoped the same way hasn't been individually confirmed yet.",
-    ageOfConsentShort: "16 generally (narrower under-14 exception)",
+    incapacitation: "\"Mentally incapacitated\" covers a person temporarily unable to appreciate or control their conduct because of a controlled or intoxicating substance that was either given to them without their consent, or that leaves them unaware a sexual act is happening. \"Physically helpless\" separately covers someone who is unconscious, physically unable to communicate a lack of consent, or unaware a sexual act is occurring. So voluntary intoxication is covered once the person is unaware of what's happening — but not when they're impaired yet still aware.",
+    ageOfConsent: "16 for partners 20 or older; a child under 14 can't consent to anyone more than 3 years older. Consent is no defense for a minor whose partner is a guardian, school employee, caretaker, or other person in a position of trust or authority — and for a K-12 teacher, coach, principal, or counselor, the protection extends to their students up to age 21.",
+    solCriminal: "No limit for rape of a minor, first-degree sexual assault, or second-degree sexual assault of a minor. Rape of an adult: 6 years — but no limit once biological evidence capable of producing a DNA profile is identified. Second-degree sexual assault of an adult: 3 years. Third- and fourth-degree sexual assault of a minor: until the victim turns 28, if never reported.",
+    solCivil: "For childhood sexual abuse (and abuse of a person with a disability): no time limit, under the Justice for Vulnerable Victims of Sexual Abuse Act (2021). That law also reopened expired claims, but that window closed January 31, 2026; a narrower 2025 law (Act 49) separately protects claims by survivors of abuse in scouting. For an adult survivor suing the attacker for assault and battery: just 1 year.",
+    citation: "Ark. Code Ann. §§ 5-14-101, 5-14-103, 5-14-124 to -127, 5-1-109, 16-56-104, 16-56-130, 16-118-118",
+    maritalException: "Mostly closed. Rape — by force or against a physically helpless, mentally defective, or mentally incapacitated person — has no spousal exception, and neither does second-degree sexual assault by force or incapacity. The phrase \"not the person's spouse\" appears only in the age-based and custody/authority offenses: sex between a person 20 or older and someone under 16, a minor's contact with a child under 14, and abuse by jail, probation, school, or other authority figures.",
+    ageOfConsentShort: "16 (with partners 20+; under 14 protected from partners 3+ yrs older)",
     rating: {
       consent: { short: "Forcible compulsion or incapacity-based", badge: 'concerning', why: "Centers on forcible compulsion or incapacity rather than requiring an affirmative \"yes\" — places more of the burden on proving force or incapacity happened, rather than on the absence of consent itself." },
-      incapacitation: { short: "Substance given w/o consent (narrow wording)", badge: 'concerning', why: "The statute's phrasing centers on a substance \"administered without the person's consent\" — narrow wording that, on its face, raises a real question about how voluntary intoxication (no one else administering anything) is treated. Flagged, not confirmed: this specific reading needs a primary-source verification pass before being treated as settled." },
-      maritalException: { short: "No exemption for rape; age-based carve-out elsewhere", badge: 'mixed', why: "The core rape charge has no spousal exemption. A narrower age-of-consent-style carve-out exists in at least one of the four separate sexual assault statutes (confirmed for second-degree, victim under 14); the other three weren't individually confirmed." },
-      solCriminal: { short: "No limit (1st-degree / minors); 3 yrs otherwise", badge: 'mixed', why: "No deadline for first-degree offenses or crimes against minors — strong. But second- and third-degree offenses, which are still serious sexual assault charges, face just a 3-year window." },
-      solCivil: { short: "3 yrs; CSA revival window — confirm 2026 status", badge: 'mixed', why: "The general rule is a short 3 years. A 2021 revival law (Act 1036) lets childhood sexual abuse survivors file at any age — a real, meaningful protection — but secondary sources describe that window as running \"until 2026.\" Given where we are on the calendar right now, this needs an urgent confirmation of the exact closing date, not a later one." }
+      incapacitation: { short: "Covers drugging, unconsciousness, and unawareness", badge: 'mixed', why: "Covers a substance given without consent, and any intoxication that leaves the victim unaware a sexual act is happening. A victim who is heavily impaired but still aware falls outside the definition." },
+      maritalException: { short: "No exemption for force or incapacity; spouse excluded from age/authority offenses", badge: 'mixed', why: "Marriage is no defense to rape or to force- or incapacity-based sexual assault. The spouse exclusion remains in the age-based and custody/authority offenses — including sex by a jailer or probation officer with someone in their custody." },
+      solCriminal: { short: "No limit (minors / DNA); 6 yrs for adult rape otherwise", badge: 'mixed', why: "No deadline for crimes against minors or when DNA evidence exists, but an adult rape without DNA evidence must be charged within 6 years, and adult sexual assault in the second degree within just 3." },
+      solCivil: { short: "No limit (child abuse); 1 yr for adults", badge: 'mixed', why: "Childhood sexual abuse claims can be filed at any time, but an adult survivor has only a year to sue for assault and battery — one of the shortest windows in the country." }
     }
   },
   AK: {
@@ -1090,21 +1097,22 @@ const LEGAL = {
   },
   NM: {
     name: 'New Mexico',
-    verified: '2026-10-01',
+    verified: '2026-10-04',
+    checked: '2026-10-04',
     consent: "New Mexico doesn't define \"consent\" directly; instead it defines \"force or coercion,\" covering physical force or violence, threats, and perpetrating the act when the actor knows or has reason to know the victim is physically helpless or suffers a mental condition preventing understanding. A force/circumstance-based structure rather than a standalone affirmative-consent requirement. Resistance, physical or verbal, is explicitly not required.",
-    incapacitation: "\"Mentally incapacitated\" is defined broadly and without regard to cause: temporarily incapable of appraising or controlling one's conduct, \"whether this condition is produced by illness, defect, the influence of a substance or from some other cause.\" \"Physically helpless\" separately covers unconsciousness, sleep, or inability to communicate unwillingness.",
-    ageOfConsent: "16 generally, with a close-in-age exception for a partner no more than 4 years older when the younger person is at least 13.",
+    incapacitation: "New Mexico has no separate intoxication or incapacity provision. Its definition of \"force or coercion\" covers a victim the perpetrator knows (or has reason to know) is unconscious, asleep, or otherwise physically helpless, or who has a mental condition that makes them unable to understand the nature or consequences of the act. The statute doesn't say whether intoxication alone counts as such a condition.",
+    ageOfConsent: "16. Sex with a 13-, 14-, or 15-year-old is a crime when the other person is 18 or older and at least 4 years older (and not their spouse). Sex with a student under 18 by a school employee or volunteer who is at least 4 years older is also a crime.",
     maritalException: "A narrow, age-specific gap. New Mexico allows consensual sex between a married minor (age 13–16) and their spouse, despite the age that would otherwise make it statutory rape — the same \"married minor\" pattern seen in several other states, rather than a broad shield for assaulting an adult or incapacitated spouse.",
     solCriminal: "No limit for a first-degree offense. 6 years for second-degree, 5 years for third- or fourth-degree. For a minor victim, the clock doesn't start until they turn 18 or the offense is reported to police, whichever comes first.",
-    solCivil: "Until the survivor's 24th birthday, or 3 years after first disclosing the abuse to a licensed medical or mental health provider, for a childhood survivor. 3 years from the incident for an adult survivor. Legislation to extend the childhood deadline to age 58, with a revival window, was pending as of this research pass but not yet law.",
-    citation: "N.M. Stat. Ann. §§ 30-9-10, 30-9-11, 30-1-8, 37-1-30 (draft citation — pending verification against the current codified statute text)",
-    ageOfConsentShort: "16 (close-in-age exception, <4 yr gap)",
+    solCivil: "For a childhood survivor: until their 24th birthday, or 3 years after first disclosing the abuse to a licensed medical or mental health provider, whichever is later. For an adult survivor: 3 years from the assault. Two 2026 bills to extend the childhood deadline to age 58 and reopen expired claims (HB 69 and HB 151) died in committee.",
+    citation: "N.M. Stat. Ann. §§ 30-9-10, 30-9-11, 30-1-8, 30-1-9.1, 37-1-8, 37-1-30",
+    ageOfConsentShort: "16 (crime if partner is 18+ and 4+ years older)",
     rating: {
       consent: { short: "Force/coercion-based, not affirmative", badge: 'concerning', why: "Built around proving force or coercion rather than requiring an affirmative \"yes\" — though it explicitly doesn't require the victim to have physically or verbally resisted." },
-      incapacitation: { short: "Broad, explicitly cause-agnostic", badge: 'good', why: "The definition explicitly covers incapacity \"from illness, defect, the influence of a substance or from some other cause\" — it doesn't matter how the incapacity came about." },
+      incapacitation: { short: "Unconscious, asleep, or helpless; intoxication not named", badge: 'mixed', why: "Clearly covers a victim who is unconscious, asleep, or physically helpless, but never mentions alcohol or drugs — so a victim who is drunk but still conscious depends on how a court reads \"mental condition.\"" },
       maritalException: { short: "Narrow — married-minor age-of-consent carve-out", badge: 'mixed', why: "A real but narrow gap: a married minor (13-16) can legally consent to their spouse under the age-of-consent provisions specifically." },
       solCriminal: { short: "No limit (1st-degree); 5–6 yrs (lesser degrees)", badge: 'good', why: "No deadline for the top charge, with a minor victim's clock not starting until 18 or a police report — though lesser-degree offenses carry real, shorter 5-6 year windows." },
-      solCivil: { short: "Age 24 or disclosure+3 (child); 3 yrs (adult)", badge: 'mixed', why: "On the shorter end compared to other states researched — no unlimited option for either a child or adult survivor currently, though legislation to extend this was pending." }
+      solCivil: { short: "Age 24 or disclosure + 3 yrs (child); 3 yrs (adult)", badge: 'mixed', why: "On the shorter end nationally: no unlimited option for child or adult survivors, and 2026 efforts to extend the childhood deadline failed." }
     }
   },
   MO: {
@@ -1489,20 +1497,21 @@ const LEGAL = {
   },
   OK: {
     name: 'Oklahoma',
-    verified: '2026-10-09',
+    verified: '2026-10-04',
+    checked: '2026-10-04',
     consent: "Rape is defined around a list of circumstances — force, coercion, threats, age, intoxication, unconsciousness, or mental incapacity — rather than a standalone affirmative-consent requirement.",
     incapacitation: "Oklahoma splits incapacity into two different standards. A victim incapable of consent due to mental illness or \"any other unsoundness of mind\" is covered regardless of cause. But the specific intoxication provision only covers a victim drugged by \"a narcotic or anesthetic agent, administered by or with the privity of the accused\" — the same administered-without-consent gap this project has flagged in other states' statutes, and the one most likely to come up in an ordinary voluntary-intoxication scenario.",
-    ageOfConsent: "16, though a conviction based on age alone is blocked if the other person is 16 or 17 and the offender isn't more than 4 years older. A separate close-in-age provision also shields consensual activity between two minors who are both at least 14 and within 4 years of each other.",
-    maritalException: "Oklahoma's rape statute has historically treated spousal rape separately and more narrowly — requiring actual force or violence, where the general definition also reaches incapacity and unconsciousness. Recent statutory language is reported to have folded spousal rape back into the general definition, but this project could not fully confirm the current scope of that change against primary text, so it's flagged here rather than assumed fixed.",
-    solCriminal: "No limit, ever, for rape or forcible sodomy where the victim was a minor, and no limit either whenever DNA evidence is collected and the crime was reported within 12 years. For an adult victim without that DNA path, 20 years from discovery of the crime. Other child sex crimes are capped at the victim's 45th birthday.",
+    ageOfConsent: "18, since 2025. House Bill 1003 raised it from 16, with a close-in-age exception: consensual sex with someone 16 or older isn't rape unless the other person is more than 4 years older. Separate provisions also make it rape for a school employee to have sex with a student aged 16 to 19, or for a foster parent to have sex with a foster child 19 or younger.",
+    maritalException: "None, as of November 1, 2025. Oklahoma long defined spousal rape separately and more narrowly — it required force or violence, so drugging or incapacity didn't count against a spouse. Senate Bill 630 (signed May 2025) rewrote the rape statute to apply to a victim \"within or without the bonds of matrimony\" under every listed circumstance, including incapacity, drugging, and unconsciousness.",
+    solCriminal: "For rape and other sex crimes against a child: until the victim's 45th birthday. For an adult victim: 20 years from when the crime is reported to police. No limit at all if DNA evidence was preserved and later identifies the attacker, or if the accused confesses. (These rules took effect November 1, 2025, and apply to any case not already time-barred.)",
     solCivil: "Until the survivor turns 45 — one of the more generous child-victim windows found in this research. But if the abuser was employed by an institution that owed the victim a duty of care, a claim against that employer or institution specifically must be filed within just 2 years, a much narrower window that applies only to that institutional-liability claim.",
-    citation: "21 O.S. §§ 1111, 1112, 22 O.S. § 152, 12 O.S. § 95 (draft citation — pending verification against the current codified statute text)",
-    ageOfConsentShort: "16 (defense if partner 16–17 & offender ≤4 yrs older; separate exception for two minors 14+ within 4 yrs)",
+    citation: "21 O.S. §§ 1111 (as amended in 2025 by SB 630 and HB 1003), 1112, 1114; 22 O.S. § 152 (as amended by HB 1935, 2025); 12 O.S. § 95(A)(6)",
+    ageOfConsentShort: "18 (raised from 16 in 2025; exception for partners 16+ within 4 years)",
     rating: {
       consent: { short: "Circumstance-based, not affirmative", badge: 'mixed', why: "Built around force, coercion, age, intoxication, and mental incapacity circumstances rather than a standalone affirmative-consent requirement." },
       incapacitation: { short: "Intoxication prong excludes voluntary intoxication", badge: 'concerning', why: "The mental-illness category is cause-agnostic, but the specific intoxication provision only covers a substance administered by or with the privity of the accused — the scenario most likely to come up day to day falls outside it." },
-      maritalException: { short: "Historically narrower for spousal rape; recent fix unconfirmed", badge: 'concerning', why: "Spousal rape was historically defined more narrowly than general rape, and this project couldn't confirm against primary text that a reported recent change fully closed that gap." },
-      solCriminal: { short: "No limit for minors or DNA-match cases; 20 years otherwise", badge: 'mixed', why: "Prosecution is unlimited in time for a minor victim or whenever DNA evidence is preserved and timely reported, but an adult victim without that DNA path still faces a 20-year cutoff." },
+      maritalException: { short: "Closed in 2025 (SB 630)", badge: 'good', why: "Since November 1, 2025, every form of rape in the statute — force, incapacity, drugging, unconsciousness — applies to a spouse the same as anyone else. Before that, spousal rape required force or violence." },
+      solCriminal: { short: "Age 45 (minors), 20 yrs from report (adults); no limit with DNA", badge: 'mixed', why: "A long window for child victims and a 20-year window for adults that starts only when the crime is reported, plus no deadline whenever DNA identifies the attacker or the accused confesses — but no outright elimination for rape." },
       solCivil: { short: "Until age 45, but just 2 years for institutional liability", badge: 'mixed', why: "A generous window for suing the abuser directly is undercut by a much shorter 2-year deadline specifically for claims against an employer or institution that owed the victim a duty of care." }
     }
   },
@@ -1660,20 +1669,21 @@ const LEGAL = {
   },
   MS: {
     name: 'Mississippi',
-    verified: '2026-10-09',
+    verified: '2026-10-04',
+    checked: '2026-10-04',
     consent: "Sexual battery is defined as sexual penetration of another person without consent, or of a mentally defective, mentally incapacitated, or physically helpless person — a circumstance-based structure rather than a standalone affirmative-consent requirement.",
     incapacitation: "\"Mentally incapacitated\" is defined narrowly: incapable of knowing or controlling one's conduct, or resisting, due to a drug, narcotic, anesthetic, or other substance \"administered to that person without his or her consent.\" A victim who became intoxicated voluntarily, with no one else drugging them or forcing anything on them, falls outside this specific definition — the same structural gap this project has flagged in other states' statutes.",
-    ageOfConsent: "16 generally (18 in a position-of-authority relationship), with a close-in-age exemption for a gap of less than 36 months, and a separate statutory rape provision reaching a victim under 14 with an offender 2 or more years older.",
-    maritalException: "A person cannot be charged with the statutory rape or sexual battery of their underage spouse, as long as the activity is consensual — a carve-out scoped to consensual activity with an underage spouse rather than reaching forcible or incapacity-based sexual battery generally.",
-    solCriminal: "No limit for sexual battery of a child. Mississippi has also amended its law to state that the passage of time doesn't bar prosecution for sexual battery regardless of the victim's age — though some secondary sources still describe a much shorter 2-year window for an adult victim, and this project could not fully reconcile that discrepancy against primary statute text, so it's flagged here rather than presented as settled.",
-    solCivil: "A general 3-year window, which for a victim who was a minor at the time doesn't start running until they turn 21 (Mississippi's age of majority) — meaning a childhood sexual abuse claim generally must be filed by the survivor's 24th birthday, a short window relative to many other states.",
-    citation: "Miss. Code §§ 97-3-65, 97-3-95, 97-3-97, 97-5-23, 99-1-5, 15-1-49 (draft citation — pending verification against the current codified statute text)",
+    ageOfConsent: "16 generally. Statutory rape covers a 14- or 15-year-old with a partner 17 or older who is at least 36 months older, and a child under 14 with a partner at least 24 months older. Sexual penetration of anyone under 18 by a person in a position of trust or authority (teacher, coach, clergy, relative, and others) is sexual battery.",
+    maritalException: "Nearly closed. Forcible rape applies \"whether the perpetrator is married to the victim or not,\" and the old spousal defense to sexual battery (§ 97-3-99) was repealed in 2023. One narrow carve-out remains: the statutory rape provision covering 14- and 15-year-olds doesn't apply if the child is the person's spouse.",
+    solCriminal: "No limit for rape — including forcible rape of an adult — or for sexual battery of a child. Sexual battery of an adult, the charge most adult sexual assaults fall under, has no limit only if the attacker is later identified through DNA testing; otherwise it must be prosecuted within just 2 years.",
+    solCivil: "A general 3-year window. For a victim who was a minor, it doesn't start until they turn 21 (Mississippi's age of majority) — so a childhood sexual abuse claim generally must be filed by the survivor's 24th birthday. Mississippi has no separate, longer deadline for sexual abuse claims.",
+    citation: "Miss. Code §§ 97-3-65, 97-3-95, 97-3-97, 99-1-5, 15-1-49, 15-1-59; HB 995 (2023)",
     ageOfConsentShort: "16 generally, 18 in authority relationships (close-in-age exemption <36 mo. gap; separate under-14 provision, offender ≥2 yrs older)",
     rating: {
       consent: { short: "Circumstance-based, not affirmative", badge: 'mixed', why: "Built around lack of consent or a list of incapacity categories rather than a standalone affirmative-consent requirement." },
       incapacitation: { short: "Excludes voluntary intoxication", badge: 'concerning', why: "The definition only covers a substance administered without the victim's consent — someone who became intoxicated on their own, with no one drugging or forcing anything on them, falls outside it." },
-      maritalException: { short: "Scoped to consensual activity with an underage spouse", badge: 'mixed', why: "The carve-out is limited to consensual conduct with an underage spouse and doesn't reach forcible or incapacity-based sexual battery generally." },
-      solCriminal: { short: "No limit for children; adult-victim rule unclear", badge: 'mixed', why: "Child-victim prosecutions face no deadline, and a legislative amendment reportedly removed the deadline for adult victims too, but this project found conflicting secondary accounts of a shorter window and couldn't resolve them against primary text." },
+      maritalException: { short: "Nearly closed — one married-minor carve-out left", badge: 'mixed', why: "Marriage is no defense to forcible rape, and the spousal defense to sexual battery was repealed in 2023. The only remaining carve-out is in the statutory rape provision for 14- and 15-year-olds, which excludes a spouse." },
+      solCriminal: { short: "No limit for rape or child victims; 2 yrs for most adult sexual battery", badge: 'mixed', why: "Rape and child sexual battery can be prosecuted at any time, but adult sexual battery has only a 2-year window unless DNA later identifies the attacker — one of the shortest deadlines in the country for an adult survivor." },
       solCivil: { short: "Generally until age 24 for minors", badge: 'concerning', why: "A 3-year window that only starts at age 21 is short relative to the multi-decade windows several other states provide for childhood sexual abuse claims." }
     }
   },
@@ -2502,7 +2512,9 @@ function renderState(abbr) {
         <h3>Statute of limitations — civil</h3>
         <div class="body-text"><p>${legal.solCivil}</p>
           <div class="cite">${legal.citation}</div>
-          <div class="verify-note">This page's legal content is a research draft and has not yet been verified against ${fullName}'s current codified statute text. Last pulled: ${legal.verified}. Do not treat as a final legal reference — consult a licensed attorney for an actual legal question.</div>
+          <div class="verify-note">${legal.checked
+            ? `Checked against ${fullName}'s codified statute text (2025 code, plus laws passed through the 2026 sessions) on ${fmtDate(legal.checked)}. Laws change, and this is a plain-language summary, not legal advice — consult a licensed attorney or local advocate for an actual legal question.`
+            : `This page's legal content is a research draft and has not yet been verified against ${fullName}'s current codified statute text. Last pulled: ${legal.verified}. Do not treat as a final legal reference — consult a licensed attorney for an actual legal question.`}</div>
         </div>
       </div>
     `;
