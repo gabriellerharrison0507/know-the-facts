@@ -39,6 +39,7 @@
     --div-6: #d9522f;
     --div-7: #b8291c;
     --nodata-fill: #e7e3da;
+    --seq-1: #e4dcf0; --seq-2: #c2afe0; --seq-3: #9b80c8; --seq-4: #7553ad; --seq-5: #4f2f86;
     --nodata-line: #c7c1b2;
     --shadow: 0 1px 2px rgba(27,36,34,0.06), 0 4px 16px rgba(27,36,34,0.06);
   }
@@ -71,6 +72,7 @@
       --div-6: #e06a3f;
       --div-7: #e8492f;
       --nodata-fill: #242a27;
+      --seq-1: #43395f; --seq-2: #5b4990; --seq-3: #7b63b8; --seq-4: #a088dd; --seq-5: #cdb7f5;
       --nodata-line: #3c433f;
       --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 20px rgba(0,0,0,0.3);
     }
@@ -85,6 +87,7 @@
     --mixed-bg: #3a2a14; --mixed-ink: #e8b574; --mixed-border: #5c431f;
     --div-1: #3a9452; --div-2: #5fb563; --div-3: #9dd48c; --div-4: #f0ca45; --div-5: #f2a35c; --div-6: #e06a3f; --div-7: #e8492f;
     --nodata-fill: #242a27; --nodata-line: #3c433f;
+    --seq-1: #43395f; --seq-2: #5b4990; --seq-3: #7b63b8; --seq-4: #a088dd; --seq-5: #cdb7f5;
     --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 20px rgba(0,0,0,0.3);
   }
   :root[data-theme="light"] {
@@ -97,6 +100,7 @@
     --mixed-bg: #fde8d2; --mixed-ink: #935c12; --mixed-border: #f3cd9d;
     --div-1: #1e7a34; --div-2: #4a9e4f; --div-3: #8fc47a; --div-4: #f0ca45; --div-5: #f0954a; --div-6: #d9522f; --div-7: #b8291c;
     --nodata-fill: #e7e3da; --nodata-line: #c7c1b2;
+    --seq-1: #e4dcf0; --seq-2: #c2afe0; --seq-3: #9b80c8; --seq-4: #7553ad; --seq-5: #4f2f86;
     --shadow: 0 1px 2px rgba(27,36,34,0.06), 0 4px 16px rgba(27,36,34,0.06);
   }
 
@@ -225,6 +229,56 @@
   }
   .tooltip.show { opacity: 1; }
   .tooltip b { display: block; font-family: 'Fraunces', serif; font-size: 0.92rem; margin-bottom: 2px; }
+
+
+  /* ---------- global view ---------- */
+  .gl-controls { display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center; margin-bottom: 14px; }
+  .gl-seg { display: inline-flex; flex-wrap: wrap; gap: 6px; }
+  .gl-seg-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-faint); margin-right: 2px; align-self: center; }
+  .gl-seg button {
+    font: inherit; font-size: 0.84rem; font-weight: 600; padding: 6px 12px; border-radius: 20px; cursor: pointer;
+    background: var(--surface); color: var(--ink-soft); border: 1px solid var(--border);
+  }
+  .gl-seg button:hover { color: var(--accent); }
+  .gl-seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  .gl-seg button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .world-svg { width: 100%; height: auto; display: block; }
+  .world-sphere { fill: var(--bg-alt); stroke: var(--border); stroke-width: 1; }
+  .ctry { stroke: var(--bg); stroke-width: 0.5; cursor: pointer; outline: none; transition: filter 0.12s; }
+  .ctry:hover, .ctry:focus-visible { filter: brightness(1.1) drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
+  .ctry.sel { stroke: var(--ink); stroke-width: 1.4; }
+  .ctry.nodata { fill: url(#gl-hatch); cursor: default; }
+  .ctry.nodata.has-row { cursor: pointer; }
+  .gl-legend { display: grid; gap: 6px; }
+  .gl-legend-row { display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+  .gl-legend-row .swatch { width: 16px; height: 16px; border-radius: 4px; flex: none; }
+  .gl-legend-row .swatch.hatch { background-image: repeating-linear-gradient(45deg, var(--nodata-fill), var(--nodata-fill) 3px, var(--nodata-line) 3px, var(--nodata-line) 4px); }
+  .gl-legend-row .cnt { margin-left: auto; color: var(--ink-faint); font-size: 0.76rem; }
+  .gl-card dl { display: grid; grid-template-columns: 1fr auto; gap: 6px 12px; margin: 0; font-size: 0.84rem; }
+  .gl-card dt { color: var(--ink-soft); }
+  .gl-card dd { margin: 0; text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .gl-card .gl-sub { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-faint); margin: 14px 0 6px; }
+  .gl-card .gl-basis { font-size: 0.76rem; color: var(--ink-faint); margin-top: 8px; line-height: 1.4; }
+  .gl-yes { color: var(--good-ink); } .gl-no { color: var(--concern-ink); } .gl-na { color: var(--ink-faint); font-weight: 500; }
+  .gl-filter { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
+  .gl-filter input, .gl-filter select {
+    font: inherit; font-size: 0.88rem; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--border);
+    background: var(--surface); color: var(--ink); min-width: 0;
+  }
+  .gl-filter input { flex: 1 1 220px; }
+  .gl-filter select { flex: 0 1 280px; }
+  .gl-filter input:focus-visible, .gl-filter select:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .gl-table thead th button { all: unset; cursor: pointer; display: inline-flex; gap: 4px; align-items: center; }
+  .gl-table thead th button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+  .gl-table thead th[aria-sort] button::after { content: "▾"; color: var(--accent); }
+  .gl-table thead th[aria-sort="ascending"] button::after { content: "▴"; }
+  .gl-table tbody tr { cursor: pointer; }
+  .gl-table tbody tr:hover { background: var(--bg-alt); }
+  .gl-table tbody tr.sel { background: var(--accent-soft); }
+  .gl-table td.c { text-align: center; }
+  .gl-count { font-size: 0.8rem; color: var(--ink-faint); margin-top: 8px; }
+  @media (max-width: 720px) { .gl-table .gl-opt { display: none; } }
+  @media (max-width: 420px) { .gl-table .gl-opt2 { display: none; } }
 
   /* ---------- state view ---------- */
   .back-link {
@@ -723,7 +777,7 @@ function schoolTable(items, { showState = false, mode = 'count', show = Infinity
   return `<div class="school-table-wrap"><div class="school-table-label">${label}</div><div class="table-scroll"><table class="school-table"><thead>${head}</thead><tbody>${body}</tbody></table></div>${more}</div>`;
 }
 document.addEventListener('click', e => {
-  const btn = e.target.closest && e.target.closest('.school-more');
+  const btn = e.target.closest && e.target.closest('.school-table-wrap .school-more');
   if (!btn) return;
   const open = btn.getAttribute('aria-expanded') !== 'true';
   btn.closest('.school-table-wrap').querySelectorAll('.school-more-row').forEach(tr => { tr.hidden = !open; });
@@ -3706,16 +3760,269 @@ function renderNational() {
   `;
 }
 
+/* ---------------- global view ----------------
+   GLOBAL: per country (ISO3) -- n name, r World Bank region; prevalence
+   (UN VAW-IAWGED 2023 modeled estimates, %): s non-partner sexual violence
+   since 15 (all women 15+), i lifetime / y past-12-month physical or sexual
+   partner violence (ever-partnered women 15+); law (World Bank WBL 2026,
+   1 yes / 0 no / null not covered): dv domestic-violence law, mr DV law
+   addresses sexual violence incl. marital rape (mrb its legal basis),
+   h [work, school, public places, online] harassment laws, m18 marriage
+   age 18+, mpe no parental-consent exception under 18, fc femicide crime.
+   WLD holds the world estimates. Built by scripts/fetch_global.py. */
+const GLOBAL = __GLOBAL_DATA__;
+const WORLD_MAP = __WORLD_PATHS__;
+const GL_ISOS = Object.keys(GLOBAL).filter(k => k !== 'WLD');
+const GL_METRICS = {
+  s: { label: 'Sexual violence by a non-partner', kind: 'pct', bins: [5, 10, 15, 20],
+       desc: 'Share of women 15+ who have experienced sexual violence by someone other than a partner since age 15. 2023 estimate.' },
+  i: { label: 'Partner violence, lifetime', kind: 'pct', bins: [15, 20, 30, 40],
+       desc: 'Share of women 15+ who have ever had a partner and have experienced physical or sexual violence by a partner. 2023 estimate.' },
+  y: { label: 'Partner violence, past year', kind: 'pct', bins: [3, 6, 10, 20],
+       desc: 'The same measure, limited to the past 12 months. 2023 estimate.' },
+  mr: { label: 'Domestic-violence law covers marital rape', kind: 'yn',
+       desc: 'Whether the country\'s domestic-violence law covers sexual violence, including rape by a spouse, according to the World Bank\'s 2026 review. See the note below the map.' },
+  h: { label: 'Sexual harassment laws', kind: 'count',
+       desc: 'How many of four settings (work, school, public places, online) have a law with criminal penalties or civil remedies for sexual harassment. World Bank, 2026.' },
+};
+let glMetric = 's', glSel = null, glAll = false, glSort = { k: 'n', dir: 1 }, glQuery = '', glRegion = '';
+
+const glEsc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+function glVal(c, k) {
+  if (!c) return null;
+  if (k === 'h') return c.h[0] == null ? null : c.h.filter(x => x === 1).length;
+  return c[k] == null ? null : c[k];
+}
+function glFmt(k, v) {
+  if (v == null) return '—';
+  const m = GL_METRICS[k];
+  if (m.kind === 'pct') return `${v.toFixed(1)}%`;
+  if (m.kind === 'yn') return v ? 'Yes' : 'No';
+  return `${v} of 4`;
+}
+function glBucket(k, v) {
+  const m = GL_METRICS[k];
+  if (m.kind === 'pct') return m.bins.filter(b => v >= b).length;
+  if (m.kind === 'yn') return v;
+  return v;
+}
+function glColor(k, v) {
+  if (v == null) return null;
+  const m = GL_METRICS[k];
+  if (m.kind === 'yn') return v ? 'var(--div-2)' : 'var(--div-6)';
+  return `var(--seq-${glBucket(k, v) + 1})`;
+}
+function glLegend(k) {
+  const m = GL_METRICS[k];
+  const vals = GL_ISOS.map(i => glVal(GLOBAL[i], k));
+  const count = pred => vals.filter(v => v != null && pred(v)).length;
+  let rows;
+  if (m.kind === 'pct') {
+    const b = m.bins;
+    rows = [`Under ${b[0]}%`, ...b.slice(0, -1).map((x, j) => `${x}–${b[j + 1]}%`), `${b[b.length - 1]}% or more`]
+      .map((lab, j) => ({ lab, color: `var(--seq-${j + 1})`, n: count(v => glBucket(k, v) === j) })).reverse();
+  } else if (m.kind === 'yn') {
+    rows = [{ lab: 'Yes', color: 'var(--div-2)', n: count(v => v === 1) }, { lab: 'No', color: 'var(--div-6)', n: count(v => v === 0) }];
+  } else {
+    rows = [4, 3, 2, 1, 0].map(n => ({ lab: `${n} of 4 settings`, color: `var(--seq-${n + 1})`, n: count(v => v === n) }));
+  }
+  const none = vals.filter(v => v == null).length;
+  return `<div class="gl-legend">${rows.map(r => `<div class="gl-legend-row"><span class="swatch" style="background:${r.color}"></span>${r.lab}<span class="cnt">${r.n}</span></div>`).join('')}
+    <div class="gl-legend-row"><span class="swatch hatch"></span>${m.kind === 'pct' ? 'No estimate' : 'Not in the World Bank review'}<span class="cnt">${none}</span></div></div>`;
+}
+function glMapSVG() {
+  let shapes = '';
+  for (const [key, d] of Object.entries(WORLD_MAP.countries)) {
+    const c = key.startsWith('_') ? null : GLOBAL[key];
+    const v = glVal(c, glMetric);
+    const fill = glColor(glMetric, v);
+    const cls = 'ctry' + (v == null ? ' nodata' : '') + (c ? ' has-row' : '') + (key === glSel ? ' sel' : '');
+    shapes += c
+      ? `<path class="${cls}" data-iso="${key}" tabindex="0" role="button" aria-label="${glEsc(c.n)}: ${glFmt(glMetric, v)}"${fill ? ` fill="${fill}"` : ''} d="${d}"/>`
+      : `<path class="${cls}" d="${d}"/>`;
+  }
+  /* draw the selected country last so its outline isn't covered by neighbors */
+  return `<svg class="world-svg" viewBox="${WORLD_MAP.viewBox}" role="group" aria-label="World map: ${GL_METRICS[glMetric].label}. Select a country for its details.">
+    <defs><pattern id="gl-hatch" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="4" height="4" fill="var(--nodata-fill)"/><line x1="0" y1="0" x2="0" y2="4" stroke="var(--nodata-line)" stroke-width="1"/></pattern></defs>
+    <path class="world-sphere" d="${WORLD_MAP.sphere}"/>
+    <g>${shapes}</g>
+    ${glSel && WORLD_MAP.countries[glSel] ? `<path d="${WORLD_MAP.countries[glSel]}" fill="none" stroke="var(--ink)" stroke-width="1.4" pointer-events="none"/>` : ''}
+  </svg>`;
+}
+function glYN(v) { return v == null ? '<span class="gl-na">—</span>' : v ? '<span class="gl-yes">Yes</span>' : '<span class="gl-no">No</span>'; }
+function glCard() {
+  const c = GLOBAL[glSel];
+  if (!c) return `<div class="info-card"><h3>Pick a country</h3><p>Select a country on the map or in the table to see all of its numbers here.</p></div>`;
+  const pct = v => v == null ? '<span class="gl-na">No estimate</span>' : `${v.toFixed(1)}%`;
+  const inWBL = c.dv != null;
+  return `<div class="info-card gl-card" aria-live="polite">
+    <h3>${glEsc(c.n)}</h3>
+    <div class="gl-sub">Survey estimates, 2023</div>
+    <dl>
+      <dt>Sexual violence by a non-partner, ever</dt><dd>${pct(c.s)}</dd>
+      <dt>Partner violence, ever</dt><dd>${pct(c.i)}</dd>
+      <dt>Partner violence, past year</dt><dd>${pct(c.y)}</dd>
+    </dl>
+    <div class="gl-sub">The law, 2026</div>
+    ${inWBL ? `<dl>
+      <dt>Domestic-violence law</dt><dd>${glYN(c.dv)}</dd>
+      <dt>…covers sexual violence, incl. marital rape</dt><dd>${glYN(c.mr)}</dd>
+      <dt>Harassment law: work</dt><dd>${glYN(c.h[0])}</dd>
+      <dt>Harassment law: school</dt><dd>${glYN(c.h[1])}</dd>
+      <dt>Harassment law: public places</dt><dd>${glYN(c.h[2])}</dd>
+      <dt>Harassment law: online</dt><dd>${glYN(c.h[3])}</dd>
+      <dt>Minimum marriage age 18+</dt><dd>${glYN(c.m18)}</dd>
+      <dt>…with no parental-consent exception</dt><dd>${glYN(c.mpe)}</dd>
+    </dl>
+    ${c.mrb ? `<p class="gl-basis">Marital-rape coverage, legal basis: ${glEsc(c.mrb)}</p>` : ''}
+    ${c.mr === 0 ? `<p class="gl-basis">A "No" here doesn't necessarily mean rape by a spouse is legal in ${glEsc(c.n)}. It may be a crime under other laws. See the note below the map.</p>` : ''}`
+    : `<p>The World Bank's review of laws doesn't cover ${glEsc(c.n)}.</p>`}
+  </div>`;
+}
+function glRows() {
+  const q = glQuery.trim().toLowerCase();
+  const k = glSort.k;
+  const key = i => k === 'n' ? GLOBAL[i].n : glVal(GLOBAL[i], k);
+  return GL_ISOS
+    .filter(i => (!q || GLOBAL[i].n.toLowerCase().includes(q)) && (!glRegion || GLOBAL[i].r === glRegion))
+    .sort((a, b) => {
+      const x = key(a), y = key(b);
+      if (x == null || y == null) return x == null && y == null ? GLOBAL[a].n.localeCompare(GLOBAL[b].n) : x == null ? 1 : -1;
+      return (typeof x === 'string' ? x.localeCompare(y) : x - y) * glSort.dir || GLOBAL[a].n.localeCompare(GLOBAL[b].n);
+    });
+}
+const GL_SHOW = 20;
+function glTbody() {
+  const all = glRows();
+  const filtered = glQuery.trim() || glRegion;
+  const rows = glAll || filtered ? all : all.slice(0, GL_SHOW);
+  const pct = v => v == null ? '<span class="gl-na">—</span>' : `${v.toFixed(1)}%`;
+  return rows.map(i => {
+    const c = GLOBAL[i], h = glVal(c, 'h');
+    return `<tr data-iso="${i}" tabindex="0"${i === glSel ? ' class="sel"' : ''}><th scope="row">${glEsc(c.n)}</th>`
+      + `<td class="num">${pct(c.s)}</td><td class="num gl-opt">${pct(c.i)}</td><td class="num gl-opt">${pct(c.y)}</td>`
+      + `<td class="c">${glYN(c.mr)}</td><td class="num gl-opt2">${h == null ? '<span class="gl-na">—</span>' : `${h}/4`}</td></tr>`;
+  }).join('') || `<tr><td colspan="6">No countries match.</td></tr>`;
+}
+function glTable() {
+  const cols = [['n', 'Country', ''], ['s', 'Non-partner<br>sexual violence', 'num'], ['i', 'Partner<br>violence, ever', 'num gl-opt'],
+    ['y', 'Partner violence,<br>past year', 'num gl-opt'], ['mr', 'DV law covers<br>marital rape', 'c'], ['h', 'Harassment<br>laws', 'num gl-opt2']];
+  const head = cols.map(([k, lab, cls]) => `<th scope="col" class="${cls}"${glSort.k === k ? ` aria-sort="${glSort.dir > 0 ? 'ascending' : 'descending'}"` : ''}><button type="button" data-glsort="${k}">${lab}</button></th>`).join('');
+  return `<table class="school-table gl-table"><thead><tr>${head}</tr></thead><tbody id="gl-tbody">${glTbody()}</tbody></table>`;
+}
+function glRefresh({ map = true, table = true } = {}) {
+  const set = (id, html) => { const el = document.getElementById(id); if (el) el.innerHTML = html; };
+  if (map) { hideTooltip(); set('gl-map', glMapSVG()); set('gl-legend', glLegend(glMetric)); set('gl-metric-desc', GL_METRICS[glMetric].desc); set('gl-legend-title', GL_METRICS[glMetric].label); }
+  set('gl-card', glCard());
+  if (table) { set('gl-table', glTable()); set('gl-count', glCountText()); }
+  document.querySelectorAll('.gl-seg button[data-glmetric]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.glmetric === glMetric)));
+}
+function glCountText() {
+  const n = glRows().length;
+  if (!glAll && !glQuery.trim() && !glRegion && n > GL_SHOW)
+    return `Showing ${GL_SHOW} of ${n} countries <button type="button" class="school-more" data-glall>Show all ${n}</button>`;
+  return `${n} of ${GL_ISOS.length} countries`;
+}
+function glSelect(iso, { fromMap = false } = {}) {
+  glSel = iso;
+  glRefresh({ table: false });
+  document.querySelectorAll('#gl-tbody tr').forEach(tr => tr.classList.toggle('sel', tr.dataset.iso === iso));
+  if (fromMap && window.innerWidth < 900) document.getElementById('gl-card')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  if (!fromMap) document.getElementById('gl-map')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+document.addEventListener('click', e => {
+  if (currentView !== 'global' || !e.target.closest) return;
+  if (e.target.closest('[data-glall]')) { glAll = true; glRefresh({ map: false }); return; }
+  const m = e.target.closest('[data-glmetric]');
+  if (m) { glMetric = m.dataset.glmetric; glRefresh({ table: false }); return; }
+  const s = e.target.closest('[data-glsort]');
+  if (s) {
+    const k = s.dataset.glsort;
+    glSort = glSort.k === k ? { k, dir: -glSort.dir } : { k, dir: k === 'n' ? 1 : -1 };
+    glRefresh({ map: false });
+    document.querySelector(`[data-glsort="${k}"]`)?.focus();
+    return;
+  }
+  const t = e.target.closest('#gl-map [data-iso], #gl-tbody tr[data-iso]');
+  if (t) glSelect(t.dataset.iso, { fromMap: !!t.closest('#gl-map') });
+});
+document.addEventListener('keydown', e => {
+  if (currentView !== 'global' || (e.key !== 'Enter' && e.key !== ' ')) return;
+  const t = e.target.closest && e.target.closest('#gl-map [data-iso], #gl-tbody tr[data-iso]');
+  if (t) { e.preventDefault(); glSelect(t.dataset.iso, { fromMap: !!t.closest('#gl-map') }); }
+});
+document.addEventListener('input', e => {
+  if (e.target.id === 'gl-search') { glQuery = e.target.value; glRefresh({ map: false }); }
+  if (e.target.id === 'gl-region') { glRegion = e.target.value; glRefresh({ map: false }); }
+});
+document.addEventListener('mouseover', e => {
+  const t = e.target.closest && e.target.closest('#gl-map [data-iso]');
+  if (!t || !matchMedia('(hover: hover)').matches) return;
+  const c = GLOBAL[t.dataset.iso];
+  showTooltip(e, `<b>${glEsc(c.n)}</b>${GL_METRICS[glMetric].label}: ${glFmt(glMetric, glVal(c, glMetric))}`);
+});
+document.addEventListener('mousemove', e => { if (e.target.closest && e.target.closest('#gl-map [data-iso]')) moveTooltip(e); });
+document.addEventListener('mouseout', e => { if (e.target.closest && e.target.closest('#gl-map [data-iso]')) hideTooltip(); });
+
 function renderGlobal() {
+  const W = GLOBAL.WLD;
+  const law = GL_ISOS.filter(i => GLOBAL[i].mr != null);
+  const noMR = law.filter(i => GLOBAL[i].mr === 0).length;
+  const regions = [...new Set(GL_ISOS.map(i => GLOBAL[i].r))].sort();
+  const seg = (keys, label) => `<div class="gl-seg" role="group" aria-label="${label}"><span class="gl-seg-label">${label}</span>${keys.map(k => `<button type="button" data-glmetric="${k}" aria-pressed="${k === glMetric}">${GL_METRICS[k].label}</button>`).join('')}</div>`;
   return `
     <div class="hero">
       <div class="eyebrow">Global Statistics</div>
-      <h2>Coming soon</h2>
-      <p class="lede">This resource starts with U.S. law and U.S. survey data, where we could verify primary sources directly. A global view — comparing definitions, survey methods, and prevalence across countries — is planned, but isn't built yet.</p>
+      <h2>Violence against women, country by country</h2>
+      <p class="lede">How common sexual and partner violence is around the world, from the UN's 2023 survey-based estimates, and what each country's laws say, from the World Bank's 2026 review. These figures cover women only; no comparable global estimates exist for men. Read the note under the map before comparing countries: a higher survey number often means more women felt able to tell an interviewer, not that more violence happened.</p>
     </div>
-    <div class="coming-soon">
-      <h3>Why this isn't live yet</h3>
-      <p>Sexual assault law and data collection vary enormously country to country — definitions, survey methodology, and even what counts as a reportable crime differ in ways that don't translate cleanly into one comparison table. Getting this right means the same care this site puts into state-by-state detail, applied globally. That's a bigger research pass than we've done yet.</p>
+
+    <div class="stat-row">
+      <div class="stat-tile"><div class="stat-num">${W.s}%</div><div class="stat-label">of women worldwide have experienced sexual violence by someone other than a partner since age 15 (about 263 million women)</div><div class="stat-source">UN VAW-IAWGED estimates, 2023 (WHO, 2025)</div></div>
+      <div class="stat-tile"><div class="stat-num">${W.i}%</div><div class="stat-label">of women who have ever had a partner have experienced physical or sexual violence by a partner</div><div class="stat-source">UN VAW-IAWGED estimates, 2023 (WHO, 2025)</div></div>
+      <div class="stat-tile"><div class="stat-num">${W.y}%</div><div class="stat-label">experienced it in the past year alone</div><div class="stat-source">UN VAW-IAWGED estimates, 2023 (WHO, 2025)</div></div>
+      <div class="stat-tile"><div class="stat-num">${noMR} of ${law.length}</div><div class="stat-label">countries' domestic-violence laws don't cover sexual violence, including marital rape</div><div class="stat-source">World Bank, Women, Business and the Law 2026</div></div>
+    </div>
+
+    <div class="section-block" id="gl-map-section" style="margin-top:12px;">
+      <h3>The map</h3>
+      <div class="gl-controls">
+        ${seg(['s', 'i', 'y'], 'Surveys')}
+        ${seg(['mr', 'h'], 'Laws')}
+      </div>
+      <div class="map-layout">
+        <div>
+          <div id="gl-map">${glMapSVG()}</div>
+          <p class="aside" style="margin-top:8px;">Some small countries, including Singapore, Malta, and most island nations, are too small to show at this scale. They're in the table below.</p>
+        </div>
+        <div class="map-side">
+          <div class="legend-card">
+            <h3 id="gl-legend-title">${GL_METRICS[glMetric].label}</h3>
+            <p class="aside" id="gl-metric-desc" style="margin:0 0 12px;font-size:0.8rem;">${GL_METRICS[glMetric].desc}</p>
+            <div id="gl-legend">${glLegend(glMetric)}</div>
+          </div>
+          <div id="gl-card">${glCard()}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-block" id="gl-caveats">
+      <h3>Why higher numbers don't always mean more violence</h3>
+      <p class="takeaway">Sweden (38%), Finland (35.6%) and Denmark (31.4%) have some of the highest estimates of sexual violence by a non-partner. India's is 3.8%. That gap mostly reflects how willing and able women are to tell a survey interviewer, not a measure of where women are safer.</p>
+      <p class="aside">WHO, which published these estimates, says all surveys likely underestimate violence against women because some women don't disclose it, especially where it's highly stigmatized, and that sexual violence is particularly under-reported in many settings. Countries where it's more openly discussed, and where surveys are run by trained interviewers in private, tend to record more of it. The partner-violence estimates are somewhat more comparable, since they come mainly from standardized survey modules, but the same problem applies.</p>
+      <p class="aside">On the laws: a "No" for marital rape means only that the World Bank didn't find sexual violence, including by a spouse, covered by the country's domestic-violence law, including where there's no such law at all. Rape by a spouse may still be a crime under other laws there. Either way, this is a review of what the law says, not of how it's enforced. The World Bank reviews the laws that apply in each country's main business city. For the United States that's New York, so the U.S. entries reflect federal and New York law, not every state's. See the <a href="#" data-nav="map">state pages</a> for each state's own rules.</p>
+    </div>
+
+    <div class="section-block" id="gl-table-section">
+      <h3>Every country</h3>
+      <p class="section-sub">Select a column heading to sort. Select a country to see all of its numbers by the map.</p>
+      <div class="gl-filter">
+        <input id="gl-search" type="search" placeholder="Search for a country" aria-label="Search for a country" value="${glEsc(glQuery)}">
+        <select id="gl-region" aria-label="Filter by region"><option value="">All regions</option>${regions.map(r => `<option${r === glRegion ? ' selected' : ''}>${glEsc(r)}</option>`).join('')}</select>
+      </div>
+      <div class="table-scroll" id="gl-table">${glTable()}</div>
+      <div class="gl-count" id="gl-count">${glCountText()}</div>
+      <div class="method"><p class="method-src"><b>Sources:</b> <a href="https://www.who.int/publications/i/item/9789240116962" target="_blank" rel="noopener">WHO on behalf of the UN Inter-Agency Working Group on Violence Against Women Estimation and Data, <i>Violence against women prevalence estimates, 2023</i></a> (Nov. 2025), via the <a href="https://genderdata.worldbank.org/" target="_blank" rel="noopener">World Bank Gender Data Portal</a>; <a href="https://wbl.worldbank.org/en/wbl-data" target="_blank" rel="noopener">World Bank, <i>Women, Business and the Law 2026</i></a>, Safety topic, legal frameworks (data as of Feb. 2026)</p><details><summary>Methodology &amp; caveats</summary><div>The prevalence figures are modeled estimates built from national surveys conducted from 2000 to 2023 and adjusted to be comparable across countries. A dash means no estimate was published for that country. Non-partner sexual violence is a share of all women 15 and older; partner violence is a share of women 15 and older who have ever had a partner. The "about 263 million" world figure is WHO's. Legal answers are the World Bank's coding: "DV law covers marital rape" is its question "Does legislation on domestic violence address sexual violence, including marital rape?"; harassment counts its four questions on legislation with criminal penalties or civil remedies in employment, education, public places or transportation, and online (cyberharassment or cyberstalking). Countries and regions follow World Bank names and groupings, shortened in a few places. Map: Natural Earth 1:110m via world-atlas (equal-area projection). Reproduce with scripts/fetch_global.py.</div></details></div>
     </div>
   `;
 }

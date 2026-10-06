@@ -234,6 +234,42 @@ def clery_schools_literal():
     return json.dumps(out, separators=(",", ":"), ensure_ascii=False)
 
 
+# World Bank short names -> the names most readers would look for
+GLOBAL_NAMES = {
+    "Bahamas, The": "Bahamas", "Congo, Dem. Rep.": "Congo (DRC)", "Congo, Rep.": "Congo (Republic)",
+    "Egypt, Arab Rep.": "Egypt", "Gambia, The": "Gambia", "Hong Kong SAR, China": "Hong Kong",
+    "Iran, Islamic Rep.": "Iran", "Korea, Rep.": "South Korea", "Lao PDR": "Laos",
+    "Micronesia, Fed. Sts.": "Micronesia", "Naoero": "Nauru", "Puerto Rico (US)": "Puerto Rico",
+    "Somalia, Fed. Rep.": "Somalia", "Taiwan, China": "Taiwan", "Turkiye": "Türkiye",
+    "Venezuela, RB": "Venezuela", "Viet Nam": "Vietnam", "Yemen, Rep.": "Yemen",
+}
+
+
+def global_literal():
+    """data/global_countries.csv -> {ISO3: {...}}; WLD is the world estimate."""
+    yn = lambda v: 1 if v == "Yes" else 0 if v == "No" else None
+    num = lambda v: float(v) if v else None
+    out = {}
+    with open(ROOT / "data/global_countries.csv", newline="") as f:
+        for r in csv.DictReader(f):
+            basis = r["dv_covers_sexual_incl_marital_rape_basis"]
+            out[r["iso3"]] = {
+                "n": GLOBAL_NAMES.get(r["name"], r["name"]), "r": GLOBAL_NAMES.get(r["region"], r["region"]),
+                "s": num(r["npsv_lifetime_pct"]), "i": num(r["ipv_lifetime_pct"]), "y": num(r["ipv_12m_pct"]),
+                "dv": yn(r["dv_law"]), "mr": yn(r["dv_covers_sexual_incl_marital_rape"]),
+                "mrb": basis if basis and not basis.startswith("No applicable") else None,
+                "h": [yn(r[k]) for k in ("harassment_employment", "harassment_education",
+                                         "harassment_public_places", "harassment_cyber")],
+                "m18": yn(r["marriage_age_18"]), "mpe": yn(r["marriage_no_parental_exception_under_18"]),
+                "fc": yn(r["femicide_crime"]),
+            }
+    return json.dumps(out, separators=(",", ":"), ensure_ascii=False)
+
+
+def world_paths_literal():
+    return (ROOT / "assets/map/world-paths.json").read_text()
+
+
 def main():
     template = (ROOT / "site/index.template.html").read_text()
     out = (
@@ -254,8 +290,10 @@ def main():
         .replace("__STATE_KITS_DATA__", state_kits_literal())
         .replace("__CLERY_DATA__", clery_literal())
         .replace("__CLERY_SCHOOLS_DATA__", clery_schools_literal())
+        .replace("__GLOBAL_DATA__", global_literal())
+        .replace("__WORLD_PATHS__", world_paths_literal())
     )
-    remaining = [tok for tok in ("__FRAUNCES_B64__", "__PUBLICSANS_B64__", "__RANKS_DATA__", "__SA_STATE_DATA__", "__STATE_PATHS__", "__STATE_TREND_DATA__", "__STATE_CLEARANCE_DATA__", "__STATE_OFFENSE_TYPES_DATA__", "__STATE_VICTIM_AGE_DATA__", "__STATE_VICTIM_SEX_DATA__", "__STATE_VICTIM_RACE_DATA__", "__STATE_VICTIM_ETHNICITY_DATA__", "__STATE_VICTIM_RELATIONSHIP_DATA__", "__STATE_KITS_DATA__", "__CLERY_DATA__", "__CLERY_SCHOOLS_DATA__") if tok in out]
+    remaining = [tok for tok in ("__FRAUNCES_B64__", "__PUBLICSANS_B64__", "__RANKS_DATA__", "__SA_STATE_DATA__", "__STATE_PATHS__", "__STATE_TREND_DATA__", "__STATE_CLEARANCE_DATA__", "__STATE_OFFENSE_TYPES_DATA__", "__STATE_VICTIM_AGE_DATA__", "__STATE_VICTIM_SEX_DATA__", "__STATE_VICTIM_RACE_DATA__", "__STATE_VICTIM_ETHNICITY_DATA__", "__STATE_VICTIM_RELATIONSHIP_DATA__", "__STATE_KITS_DATA__", "__CLERY_DATA__", "__CLERY_SCHOOLS_DATA__", "__GLOBAL_DATA__", "__WORLD_PATHS__") if tok in out]
     if remaining:
         raise SystemExit(f"Unsubstituted placeholders remain: {remaining}")
 
