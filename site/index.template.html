@@ -3794,7 +3794,7 @@ const GL_METRICS = {
        desc: 'The same measure, limited to the past 12 months. 2023 estimate.' },
   mr: { label: 'Domestic-violence law covers marital rape', kind: 'yn',
        desc: 'Whether the country\'s domestic-violence law covers sexual violence, including rape by a spouse, according to the World Bank\'s 2026 review. See the note below the map.' },
-  h: { label: 'Sexual harassment laws', kind: 'count', hue: 'teal',
+  h: { label: 'Sexual harassment laws', kind: 'count', hue: 'teal', invert: true,
        desc: 'How many of four settings (work, school, public places, online) have a law with criminal penalties or civil remedies for sexual harassment. World Bank, 2026.' },
 };
 let glMetric = 's', glSel = null, glAll = false, glSort = { k: 's', dir: -1 }, glRankKey = 's', glQuery = '', glRegion = '';
@@ -3822,7 +3822,8 @@ function glColor(k, v) {
   if (v == null) return null;
   const m = GL_METRICS[k];
   if (m.kind === 'yn') return v ? 'var(--div-2)' : 'var(--div-6)';
-  return `var(--seq-${m.hue}-${glBucket(k, v) + 1})`;
+  const b = glBucket(k, v);
+  return `var(--seq-${m.hue}-${(m.invert ? 4 - b : b) + 1})`;  // invert: dark = fewer laws
 }
 function glLegend(k) {
   const m = GL_METRICS[k];
@@ -3836,7 +3837,7 @@ function glLegend(k) {
   } else if (m.kind === 'yn') {
     rows = [{ lab: 'Yes', color: 'var(--div-2)', n: count(v => v === 1) }, { lab: 'No', color: 'var(--div-6)', n: count(v => v === 0) }];
   } else {
-    rows = [4, 3, 2, 1, 0].map(n => ({ lab: `${n} of 4 settings`, color: `var(--seq-${m.hue}-${n + 1})`, n: count(v => v === n) }));
+    rows = [4, 3, 2, 1, 0].map(n => ({ lab: `${n} of 4 settings`, color: `var(--seq-${m.hue}-${(m.invert ? 4 - n : n) + 1})`, n: count(v => v === n) }));
   }
   const none = vals.filter(v => v == null).length;
   return `<div class="gl-legend">${rows.map(r => `<div class="gl-legend-row"><span class="swatch" style="background:${r.color}"></span>${r.lab}<span class="cnt">${r.n}</span></div>`).join('')}
