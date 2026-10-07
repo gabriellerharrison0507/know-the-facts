@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="build-id" content="dd01977c61f3">
+<meta name="build-id" content="c79d64e440b2">
 <title>Know The Facts — Sexual Assault Law &amp; Statistics</title>
 <meta name="description" content="State-by-state sexual assault law and survey-based statistics, cited to primary sources.">
 <script>
 (function () {
   if (!/\.github\.io$/.test(location.hostname) || !window.fetch) return;
-  var mine = "dd01977c61f3";
+  var mine = "c79d64e440b2";
   fetch(location.pathname + "?build-check=" + Date.now(), { cache: "no-store" })
     .then(function (r) { return r.ok ? r.text() : ""; })
     .then(function (t) {
@@ -3825,7 +3825,7 @@ const GL_METRICS = {
   h: { label: 'Sexual harassment laws', kind: 'count', hue: 'teal',
        desc: 'How many of four settings (work, school, public places, online) have a law with criminal penalties or civil remedies for sexual harassment. World Bank, 2026.' },
 };
-let glMetric = 's', glSel = null, glAll = false, glSort = { k: 'n', dir: 1 }, glQuery = '', glRegion = '';
+let glMetric = 's', glSel = null, glAll = false, glSort = { k: 's', dir: -1 }, glRankKey = 's', glQuery = '', glRegion = '';
 
 const glEsc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 function glVal(c, k) {
@@ -3932,23 +3932,34 @@ function glRows() {
     });
 }
 const GL_SHOW = 20;
+/* World rank (1 = highest) on glRankKey, the last numeric column sorted;
+   computed over every country so it holds when the table is filtered.
+   Ties share a rank; countries without a value get none. */
+function glRanks() {
+  const vals = GL_ISOS.map(i => glVal(GLOBAL[i], glRankKey)).filter(v => v != null);
+  const out = {};
+  GL_ISOS.forEach(i => { const v = glVal(GLOBAL[i], glRankKey); out[i] = v == null ? null : 1 + vals.filter(x => x > v).length; });
+  return out;
+}
 function glTbody() {
   const all = glRows();
   const filtered = glQuery.trim() || glRegion;
   const rows = glAll || filtered ? all : all.slice(0, GL_SHOW);
   const pct = v => v == null ? '<span class="gl-na">—</span>' : `${v.toFixed(1)}%`;
+  const rk = glRanks();
   return rows.map(i => {
     const c = GLOBAL[i], h = glVal(c, 'h');
-    return `<tr data-iso="${i}" tabindex="0"${i === glSel ? ' class="sel"' : ''}><th scope="row">${glEsc(c.n)}</th>`
+    return `<tr data-iso="${i}" tabindex="0"${i === glSel ? ' class="sel"' : ''}><td class="num rank-col">${rk[i] ?? '<span class="gl-na">—</span>'}</td><th scope="row">${glEsc(c.n)}</th>`
       + `<td class="num">${pct(c.s)}</td><td class="num gl-opt">${pct(c.i)}</td><td class="num gl-opt">${pct(c.y)}</td>`
       + `<td class="c">${glYN(c.mr)}</td><td class="num gl-opt2">${h == null ? '<span class="gl-na">—</span>' : `${h}/4`}</td></tr>`;
-  }).join('') || `<tr><td colspan="6">No countries match.</td></tr>`;
+  }).join('') || `<tr><td colspan="7">No countries match.</td></tr>`;
 }
 function glTable() {
   const cols = [['n', 'Country', ''], ['s', 'Non-partner<br>sexual violence', 'num'], ['i', 'Partner<br>violence, ever', 'num gl-opt'],
     ['y', 'Partner violence,<br>past year', 'num gl-opt'], ['mr', 'DV law covers<br>marital rape', 'c'], ['h', 'Harassment<br>laws', 'num gl-opt2']];
   const head = cols.map(([k, lab, cls]) => `<th scope="col" class="${cls}"${glSort.k === k ? ` aria-sort="${glSort.dir > 0 ? 'ascending' : 'descending'}"` : ''}><button type="button" data-glsort="${k}">${lab}</button></th>`).join('');
-  return `<table class="school-table gl-table"><thead><tr>${head}</tr></thead><tbody id="gl-tbody">${glTbody()}</tbody></table>`;
+  const rankLab = { s: 'non-partner sexual violence', i: 'partner violence, ever', y: 'partner violence, past year', h: 'number of harassment laws' }[glRankKey];
+  return `<div class="school-table-label"># = world rank by ${rankLab}, highest first</div><div class="table-scroll"><table class="school-table gl-table"><thead><tr><th scope="col" class="num rank-col">#</th>${head}</tr></thead><tbody id="gl-tbody">${glTbody()}</tbody></table></div>`;
 }
 function glRefresh({ map = true, table = true } = {}) {
   const set = (id, html) => { const el = document.getElementById(id); if (el) el.innerHTML = html; };
@@ -3979,6 +3990,7 @@ document.addEventListener('click', e => {
   if (s) {
     const k = s.dataset.glsort;
     glSort = glSort.k === k ? { k, dir: -glSort.dir } : { k, dir: k === 'n' ? 1 : -1 };
+    if ('siyh'.includes(k)) glRankKey = k;
     glRefresh({ map: false });
     document.querySelector(`[data-glsort="${k}"]`)?.focus();
     return;
@@ -4060,7 +4072,7 @@ function renderGlobal() {
         <input id="gl-search" type="search" placeholder="Search for a country" aria-label="Search for a country" value="${glEsc(glQuery)}">
         <select id="gl-region" aria-label="Filter by region"><option value="">All regions</option>${regions.map(r => `<option${r === glRegion ? ' selected' : ''}>${glEsc(r)}</option>`).join('')}</select>
       </div>
-      <div class="table-scroll" id="gl-table">${glTable()}</div>
+      <div id="gl-table">${glTable()}</div>
       <div class="gl-count" id="gl-count">${glCountText()}</div>
       <div class="method"><p class="method-src"><b>Sources:</b> <a href="https://www.who.int/publications/i/item/9789240116962" target="_blank" rel="noopener">WHO on behalf of the UN Inter-Agency Working Group on Violence Against Women Estimation and Data, <i>Violence against women prevalence estimates, 2023</i></a> (Nov. 2025), via the <a href="https://genderdata.worldbank.org/" target="_blank" rel="noopener">World Bank Gender Data Portal</a>; <a href="https://wbl.worldbank.org/en/wbl-data" target="_blank" rel="noopener">World Bank, <i>Women, Business and the Law 2026</i></a>, Safety topic, legal frameworks (data as of Feb. 2026)</p><details><summary>Methodology &amp; caveats</summary><div>The prevalence figures are modeled estimates built from national surveys conducted from 2000 to 2023 and adjusted to be comparable across countries. A dash means no estimate was published for that country. Non-partner sexual violence is a share of all women 15 and older; partner violence is a share of women 15 and older who have ever had a partner. The "about 263 million" world figure is WHO's. Legal answers are the World Bank's coding: "DV law covers marital rape" is its question "Does legislation on domestic violence address sexual violence, including marital rape?"; harassment counts its four questions on legislation with criminal penalties or civil remedies in employment, education, public places or transportation, and online (cyberharassment or cyberstalking). Countries and regions follow World Bank names and groupings, shortened in a few places. Map: Natural Earth 1:110m via world-atlas (equal-area projection). Reproduce with scripts/fetch_global.py.</div></details></div>
     </div>
